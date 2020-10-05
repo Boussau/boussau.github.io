@@ -25,10 +25,10 @@ The data
 {:.section}
 
 
-The file apes.nex contains an alignment with $N=878$ aligned nucleotide positions, between Human, Chimp and Gorilla. This alignment is a concatenation of 17 nuclear genes, for which only the 4-fold degenerate third coding positions have been kept. To visualize this alignment, you can open it with SeaView.
-Out of these $N$ nucleotide positions, $k_obs =11$ are different between the human and the chimpanzee sequences.
+The file apes.nex contains an alignment with $N=878$ aligned nucleotide positions, between Human, Chimp and Gorilla. This alignment is a concatenation of 17 nuclear genes, for which only the 4-fold degenerate third codon positions have been kept. To visualize this alignment, you can open it with SeaView.
+Out of these $N$ nucleotide positions, $k_{obs} =11$ are different between the human and the chimpanzee sequences.
 
-We use only the 4-fold degenerate third coding positions because all mutations at these positions are synonymous, and therefore, we can assume that they are neutral (they are not under selection). As a result, the rate at which substitutions will accumulate over time is equal to the mutation rate.
+We use only the 4-fold degenerate third codon positions because all mutations at these positions are synonymous, and therefore, we can assume that they are neutral (they are not under selection). As a result, the rate at which substitutions will accumulate over time is equal to the mutation rate.
 
 Based on pedigree sequencing, the mutation rate per generation in Human has been estimated at $u = 2.10^{-8}$. Similar experiments have been conducted in Chimpanzees, giving similar estimates. The generation time in Humans is around $\tau = 30$ years. It is a bit shorter in Chimpanzees, however, for simplicity, we will ignore this, and we will assume that the generation time has always been 30 years in great apes.
 
