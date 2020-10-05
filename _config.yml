@@ -3,16 +3,16 @@
 #------------------------------------------------------------
 
 # Overall title for pages.
-title: "RevBayes"
+title: "Bastien Boussau's github website"
 
 #------------------------------------------------------------
 # Generic settings (should not need to change).
 #------------------------------------------------------------
 
 # Sites.
-revbayes_site: "https://revbayes.github.io"
+boussau_site: "https://boussau.github.io"
 
-url: https://revbayes.github.io
+url: https://boussau.github.io
 baseurl: ""
 helpdir: "documentation"
 
