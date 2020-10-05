@@ -50,7 +50,7 @@ Simulating DNA Sequences along a branch
 ========================
 {:.section}
 
-In this tutorial, you will develop an intuition for continuous-time Markov models used to describe how DNA sequences evolve along a phylogenetic tree. These models most often assume that each site evolves independently of the other sites in the sequences. This assumption is very convenient: once one knows how to simulate the evolution of a single site, one just repeats the same process over and over again, and in the end, $voilà$, one has simulated the evolution of homologous sequences.
+In this tutorial, you will develop an intuition for continuous-time Markov models used to describe how DNA sequences evolve along a phylogenetic tree. These models most often assume that each site evolves independently of the other sites in the sequences. This assumption is very convenient: once one knows how to simulate the evolution of a single site, one just repeats the same process over and over again, and in the end, *voilà*, one has simulated the evolution of homologous sequences.
 In this tutorial we will focus on DNA sequences, but the same approach is used in models of codon or protein sequence evolution, as well as in models that describe the evolution of discrete characters.
 Our work will be first to model the evolution of a DNA sequence along a branch, not along an entire tree.
 However, once one knows how to simulate along a branch, simulating along a tree is not difficult conceptually.
@@ -111,7 +111,7 @@ distribution with 4 states:
 $$
 f(state, minValue, maxValue) = \frac{1}{maxValue - minValue}
 $$
-i.e.:
+*i.e.*:
 $$
 f(1,1,4) = f(2,1,4) =f(3,1,4) =f(4,1,4) = 1/4 = 0.25
 $$
@@ -129,7 +129,7 @@ This functions draws a single integer ($n=1$) between $lower=1$ and $upper=4$, i
 
 Hypothesis 2 means that, when a change occurs, there is an equal probability to
 move from the starting state to any of the three other states. To make our life simpler, we are going to
-allow that we pick the same starting state, $i.e.$ we allow changes from state
+allow that we pick the same starting state, *i.e.* we allow changes from state
 $x$ to the same state $x$. As a result we can re-use the same distribution as above.
 
 Finally, we need to be able to draw waiting times between changes, given
@@ -206,7 +206,7 @@ we can use them together in a simulation algorithm, that we are going to
 implement in the rev language.
 
 We want to simulate over the length of the branch, which we name `branchLength`.
-This branch length is specified $a priori$ (it is a parameter of the simulation
+This branch length is specified *a priori* (it is a parameter of the simulation
   procedure). The rate of evolution is also specified $a priori$ and is named `rate`.
 Let’s say, for instance:
 ```
@@ -234,7 +234,7 @@ currentState = …
 ```
 
 Then we simulate the successive events of state changes. Importantly, we don’t
-know $a priori$ how many substitution events we will have: it all depends on the
+know *a priori* how many substitution events we will have: it all depends on the
 waiting times drawn randomly from our exponential distribution. As a result, we need to
 use a while loop:
 
@@ -245,7 +245,7 @@ while (currentTime < branchLength)	{
 ```
 
 Within this while loop, we will write the sequence of simulation steps that we
-need to repeat until the chronometer has reached the total time $branchLength$.
+need to repeat until the chronometer has reached the total time `branchLength`.
 This sequence is as follows:
 
 - we randomly draw the waiting time `waitingTime` to the next event from an
@@ -352,6 +352,6 @@ The algorithm to simulate along a tree would thus do something like this:
   - and repeat on the underlying branches
 
 It might help you to think about the following question: if a site ends its
-evolution on parent branch $parentBranch$ in state $x$,
+evolution on parent branch `parentBranch` in state $x$,
 in what state should it start its evolution along the two children branches
-$leftChild$ and $rightChild$?
+`leftChild` and `rightChild`?
