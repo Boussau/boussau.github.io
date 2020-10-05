@@ -329,11 +329,32 @@ again.</li>
   <li>What are the end state frequencies now? Is this expected?</li>
 </ul>
 
-<h2 class="subsubsection" id="simulating-the-evolution-of-a-site-along-a-tree">Simulating the evolution of a site along a tree</h2>
+<h2 class="subsection" id="simulating-the-evolution-of-a-site-along-a-tree">Simulating the evolution of a site along a tree</h2>
 
 <p>In the above, we have implemented an algorithm to simulate the evolution of a
 site along a branch. We can build upon this algorithm to simulate the evolution
-of a site along an entire tree, for instance like this tree:</p>
+of a site along an entire tree. First, we will simulate the evolution on a
+simple tree with only two leaves, and then we will extend to a larger tree.</p>
+
+<h2 class="subsubsection" id="simulating-the-evolution-of-a-site-along-a-tree-with-two-leaves">Simulating the evolution of a site along a tree with two leaves</h2>
+
+<p>Simulating along a tree with two branches is a simple extension over simulating
+over a tree with a single branch. The two branches share their starting state,
+which is the root state.</p>
+
+<ul>
+  <li>Simulate the evolution of a character along a tree with two branches. For a
+start, assume that the two branches have the same length.</li>
+  <li>Simulate the evolution of a large number of sites (e.g. 1000).</li>
+  <li>Keep track of the end states observed at the leaves. How often do they differ?
+Could the proportion of differences at the leaves be used to estimate the
+distance between the two leaves? How would you do that?</li>
+</ul>
+
+<h2 class="subsubsection" id="simulating-the-evolution-of-a-site-along-a-tree-with-four-leaves">Simulating the evolution of a site along a tree with four leaves</h2>
+
+<p>Now that we know how to simulate on a tree with two leaves, we may want to
+simulate on a larger tree, for instance this tree:</p>
 
 <p><img src="figures/simtree.png" alt="" /></p>
 
