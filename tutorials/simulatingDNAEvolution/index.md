@@ -174,27 +174,23 @@ And you may also want `for` loops:
 for (i in range 1:5) { print(i) }
 ```
 
-It is also possible to export the contents of a vector to a file:
+It is also possible to write the content of a variable into a file. This is
+convenient as it allows reading the file in R for instance.
 
 ```
-write(vec, file="simulatedUnif.txt")
+for (i in range 1:5) { write(i, "\n" , file = "filename.txt", append=True ) }
 ```
 
-One can then read the file in R, provided some formatting has been done. For instance:
+One can then read the file in R. For instance:
 ```
-## In the terminal, convert the output file into a format that R will be able to read:
-sed 's/\[//g' simulatedUnif.txt | sed 's/\]//g' | sed 's/\,/\n/g' | sed 's/ //g' > simulatedUnifForR.txt
-
-##########
 ## In R, read the data
 simulatedValues=read.table("simulatedUnifForR.txt", h=F)$V1
-
 ```
 
 
 -   What is the expected waiting time? You could answer this question by simulating
 a large number of waiting times and computing the average value (with the
-  function `mean`). What is the link between the \lambda rate value and the average
+  function `mean` or in R). What is the link between the \lambda rate value and the average
   waiting time?
 
 -   Draw a large number of waiting times and plot a histogram of them using R.
