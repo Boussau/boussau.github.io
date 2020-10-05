@@ -6,7 +6,6 @@ level: 3
 order: 0.1
 index: true
 prerequisites:
-- intro
 redirect: true
 ---
 
