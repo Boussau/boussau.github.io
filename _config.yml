@@ -60,5 +60,3 @@ kramdown:
 
 sass:
   sass_dir: assets/_scss
-
-theme: jekyll-theme-cayman
