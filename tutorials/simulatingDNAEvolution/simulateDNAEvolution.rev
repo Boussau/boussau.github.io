@@ -114,3 +114,55 @@ function Integer[] simulNSitesOnBranch (Nsites, branchLength, rate) {
 }
 
 simulNSitesOnBranch(10, branchLength, rate)
+
+
+################################################################################
+# Simulating N sites, along a branch, and storing the numbers of changes
+################################################################################
+
+##########
+## Function that keeps the number of substitutions
+
+function Integer[] simulNSitesOnBranchNumberSubstitutions (Nsites, branchLength, rate) {
+  numChanges = simulOneSiteOnBranch(branchLength, rate).size()-1
+  siteNumChanges = v(numChanges)
+  for (site in 2:Nsites) {
+    siteNumChanges.append(simulOneSiteOnBranch(branchLength, rate).size()-1)
+  }
+  return siteNumChanges
+}
+
+simulNSitesOnBranchNumberSubstitutions(10, branchLength, rate)
+
+################################################################################
+# Simulating one site, along a tree with two branches
+################################################################################
+
+
+function Integer[] simulOneSiteOnTwoBranches (branchLength1, branchLength2, rate) {
+  print("Branch" + "\t" +"WaitingTime" + "\t" + "Time" + "\t" + "State")
+  time = 0.0
+  initialState = rUniformInteger(n=1, lower=1, upper=4)[1]
+  states = v(initialState)
+  print("Root\t" + 0.0 + "\t" + 0.0 + "\t" + states[states.size()])
+  while (time < branchLength1) {
+    waitingTime = rexp(n=1, lambda=rate)[1]
+    time = time + waitingTime
+    if (time < branchLength1) {
+      states.append(rUniformInteger(n=1, lower=1, upper=4)[1])
+    }
+    print("Branch1\t" + waitingTime + "\t" + time + "\t" + states[states.size()])
+  }
+  time = 0.0
+  while (time < branchLength2) {
+    waitingTime = rexp(n=1, lambda=rate)[1]
+    time = time + waitingTime
+    if (time < branchLength2) {
+      states.append(rUniformInteger(n=1, lower=1, upper=4)[1])
+    }
+    print("Branch2\t" + waitingTime + "\t" + time + "\t" + states[states.size()])
+  }
+  return states
+}
+
+simulOneSiteOnTwoBranches(branchLength, branchLength, rate)
