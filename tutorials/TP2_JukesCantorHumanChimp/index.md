@@ -6,7 +6,7 @@ level: 3
 order: 0.1
 index: true
 prerequisites:
-- intro
+- simulatingDNAEvolution
 redirect: true
 ---
 
@@ -16,7 +16,7 @@ To do this, we will come back to the simulation model that was developed in the 
 This simulation model was taking the branch length and the substitution rate as the input, and was giving as an output the number of substitution events, or the number of differences between two taxa in their nucleotide sequences.
 
 Here, we consider the problem in the other direction:
-we have empirical data, in the form of a sequence alignment between two species (Human and Chimp). We can count the number of differences between the sequences of these two species. We also have some knowledge about the mutation rate in apes. Based on these data, we would like to infer the divergence time between Human and Chimp. 
+we have empirical data, in the form of a sequence alignment between two species (Human and Chimp). We can count the number of differences between the sequences of these two species. We also have some knowledge about the mutation rate in apes. Based on these data, we would like to infer the divergence time between Human and Chimp.
 
 
 
@@ -104,16 +104,16 @@ while (count < n_sample)	{
 
 	# compute q(r,T) for the current value of T
 	# write some code here based on the formula that was derived previously
-	q <- ... 
+	q <- ...
 
 	# draw k given T
 	k <- rBinomial(1,N, Probability(q))[1]
-			
+
 	# condition on k == k_obs (thus rejecting the sample if k is not equal to k_obs)
 	if (k == k_obs)	{
 		count <- count + 1
 		sample[count] = T
-	}	
+	}
 }
 
 # finally, write the sample to a file:
@@ -218,7 +218,7 @@ A very important point here: there are several types of variables in revbayes, w
 
 - constant variables are defined using the assignment operator '<-'
 - the MCMC variables are defined using the assignment operator '='.
-- as for model variables, they can be either stochastic ($T$ and $k$), or deterministic ($q$). 
+- as for model variables, they can be either stochastic ($T$ and $k$), or deterministic ($q$).
 - stochastic model variables are defined using the stochastic operator '~'
 - deterministic model variables are defined using the deterministic assignment operator ':='
 
@@ -273,5 +273,3 @@ After the MCMC has run, a file names apes.log has been created. This file contai
 - Write this program, run it
 - Draw the histogram of the values of $T$ visited during the MCMC
 - Compare this histogram with the histogram obtained above with rejection sampling. What do you observe?
-
-
