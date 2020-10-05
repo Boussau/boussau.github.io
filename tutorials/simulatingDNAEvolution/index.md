@@ -305,11 +305,36 @@ again.
 
 Simulating the evolution of a site along a tree
 ---------------------------------------------------
-{:.subsubsection}
+{:.subsection}
 
 In the above, we have implemented an algorithm to simulate the evolution of a
 site along a branch. We can build upon this algorithm to simulate the evolution
-of a site along an entire tree, for instance like this tree:
+of a site along an entire tree. First, we will simulate the evolution on a
+simple tree with only two leaves, and then we will extend to a larger tree.
+
+
+Simulating the evolution of a site along a tree with two leaves
+---------------------------------------------------
+{:.subsubsection}
+
+Simulating along a tree with two branches is a simple extension over simulating
+over a tree with a single branch. The two branches share their starting state,
+which is the root state.
+
+- Simulate the evolution of a character along a tree with two branches. For a
+start, assume that the two branches have the same length.
+- Simulate the evolution of a large number of sites (e.g. 1000).
+- Keep track of the end states observed at the leaves. How often do they differ?
+Could the proportion of differences at the leaves be used to estimate the
+distance between the two leaves? How would you do that?
+
+
+Simulating the evolution of a site along a tree with four leaves
+---------------------------------------------------
+{:.subsubsection}
+
+Now that we know how to simulate on a tree with two leaves, we may want to
+simulate on a larger tree, for instance this tree:
 
 ![](figures/simtree.png)
 
