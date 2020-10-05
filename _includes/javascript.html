@@ -1,0 +1,37 @@
+<script src="{{ site.baseurl }}{% link assets/js/vendor/jquery.min.js %}"></script>
+<script src="{{ site.baseurl }}{% link assets/js/vendor/FileSaver.min.js %}"></script>
+<script src="{{ site.baseurl }}{% link assets/js/vendor/jszip.min.js %}"></script>
+<script src="{{ site.baseurl }}{% link assets/js/vendor/bootstrap.min.js %}"></script>
+
+<script type="text/javascript">
+// Add default language
+$(":not(code).highlighter-rouge").each(function() {
+  {% if page.code_layout %}
+  if( this.classList == "highlighter-rouge") {
+    this.classList = "{{ page.code_layout }} highlighter-rouge";
+  }
+  {% endif %}
+});
+// $("code.highlighter-rouge").each(function() {
+//   {% if page.code_layout %}
+//   if( this.classList == "highlighter-rouge") {
+//       this.classList = "{{ page.code_layout }} highlighter-rouge";
+//   }
+//   {% endif %}
+// });
+</script>
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+    });
+    MathJax.Hub.Queue(function () {
+      $(".aside").each(function() {
+          $("div .MathJax", this).hide();
+      });
+    });
+</script>
+<script src="{{ site.baseurl }}{% link assets/js/base.js %}"></script>

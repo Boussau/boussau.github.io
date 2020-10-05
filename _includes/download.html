@@ -1,0 +1,28 @@
+{% comment %}Display a tutorials's data files and scripts for download{% endcomment %}
+
+{% if page.files %}
+{% assign tutorial_files = page.files | sort:"type","last" | group_by:"type" %}
+<blockquote class="tutorial_files" id="tutorial_files">
+    <h2>Data files and scripts</h2>
+    {% for type in tutorial_files %}
+        {% if type.name == "data" %}
+        <strong>Data Files</strong>
+        <ul id="data_files">
+        {% elsif type.name == "script" %}
+        <strong>Scripts</strong>
+        <ul id="scripts">
+        {% elsif type.name == "example_output" %}
+        <strong>Example output</strong>
+        <ul id="example_output">
+        {% else %}
+        <strong>Other</strong>
+        <ul id="other_files">
+        {% endif %}
+        {% assign sorted = type.items | sort:"name" %}
+        {% for file in sorted %}
+          <li><a href="{{ site.baseurl }}{{ file.path }}">{{ file.name }}</a></li>
+        {% endfor %}
+        </ul>
+    {% endfor %}
+</blockquote>
+{% endif %}
