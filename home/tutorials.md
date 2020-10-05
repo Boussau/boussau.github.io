@@ -17,7 +17,7 @@ You may find that the styles are somewhat different between tutorials and that s
 Please see the {% page_ref format %} guide for details about how to read the tutorials.
 
 
-<a href="{% page_url tutorial %}" class="btn btn-warning" role="button">Contribute!</a>
+#<a href="{% page_url tutorial %}" class="btn btn-warning" role="button">Contribute!</a>
 
 {% comment %}
 {% include keywords.html input=true %}
