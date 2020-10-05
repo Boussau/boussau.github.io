@@ -111,6 +111,11 @@ distribution with 4 states:
 $$
 f(state, minValue, maxValue) = \frac{1}{maxValue - minValue}
 $$
+i.e.:
+$$
+f(1,1,4) = f(2,1,4) =f(3,1,4) =f(4,1,4) = 1/4 = 0.25
+$$
+
 
 This distribution draws each of the four states (integers between 1 and 4) with
 the same probability $1/4=0.25$.
@@ -120,12 +125,12 @@ In RevBayes, we can do that using:
 rUniformInteger(n=1, lower=1, upper=4)
 ```
 
-This functions draws a single integer between 1 and 4.
+This functions draws a single integer ($n=1$) between $lower=1$ and $upper=4$, included.
 
 Hypothesis 2 means that, when a change occurs, there is an equal probability to
 move from the starting state to any of the three other states. To make our life simpler, we are going to
 allow that we pick the same starting state, $i.e.$ we allow changes from state
-$x$ to the same state $x$. As a result we can use the same distribution as above.
+$x$ to the same state $x$. As a result we can re-use the same distribution as above.
 
 Finally, we need to be able to draw waiting times between changes, given
 the constant rate that we assumed in hypothesis 1. In this case, the exponential
@@ -142,7 +147,7 @@ To simulate a random draw from the exponential distribution in RevBayes, one can
 ```
 rexp(n=1, lambda=0.5)
 ```
-This function draws a waiting time given a rate of occurrence of 0.5.
+This function draws a single waiting time given a rate of occurrence of 0.5.
 
 Exercises: characterizing the random draws in RevBayes
 ---------------------------------------------------
@@ -204,7 +209,7 @@ Now that we have defined the probability distributions used in our simulation,
 we can use them together in a simulation algorithm, that we are going to
 implement in the rev language.
 
-We want to simulate over the length of the branch, which we name  `branchLength`.
+We want to simulate over the length of the branch, which we name `branchLength`.
 This branch length is specified $a priori$ (it is a parameter of the simulation
   procedure). The rate of evolution is also specified $a priori$ and is named `rate`.
 Let’s say, for instance:
@@ -229,7 +234,7 @@ this variable `currentState`. We set this variable by drawing the initial state
 according to hypothesis 3:
 
 ```
-currentState = rUniformInteger…
+currentState = …
 ```
 
 Then we simulate the successive events of state changes. Importantly, we don’t
@@ -248,9 +253,9 @@ need to repeat until the chronometer has reached the total time $branchLength$.
 This sequence is as follows:
 
 - we randomly draw the waiting time `waitingTime` to the next event from an
-exponential:
+exponential distribution:
 ```
-waitingTime = rexp …
+waitingTime = …
 ```
 
 - we increase the value of the chronometer, by adding `waitingTime` to
@@ -259,7 +264,7 @@ waitingTime = rexp …
 currentTime = currentTime + waitingTime
 ```
 
-- here, we need to check whether we have reached total time T. If this is not
+- here, we need to check whether we have reached total time `branchLength`. If this is not
 the case, then, we choose the state after the substitution event, and the
 current state is now equal to this new state:
 
@@ -302,6 +307,9 @@ expected?
 -   Change the code to start all site simulations in state 1. Simulate 1000 sites
 again.
 -   What are the end state frequencies now? Is this expected?
+-   Change the function to keep track of the number of changes that occurred
+along the branch. Plot the distribution of the number of changes. Can you
+recognize this probabilistic distribution?
 
 
 Simulating the evolution of a site along a tree
@@ -326,7 +334,7 @@ which is the root state.
 start, assume that the two branches have the same length.
 - Simulate the evolution of a large number of sites (e.g. 1000).
 - Keep track of the end states observed at the leaves. How often do they differ?
-Could the proportion of differences at the leaves be used to estimate the
+Could the proportion of differences at the leaves be used to estimate the total
 distance between the two leaves? How would you do that?
 
 
