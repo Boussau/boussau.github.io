@@ -5,14 +5,15 @@ subtitle: RevBayes Tutorials
 permalink: /tutorials/
 levels:
 - Simulating DNA sequence evolution
+- Molecular divergence between Humans and Chimps
 levels_id:
 - simulatingDNAEvolution
+- TP2_JukesCantorHumanChimp
 ---
 
-This list shows all of the RevBayes tutorials for learning various aspects of RevBayes and Bayesian phylogenetic analysis.
+This list shows some RevBayes tutorials for learning various aspects of RevBayes and Bayesian phylogenetic analysis.
 Each one explicitly walks you through model specification and analysis set-up for different phylogenetic methods.
-These tutorials have been written for new users to learn RevBayes at home, at workshops, and in courses taught at the undergraduate and graduate levels.
-You may find that the styles are somewhat different between tutorials and that some  have overlapping content.
+These tutorials have been written for M2 students in Lyon.
 
 Please see the {% page_ref format %} guide for details about how to read the tutorials.
 
