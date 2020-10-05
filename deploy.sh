@@ -49,13 +49,13 @@ then
         # deploy the static site
         git add . && \
         git commit -am "$msg" && \
-        git push --quiet origin HEAD:master
+        git push origin HEAD:master
         echo "Successfully built and pushed to master."
         cd ..
     fi
 
     # deploy main
-    git push --quiet origin main
+    git push origin main
     echo "Deployment complete."
 else
     echo "Error: Uncommitted main changes. Please commit or stash before updating master."
