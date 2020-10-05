@@ -20,7 +20,8 @@ Running RevBayes
 {:.section}
 
 We will use RevBayes
-interactively by typing commands in the command-line console. One can either use RevBayes interactively or run an entire
+interactively by typing commands in the command-line console. One can either use
+RevBayes interactively or run an entire
 script. To execute the RevBayes binary, if this program is in your path,
 then you can simply type in your Unix terminal:
 
@@ -51,7 +52,7 @@ Simulating DNA Sequences along a branch
 
 In this tutorial, you will develop an intuition for continuous-time Markov models used to describe how DNA sequences evolve along a phylogenetic tree. These models most often assume that each site evolves independently of the other sites in the sequences. This assumption is very convenient: once one knows how to simulate the evolution of a single site, one just repeats the same process over and over again, and in the end, $voilà$, one has simulated the evolution of homologous sequences.
 In this tutorial we will focus on DNA sequences, but the same approach is used in models of codon or protein sequence evolution, as well as in models that describe the evolution of discrete characters.
-Our work will be to model the evolution of a DNA sequence along a branch, not along an entire tree.
+Our work will be first to model the evolution of a DNA sequence along a branch, not along an entire tree.
 However, once one knows how to simulate along a branch, simulating along a tree is not difficult conceptually.
 Simulating along a tree will therefore be left as an exercise to the reader.
 
