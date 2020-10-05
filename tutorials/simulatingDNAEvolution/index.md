@@ -175,14 +175,14 @@ help(vec2)
 And you may also want `for` loops:
 
 ```
-for (i in range 1:5) { print(i) }
+for (i in 1:5) { print(i) }
 ```
 
 It is also possible to write the content of a variable into a file. This is
 convenient as it allows reading the file in R for instance.
 
 ```
-for (i in range 1:5) { write(i, "\n" , file = "filename.txt", append=True ) }
+for (i in 1:5) { write(i, "\n" , file = "filename.txt", append=True ) }
 ```
 
 One can then read the file in R. For instance:
