@@ -111,7 +111,11 @@ distribution with 4 states:
 $$
 f(state, minValue, maxValue) = \frac{1}{maxValue - minValue}
 $$
+
+
 *i.e.*:
+
+
 $$
 f(1,1,4) = f(2,1,4) =f(3,1,4) =f(4,1,4) = 1/4 = 0.25
 $$
