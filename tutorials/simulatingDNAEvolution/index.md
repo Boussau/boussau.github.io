@@ -103,7 +103,7 @@ Mathematical expression of our hypotheses
 ---------------------------------------------------
 {:.subsubsection}
 
-Now that we have explicited our three hypotheses, we need to turn them into a
+Now that we have made our three hypotheses explicit, we need to turn them into a
 probabilistic model.
 Hypothesis 3 means that we want to draw our initial state from a discrete uniform
 distribution with 4 states:
@@ -204,7 +204,7 @@ Now that we have defined the probability distributions used in our simulation,
 we can use them together in a simulation algorithm, that we are going to
 implement in the rev language.
 
-We want to simulate over the length of the branch, which we name  `branch_length`.
+We want to simulate over the length of the branch, which we name  `branchLength`.
 This branch length is specified $a priori$ (it is a parameter of the simulation
   procedure). The rate of evolution is also specified $a priori$ and is named `rate`.
 Let’s say, for instance:
@@ -244,7 +244,7 @@ while (currentTime < branchLength)	{
 ```
 
 Within this while loop, we will write the sequence of simulation steps that we
-need to repeat until the chronometer has reached the total time branch_length.
+need to repeat until the chronometer has reached the total time $branchLength$.
 This sequence is as follows:
 
 - we randomly draw the waiting time `waitingTime` to the next event from an
