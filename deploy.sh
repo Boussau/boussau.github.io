@@ -11,12 +11,12 @@ then
     exit 1
 fi
 
-# make sure we are on main branch
+# make sure we are on source branch
 branch=`git rev-parse --abbrev-ref HEAD`
 
-if [ "$branch" != "main" ]
+if [ "$branch" != "source" ]
 then
-    echo "Error: Cannot deploy from branch '$branch'. Switch to 'main' before deploying."
+    echo "Error: Cannot deploy from branch '$branch'. Switch to 'source' before deploying."
     exit 1
 fi
 
@@ -25,7 +25,7 @@ if git diff-index --quiet HEAD --
 then
     msg=`git log -1 --pretty=%B`
 
-    git pull origin main
+    git pull origin source
 
     # build the site
     cd _site
@@ -49,15 +49,15 @@ then
         # deploy the static site
         git add . && \
         git commit -am "$msg" && \
-        git push origin HEAD:master
+        git push origin master
         echo "Successfully built and pushed to master."
         cd ..
     fi
 
-    # deploy main
-    git push origin main
+    # deploy source
+    git push origin source
     echo "Deployment complete."
 else
-    echo "Error: Uncommitted main changes. Please commit or stash before updating master."
+    echo "Error: Uncommitted source changes. Please commit or stash before updating master."
     exit 1
 fi
