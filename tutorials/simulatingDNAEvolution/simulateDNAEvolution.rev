@@ -32,6 +32,11 @@ write(vec, file="simulatedExp.txt")
 ## In the terminal, convert the output file into a format that R will be able to read:
 sed 's/\[//g' simulatedExp.txt | sed 's/\]//g' | sed 's/\,/\n/g' | sed 's/ //g' > simulatedExpForR.txt
 
+## Alternatively:
+for (i in 1:1000) {
+  write(rexp(n=1, lambda=0.1)[1], "\n" , file = "simulatedExp.txt", append=True)
+}
+
 ##########
 ## In R, read the data and plot it against an exponential distribution:
 simulatedValues=read.table("simulatedExpForR.txt", h=F)$V1
