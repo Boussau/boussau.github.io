@@ -226,7 +226,7 @@ A very important point here: there are several types of variables in revbayes, w
 
 - the value of a deterministic variable depends on the variables that are directly specified in its definition: here, $q$ depends on $T$ and $r$. Whenever the value of $T$ changes during the MCMC, this will change the value of $q$
 
-- the probability of a stochastic variable depends on the variables that are directly specified in its definition: here, $k$ depends on $q$, and thus, if the value of $q$ changes during the MCMC (which will happen each time the value of $T$ will change), this will change the probability of observing $k = k_{obs}$.
+- the probability of a stochastic variable depends on the variables that are directly specified in its definition: here, $k$ depends on $q$, and thus, if the value of $q$ changes during the MCMC (which will happen each time the value of $T$ changes), this will change the probability of observing $k = k_{obs}$.
 
 The dependencies between the model variables can be visualized in terms of a graphical model. This point will be explained on the board.
 
