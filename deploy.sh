@@ -29,8 +29,8 @@ then
 
     # build the site
     cd _site
-    git fetch --quiet origin
-    git reset --quiet --hard origin/master
+    #git fetch --quiet origin
+    #git reset --quiet --hard origin/master
     cd ..
     if ! bundle exec jekyll build --trace; then
         echo "Jekyll build failed. Master not updated."
