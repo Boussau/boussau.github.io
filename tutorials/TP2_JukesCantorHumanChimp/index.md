@@ -49,7 +49,7 @@ Let us note this probability $q(r,T)$. It is a function of the rate $r$ and the 
 
 - Conversely, given that you have observed $k_{obs}$ out of $N$ differences in the empirical data, what is your best estimate for the divergence time $T$?
 
-Of note, $\bar k$ is the expected number of differences, that is, the mean number of differences that you observe if you run the simulation many times under a given fixed value for $T$. However, from simulation to simulation, the actual number of differences $k$ will vary. This number $k$ is a random variable, and we have seen during the first tutorial that this random variable has a binomial distribution:
+Of note, $\bar k$ is the expected number of differences, that is, the mean number of differences that you observe if you run the simulation many times under a given fixed value for $T$. However, from simulation to simulation, the actual number of differences $k$ will vary. This number $k$ is a random variable, which has a binomial distribution:
 $$
 k \sim Binomial(N, q(r,T))
 $$
@@ -62,17 +62,12 @@ Bayesian inference of the divergence time $T$: rejection sampling.
 
 The quick estimation obtained in the previous section does not give any measure of the uncertainty about our estimate of the divergence time $T$. To address this problem, we will now develop a more elaborate approach, based on Bayesian inference. This will also give us an occasion to write our first Bayesian analysis in RevBayes.
 
-To conduct Bayesian inference, we first need to have a prior distribution over $T$. This prior represents our state of knowledge about $T$, before we have seen the empirical data (the sequence alignment). In the present case, we will consider that we don't know anything a priori about this divergence time, except that it is between 0 and 20 Myr. Mathematically, we represent this by assuming a uniform distribution over $T$:
-$$
-T ~ Uniform(0,T_{max})
-$$
-This is the mathematical notation. In RevBayes, we can draw $T$ from this prior as follows:
+To conduct Bayesian inference, we first need to have a prior distribution over $T$. This prior represents our state of knowledge about $T$, before we have seen the empirical data (the sequence alignment). In the present case, we will consider that we don't know anything a priori about this divergence time, except that it is between 0 and 20 Myr. Mathematically, we represent this by assuming a uniform distribution over $T$. In RevBayes, we can draw $T$ from this prior as follows:
 
 ```
 T_max = 20
-T <- rUniform(1,0,T_max)[1]
+T = rUniform(1,0,T_max)[1]
 ```
-You can try this command and repeat it several times, to see that, each time, you draw a value of $T$ anywhere between 0 and $T_{max}$.
 
 Now, consider the following program:
 
@@ -91,7 +86,7 @@ T_max = 20
 n_sample = 100
 
 # initialize the counter
-count <- 0
+count = 0
 
 # create a vector of size n_sample, with all entries initialized at 0
 T_sample = rep(0, n_sample)
@@ -100,25 +95,25 @@ T_sample = rep(0, n_sample)
 while (count < n_sample)	{
 
 	# draw T from prior
-	T <- rUniform(1,0,T_max)[1]
+	T = rUniform(1,0,T_max)[1]
 
 	# compute q(r,T) for the current value of T
 	# write some code here based on the formula that was derived previously
-	q <- ...
+	q = ...
 
 	# draw k given T
-	k <- rBinomial(1,N, Probability(q))[1]
+	k = rBinomial(1,N, Probability(q))[1]
 
 	# condition on k == k_obs (thus rejecting the sample if k is not equal to k_obs)
 	if (k == k_obs)	{
-		count <- count + 1
+		count = count + 1
 		sample[count] = T
 	}
 }
 
 # finally, write the sample to a file:
 for (i in 1:n_sample)	{
-	write(T_sample[i], "\n", file="apes_reject.out", append=TRUE)
+	write(T_sample[i], "\n", file="apes_reject.log", append=TRUE)
 }
 ```
 
@@ -128,7 +123,7 @@ This program repeats the following procedure:
 - if k == k_obs, keep T, otherwise, discard it
 - do this until 100 values for T have been kept
 
-Write this program in RevBayes and run it. In R, draw the histogram of the 100 values of $T$ that have been stored in the array named sample (and that have been written into the file named apes_reject.out). To get a nicer histogram, you can set n_sample to 1000, but this will take more time.
+Import this program in RevBayes and run it. In R, draw the histogram of the 100 values of $T$ that have been stored in the array named sample (and that have been written into the file named apes_reject.out). To get a nicer histogram, you can set n_sample to 1000, but this will take more time.
 
 In RevBayes, you can also compute the mean and the stdev of the sample:
 ```
@@ -145,7 +140,7 @@ quantile(T_sample, 0.025)
 quantile(T_sample, 0.975)
 ```
 
-As you can see, although the values for $T$ that were initially drawn are uniformly distributed between 0 and 20, the histogram of the values of $T$ that were kept is not uniform. Instead, it is concentrated around a value of about 9 Myr. In other words, this histogram is enriched in values of $T$ that are more likely to produce a value for the random variable $k$ which turns out to be equal to the empirically observed value $k_{obs}$.
+As you can see, although the values for $T$ that were initially drawn are uniformly distributed between 0 and 20, the histogram is concentrated around a value of about 9 Myr. In other words, this histogram is enriched in values of $T$ that are more likely to produce a value for the random variable $k$ which turns out to be equal to the empirically observed value $k_{obs}$.
 
 From a Bayesian perspective, this histogram represents a sample from the posterior distribution. The algorithm used here to sample from the posterior distribution is called rejection sampling. Rejection sampling represents the concept of conditioning the model (including the prior) on the observed value $k_{obs}$ (simply by rejecting all runs that did not produce this result).
 
@@ -174,7 +169,7 @@ N <- 878
 k_obs <- 11
 
 # give your formula for r
-r = ...
+r <- ...
 
 T_max <- 20
 ```
@@ -201,7 +196,7 @@ mymodel = model(T)
 So, here, we just describe the whole problem, step by step:
 - T is from a uniform distribution
 - q is a deterministic function of T (and of r)
-- k is a function of q (and of N)
+- k is a random variable whose distribution depends on q (and of N)
 - k has been observed and is therefore 'clamped', or constrained, to be equal to this observed value k_obs.
 
 
@@ -214,7 +209,7 @@ A very important point here: there are several types of variables in revbayes, w
 
 - constant variables, like $r$, or $N$ or $k_{obs}$.
 - model variables: here, $T$, $q$ and $k$.
-- MCMC variables: here, 'model' (but the variables called 'moves', 'monitors' or 'mymcmc' below are also MCMC variables).
+- MCMC variables: here, 'mymodel' (but the variables called 'moves', 'monitors' or 'mymcmc' below are also MCMC variables).
 
 - constant variables are defined using the assignment operator '<-'
 - the MCMC variables are defined using the assignment operator '='.
@@ -241,7 +236,7 @@ Consider the last line in the code show above:
 ```
 mymodel = model(T)
 ```
-With this instruction, the entire model will be captured by the RevBayes by searching for all stochastic and deterministic model variables that are interconnected, directly or indirectly, to T. Here, mymodel will be composed of 3 variables: $T$, $q$, and $k$. As mentioned above, one variable ($q$) is deterministic, and the other two variables ($T$ and $k$) are stochastic.
+With this instruction, the entire model will be captured by the RevBayes by searching for all stochastic and deterministic model variables that are interconnected, directly or indirectly, to T. Here, $q$ depends on $T$, and $k$ has a distribution that depends on $q$, so these three model variables, $T$, $q$, and $k$, will be captured in 'mymodel'.
 
 Once the model is defined and conditioned (as done above), we should still specify how we want to 'move' the free random variables of the model. Here, we have clamped $k$, so it cannot move. As for $q$, it is not a random variable. On the other hand, $T$ is a random variable, and it is not clamped: it is in fact the variable that we want to estimate. So, this variable should be allowed to 'move' during the MCMC.
 Here, we used a 'sliding' move:
@@ -249,14 +244,15 @@ Here, we used a 'sliding' move:
 ```
 moves[1] = mvSlide(T)
 ```
+Note that 'moves' is a vector. Here, it has only one entry, but this is because our model has only one free random variable. In more complex models, we will have several types of moves, for different variables of the model (the tree, the rate of evolution, the nucleotide frequencies, the dN/dS, etc).
 
 Next we want to monitor the MCMC. To do this, we make a vector of monitors (or monitoring streams):
 
 ```
-monitors[1] = mnModel(filename = "apes.log", printgen=10, separator = " ")
+monitors[1] = mnModel(filename = "apes_mcmc.log", printgen=10, separator = " ")
 monitors[2] = mnScreen(printgen = 10, T)
 ```
-The first monitor will write the sequence of values of T in a file called apes.log. The second monitor will output a summary to the screen.
+The first monitor will write the sequence of values of T in a file called apes_mcmc.log. The second monitor will output a summary to the screen.
 
 Finally, we construct an MCMC object, which gathers all of the modules: the model, the monitors, and the MCMC moves:
 
@@ -268,8 +264,8 @@ Now, we can run the model for 30 000 generations:
 ```
 mymcmc.run(generations = 30000)
 ```
-After the MCMC has run, a file names apes.log has been created. This file contains all of the 3000 values of T visited during the MCMC (why only 3000?).
+After the MCMC has run, a file names apes_mcmc.log has been created. This file contains all of the 3000 values of T visited during the MCMC (why only 3000?).
 
 - Write this program, run it
 - Draw the histogram of the values of $T$ visited during the MCMC
-- Compare this histogram with the histogram obtained above with rejection sampling. What do you observe?
+- Compare this histogram with the histogram obtained above with rejection sampling.
