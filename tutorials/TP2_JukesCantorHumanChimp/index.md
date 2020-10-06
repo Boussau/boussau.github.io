@@ -241,7 +241,7 @@ Consider the last line in the code show above:
 ```
 mymodel = model(T)
 ```
-With this instruction, the entire model will be captured by the RevBayes by searching for all stochastic and deterministic model variables that are interconnected, directly or indirectly, to T. Here, mymodel will be composed of 3 variables: $T$, $q$, and $k$. As mentioned above, one variable ($q$) is deterministic, and the other two variables ($T$ and $k$) are stochastic.
+With this instruction, the entire model will be captured by RevBayes by searching for all stochastic and deterministic model variables that are interconnected, directly or indirectly, to T. Here, mymodel will be composed of 3 variables: $T$, $q$, and $k$. As mentioned above, one variable ($q$) is deterministic, and the other two variables ($T$ and $k$) are stochastic.
 
 Once the model is defined and conditioned (as done above), we should still specify how we want to 'move' the free random variables of the model. Here, we have clamped $k$, so it cannot move. As for $q$, it is not a random variable. On the other hand, $T$ is a random variable, and it is not clamped: it is in fact the variable that we want to estimate. So, this variable should be allowed to 'move' during the MCMC.
 Here, we used a 'sliding' move:
