@@ -15,10 +15,15 @@ cf https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pa
 # Building the webpages
 ```
 bundle exec jekyll build
-mv -r _site/* ../TEMP/
+cd _site
+mkdir ../../TEMP
+cp -r * ../TEMP/
+cd ..
 git checkout master
-mv -r ../TEMP/* .
+cp -r ../TEMP/* .
 git add *
 git commit -m "Updated the website"
 git push
+git checkout source
+rm -rf ../TEMP
 ```
