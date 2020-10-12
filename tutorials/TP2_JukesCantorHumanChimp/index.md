@@ -275,3 +275,70 @@ After the MCMC has run, a file names apes_mcmc.log has been created. This file c
 - Write this program, run it
 - Draw the histogram of the values of $T$ visited during the MCMC
 - Compare this histogram with the histogram obtained above with rejection sampling.
+
+
+Monte Carlo inference using built-in phylogenetic tools
+---------------------------------------------------
+{:.subsubsection}
+
+
+The model considered above is highly specialized and works only for two species.
+We can re-implement the model considered above using the built-in functions and distributions proposed by RevBayes. This will give an introduction to the tools that we will then use in more complicated situations.
+
+The idea is to proceed as follows:
+- load the sequence alignment
+- create model variables representing the tree and the age of the ancestor
+- create model variables representing substitution process and its parameters
+- create the substitution process and condition it on the sequence data
+- implement MCMC moves
+- run the MCMC
+
+We now proceed step by step.
+First, we load the data, from the nexus file called HC.nex, which contains only the sequences for Humans and Chimpanzees:
+```
+data <- readDiscreteCharacterData("HC.nex")
+taxa <- data.taxa()
+print(taxa)
+```
+Then, we specify the substitution rate (mutation rate per Myr), as above. Here, it is a constant:
+```
+# mutation rate per generation
+mu <- 2e-8
+# generation time
+gentime <- 30
+# mutation rate per Myr
+r <- mu / gentime * 1e6
+```
+As above, we put a uniform prior on the age of the most recent common ancestor, between 0 and 20 Myr. And then, we create the tree. This is a time tree, which has only two branches, so we do not have to care about the tree topology.
+```
+T ~ dnUniform(0, 20)
+tau ~ dnUniformTimeTree(T, taxa)
+```
+We then create the rate matrix for the Jukes-Cantor model
+```
+# JC substitution process
+Q <- fnJC(4)
+```
+And then we invoke a substitution process along the tree tau, according to the Jukes Cantor substitution process Q, with an absolute substitution rate r, producing a DNA sequence alignment. Finally, we say that this process has led to the observed data; thus, we condition on the sequence alignment:
+```
+seq ~ dnPhyloCTMC(tree=tau, Q=Q, branchRates=r, type="DNA" )
+seq.clamp(data)
+```
+As above, we pull out the model starting from one of the model variables (here, the age T):
+```
+mymodel = model(T)
+```
+And then we propose a scaling move on T, a series of monitors, and create the MCMC:
+```
+moves[1] = mvScale(T)
+
+monitors[1] = mnModel(filename="jc.log", printgen=10, separator = TAB)
+monitors[2] = mnScreen(printgen=100, T)
+
+mymcmc = mcmc(mymodel, monitors, moves)
+mymcmc.run(generations=30000)
+```
+- Write this program, run it
+- Draw the histogram of the values of $T$ visited during the MCMC
+- Compare this histogram with the histogram obtained above with rejection sampling.
+
