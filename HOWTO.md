@@ -14,7 +14,7 @@ cf https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pa
 
 # Building the webpages
 ```
-jekyll build
+bundle exec jekyll build
 mv -r _site/* ../TEMP/
 git checkout master
 mv -r ../TEMP/* .
