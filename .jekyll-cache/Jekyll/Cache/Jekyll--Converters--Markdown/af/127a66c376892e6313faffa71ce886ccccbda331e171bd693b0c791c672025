@@ -1,0 +1,9 @@
+I"„<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># we can create a Taxon object
+taxon_gorilla = taxon("Gorilla_gorilla")
+# we can create a dummy vector of Taxon objects for simulation
+for (i in 1:10) { taxa[i] = taxon("Taxon"+i) }
+phy ~ dnBDP(lambda=1, mu=0, rootAge=1, taxa=taxa)
+# retrieve the taxon list for 'phy'
+phy.taxa()
+</code></pre></div></div>
+:ET

@@ -1,0 +1,4 @@
+I"<p>The <code class="highlighter-rouge">System Path</code> tells your computer default locations to look for pieces of software.
+If a piece of software is added to the path, it can be found and launched from anywhere on the computer.
+This is beyond the scope of this tutorial, but information is readily available on doing this from other sources. If RevBayes is in your path, it can be executed by simply typing <code class="highlighter-rouge">rb</code> on Windows or <code class="highlighter-rouge">./rb</code> on Mac or Linux.</p>
+:ET

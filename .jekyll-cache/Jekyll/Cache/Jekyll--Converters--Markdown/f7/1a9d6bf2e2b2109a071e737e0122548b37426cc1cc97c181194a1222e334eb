@@ -1,0 +1,6 @@
+I"¬<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># get general help
+help()
+# get specific help
+help("dnNormal")
+</code></pre></div></div>
+:ET

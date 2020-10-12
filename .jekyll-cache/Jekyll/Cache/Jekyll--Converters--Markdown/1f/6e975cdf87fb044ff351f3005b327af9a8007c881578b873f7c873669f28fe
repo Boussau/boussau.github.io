@@ -1,0 +1,9 @@
+I"Ï<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>time()
+
+# Wait a little bit
+sum = 0
+for (i in 1:10000) sum += i
+# Now print the time again
+time()
+</code></pre></div></div>
+:ET

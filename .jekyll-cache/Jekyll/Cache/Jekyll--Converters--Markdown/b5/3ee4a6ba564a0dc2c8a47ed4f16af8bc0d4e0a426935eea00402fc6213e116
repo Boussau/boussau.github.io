@@ -1,0 +1,10 @@
+I"ÿ<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># get the current working directory
+getwd()
+
+# let us set a new working directory
+setwd("~/Desktop")
+
+# check the working directory again
+getwd()
+</code></pre></div></div>
+:ET

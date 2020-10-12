@@ -1,0 +1,12 @@
+I"<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+# generate a tree and variance-covariance matrix.
+psi ~ dnUniformTimeTree(1, [taxon("A"),taxon("B"),taxon("C")])
+Sigma &lt;- diagonalMatrix(5)
+
+# generate the multivariate data.
+x ~ dnPhyloMultivariateBrownianREML(tree=psi, rateMatrix=Sigma)
+
+# print the simulated data.
+x
+</code></pre></div></div>
+:ET

@@ -1,0 +1,8 @@
+I"¥<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a &lt;- 1
+b := ifelse( a == 1, 10, -10 )
+b
+
+a &lt;- 2
+b
+</code></pre></div></div>
+:ET

@@ -1,0 +1,6 @@
+I"Ì<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a &lt;- FALSE
+if(!a)
+    print("a is not true")
+# this will print the statement in parentheses
+</code></pre></div></div>
+:ET

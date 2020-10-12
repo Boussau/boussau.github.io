@@ -1,0 +1,7 @@
+I"¿<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>range(1,20)
+range(20,-20)
+
+# this function is actually the same as the ':'
+20:-20
+</code></pre></div></div>
+:ET

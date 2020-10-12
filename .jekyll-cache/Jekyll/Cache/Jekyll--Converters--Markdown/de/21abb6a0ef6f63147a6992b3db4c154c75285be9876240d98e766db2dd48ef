@@ -1,0 +1,10 @@
+I"6<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># we simulate some oversations
+x &lt;- rnorm(n=10,mean=5,sd=10)
+# let's see what the minum is (you could do the max too)
+min(x)
+# let's also see what the mean and the variance are
+mean(x)
+var(x)
+sd(x)
+</code></pre></div></div>
+:ET

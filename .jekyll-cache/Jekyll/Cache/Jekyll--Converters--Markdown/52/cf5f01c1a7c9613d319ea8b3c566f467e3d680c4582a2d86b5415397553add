@@ -1,0 +1,9 @@
+I"<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># pick some definitely random number
+seed(80797980)
+a &lt;- rUniform(1,0.6,1.2)
+a
+seed(80797980)
+a &lt;- rUniform(1,0.6,1.2)
+a # this will be the same as above!
+</code></pre></div></div>
+:ET

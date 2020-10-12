@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="search-domain" value="http://localhost:4000/">
+    <meta name="search-domain" value="https://boussau.github.io/">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/syntax.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css" />
@@ -49,7 +49,7 @@
 	<h1 class="maintitle">Bayesian inference with RevBayes</h1>
 	<h3 class="subtitle">Inferring the divergence time between Human and Chimpanzee</h3>
 	<h4 class="authors">Nicolas Lartillot</h4>
-  <h5>Last modified on October  6, 2020</h5>
+  <h5>Last modified on October 12, 2020</h5>
 </div>
 
 
@@ -112,7 +112,7 @@ Let us note this probability $q(r,T)$. It is a function of the rate $r$ and the 
   </li>
 </ul>
 
-<p>Of note, $\bar k$ is the expected number of differences, that is, the mean number of differences that you observe if you run the simulation many times under a given fixed value for $T$. However, from simulation to simulation, the actual number of differences $k$ will vary. This number $k$ is a random variable, and we have seen during the first tutorial that this random variable has a binomial distribution:
+<p>Of note, $\bar k$ is the expected number of differences, that is, the mean number of differences that you observe if you run the simulation many times under a given fixed value for $T$. However, from simulation to simulation, the actual number of differences $k$ will vary. This number $k$ is a random variable, which has a binomial distribution:
 \(k \sim Binomial(N, q(r,T))\)
 We can see this by noting that, for each position, we will end up observing a difference with probability $q(r,T)$. We repeat this procedure $N$ times independently, and therefore, the total number of ‘successes’ (i.e. differences) will be binomial of parameter $N$ and $q(r,T)$. This binomial distribution for $k$ is very important for the following.</p>
 
@@ -120,12 +120,12 @@ We can see this by noting that, for each position, we will end up observing a di
 
 <p>The quick estimation obtained in the previous section does not give any measure of the uncertainty about our estimate of the divergence time $T$. To address this problem, we will now develop a more elaborate approach, based on Bayesian inference. This will also give us an occasion to write our first Bayesian analysis in RevBayes.</p>
 
-<p>To conduct Bayesian inference, we first need to have a prior distribution over $T$. This prior represents our state of knowledge about $T$, before we have seen the empirical data (the sequence alignment). In the present case, we will consider that we don’t know anything a priori about this divergence time, except that it is between 0 and 20 Myr. Mathematically, we represent this by assuming a uniform distribution over $T$:
+<p>To conduct Bayesian inference, we first need to have a prior distribution over $T$. This prior represents our state of knowledge about $T$, before we have seen the empirical data (the sequence alignment). In the present case, we will consider that we don’t know anything a priori about this divergence time, except that it is between 0 and 20 Myr. Mathematically, we represent this by assuming a uniform distribution over $T$. In RevBayes, we can draw $T$ from this prior as follows:
 \(T ~ Uniform(0,T_{max})\)
 This is the mathematical notation. In RevBayes, we can draw $T$ from this prior as follows:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>T_max = 20
-T &lt;- rUniform(1,0,T_max)[1]
+T = rUniform(1,0,T_max)[1]
 </code></pre></div></div>
 <p>You can try this command and repeat it several times, to see that, each time, you draw a value of $T$ anywhere between 0 and $T_{max}$.</p>
 
@@ -145,7 +145,7 @@ T_max = 20
 n_sample = 100
 
 # initialize the counter
-count &lt;- 0
+count = 0
 
 # create a vector of size n_sample, with all entries initialized at 0
 T_sample = rep(0, n_sample)
@@ -154,25 +154,25 @@ T_sample = rep(0, n_sample)
 while (count &lt; n_sample)	{
 
 	# draw T from prior
-	T &lt;- rUniform(1,0,T_max)[1]
+	T = rUniform(1,0,T_max)[1]
 
 	# compute q(r,T) for the current value of T
 	# write some code here based on the formula that was derived previously
-	q &lt;- ...
+	q = ...
 
 	# draw k given T
-	k &lt;- rBinomial(1,N, Probability(q))[1]
+	k = rBinomial(1,N, Probability(q))[1]
 
 	# condition on k == k_obs (thus rejecting the sample if k is not equal to k_obs)
 	if (k == k_obs)	{
-		count &lt;- count + 1
+		count = count + 1
 		sample[count] = T
 	}
 }
 
 # finally, write the sample to a file:
 for (i in 1:n_sample)	{
-	write(T_sample[i], "\n", file="apes_reject.out", append=TRUE)
+	write(T_sample[i], "\n", file="apes_reject.log", append=TRUE)
 }
 </code></pre></div></div>
 
@@ -184,7 +184,7 @@ for (i in 1:n_sample)	{
   <li>do this until 100 values for T have been kept</li>
 </ul>
 
-<p>Write this program in RevBayes and run it. In R, draw the histogram of the 100 values of $T$ that have been stored in the array named sample (and that have been written into the file named apes_reject.out). To get a nicer histogram, you can set n_sample to 1000, but this will take more time.</p>
+<p>Import this program in RevBayes and run it. In R, draw the histogram of the 100 values of $T$ that have been stored in the array named sample (and that have been written into the file named apes_reject.out). To get a nicer histogram, you can set n_sample to 1000, but this will take more time.</p>
 
 <p>In RevBayes, you can also compute the mean and the stdev of the sample:</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mean(T_sample)
@@ -198,7 +198,7 @@ stdev(T_sample)
 quantile(T_sample, 0.975)
 </code></pre></div></div>
 
-<p>As you can see, although the values for $T$ that were initially drawn are uniformly distributed between 0 and 20, the histogram of the values of $T$ that were kept is not uniform. Instead, it is concentrated around a value of about 9 Myr. In other words, this histogram is enriched in values of $T$ that are more likely to produce a value for the random variable $k$ which turns out to be equal to the empirically observed value $k_{obs}$.</p>
+<p>As you can see, although the values for $T$ that were initially drawn are uniformly distributed between 0 and 20, the histogram is concentrated around a value of about 9 Myr. In other words, this histogram is enriched in values of $T$ that are more likely to produce a value for the random variable $k$ which turns out to be equal to the empirically observed value $k_{obs}$.</p>
 
 <p>From a Bayesian perspective, this histogram represents a sample from the posterior distribution. The algorithm used here to sample from the posterior distribution is called rejection sampling. Rejection sampling represents the concept of conditioning the model (including the prior) on the observed value $k_{obs}$ (simply by rejecting all runs that did not produce this result).</p>
 
@@ -244,7 +244,7 @@ mymodel = model(T)
 <ul>
   <li>T is from a uniform distribution</li>
   <li>q is a deterministic function of T (and of r)</li>
-  <li>k is a function of q (and on N)</li>
+  <li>k is a random variable whose distribution depends on q (and of N)</li>
   <li>k has been observed and is therefore ‘clamped’, or constrained, to be equal to this observed value k_obs.</li>
 </ul>
 
@@ -256,7 +256,7 @@ mymodel = model(T)
   <li>constant variables, like $r$, or $N$ or $k_{obs}$.</li>
   <li>model variables: here, $T$, $q$ and $k$.</li>
   <li>
-    <p>MCMC variables: here, ‘model’ (but the variables called ‘moves’, ‘monitors’ or ‘mymcmc’ below are also MCMC variables).</p>
+    <p>MCMC variables: here, ‘mymodel’ (but the variables called ‘moves’, ‘monitors’ or ‘mymcmc’ below are also MCMC variables).</p>
   </li>
   <li>constant variables are defined using the assignment operator ‘&lt;-‘</li>
   <li>the MCMC variables are defined using the assignment operator ‘=’.</li>
@@ -271,7 +271,7 @@ mymodel = model(T)
   <li>
     <p>the value of a deterministic variable depends on the variables that are directly specified in its definition: here, $q$ depends on $T$ and $r$. Whenever the value of $T$ changes during the MCMC, this will change the value of $q$</p>
   </li>
-  <li>the probability of a stochastic variable depends on the variables that are directly specified in its definition: here, $k$ depends on $q$, and thus, if the value of $q$ changes during the MCMC (which will happen each time the value of $T$ changes), this will change the probability of observing $k = k_{obs}$.</li>
+  <li>the probability of a stochastic variable depends on the variables that are directly specified in its definition: here, $k$ depends on $q$, and thus, if the value of $q$ changes during the MCMC (which will happen each time the value of $T$ will change), this will change the probability of observing $k = k_{obs}$.</li>
 </ul>
 
 <p>The dependencies between the model variables can be visualized in terms of a graphical model. This point will be explained on the board.</p>
@@ -282,20 +282,21 @@ mymodel = model(T)
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mymodel = model(T)
 </code></pre></div></div>
-<p>With this instruction, the entire model will be captured by RevBayes by searching for all stochastic and deterministic model variables that are interconnected, directly or indirectly, to T. Here, mymodel will be composed of 3 variables: $T$, $q$, and $k$. As mentioned above, one variable ($q$) is deterministic, and the other two variables ($T$ and $k$) are stochastic.</p>
+<p>With this instruction, the entire model will be captured by the RevBayes by searching for all stochastic and deterministic model variables that are interconnected, directly or indirectly, to T. Here, $q$ depends on $T$, and $k$ has a distribution that depends on $q$, so these three model variables, $T$, $q$, and $k$, will be captured in ‘mymodel’.</p>
 
 <p>Once the model is defined and conditioned (as done above), we should still specify how we want to ‘move’ the free random variables of the model. Here, we have clamped $k$, so it cannot move. As for $q$, it is not a random variable. On the other hand, $T$ is a random variable, and it is not clamped: it is in fact the variable that we want to estimate. So, this variable should be allowed to ‘move’ during the MCMC.
 Here, we used a ‘sliding’ move:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves[1] = mvSlide(T)
 </code></pre></div></div>
+<p>Note that ‘moves’ is a vector. Here, it has only one entry, but this is because our model has only one free random variable. In more complex models, we will have several types of moves, for different variables of the model (the tree, the rate of evolution, the nucleotide frequencies, the dN/dS, etc).</p>
 
 <p>Next we want to monitor the MCMC. To do this, we make a vector of monitors (or monitoring streams):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>monitors[1] = mnModel(filename = "apes.log", printgen=10, separator = " ")
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>monitors[1] = mnModel(filename = "apes_mcmc.log", printgen=10, separator = " ")
 monitors[2] = mnScreen(printgen = 10, T)
 </code></pre></div></div>
-<p>The first monitor will write the sequence of values of T in a file called apes.log. The second monitor will output a summary to the screen.</p>
+<p>The first monitor will write the sequence of values of T in a file called apes_mcmc.log. The second monitor will output a summary to the screen.</p>
 
 <p>Finally, we construct an MCMC object, which gathers all of the modules: the model, the monitors, and the MCMC moves:</p>
 
@@ -305,12 +306,12 @@ monitors[2] = mnScreen(printgen = 10, T)
 <p>Now, we can run the model for 30 000 generations:</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mymcmc.run(generations = 30000)
 </code></pre></div></div>
-<p>After the MCMC has run, a file names apes.log has been created. This file contains all of the 3000 values of T visited during the MCMC (why only 3000?).</p>
+<p>After the MCMC has run, a file names apes_mcmc.log has been created. This file contains all of the 3000 values of T visited during the MCMC (why only 3000?).</p>
 
 <ul>
   <li>Write this program, run it</li>
   <li>Draw the histogram of the values of $T$ visited during the MCMC</li>
-  <li>Compare this histogram with the histogram obtained above with rejection sampling. What do you observe?</li>
+  <li>Compare this histogram with the histogram obtained above with rejection sampling.</li>
 </ul>
 
 <ol class="bibliography"></ol>

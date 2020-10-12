@@ -1,0 +1,8 @@
+I"1<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+# we draw a correlation matrix from an LKJ distribution
+R ~ dnLKJ(eta=1, dim=5)
+
+# we specify a beta move on the correlation matrix
+moves[1] = mvCorrelationMatrixSingleElementBeta(R, alpha=10.0)
+</code></pre></div></div>
+:ET

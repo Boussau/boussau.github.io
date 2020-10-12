@@ -1,0 +1,8 @@
+I"x<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># lets get a draw from a Dirichlet distribution
+a &lt;- [1,1,1,1]   # we could also use rep(1,4)
+b &lt;- [1,2,3,4]   # if these are all equal, the scaled Dirichlet is equivilent to the Dirichlet(a)x ~ dnScaledDirichlet(a,b)
+x
+# let check if b really sums to 1
+sum(x)
+</code></pre></div></div>
+:ET

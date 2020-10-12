@@ -1,0 +1,12 @@
+I"ô<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># create a vector, Natural[]
+x &lt;- v(1,2,3)
+x &lt;- x + 1
+x
+
+y &lt;- v(2,4,6)
+# create a vector of Natural[][]
+z &lt;- v(x,y)
+z
+z[0]
+</code></pre></div></div>
+:ET
