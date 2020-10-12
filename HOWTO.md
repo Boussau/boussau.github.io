@@ -17,7 +17,7 @@ cf https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pa
 bundle exec jekyll build
 cd _site
 mkdir ../../TEMP
-cp -r * ../TEMP/
+cp -r * ../../TEMP/
 cd ..
 git checkout master
 cp -r ../TEMP/* .
