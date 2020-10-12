@@ -21,7 +21,7 @@ cp -r * ../TEMP/
 cd ..
 git checkout master
 cp -r ../TEMP/* .
-git add *
+git add .
 git commit -m "Updated the website"
 git push
 git checkout source
