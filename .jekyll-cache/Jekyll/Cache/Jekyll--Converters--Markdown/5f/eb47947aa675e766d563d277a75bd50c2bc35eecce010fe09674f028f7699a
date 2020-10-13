@@ -1,0 +1,22 @@
+I"<p>For this tutorial and much of the work you will do in RevBayes, you will need to access files.
+It is important that you are aware of your current working directory if you use relative file paths
+in your Rev scripts or in the RevBayes console.</p>
+
+<p>To check your current working directory, use the function <code class="highlighter-rouge">getwd()</code>.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>getwd()
+</code></pre></div></div>
+<div class="Rev-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/Users/tombayes/Work
+</code></pre></div></div>
+
+<p>If you want to change the directory, enter the path to your directory in the arguments of the function <code class="highlighter-rouge">setwd()</code>.</p>
+
+<div class="Rev-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>setwd("Tutorials/RB_CTMC_Tutorial")
+</code></pre></div></div>
+
+<p>Now check your directory again to make sure you are where you want to be:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>getwd()
+</code></pre></div></div>
+<div class="Rev-output highlighter-rouge"><div class="highlight"><pre class="highlight"><code>/Users/tombayes/Work/Tutorials/RB_CTMC_Tutorial
+</code></pre></div></div>
+:ET

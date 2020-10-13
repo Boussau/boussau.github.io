@@ -1,0 +1,36 @@
+#NEXUS
+
+	Begin taxa;
+	Dimensions ntax=25;
+	Taxlabels
+		T0
+		T1
+		T10
+		T11
+		T12
+		T13
+		T14
+		T15
+		T16
+		T17
+		T18
+		T19
+		T2
+		T20
+		T21
+		T22
+		T23
+		T24
+		T3
+		T4
+		T5
+		T6
+		T7
+		T8
+		T9
+		;
+End;
+
+Begin trees;
+tree TREE1 = [&R](((((((T10[&index=15]:0.012833[&branch_rates_range={0.451916,1.09041},branch_rates=0.728995],T9[&index=16]:0.012833[&branch_rates_range={0.585601,1.29432},branch_rates=0.890912])[&index=26,posterior=1.000000,age_95%_HPD={0.006745,0.019409}]:0.104268[&branch_rates_range={0.575683,1.16412},branch_rates=0.813659],T8[&index=17]:0.117101[&branch_rates_range={0.597458,1.14912},branch_rates=0.823002])[&index=27,posterior=1.000000,age_95%_HPD={0.081597,0.153693}]:0.113426[&branch_rates_range={0.572,1.15254},branch_rates=0.801136],((T11[&index=14]:0.111911[&branch_rates_range={0.649979,1.24834},branch_rates=0.897731],T12[&index=13]:0.111911[&branch_rates_range={0.507441,1.00019},branch_rates=0.716165])[&index=28,posterior=1.000000,age_95%_HPD={0.076212,0.147848}]:0.114727[&branch_rates_range={0.555421,1.09255},branch_rates=0.772272],(T13[&index=12]:0.139100[&branch_rates_range={0.404601,0.771943},branch_rates=0.555582],T14[&index=11]:0.139100[&branch_rates_range={0.738878,1.33975},branch_rates=0.982919])[&index=29,posterior=1.000000,age_95%_HPD={0.098182,0.177812}]:0.087538[&branch_rates_range={0.484054,1.10741},branch_rates=0.730521])[&index=30,posterior=1.000000,age_95%_HPD={0.186967,0.26463}]:0.003889[&branch_rates_range={0.470389,1.22555},branch_rates=0.793535])[&index=31,posterior=1.000000,age_95%_HPD={0.189318,0.267105}]:0.017989[&branch_rates_range={0.483065,1.21063},branch_rates=0.786385],T7[&index=18]:0.248516[&branch_rates_range={0.722149,1.06601},branch_rates=0.867949])[&index=32,posterior=1.000000,age_95%_HPD={0.207339,0.289525}]:0.010813[&branch_rates_range={0.469511,1.22949},branch_rates=0.791180],(T15[&index=10]:0.047538[&branch_rates_range={0.598019,1.30738},branch_rates=0.907242],T16[&index=9]:0.047538[&branch_rates_range={0.419341,0.959137},branch_rates=0.658852])[&index=33,posterior=1.000000,age_95%_HPD={0.028926,0.068234}]:0.211792[&branch_rates_range={0.438,0.703465},branch_rates=0.548090])[&index=34,posterior=1.000000,age_95%_HPD={0.219597,0.302036}]:0.051679[&branch_rates_range={0.432084,1.05943},branch_rates=0.699679],(((((T21[&index=4]:0.043913[&branch_rates_range={0.587094,1.19268},branch_rates=0.853305],T22[&index=3]:0.043913[&branch_rates_range={0.589656,1.19618},branch_rates=0.852193])[&index=35,posterior=1.000000,age_95%_HPD={0.030142,0.059599}]:0.047798[&branch_rates_range={0.578535,1.2889},branch_rates=0.864225],T23[&index=2]:0.091711[&branch_rates_range={0.605436,1.08512},branch_rates=0.817257])[&index=36,posterior=1.000000,age_95%_HPD={0.067653,0.116867}]:0.083762[&branch_rates_range={0.656329,1.31962},branch_rates=0.919627],T20[&index=5]:0.175473[&branch_rates_range={0.641016,1.03308},branch_rates=0.815380])[&index=37,posterior=1.000000,age_95%_HPD={0.138574,0.210915}]:0.078849[&branch_rates_range={0.657757,1.34832},branch_rates=0.931703],T24[&index=1]:0.254322[&branch_rates_range={0.6343,0.932953},branch_rates=0.762346])[&index=38,posterior=1.000000,age_95%_HPD={0.216705,0.293453}]:0.003687[&branch_rates_range={0.474703,1.23635},branch_rates=0.796536],((T17[&index=8]:0.070371[&branch_rates_range={0.599329,1.20465},branch_rates=0.850327],T18[&index=7]:0.070371[&branch_rates_range={0.604005,1.19908},branch_rates=0.844800])[&index=39,posterior=1.000000,age_95%_HPD={0.047488,0.095183}]:0.134150[&branch_rates_range={0.70838,1.26295},branch_rates=0.924062],T19[&index=6]:0.204521[&branch_rates_range={0.680901,1.05136},branch_rates=0.835666])[&index=40,posterior=1.000000,age_95%_HPD={0.166727,0.244011}]:0.053488[&branch_rates_range={0.580709,1.29881},branch_rates=0.865717])[&index=41,posterior=1.000000,age_95%_HPD={0.220414,0.297606}]:0.052999[&branch_rates_range={0.622535,1.31765},branch_rates=0.899439])[&index=42,posterior=1.000000,age_95%_HPD={0.269892,0.35275}]:0.033881[&branch_rates_range={0.499567,1.20047},branch_rates=0.794836],((((T1[&index=24]:0.043871[&branch_rates_range={0.458367,0.997608},branch_rates=0.700631],T2[&index=23]:0.043871[&branch_rates_range={0.552472,1.19462},branch_rates=0.845330])[&index=43,posterior=1.000000,age_95%_HPD={0.02874,0.062321}]:0.211528[&branch_rates_range={0.753212,1.20897},branch_rates=0.931948],T0[&index=25]:0.255399[&branch_rates_range={0.986138,1.42356},branch_rates=1.160690])[&index=44,posterior=1.000000,age_95%_HPD={0.217919,0.291651}]:0.026606[&branch_rates_range={0.520381,1.24572},branch_rates=0.831280],(T3[&index=22]:0.125657[&branch_rates_range={0.693556,1.27888},branch_rates=0.934018],T4[&index=21]:0.125657[&branch_rates_range={0.63555,1.16135},branch_rates=0.851033])[&index=45,posterior=1.000000,age_95%_HPD={0.090993,0.161719}]:0.156349[&branch_rates_range={0.789249,1.34625},branch_rates=0.999224])[&index=46,posterior=1.000000,age_95%_HPD={0.246149,0.313335}]:0.052852[&branch_rates_range={0.637451,1.35543},branch_rates=0.926123],(T5[&index=20]:0.067267[&branch_rates_range={0.549416,1.15063},branch_rates=0.812314],T6[&index=19]:0.067267[&branch_rates_range={0.548443,1.15585},branch_rates=0.815337])[&index=47,posterior=1.000000,age_95%_HPD={0.042651,0.092998}]:0.267591[&branch_rates_range={0.713756,1.02247},branch_rates=0.837746])[&index=48,posterior=1.000000,age_95%_HPD={0.30269,0.359782}]:0.010032[&branch_rates_range={0.49973,1.2458},branch_rates=0.815748])[&index=49,posterior=1.000000,age_95%_HPD={0.315182,0.360002}]:0.000000;
+End;

@@ -1,3 +1,9 @@
+# Installing all the Jekyll gems
+Into the `revbayes.github.io` repo directory, install required gems via:
+```
+bundle install
+```
+
 # testing the webpage locally:
 In the terminal, run:
 
@@ -17,7 +23,7 @@ cf https://docs.github.com/en/free-pro-team@latest/github/working-with-github-pa
 bundle exec jekyll build
 cd _site
 mkdir ../../TEMP
-cp -r * ../TEMP/
+cp -r * ../../TEMP/
 cd ..
 git checkout master
 cp -r ../TEMP/* .

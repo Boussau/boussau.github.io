@@ -1,0 +1,51 @@
+I"L<p>Alternatively, you may want to specify a prior on time-trees.
+Here we will briefly indicate how to specify such an prior which will lead to inference of time trees.</p>
+
+<p>The tree (the topology and node ages) is a stochastic node in our phylogenetic model.
+For simplicity, we will assume a uniform prior on both topologies and node ages.
+The distribution in RevBayes is <code class="highlighter-rouge">dnUniformTimeTree()</code>.</p>
+
+<p>First, we need to specify the age of the tree:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root_age &lt;- 10.0
+</code></pre></div></div>
+
+<p>Here we simply assumed that the tree is 10.0 time units old. We could also specify a prior on the root age if we have fossil calibrations (see ). Next, we specify the <code class="highlighter-rouge">tree</code> stochastic variable by passing in the taxon information <code class="highlighter-rouge">taxa</code> to the <code class="highlighter-rouge">dnUniformTimeTree()</code> distribution:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>psi ~ dnUniformTimeTree(rootAge=root_age, taxa=taxa)
+</code></pre></div></div>
+
+<p>Some types of stochastic nodes can be updated by a number of alternative moves.
+Different moves may explore parameter space in different ways,and it is possible to use
+multiple different moves for a given parameter to improve mixing
+(the efficiency of the MCMC simulation). In the case of our rooted tree,
+for example, we can use both a nearest-neighbor interchange move without and with changing
+the node ages (<code class="highlighter-rouge">mvNarrow</code> and <code class="highlighter-rouge">mvNNI</code>) and a fixed-node-height subtree-prune and regrafting
+move (<code class="highlighter-rouge">mvFNPR</code>) and its Metropolized-Gibbs variant (<code class="highlighter-rouge">mvGPR</code>) <a class="citation" href="#Hoehna2008">(Höhna et al. 2008; Höhna and Drummond 2012)</a>.
+We also need moves that change the ages of the internal nodes, for example, <code class="highlighter-rouge">mvSubtreeScale</code>
+and <code class="highlighter-rouge">mvNodeTimeSlideUniform</code>. These moves do not have tuning parameters associated with
+them, thus you only need to pass in the <code class="highlighter-rouge">psi</code> node and proposal <code class="highlighter-rouge">weight</code>.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append( mvNarrow(psi, weight=num_taxa) )
+moves.append( mvNNI(psi, weight=num_taxa/5.0) )
+moves.append( mvFNPR(psi, weight=num_taxa/5.0) )
+moves.append( mvGPR(psi, weight=num_taxa/30.0) )
+moves.append( mvSubtreeScale(psi, weight=num_taxa/3.0) )
+moves.append( mvNodeTimeSlideUniform(psi, weight=num_taxa) )
+</code></pre></div></div>
+
+<p>The weight specifies how often the move will be applied either on average per iteration or relative to all other moves. Have a look at the XX for more details about moves and MCMC strategies.</p>
+
+<h4 class="subsubsection" id="molecular-clock">Molecular Clock</h4>
+<hr class="subsubsection" />
+
+<p>Additionally, in the case of time-calibrated trees, we need to add a molecular clock rate parameter. For example, we know from empirical estimates that the molecular clock rate is about 0.01 (=1%) per million years per site. Nevertheless, we can estimate it here because we fixed the root age. We use a uniform prior on the log-transform clock rate. This specifies our lack of prior knowledge on the magnitude of the clock rate.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>log_clock_rate ~ dnUniform(-6,1)
+moves.append( mvSlide(log_clock_rate, weight=2.0) )
+clock_rate := 10^log_clock_rate
+</code></pre></div></div>
+
+<p>Instead, you could also fix the clock rate and estimate the root age.
+For more information on molecular clocks please read the X tutorial.</p>
+:ET
