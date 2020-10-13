@@ -63,12 +63,6 @@ for (i in 1:num_branches) {
 ## What is the expected branch length according to this exponential prior?
 #----------------------------#
 
-TL := sum(bl)
-
-#----------------------------#
-## What is the meaning of this variable "TL"?
-#----------------------------#
-
 psi := treeAssembly(topology, bl)
 
 #----------------------------#
