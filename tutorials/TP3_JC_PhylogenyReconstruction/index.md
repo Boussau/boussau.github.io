@@ -32,14 +32,14 @@ state $i$ to state $j$. The diagonal elements $\mu_i$ are the rates of
 *not* changing out of state $i$, equal to the sum of the elements in the
 corresponding row. Given the instantaneous-rate matrix, $Q$, we can
 compute the corresponding transition probabilities for a branch of
-length $t$, $P(t)$, by exponentiating the rate matrix:
+length $l$, $P(l)$, by exponentiating the rate matrix:
 
-$$P(t) = \begin{pmatrix}
-p_{AA}(t) & p_{AC}(t) & p_{AG}(t) & p_{AT}(t) \\
-p_{CA}(t) & p_{CC}(t) & p_{CG}(t) & p_{CT}(t) \\
-p_{GA}(t) & p_{GC}(t) & p_{GG}(t) & p_{GT}(t) \\
-p_{TA}(t) & p_{TC}(t) & p_{TG}(t) & p_{TT}(t)
-\end{pmatrix} = e^{Qt} = \sum_{j=0}^\infty\frac{(Qt)^j}{j!} \mbox{  .}$$
+$$P(l) = \begin{pmatrix}
+p_{AA}(l) & p_{AC}(l) & p_{AG}(l) & p_{AT}(l) \\
+p_{CA}(l) & p_{CC}(l) & p_{CG}(l) & p_{CT}(l) \\
+p_{GA}(l) & p_{GC}(l) & p_{GG}(l) & p_{GT}(l) \\
+p_{TA}(l) & p_{TC}(l) & p_{TG}(l) & p_{TT}(l)
+\end{pmatrix} = e^{Ql} = \sum_{j=0}^\infty\frac{(Ql)^j}{j!} \mbox{  .}$$
 
 Each of the named substitution models (e.g., JC, TN92, HKY or GTR)
 has a uniquely defined instantaneous-rate matrix, $Q$.
