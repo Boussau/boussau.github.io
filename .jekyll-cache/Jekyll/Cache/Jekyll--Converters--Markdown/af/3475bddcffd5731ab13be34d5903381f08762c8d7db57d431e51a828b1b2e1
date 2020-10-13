@@ -1,0 +1,6 @@
+I"]<p><strong>Left:</strong> Trace of tree-length samples for one MCMC run. The caterpillar-like
+look is a good sign. You will also see that the effective sample size is
+comparably large, i.e., much larger than 200.
+<strong>Right:</strong> Posterior distribution of the tree length of the primate
+phylogeny under a Jukes-Cantor substitution model.</p>
+:ET
