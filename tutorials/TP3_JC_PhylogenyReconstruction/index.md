@@ -733,9 +733,11 @@ data, and then infer a phylogeny given an empirical data set.
 Sequence simulation is often used to test inference methods.
 -   **What could you learn by performing MCMC inference on a simulated data set?**
 -   **Combine the scripts to perform inference on simulated data.**
+
 Sequence simulation is also often used to assess *model adequacy*, i.e. to ask
 if my model can reproduce the important features of the empirical data set.
 -   **Based on a comparison of the empirical and simulated alignments, do you
 think that the JC model is adequate for this data set?**
-In the following tutorial, you will learn about more sophisticated models of
+
+In the next tutorial, you will learn about more sophisticated models of
 sequence evolution.
