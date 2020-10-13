@@ -72,21 +72,21 @@ Specific functions for substitution models available in RevBayes.
 
 
 
-{% section Example: Character Evolution under the Jukes-Cantor Substitution Model %}
+{% section Character Evolution under the Jukes-Cantor Substitution Model %}
 {% subsection Getting Started %}
 
-The first section of this exercise involves:
+This tutorial involves:
 1. setting up a Jukes-Cantor (JC) substitution model for an alignment of the cytochrome b subunit;
-2. simulating DNA sequence evolution
+2. simulating DNA sequence evolution;
 3. approximating the posterior probability of the tree topology and branch
-lengths using MCMC, and;
+lengths using MCMC;
 4. summarizing the MCMC output by computing the maximum *a posteriori* tree.
 
 
 {% figure jc_graphical_model %}
 <img src="figures/jc_graphical_model.png" />
 {% figcaption %}
-Graphical model representation of a simple phylogenetic model. The graphical model shows the dependencies among parameters {% cite Hoehna2014b %}. Here, the rate matrix $Q$ is a constant variable because it is fixed and does not depend on any parameter. The only free parameters of this model, the Jukes-Cantor model, are the tree $\Psi$ including the branch lengths.
+Graphical model representation of a simple phylogenetic model. The graphical model shows the dependencies among parameters {% cite Hoehna2014b %}. Here, the rate matrix $Q$ is a constant variable because it is fixed and does not depend on any parameter. The only free parameters of this model, based on the Jukes-Cantor model of substitution, are the tree $\Psi$ including the branch lengths.
 {% endfigcaption %}
 {% endfigure %}
 
@@ -109,6 +109,8 @@ $$P_{JC} = \begin{pmatrix} {\frac{1}{4} + \frac{3}{4}e^{-l}} & {\frac{1}{4} - \f
 
 where $l$ is the branch length in units of expected numbers of substitutions, which corresponds to the product of the time and the rate of substitution. **Don’t worry, you won’t have to calculate all of the transition probabilities, because RevBayes will take care of all the computations for you.** Here we only provide some of the equations for the models in case you might be interested in the details. You will be able to complete the exercises without understanding the underlying math.
 
+{% subsection Simulating a DNA alignment %}
+
 The files for this example analysis are provided for you ([`mcmc_JC.Rev`](scripts/mcmc_JC.Rev)).
 If you download this file and place it in a directory called `scripts` inside your main tutorial directory,
 you can easily execute this analysis using the `source()` function in the RevBayes console:
@@ -120,21 +122,15 @@ source("scripts/simulation_JC.Rev")
 This simulation should be fast, and should have produced two files in the
 folder `data`: `simulatedSequences_1.fasta` and `simulatedSequences_2.fasta`.
 
+Below we are going to go through the script and explain what it does, step by step.
 
 
 
-{% subsection Loading the Data %}
+{% subsubsection Loading the Data %}
 
->First create a directory for this tutorial and name it `RB_CTMC_Tutorial`, or any name
->you like.
->
->Navigate to this new directory and create a new folder called `data` inside of it.
->
->Download the data file called [`primates_and_galeopterus_cytb.nex`](data/primates_and_galeopterus_cytb.nex)
->and save it to the `data` directory.
->
->Now start RevBayes from your working directory (`RB_CTMC_Tutorial`).
-{:.instruction}
+The first thing the script does is to load a DNA alignment. Although this step is
+not necessary for simulating an alignment, here we use the empirical alignment
+just to get its number of sequences, its number of sites, and the sequence names.
 
 {% aside Checking and Changing Your Working Directory %}
 For this tutorial and much of the work you will do in RevBayes, you will need to access files.
@@ -168,15 +164,21 @@ getwd()
 {:.Rev-output}
 {% endaside %}
 
-First load in the sequences using the `readDiscreteCharacterData()`
+We load in the sequences using the `readDiscreteCharacterData()`
 function.
 
 ```
 data <- readDiscreteCharacterData("data/primates_and_galeopterus_cytb.nex")
 ```
 
-Executing these lines initializes the data matrix as the respective
-Rev variables. To report the current value of any variable, simply
+Executing this line initializes the data matrix as a variable in the Rev
+environment. You can have a look at the list of variables in the environment as
+follows:
+```
+ls()
+```
+
+To report the current value of any variable, simply
 type the variable name and press enter. For the `data` matrix, this
 provides information about the alignment:
 
@@ -196,9 +198,10 @@ data
 ```
 {:.Rev-output}
 
-Next we will specify some useful variables based on our dataset. The variable `data` has *member functions*
-that we can use to retrieve information about the dataset. These include, for example,
-the number of species and the taxa. We will need that taxon information for setting up different parts of our model.
+Next we will specify some useful variables based on our dataset. The variable
+`data` has *member functions* that we can use to retrieve information about the
+dataset. These include, for example, the number of species and the taxa.
+We will need that taxon information for setting up different parts of our model.
 
 ```
 num_taxa <- data.ntaxa()
@@ -207,17 +210,17 @@ taxa <- data.taxa()
 num_sites <- data.nchar()
 ```
 
--   Why are we using "<-" and not ":=" or "~"?
+-   **Why are we using "<-" and not ":=" or "~"?**
 
 With the data loaded, we can now proceed to specifying the model.
 
-{% subsection Setting up the Graphical Model%}
+{% subsubsection Setting up the Graphical Model%}
 
 Simulating DNA sequences with an unrooted tree under the JC model requires
 specification of two main components:
 (1) the {% ref subsub-JCMod %} and (2) the {% ref subsub-TreeBlMod %}.
 
-{% subsubsection Jukes-Cantor Substitution Model | subsub-JCMod %}
+{% subsubsubsection Jukes-Cantor Substitution Model | subsub-JCMod %}
 
 A given substitution model is defined by its corresponding
 instantaneous-rate matrix, $Q$. The Jukes-Cantor substitution model does
@@ -230,6 +233,8 @@ instantaneous-rate matrix:
 ```
 Q <- fnJC(4)
 ```
+
+-   **What does the "4" stand for?**
 
 You can see the rates of the $Q$ matrix by typing
 
@@ -246,7 +251,7 @@ Q
 
 As you can see, all substitution rates are equal.
 
-{% subsubsection Tree Topology and Branch Lengths | subsub-TreeBlMod %}
+{% subsubsubsection Tree Topology and Branch Lengths | subsub-TreeBlMod %}
 
 The tree topology and branch lengths are stochastic nodes in our phylogenetic model.
 In {% ref jc_graphical_model %}, the tree topology is denoted $\Psi$ and the
@@ -257,9 +262,12 @@ This is the `dnUniformTopology()` distribution in RevBayes.
 Note that in RevBayes it is advisable to specify the outgroup for your study system
 if you use an unrooted tree prior, whereas other software, such as
 MrBayes, use the first taxon in the data matrix file as the outgroup.
-Providing RevBayes with an outgroup clade will enable the monitor writing the trees
-to file to orient the topologies with the outgroup clade at the base,
+Providing RevBayes with an outgroup clade will make sure that when trees are
+written to file, the topologies have the outgroup clade at the base,
 thus making the trees easier to visualize.
+
+-   **Does the root position of the tree matter for the JC model? **
+
 Specify the `topology` stochastic node by passing in the list of `taxa`
 to the `dnUniformTopology()` distribution:
 
@@ -268,7 +276,11 @@ out_group = clade("Galeopterus_variegatus")
 topology ~ dnUniformTopology(taxa, outgroup=out_group)
 ```
 
-Next we have to create a stochastic node representing the length of each of the $2N - 3$ branches in our tree (where $N=$ `n_species`). We can do this using a `for` loop — this is a plate in our graphical model. In this loop, we can create each of the branch-length nodes and assign each move. Copy this entire block of Rev code into the console:
+Next we have to create a stochastic node representing the length of each of the
+$2N - 3$ branches in our tree (where $N=$ `n_species`). We can do this using a
+`for` loop — this is a plate in our graphical model. In this loop, we can
+create each of the branch-length nodes. Copy this entire
+block of Rev code into the console:
 
 ```
 for (i in 1:num_branches) {
@@ -299,7 +311,7 @@ moves.append( mvSPR(psi, weight=num_taxa/10.0) )
 moves.append( mvBranchLengthScale(psi, weight=num_branches) )
 ```
 You might think that this approach is in fact simpler than the `for` loop that we
-explained above. We still think that it is pedagogical to specify the prior on
+explained above. We thought that it was pedagogical to specify the prior on
 each branch length separately in this tutorial to emphasize all components of the model.
 {% endaside %}
 
@@ -333,7 +345,7 @@ br_lens := rel_branch_lengths * TL
 {% endaside %}
 
 
-{% subsubsection Putting it All Together %}
+{% subsubsubsection Putting it All Together %}
 
 We have fully specified all of the parameters of our phylogenetic
 model—the tree topology with branch lengths, and the substitution model
