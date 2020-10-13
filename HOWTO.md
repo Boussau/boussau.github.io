@@ -1,9 +1,3 @@
-# Installing all the Jekyll gems
-Into the `revbayes.github.io` repo directory, install required gems via:
-```
-bundle install
-```
-
 # testing the webpage locally:
 In the terminal, run:
 
