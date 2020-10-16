@@ -443,81 +443,22 @@ model and MCMC analyses.
 
 Overall, the inference script is very similar to the simulation script. For instance,
 the structure of the model is the same. However, to perform inference, additional
-elements have to be included. In particular, *moves* need to be specified for
+elements have to be included. In particular, the model that we were using for
+simulation has to be *conditioned* upon observed data, the sequences at the tips.
+Secondly, the whole model has to be assembled into a *model* variable, upon
+which MCMC sampling will be able to operate. Thirdly, *moves* need to be specified for
 each stochastic variable, so that we can obtain posterior distributions. Recall
 that moves are algorithms used to propose new parameter values during the MCMC
-simulation. In addition, we may want to specify *monitors* to record parameter
+simulation. Fourthly, we may want to specify *monitors* to record parameter
 values as the MCMC algorithm proceeds. Monitors print the values of model parameters
 to the screen and/or log files during the MCMC analysis.
-In both cases, after reading the input data, we create vectors to store all the
-moves and all the monitors.
-
-```
-moves    = VectorMoves()
-monitors = VectorMonitors()
-```
-
-You may have noticed that we used the `=` operator to create the move index.
-This simply means that the variable is not part of the model.
-You will later see that we use this operator more often, e.g., when we create
-moves and monitors.
-
-For each stochastic variable, we specify a move. For instance, we specify a move
-for the tree topology.
-```
-moves.append( mvNNI(topology, weight=num_taxa/1.0) )
-```
-
-Some types of stochastic nodes, and the tree topology in particular, can be
-updated by a number of alternative moves.
-Different moves may explore parameter space in different ways,
-and it is possible to use multiple different moves for a given parameter to improve mixing
-(i.e. the efficiency of the MCMC simulation).
-In the case of our unrooted tree topology, for example, we can use both a
-nearest-neighbor interchange move (`mvNNI`) and a subtree-prune and regrafting
-move (`mvSPR`, currently commented in the script). These moves do not have tuning
-parameters associated with them, thus you only need to pass in the `topology` node
-and proposal `weight`.
-
-```
-# moves.append( mvSPR(topology, weight=num_taxa/10.0) )
-```
-
-The weight specifies how often the move will be applied either on average per
-iteration or relative to all other moves. Have a look at the
-[MCMC tutorials](https://revbayes.github.io/tutorials/) for more details
-about moves and MCMC strategies.
-
-The other stochastic variables in the model are branch lengths. They need their
-own moves:
-
-```
-for (i in 1:num_branches) {
-    bl[i] ~ dnExponential(10.0)
-    moves.append( mvScale(bl[i]) )
-}
-```
-
-Here each branch length is associated to a `mvScale` move that basically multiplies
-the current value of a branch length by a real positive number.
-
--   **What type of stochastic variable is particularly appropriate for the `mvScale`
-move?**
-
-It is convenient for monitoring purposes to add the tree length as a variable.
-The tree length is simply the sum of all branch lengths.
-Accordingly, the tree length can be computed using the `sum()` function,
-which calculates the sum of any vector of values.
-
-```
-TL := sum(br_lens)
-```
-
--   **Why are we using ":=" here?**
 
 
-Once the `PhyloCTMC` model has been created, we can attach our sequence
-data to the tip nodes in the tree.
+
+{% subsubsubsection Conditioning the model on observed data %}
+The `PhyloCTMC` model is able to produce sequence alignments, given parameter
+variables. We can attach our sequence data to the tip nodes in the tree:
+
 ```
 seq.clamp(data)
 ```
@@ -532,9 +473,13 @@ sequence in the alignment. This essentially tells the program that we
 have observed data for the sequences at the tips: we are *conditioning* the
 model on these data.
 
-Finally, we wrap the entire model in a single object to provide convenient access to the
-DAG. To do this, we only need to give the `model()` function a single
-node. With this node, the `model()` function can find all of the other
+
+{% subsubsubsection Assembling the constant, deterministic and stochastic
+  variables into a model %}
+
+We wrap the entire model in a single object to provide convenient access to the
+Directed Acyclic Graph. To do this, we only need to give the `model()` function a single
+node of the model. Starting from this node, the `model()` function can find all of the other
 nodes by following the arrows in the graphical model:
 
 ```
@@ -551,7 +496,100 @@ mymodel
 ```
 
 
-{% subsubsection Specifying Monitors and Output Files %}
+
+{% subsubsubsection Adding moves to the script %}
+
+For each stochastic variable of the model, we need to specify a move. If no move
+is specified for a stochastic variable, this variable will stay constant throughout
+the entire algorithm.
+
+First we create a vector to store all the moves that will be used to sample from
+the posterior distribution:
+```
+moves = VectorMoves()
+```
+
+You may have noticed that we used the `=` operator to create the move index.
+This simply means that the variable is not part of the model: it is not used to
+compute the probability of a set of parameter values. Instead, it is a part
+of the MCMC algorithm.
+You will later see that we use this operator for other variables that are not
+part of the model, e.g., when we create moves and monitors.
+
+For instance, we specify a move
+for the tree topology.
+```
+moves.append( mvNNI(topology, weight=3) )
+```
+
+Some types of stochastic nodes, and the tree topology in particular, can be
+updated by a number of alternative moves.
+Different moves may explore parameter space in different ways,
+and it is possible to use multiple different moves for a given parameter to improve mixing
+(i.e. the efficiency of the MCMC simulation).
+In the case of our unrooted tree topology, for example, we can use both a
+nearest-neighbor interchange move {% ref nni %} (`mvNNI` in the Rev language) and a subtree-prune and regraft move {% ref spr %} (`mvSPR` in the Rev language, currently commented in the script).
+
+
+{% figure nni %}
+<img src="figures/NNI.svg.png" />
+{% figcaption %}
+The NNI move swaps two subtrees around an internal branch. Source: (https://en.wikipedia.org/wiki/Tree_rearrangement)[https://en.wikipedia.org/wiki/Tree_rearrangement]
+{% endfigcaption %}
+{% endfigure %}
+
+{% figure spr %}
+<img src="figures/800px-SPR.svg.png" />
+{% figcaption %}
+The SPR moves prunes a subtree, and reattaches it somewhere else in the tree. Source: (https://en.wikipedia.org/wiki/Tree_rearrangement)[https://en.wikipedia.org/wiki/Tree_rearrangement]
+{% endfigcaption %}
+{% endfigure %}
+
+
+These moves do not have tuning parameters associated with them, thus we only need
+to pass in the `topology` node and proposal `weight`.
+
+```
+# moves.append( mvSPR(topology, weight=3) )
+```
+
+The weight specifies how often the move will be applied either on average per
+iteration or relative to all other moves. Have a look at the
+[MCMC tutorials](https://revbayes.github.io/tutorials/) for more details
+about moves and MCMC strategies.
+
+The other stochastic variables in the model are branch lengths. They need their
+own moves:
+
+```
+for (i in 1:num_branches) {
+    moves.append( mvScale(bl[i]) )
+}
+```
+
+Here each branch length is associated to a `mvScale` move that basically multiplies
+the current value of a branch length by a real positive number.
+
+-   **What type of stochastic variable is particularly appropriate for the `mvScale`
+move?**
+
+
+
+{% subsubsubsection Specifying Monitors and Output Files %}
+
+During the MCMC analysis, we can decide to keep track of all the sampled parameters,
+but also of various statistics that we think may be of interest. Here, we have
+decided to keep track of the tree length, i.e. the sum of all branch lengths.
+To this end, we add a variable `TL` that will compute this sum. Accordingly, the tree
+length can be computed using the `sum()` function, which calculates the sum of
+any vector of values.
+
+```
+TL := sum(br_lens)
+```
+
+-   **Why are we using ":=" here?**
+
 
 For our MCMC analysis, we need to set up a vector of *monitors* to
 record the states of our Markov chain. The monitor functions are all
@@ -561,6 +599,8 @@ function. This creates a new monitor variable that will output the
 states for all model parameters when passed into a MCMC function.
 
 ```
+monitors = VectorMonitors()
+
 monitors.append( mnModel(filename="output/primates_cytb_JC.log", printgen=10) )
 ```
 
@@ -593,23 +633,25 @@ mymcmc = mcmc(mymodel, monitors, moves)
 ```
 {% comment %}
 ```
-mymcmc = mcmc(mymodel, monitors, moves, nruns=2, combine="mixed")
+mymcmc = mcmc(mymodel, monitors, moves, nruns=1)
 ```
 
-Notice that we also specified `nruns=2` which means that RevBayes will
-automatically run 2 independent MCMC runs. In general, it is recommended to run
-several chains: comparing them enables ensuring that the two chains have converged
-to the same area of the posterior distribution. Usually, the more chains, the better.
-In our case, you will find that the output is created in two files with
-extension `_run_1` and `_run_2` for each replicate and additionally the samples
-from both runs are combined into one file with extension `mixed` for more
+Notice that we also specified `nruns=1` in the interest of speed. If we had
+set `nruns=4`, RevBayes would have run 4 independent MCMC runs. In general, it
+is recommended to run several chains: comparing them enables ensuring that the
+chains have converged to the same area of the posterior distribution. Usually,
+the more chains, the better. In such a case, the output is created in e.g. 4 files with
+extension `_run_1`, `_run_2`, ... for each replicate and additionally the samples
+from all runs are combined into one file with extension `mixed` for more
 convenient post-processing.
 {% endcomment %}
 
 Now, run the MCMC:
 ```
-mymcmc.run(generations=20000)
+mymcmc.run(generations=2500)
 ```
+Here we set a low number of iterations. In general it is recommended to check
+for convergence; here it is possible that 2500 iterations may not be enough.
 
 When the analysis is complete, you will have the files produced by the monitors
 in your output directory.
@@ -640,7 +682,7 @@ before calling the function `mcmc.run()`. The file name should match what was gi
 
 The full MCMC block thus becomes:
 ```
-mymcmc = mcmc(mymodel, monitors, moves, nruns=2, combine="mixed")
+mymcmc = mcmc(mymodel, monitors, moves, nruns=1)
 mymcmc.initializeFromCheckpoint("output/primates_cytb_JC.state") #comment this out for the first run
 
 mymcmc.run(generations=100000000, checkpointInterval=100, checkpointFile="output/primates_cytb_JC.state")
