@@ -50,7 +50,7 @@
 	<h1 class="maintitle">Phylogenetic reconstruction on nucleotide data</h1>
 	<h3 class="subtitle">Phylogenetic inference with nucleotide data using RevBayes</h3>
 	<h4 class="authors">Bastien Boussau</h4>
-  <h5>Last modified on October 16, 2020</h5>
+  <h5>Last modified on October 17, 2020</h5>
 </div>
 
 
@@ -89,10 +89,6 @@
         
         
           <li><a href="/tutorials/TP3_JC_PhylogenyReconstruction/data/primates_and_galeopterus_cytb.nex">primates_and_galeopterus_cytb.nex</a></li>
-        
-          <li><a href="/tutorials/TP3_JC_PhylogenyReconstruction/data/simulatedSequences_1.fasta">simulatedSequences_1.fasta</a></li>
-        
-          <li><a href="/tutorials/TP3_JC_PhylogenyReconstruction/data/simulatedSequences_2.fasta">simulatedSequences_2.fasta</a></li>
         
         </ul>
     
@@ -635,11 +631,11 @@ In the case of our unrooted tree topology, for example, we can use both a
 nearest-neighbor interchange move <a href="#nni"></a> (<code class="highlighter-rouge">mvNNI</code> in the Rev language) and a subtree-prune and regraft move <a href="#spr"></a> (<code class="highlighter-rouge">mvSPR</code> in the Rev language, currently commented in the script).</p>
 
 <figure id="nni"><p><img src="figures/NNI.svg.png" /></p>
-<figcaption>The NNI move swaps two subtrees around an internal branch. Source: (https://en.wikipedia.org/wiki/Tree_rearrangement)[https://en.wikipedia.org/wiki/Tree_rearrangement]</figcaption>
+<figcaption>The NNI move swaps two subtrees around an internal branch. Source: <a href="https://en.wikipedia.org/wiki/Tree_rearrangement">https://en.wikipedia.org/wiki/Tree_rearrangement</a></figcaption>
 </figure>
 
 <figure id="spr"><p><img src="figures/800px-SPR.svg.png" /></p>
-<figcaption>The SPR moves prunes a subtree, and reattaches it somewhere else in the tree. Source: (https://en.wikipedia.org/wiki/Tree_rearrangement)[https://en.wikipedia.org/wiki/Tree_rearrangement]</figcaption>
+<figcaption>The SPR moves prunes a subtree, and reattaches it somewhere else in the tree. Source: <a href="https://en.wikipedia.org/wiki/Tree_rearrangement">https://en.wikipedia.org/wiki/Tree_rearrangement</a></figcaption>
 </figure>
 
 <p>These moves do not have tuning parameters associated with them, thus we only need
