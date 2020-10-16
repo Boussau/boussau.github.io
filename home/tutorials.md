@@ -5,14 +5,10 @@ subtitle: RevBayes Tutorials
 permalink: /tutorials/
 levels:
 - General structure of the tutorials
-- Simulating DNA Evolution (TP1)
-- Dating the divergence between Human and Chimps (TP2)
-- Reconstructing a phylogeny using DNA sequences (TP3)
+- Tutorials for M2 students in Lyon
+- Tutorial on dating with relative constraints
 levels_id:
 - tutorial_structure
-- simulatingDNAEvolution
-- TP2_JukesCantorHumanChimp
-- TP3_JC_PhylogenyReconstruction
 ---
 
 This list shows some RevBayes tutorials for learning various aspects of RevBayes and Bayesian phylogenetic analysis.

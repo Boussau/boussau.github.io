@@ -534,14 +534,14 @@ nearest-neighbor interchange move {% ref nni %} (`mvNNI` in the Rev language) an
 {% figure nni %}
 <img src="figures/NNI.svg.png" />
 {% figcaption %}
-The NNI move swaps two subtrees around an internal branch. Source: (https://en.wikipedia.org/wiki/Tree_rearrangement)[https://en.wikipedia.org/wiki/Tree_rearrangement]
+The NNI move swaps two subtrees around an internal branch. Source: [https://en.wikipedia.org/wiki/Tree_rearrangement](https://en.wikipedia.org/wiki/Tree_rearrangement)
 {% endfigcaption %}
 {% endfigure %}
 
 {% figure spr %}
 <img src="figures/800px-SPR.svg.png" />
 {% figcaption %}
-The SPR moves prunes a subtree, and reattaches it somewhere else in the tree. Source: (https://en.wikipedia.org/wiki/Tree_rearrangement)[https://en.wikipedia.org/wiki/Tree_rearrangement]
+The SPR moves prunes a subtree, and reattaches it somewhere else in the tree. Source: [https://en.wikipedia.org/wiki/Tree_rearrangement](https://en.wikipedia.org/wiki/Tree_rearrangement)
 {% endfigcaption %}
 {% endfigure %}
 

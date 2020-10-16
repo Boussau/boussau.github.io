@@ -2,8 +2,8 @@
 title: Bayesian inference with RevBayes
 subtitle: Inferring the divergence time between Human and Chimpanzee
 authors:  Nicolas Lartillot
-level: 3
-order: 0.1
+level: 2
+order: 0.2
 index: true
 prerequisites:
 - simulatingDNAEvolution
