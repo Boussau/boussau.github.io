@@ -1,0 +1,44 @@
+data <- readDiscreteCharacterData("data/placBRCA1.nex")
+
+n_species <- data.ntaxa()
+n_branches <- 2 * n_species - 3
+taxa <- data.taxa()
+
+out_group = clade("Sorex")
+
+# tree topology
+topology ~ dnUniformTopology(taxa, outgroup = out_group) 
+for (i in 1:n_branches) {
+ bl[i] ~ dnExponential(10.0)
+}
+psi := treeAssembly(topology, bl)
+
+# total tree length (just for monitoring)
+TL := sum(bl)
+
+# JC substitution process
+Q <- fnJC(4)
+seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="DNA" ) 
+seq.clamp( data )
+
+my_model = model(psi)
+
+# moves
+moves[1] = mvNNI(topology, weight=1.0)
+moves[2] = mvSPR(topology, weight=1.0)
+for (i in 1:n_branches) {
+   moves[i+2] = mvScale(bl[i])
+}
+
+
+monitors[1] = mnModel(filename="analyses/BRCA1_JC.log", printgen=10, separator = TAB)
+monitors[2] = mnFile(psi,filename="analyses/BRCA1_JC.trees", printgen=10, separator = TAB)
+monitors[3] = mnScreen(printgen=100, TL)
+
+# Make the analysis object
+analysis = mcmc(my_model, monitors, moves)
+# Run the MCMC
+analysis.run(10000)
+# Show how the moves performed
+analysis.operatorSummary()
+

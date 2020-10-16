@@ -1,0 +1,68 @@
+data <- readDiscreteCharacterData("data/placBRCA1short.nex")
+data_codon = data.translateCharacters("Codon")
+print(data_codon)
+
+tree <- readTrees("analyses/BRCA1_JCmap.tree", treetype="non-clock")[1]
+
+n_species <- data.ntaxa()
+n_branches <- 2 * n_species - 3
+taxa <- data.taxa()
+
+
+out_group = clade("Ailuropoda")
+topology ~ dnUniformTopology(taxa, outgroup = out_group) 
+topology.clamp(tree)
+print(topology)
+
+for (i in 1:n_branches) {
+ bl[i] ~ dnExponential(10.0)
+}
+psi := treeAssembly(topology, bl)
+TL := sum(bl)
+
+kappa ~ dnExponential(1.0)
+nucstat_prior <- [1.0, 1.0, 1.0, 1.0]
+nucstat ~ dnDirichlet(nucstat_prior)
+
+purom ~ dnBeta(1.0,1.0)
+dposom ~ dnExponential(1.0)
+omega[1] := purom
+omega[2] := 1.0
+omega[3] := 1 + dposom
+
+# purw ~ dnBeta(1.0, 1.0)
+# posw ~ dnBeta(1.0, 1.0)
+# w := Simplex((1-posw)*purw, (1-posw)*(1-purw), Real(posw))
+
+w ~ dnDirichlet([1.0/3, 1.0/3, 1.0/3])
+
+Q[1] := fnCodonHKY(omega=omega[1], kappa=kappa, baseFrequencies=nucstat)
+Q[2] := fnCodonHKY(omega=omega[2], kappa=kappa, baseFrequencies=nucstat)
+Q[3] := fnCodonHKY(omega=omega[3], kappa=kappa, baseFrequencies=nucstat)
+
+seq ~ dnPhyloCTMC( tree=psi, Q=Q, siteMatrices=w, type="Codon" ) 
+seq.clamp( data_codon )
+
+my_model = model(psi)
+
+# moves
+moves[1] = mvScale(kappa, weight=1.0)
+moves[2] = mvDirichletSimplex(nucstat,weight=1.0, alpha=10)
+moves[3] = mvSlide(purom, weight=1.0)
+moves[4] = mvScale(dposom, weight=1.0)
+moves[5] = mvDirichletSimplex(w, weight=1.0)
+for (i in 1:n_branches) {
+   moves[i+5] = mvScale(bl[i])
+}
+
+monitors[1] = mnModel(filename="analyses/BRCA1short_siteom.log", printgen=10, separator = TAB)
+monitors[2] = mnFile(psi,filename="analyses/BRCA1short_siteom.trees", printgen=10, separator = TAB)
+monitors[3] = mnScreen(printgen=100, omega, w)
+
+# Make the analysis object
+analysis = mcmc(my_model, monitors, moves)
+# Run the MCMC
+analysis.run(10000)
+# Show how the moves performed
+analysis.operatorSummary()
+
