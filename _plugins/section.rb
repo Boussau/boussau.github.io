@@ -12,7 +12,7 @@ module Liquid
 			else
 				@id = @id.strip
 			end
-			
+
 			@tag_name = tag_name
 			@h = (tag_name == 'section' ? '2' : tag_name == 'subsection' ? '3' : '4')
 		end
@@ -28,7 +28,7 @@ module Liquid
 			output = "<h#{@h} class=\"#{@tag_name}\" id=\"#{@id}\">#{content}</h#{@h}>"
 
 			output += "<hr class=\"#{@tag_name}\">"
-			
+
 			output
 		end
 	end
@@ -37,3 +37,4 @@ end
 Liquid::Template.register_tag('section', Liquid::Section)
 Liquid::Template.register_tag('subsection', Liquid::Section)
 Liquid::Template.register_tag('subsubsection', Liquid::Section)
+Liquid::Template.register_tag('subsubsubsection', Liquid::Section)

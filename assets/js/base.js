@@ -12,7 +12,7 @@ $(".overview").each(function() {
 
     // var _sections = document.getElementsByClassName('section');
     var _sections = document.querySelectorAll(':not(.preview) > :not(hr).section, :not(.preview) > :not(hr).subsection');
-    
+
     if( _sections.length > 0 ) {
 
       var row = document.createElement('div');
@@ -110,7 +110,7 @@ function get_files() {
         if( j > 2 )
           save_path_name += "/" + file_path[j];
       }
-      
+
       d.file(save_path_name, $.get(full_path_name));
     }
   }
@@ -151,7 +151,7 @@ $("figure.table").each(function(index) {
 });
 
 // Add section titles to section references
-$(".section, .subsection, .subsubsection").each(function(index) {
+$(".section, .subsection, .subsubsection, .subsubsubsection").each(function(index) {
     if( this.id != null ) {
       var els = document.querySelectorAll("a[href=\"#"+this.id+"\"]");
       if(els.length > 0) {
@@ -166,7 +166,7 @@ $(".section, .subsection, .subsubsection").each(function(index) {
 var _pre = document.querySelectorAll('pre.highlight');
 for (var i = 0, element; element = _pre[i]; i++) {
   var classes = element.parentElement.parentElement.classList;
-        
+
   var language = false;
   var Rev = false;
   for (var j = 0; j < classes.length; ++j) {
