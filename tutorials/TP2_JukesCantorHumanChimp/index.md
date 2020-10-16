@@ -107,12 +107,12 @@ while (count < n_sample)	{
 	q = ...
 
 	# draw k given T
-	k = rBinomial(1,N, Probability(q))[1]
+	k = rbinomial(1,N, Probability(q))[1]
 
 	# condition on k == k_obs (thus rejecting the sample if k is not equal to k_obs)
 	if (k == k_obs)	{
 		count = count + 1
-		sample[count] = T
+		T_sample[count] = T
 	}
 }
 
