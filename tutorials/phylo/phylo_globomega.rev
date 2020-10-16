@@ -1,0 +1,52 @@
+data <- readDiscreteCharacterData("data/placZFX.nex")
+data_codon = data.translateCharacters("Codon")
+print(data_codon)
+
+tree <- readTrees("analyses/brca1.maptree", treetype="non-clock")[1]
+
+n_species <- data.ntaxa()
+n_branches <- 2 * n_species - 3
+taxa <- data.taxa()
+
+
+out_group = clade("Ailuropoda")
+topology ~ dnUniformTopology(taxa, outgroup = out_group) 
+topology.clamp(tree)
+print(topology)
+
+for (i in 1:n_branches) {
+ bl[i] ~ dnExponential(10.0)
+}
+psi := treeAssembly(topology, bl)
+TL := sum(bl)
+
+kappa ~ dnExponential(1.0)
+nucstat_prior <- [1.0, 1.0, 1.0, 1.0]
+nucstat ~ dnDirichlet(nucstat_prior)
+omega ~ dnExponential(1.0)
+Q := fnCodonHKY(omega=omega, kappa=kappa, baseFrequencies=nucstat)
+
+seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="Codon" ) 
+seq.clamp( data_codon )
+
+my_model = model(psi)
+
+# moves
+moves[1] = mvScale(kappa, weight=1.0)
+moves[2] = mvScale(omega, weight=1.0)
+moves[3] = mvDirichletSimplex(nucstat,weight=1.0)
+for (i in 1:n_branches) {
+   moves[i+3] = mvScale(bl[i])
+}
+
+monitors[1] = mnModel(filename="analyses/ZFX_globom.log", printgen=10, separator = TAB)
+monitors[2] = mnFile(psi,filename="analyses/ZFX_globom.trees", printgen=10, separator = TAB)
+monitors[3] = mnScreen(printgen=100, omega)
+
+# Make the analysis object
+analysis = mcmc(my_model, monitors, moves)
+# Run the MCMC
+analysis.run(1000)
+# Show how the moves performed
+analysis.operatorSummary()
+

@@ -1,26 +1,33 @@
-q()
+data <- readDiscreteCharacterData("data/primates_and_galeopterus_cytb.nex")
+data
 ls()
-print(seq)
-?dnPhyloCTMC
+num_taxa <- data.ntaxa()
+num_branches <- 2 * num_taxa - 3
+taxa <- data.taxa()
+num_sites <- data.nchar()
+Q <- fnJC(4)
+Q
+ls()
+taxa
+out_group = clade("Galeopterus_variegatus")
+topology ~ dnUniformTopology(taxa, outgroup=out_group)
+for (i in 1:num_branches) {
+   br_lens[i] ~ dnExponential(10.0)
+}
+psi := treeAssembly(topology, br_lens)
+topology
+psi
+seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA", nSites=num_sites)
+seq
+writeFasta(filename="data/simulatedSequences_1.fasta", data=seq)
+seq.redraw()
+writeFasta(filename="data/simulatedSequences_2.fasta", data=seq)
 data.methods()
-data.size()
-data.nchar()
+print("Mean GC content of the empirical data: " + data.meanGcContent())
+print("Mean GC content of the simulated data: " + seq.meanGcContent())
+print("Variance of the GC content of the empirical data: " + data.varGcContent())
+print("Variance of the GC content of the simulated data: " + seq.varGcContent())
+sum(br_lens)
 q()
-ls()
-seq.methods()
-?writeFasta
-writeFasta(filename="data/simulatedSequences.fasta", data=seq)
-q()
-ls()
-data.methods()
-data.varGcContent()
-seq.varGcContent()
-seq.meanGcContent()
-data.meanGcContent()
-data.type()
-type(data)
-print("Mean GC content of the empirical data: "+data.meanGcContent())
-print("Mean GC content of the simulated data: "+seq.meanGcContent())
-print("Variance of the GC content of the empirical data: "+data.varGcContent())
-print("Variance of the GC content of the simulated data: "+seq.varGcContent())
+source("scripts/mcmc_JC.Rev")
 q()
