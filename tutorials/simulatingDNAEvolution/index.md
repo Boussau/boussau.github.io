@@ -2,7 +2,7 @@
 title: Simulating DNA sequence evolution
 subtitle: Simulating DNA sequence evolution in RevBayes
 authors:  Bastien Boussau
-level: 3
+level: 2
 order: 0.1
 index: true
 prerequisites:
