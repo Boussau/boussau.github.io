@@ -1,7 +1,4 @@
 
-# data <- readDiscreteCharacterData("data/placGHR.nex")
-# data <- readDiscreteCharacterData("data/placVWF.nex")
-# data <- readDiscreteCharacterData("data/placRAG1.nex")
 data <- readDiscreteCharacterData("data/placBRCA1short.nex")
 
 n_species <- data.ntaxa()
