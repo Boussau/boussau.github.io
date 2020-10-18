@@ -1,13 +1,10 @@
-# data <- readDiscreteCharacterData("data/placGHRthird.nex")
-# data <- readDiscreteCharacterData("data/placVWFthird.nex")
-# data <- readDiscreteCharacterData("data/placRAG1third.nex")
-data <- readDiscreteCharacterData("data/placBRCA1shortthird.nex")
+data <- readDiscreteCharacterData("data/placBRCA1third.nex")
 
 n_species <- data.ntaxa()
 n_branches <- 2 * n_species - 3
 taxa <- data.taxa()
 
-out_group = clade("Mus")
+out_group = clade("Sorex")
 
 topology ~ dnUniformTopology(taxa, outgroup = out_group) 
 for (i in 1:n_branches) {
@@ -28,22 +25,27 @@ my_model = model(psi)
 
 # moves
 mvi <- 1
-moves[1] = mvNNI(topology, weight=1.0)
-moves[2] = mvSPR(topology, weight=1.0)
+moves[1] = mvNNI(topology, weight=3.0)
+moves[2] = mvSPR(topology, weight=3.0)
 moves[3] = mvSlide(gamma, weight=1.0)
 moves[4] = mvScale(kappa, weight=1.0)
 for (i in 1:n_branches) {
    moves[i+4] = mvScale(bl[i])
 }
 
-monitors[1] = mnModel(filename="analyses/BRCA1shortthird_T92.log", printgen=10, separator = TAB)
-monitors[2] = mnFile(psi,filename="analyses/BRCA1shortthird_T92.trees", printgen=10, separator = TAB)
+monitors[1] = mnModel(filename="analyses/BRCA13d_T92.log", printgen=10, separator = TAB)
+monitors[2] = mnFile(psi,filename="analyses/BRCA13d_T92.trees", printgen=10, separator = TAB)
 monitors[3] = mnScreen(printgen=100, TL)
 
+
 # Make the analysis object
-analysis = mcmc(my_model, monitors, moves)
+analysis = mcmc(my_model, monitors, moves, nruns=2)
 # Run the MCMC
 analysis.run(10000)
-# Show how the moves performed
-analysis.operatorSummary()
+
+treetrace1 = readTreeTrace("analyses/BRCA13d_T92_run_1.trees", treetype="non-clock", burnin=0.1)
+map_tree1 = mapTree(treetrace1, "analyses/BRCA13d_T92_run_1_map.tree")
+
+treetrace2 = readTreeTrace("analyses/BRCA13d_T92_run_2.trees", treetype="non-clock", burnin=0.1)
+map_tree2 = mapTree(treetrace2, "analyses/BRCA13d_T92_run_2_map.tree")
 

@@ -1,0 +1,130 @@
+I"µ	<p>This list shows some RevBayes tutorials for learning various aspects of RevBayes and Bayesian phylogenetic analysis.
+Each one explicitly walks you through model specification and analysis set-up for different phylogenetic methods.
+These tutorials have been written for M2 students in Lyon or to provide an example of how to use relative time constraints for dating in RevBayes.</p>
+
+<p>Please see the <a href="/tutorials/format">Tutorial Format</a> guide for details about how to read the tutorials.</p>
+
+<h3 id="tutorial_structure">General structure of the tutorials</h3>
+
+<div class="tutorialbox">
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/tutorial_structure/"><p>Setting Up RevBayes</p>
+</a>
+
+<p class="subtitle"><p>Preparing your computer to work with phylogenetic data in RevBayes</p>
+</p>
+</div>
+
+
+
+</div>
+
+<h3>Tutorials for M2 students in Lyon</h3>
+
+<div class="tutorialbox">
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/TP1_simulatingDNAEvolution/"><p>TP1 Understanding models of DNA sequence evolution</p>
+</a>
+
+<p class="subtitle"><p>Simulating DNA sequence evolution in RevBayes</p>
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/TP2_JukesCantorHumanChimp/"><p>TP2 Implementing Bayesian inference with RevBayes</p>
+</a>
+
+<p class="subtitle"><p>Inferring the divergence time between Human and Chimpanzee</p>
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/TP3_JC_PhylogenyReconstruction/"><p>TP3 Phylogenetic reconstruction on nucleotide data</p>
+</a>
+
+<p class="subtitle"><p>Phylogenetic inference with the Jukes Cantor model</p>
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/TP4_SubstitutionModels/"><p>TP4 Nucleotide substitution models</p>
+</a>
+
+<p class="subtitle"><p>Parameter estimation and tree inference</p>
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/TP5_RatesAcrossSites/"><p>TP5 Accounting for variation in substitution rates across sites</p>
+</a>
+
+<p class="subtitle"><p>A mixture model to account for rate variation across sites</p>
+</p>
+</div>
+
+
+
+</div>
+
+<h3>Tutorial on dating with relative constraints</h3>
+
+<div class="tutorialbox">
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/relative_time_constraints/"><p>Dating with relative constraints</p>
+</a>
+
+<p class="subtitle"><p>Constraining the relative order of nodes when dating a phylogeny</p>
+</p>
+</div>
+
+
+
+</div>
+
+:ET

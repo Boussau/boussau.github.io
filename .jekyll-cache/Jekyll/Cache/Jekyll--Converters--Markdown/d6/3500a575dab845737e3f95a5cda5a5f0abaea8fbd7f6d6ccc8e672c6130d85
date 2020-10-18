@@ -1,0 +1,39 @@
+I"<figcaption class="table">Specific functions for substitution models available in RevBayes.</figcaption>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center"><strong>Model</strong></th>
+      <th style="text-align: center"><strong>Reference</strong></th>
+      <th style="text-align: center"><strong>Function</strong></th>
+      <th style="text-align: center"><strong>Parameters</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">Jukes-Cantor</td>
+      <td style="text-align: center"><a class="citation" href="#Jukes1969">(Jukes and Cantor 1969)</a></td>
+      <td style="text-align: center">fnJC</td>
+      <td style="text-align: center">-</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">T92</td>
+      <td style="text-align: center"><a class="citation" href="#Tamura1992">(Tamura 1992)</a></td>
+      <td style="text-align: center">fnT92</td>
+      <td style="text-align: center">$\pi_{GC}$, $\kappa$</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">HKY</td>
+      <td style="text-align: center"><a class="citation" href="#Hasegawa1985">(Hasegawa et al. 1985)</a></td>
+      <td style="text-align: center">fnHKY</td>
+      <td style="text-align: center">$\pi$, $\kappa$</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">GTR</td>
+      <td style="text-align: center"><a class="citation" href="#Tavare1986">(Tavaré 1986)</a></td>
+      <td style="text-align: center">fnGTR</td>
+      <td style="text-align: center">$\pi$, $\epsilon$</td>
+    </tr>
+  </tbody>
+</table>
+:ET
