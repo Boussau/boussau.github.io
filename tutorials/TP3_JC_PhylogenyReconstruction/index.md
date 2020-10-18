@@ -2,8 +2,8 @@
 title: Phylogenetic reconstruction on nucleotide data
 subtitle: Phylogenetic inference with nucleotide data using RevBayes
 authors:  Bastien Boussau
-level: 3
-order: 1
+level: 2
+order: 0.3
 prerequisites:
 - simulatingDNAEvolution
 - TP2_JukesCantorHumanChimp

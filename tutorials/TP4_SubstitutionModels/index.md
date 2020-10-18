@@ -1,9 +1,9 @@
 ---
-title: Nucleotide substitution models
+title: TP4: Nucleotide substitution models
 subtitle: Parameter estimation and tree inference
 authors:  Nicolas Lartillot
-level: 3
-order: 1
+level: 2
+order: 0.4
 prerequisites:
 - TP4_SubstitutionModels
 index: true

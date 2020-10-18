@@ -1,9 +1,9 @@
 ---
-title: Accounting for variation in substitution rates across sites
-subtitle: 
+title: TP5: Accounting for variation in substitution rates across sites
+subtitle: A mixture model to account for rate variation across sites
 authors:  Nicolas Lartillot
-level: 3
-order: 1
+level: 2
+order: 0.5
 prerequisites:
 - TP5_RatesAcrossSites
 index: true

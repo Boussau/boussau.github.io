@@ -1,5 +1,5 @@
 ---
-title: Simulating DNA sequence evolution
+title: TP1: Understanding models of DNA sequence evolution
 subtitle: Simulating DNA sequence evolution in RevBayes
 authors:  Bastien Boussau
 level: 2
