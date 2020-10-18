@@ -1,5 +1,5 @@
 ---
-title: TP2: Implementing Bayesian inference with RevBayes
+title: TP2 Implementing Bayesian inference with RevBayes
 subtitle: Inferring the divergence time between Human and Chimpanzee
 authors:  Nicolas Lartillot
 level: 2
