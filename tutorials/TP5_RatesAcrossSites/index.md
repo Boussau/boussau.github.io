@@ -5,7 +5,10 @@ authors:  Nicolas Lartillot
 level: 2
 order: 0.5
 prerequisites:
-- TP5_RatesAcrossSites
+- TP1_simulatingDNAEvolution
+- TP2_JukesCantorHumanChimp
+- TP3_JC_PhylogenyReconstruction
+- TP4_SubstitutionModels
 index: true
 title-old: RB_CTMC_Tutorial
 redirect: false

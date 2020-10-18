@@ -6,7 +6,7 @@ level: 2
 order: 0.2
 index: true
 prerequisites:
-- simulatingDNAEvolution
+- TP1_simulatingDNAEvolution
 redirect: true
 ---
 

@@ -5,7 +5,7 @@ authors:  Bastien Boussau
 level: 2
 order: 0.3
 prerequisites:
-- simulatingDNAEvolution
+- TP1_simulatingDNAEvolution
 - TP2_JukesCantorHumanChimp
 index: true
 title-old: RB_CTMC_Tutorial
