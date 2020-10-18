@@ -1,18 +1,18 @@
-data <- readDiscreteCharacterData("data/placZFX.nex")
+data <- readDiscreteCharacterData("data/placZFX20.nex")
 data_codon = data.translateCharacters("Codon")
 print(data_codon)
 
-tree <- readTrees("analyses/ZFX_map.tree", treetype="non-clock")[1]
+# tree <- readTrees("analyses/ZFX_map.tree", treetype="non-clock")[1]
 
 n_species <- data.ntaxa()
 n_branches <- 2 * n_species - 3
 taxa <- data.taxa()
 
 
-out_group = clade("Ailuropoda")
+out_group = clade("Sorex")
 topology ~ dnUniformTopology(taxa, outgroup = out_group) 
-topology.clamp(tree)
-print(topology)
+# topology.clamp(tree)
+# print(topology)
 
 for (i in 1:n_branches) {
  bl[i] ~ dnExponential(10.0)
@@ -46,17 +46,19 @@ seq.clamp( data_codon )
 my_model = model(psi)
 
 # moves
-moves[1] = mvScale(kappa, weight=1.0)
-moves[2] = mvDirichletSimplex(nucstat,weight=1.0, alpha=10)
-moves[3] = mvSlide(purom, weight=1.0)
-moves[4] = mvScale(dposom, weight=1.0)
-moves[5] = mvDirichletSimplex(w, weight=1.0)
+moves[1] = mvNNI(topology, weight=1.0)
+moves[2] = mvSPR(topology, weight=1.0)
+moves[3] = mvScale(kappa, weight=1.0)
+moves[4] = mvDirichletSimplex(nucstat,weight=1.0, alpha=10)
+moves[5] = mvSlide(purom, weight=1.0)
+moves[6] = mvScale(dposom, weight=1.0)
+moves[7] = mvDirichletSimplex(w, weight=1.0)
 for (i in 1:n_branches) {
-   moves[i+5] = mvScale(bl[i])
+   moves[i+7] = mvScale(bl[i])
 }
 
-monitors[1] = mnModel(filename="analyses/ZFX_siteom.log", printgen=10, separator = TAB)
-monitors[2] = mnFile(psi,filename="analyses/ZFX_siteom.trees", printgen=10, separator = TAB)
+monitors[1] = mnModel(filename="analyses/ZFX20_siteom.log", printgen=10, separator = TAB)
+monitors[2] = mnFile(psi,filename="analyses/ZFX20_siteom.trees", printgen=10, separator = TAB)
 monitors[3] = mnScreen(printgen=100, omega, w)
 
 # Make the analysis object
