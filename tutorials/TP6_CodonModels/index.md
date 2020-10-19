@@ -20,6 +20,7 @@ In this tutorial, we will build a substitution model that is expressed directly 
 There are several ways the codon substitution model could be specified. Here, we will use a simple approach, based on the following idea:
 
 First, you specify a nucleotide mutation matrix $R$, which is 4x4. In the following we will use a HKY model for this. Thus, $R$ is equal to:
+
 $$R = \begin{pmatrix}
 * & \pi_{C} & \kappa \pi_{G} & \pi_{T} \\
 \pi_{A} & *  & \pi_{G} & \kappa \pi_{T} \\
@@ -28,23 +29,31 @@ $$R = \begin{pmatrix}
 \end{pmatrix} \mbox{  ,}$$
 
 Now, consider two codons that differ only at one position. For instance, CCA and CCC. These two codons are synonymous: both code for Proline. Thus, the change from CCA to CCC corresponds to a single nucleotide change, from A to C, which is synonymous. Assuming it is neutral (no selection on codon usage, for instance), then it should occur at a rate equal to the mutation rate, which is here equal to $R_{AC}$. Here, $R$ is a HKY process, and A->C is a transversion, occurring at rate $\pi_{C}$ according to the matrix given above, so the rate from CCA to CCC is:
+
 $$
 Q_{CCA, CCC} = R_{AC} = \pi_C
 $$
+
 Similarly, the transition from CCA to CCG is also synonymous, but now it is a transition, which occurs, at the mutational level, at a different rate: $R_{AG} = $\kappa \pi_G$. Thus:
+
 $$
 Q_{CCA, CCG} = R_{AG} = \kappa \pi_G
 $$
+
 Now, consider the two codons CCA and CTA. The first encodes a proline, the second a leucine. The change is expected to be proposed by mutation at a rate $R_{CT} = \kappa \pi_T$. However, it is non-synonymous, and is thus probably under selection, so the rate of substitution (of change at the level of the whole population) is expected to differ from the mutation rate. If selection is purifying (if non-synonymous changes tend to be deleterious), then we expect that the substitution rate will be lower than the mutation rate. If, on the other hand, there is positive selection (e.g. in the context of a race between host and pathogens, new amino-acid variants might often be selected, for instance, if they lead to a more efficient escape from the defense of the host, etc), then the non-synonymous changes will more easily reach fixation in the population, and as a result, the substitution rate will be higher than the mutation rate.
 
 To mathematically represent this, we invoke a new parameter, called $\omega$, which acts multiplicatively on non-synonymous substitutions. Thus, in the present case:
+
 $$
 Q_{CCA, CTA} = R_{CT} \omega = \kappa \pi_T \omega
 $$
+
 And we invoke this $\omega$ multiplicator for all non-synonymous substitutions. Thus:
+
 $$
 Q_{CCA, GCA} = R_{CG} \omega = \pi_G \omega
 $$
+
 And we do this for all possible single nucleotide changes.
 
 Finally, we consider that double mutations are very unlikely. As a result, the rate of substitution, say, from AAA to ACC, or from AAA to CCC, is equal to 0.
@@ -71,27 +80,27 @@ In RevBayes, we could carefully construct the codon matrix, as described in the 
 ```
 Q := fnCodonHKY(omega=omega, kappa=kappa, baseFrequencies=nucstat)
 ```
-This function, 'fnCodonHKY', directly takes the parameters of the nucleotide substitution model ($\kappa$ and $\pi$, in the mathematical notation above), as well as the $\omega$ parameter, and then automatically builds the 61x61 rate matrix $Q$.
+This function, `fnCodonHKY`, directly takes the parameters of the nucleotide substitution model ($\kappa$ and $\pi$, in the mathematical notation above), as well as the $\omega$ parameter, and then automatically builds the 61x61 rate matrix $Q$.
 
-Of course, before calling this function, you need to create the model variables 'kappa', 'nucstat' and 'omega'. For 'kappa' and 'nucstat', you can do as previously, for the HKY model (an exponential prior for 'kappa' and a uniform Dirichlet prior for 'nucstat'). For 'omega', we can also use an exponential prior, which we could take of mean 5 (the dN/dS at the level of a gene is rarely above 1, in fact).
+Of course, before calling this function, you need to create the model variables `kappa`, `nucstat` and `omega`. For `kappa` and `nucstat`, you can do as previously, for the HKY model (an exponential prior for `kappa` and a uniform Dirichlet prior for `nucstat`). For `omega`, we can also use an exponential prior, which we could take of mean 5 (the dN/dS at the level of a gene is rarely above 1, in fact).
 
 Once these three parameter components are defined, you can then create the matrix $Q$ (with the command given above), and the substitution process can then be instantiated:
 ```
 seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="Codon" )
 seq.clamp( data_codon )
 ```
-Note that we have to specify that the data are codons, not nucleotides (type = "Codon"). In addition, we have to clamp the substitution process to the codon-transformed data ('data_codon') and not 'data', which corresponds to the original nucleotide alignment).
+Note that we have to specify that the data are codons, not nucleotides (type = "Codon"). In addition, we have to clamp the substitution process to the codon-transformed data (`data_codon`) and not `data`, which corresponds to the original nucleotide alignment).
 
 For the rest, the script is as before, except that we need to define a move on omega (a scaling move). 
 
-Write the script, and run it on the ZFX gene ('placZFX20.nex'). Give a point estimate and a credible interval for omega. Do the same thing for BRCA1 ('placBRCA120.nex'). Again, estimate omega. How would you interpret the difference between ZFX and BRCA1?
+Write the script, and run it on the ZFX gene (`placZFX20.nex`). Give a point estimate and a credible interval for omega. Do the same thing for BRCA1 (`placBRCA120.nex`). Again, estimate omega. How would you interpret the difference between ZFX and BRCA1?
 
 
 {% subsection Increasing computational speed (optional) %}
 
 As you can probably notice, the MCMC for this model is much slower than for the nucleotide-level analyses that we have conducted previously. The algorithmic complexity of the likelihood computation (i.e. the time it takes to compute the likelihood) is proportional to the square of the number of states: here, 61x61, as opposed to 4x4. There are three times less sites, and thus, in the end, the relative computational complexity between codon and nucleotide models is 61x61 versus 4x4x3, i.e. 3721 versus 192, which gives a factor 77.5. Each cycle takes 77.5 more time than under a nucleotide-level analysis!
 
-There are other MCMC approaches that circumvent this problem, but they are not easily implemented or used in RevBayes. Here, one way to increase the speed of the inference is to fix the tree topology. Suppose that you have computed the MAP tree (or the consensus tree) for the ZFX dataset using a nucleotide model (e.g. T92). This tree is stored in a file, let us say that this file is called "ZFXmap.tree". Then, what you can do is load the tree from file:
+There are other MCMC approaches that circumvent this problem, but they are not easily implemented or used in RevBayes. Here, one way to increase the speed of the inference is to fix the tree topology. Suppose that you have computed the MAP tree (or the consensus tree) for the ZFX dataset using a nucleotide model (e.g. T92). This tree is stored in a file, let us say that this file is called `ZFXmap.tree`. Then, what you can do is load the tree from file:
 ```
 tree <- readTrees("analyses/ZFXmap.tree", treetype="non-clock")[1]
 ```
@@ -129,15 +138,15 @@ Ideally, we should also be able to estimate the posterior probability that each 
 
 We should first define our priors. For $\omega_1$, one could use a uniform prior between 0 and 1. The second entry, $\omega_2$, is fixed anyway. For $\omega_3$, one could define it as 1.0 + \delta$, where $\delta$ is a positive real number, which could have an exponential prior.
 
-Then, we should create a vector of omega values, which we could call 'omega_vector', such that each of its entries would correspond to $\omega_i$ for $I=1, 2, 3$. However, we have to be careful: $\omega_1$ is a random variable, $\omega_2$ is a fixed constant, and $\omega_3$ is the sum between a fixed number and a random variable. In RevBayes, a vector should be entirely made of either random variables, or deterministic variables, so we can't define the entries of 'omega_vector' directly. Instead, we need to first define the random variables separately, and then defined the 'omega' vector as a vector of deterministic model variables.
+Then, we should create a vector of omega values, which we could call `omega_vector`, such that each of its entries would correspond to $\omega_i$ for $I=1, 2, 3$. However, we have to be careful: $\omega_1$ is a random variable, $\omega_2$ is a fixed constant, and $\omega_3$ is the sum between a fixed number and a random variable. In RevBayes, a vector should be entirely made of either random variables, or deterministic variables, so we can't define the entries of `omega_vector` directly. Instead, we need to first define the random variables separately, and then defined `omega_vector` as a vector of deterministic model variables.
 
-Here, we first define two random variables, called 'pur_om' (purifying selection, corresponding to $\omega_1$), and 'delta_pos_om' (the variables called $\delta$ above, in the expression for $\omega_3$). Using the priors suggested above:
+Here, we first define two random variables, called `pur_om` (purifying selection, corresponding to $\omega_1$), and `delta_pos_om` (the variables called $\delta$ above, in the expression for $\omega_3$). Using the priors suggested above:
 ```
 pur_om ~ dnBeta(1.0, 1.0)
 delta_pos_om ~ dnExponential(1.0)
 ```
 
-Next, we define 'omega_vector' as a vector of deterministic variables:
+Next, we define `omega_vector` as a vector of deterministic variables:
 ```
 omega_vector[1] := pur_om
 omega_vector[2] := 1.0
@@ -161,13 +170,13 @@ Finally, we can specify the substitution process:
 ```
 seq ~ dnPhyloCTMC( tree=psi, Q=Q_vector, siteMatrices = omega_weight, type="Codon" )
 ```
-Several things are important here. First, the 'Q' keyword is now associated, not with a single matrix, but with a vector of 3 matrices. Second, we have this additional argument 'siteMatrices = omega_weight', which specifies that the 3 matrices that were previously associated with the 'Q' keyword should be understood as a mixture across sites, with weights given by 'omega_weight'. When we do this, RevBayes will automatically average the likelihood at each site over the three components of the mixtures.
+Several things are important here. First, the `Q` keyword is now associated, not with a single matrix, but with a vector of 3 matrices. Second, we have this additional argument `siteMatrices = omega_weight`, which specifies that the 3 matrices that were previously associated with the `Q` keyword should be understood as a mixture across sites, with weights given by `omega_weight`. When we do this, RevBayes will automatically average the likelihood at each site over the three components of the mixtures.
 
 Once this is done, the model can be conditioned on the codon data, and MCMC moves should be defined for all of the free variables of the model.
 
 Write the script and run it on ZFX and on BRCA1.
 
-One question of particular interest is to ask whether there are sites under positive selection in a given gene. One way to address this question is to examine the posterior estimate of omega_weight[3]: this weight is our estimate of the proportion of sites for which omega > 1. 
+One question of particular interest is to ask whether there are sites under positive selection in a given gene. One way to address this question is to examine the posterior estimate of `omega_weight[3]`: this weight is our estimate of the proportion of sites for which $dN/dS > 1$. 
 
 Would you say that ZFX has sites under positive selection? What about BRCA1 ? Would you say that purifying selection is stronger/weaker on the remaining sites, for ZFX, compared to BRCA1 ? 
 
