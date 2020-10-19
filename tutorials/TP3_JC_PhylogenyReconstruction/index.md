@@ -1,11 +1,11 @@
 ---
-title: Phylogenetic reconstruction on nucleotide data
-subtitle: Phylogenetic inference with nucleotide data using RevBayes
+title: TP3 Phylogenetic reconstruction on nucleotide data
+subtitle: Phylogenetic inference with the Jukes Cantor model
 authors:  Bastien Boussau
-level: 3
-order: 1
+level: 2
+order: 0.3
 prerequisites:
-- simulatingDNAEvolution
+- TP1_simulatingDNAEvolution
 - TP2_JukesCantorHumanChimp
 index: true
 title-old: RB_CTMC_Tutorial
