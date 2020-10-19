@@ -44,14 +44,14 @@ Next, we create a discretized gamma distribution with 4 categories, of shape and
 disc_rates := fnDiscretizeGamma(alpha, alpha, 4)
 ```
 
-Finally, we specify the substitution process. Now, in addition to the tree and the substitution rate matrix $Q$, we also specify the distribution rates across sites with the 'siteRates' keyword:
+Finally, we specify the substitution process. Now, in addition to the tree and the substitution rate matrix $Q$, we also specify the distribution rates across sites with the `siteRates` keyword:
 ```
 seq ~ dnPhyloCTMC(tree=psi, Q=Q, siteRates=disc_rates, type="DNA" )
 ```
 
 For the rest, the script is as before. The rate matrix Q could be anything: either the JC, or the T92 or the HKY or the GTR model. Here, we will analyse the BRCA1 gene (again, and short version), for which we can use the T92 model. Concerning the moves, don't forget to add a move (a scaling move) for the 'rate_var' parameter.
 
-Draw the graph of this model. Write the script and run it on the BRCA1 gene. Try first with all coding positions ('BRCA1short.nex'), and then with only the third coding positions ('BRCA1third.nex'). Run for 10 000 generations. Using Tracer, visualize the traces, determine the burnin, visualize the posterior distribution on the variance parameter and obtain a point estimate and a 95\% credible interval. Do this for the two datasets (all coding positions and third coding positions). How do you interpret the difference in the variance parameter between these two datasets?
+Draw the graph of this model. Write the script and run it on the BRCA1 gene. Try first with all coding positions (`BRCA1short.nex`), and then with only the third coding positions (`BRCA1third.nex`). Run for 10 000 generations. Using Tracer, visualize the traces, determine the burnin, visualize the posterior distribution on the variance parameter and obtain a point estimate and a 95\% credible interval. Do this for the two datasets (all coding positions and third coding positions). How do you interpret the difference in the variance parameter between these two datasets?
 
 Do you see major differences in tree inference, compared to the model without rates across sites?
 
