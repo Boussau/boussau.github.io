@@ -173,10 +173,10 @@ Write and run the script on the BRCA1 gene (only the third coding positions). Ag
 
 The most general time reversible model can be parameterized as follows:
 $$Q = \begin{pmatrix}
-* & \rho_{AC} \pi_C & \rho_{AG} \pi_G & \rho_{AT} \pi_T \\
-\rho_{CA} \pi_A & *  & \rho_{CG} \pi_G & \rho_{CT} \pi_T \\
-\rho_{GA} \pi_A & \rho_{GC}  \pi_C & *  & \rho_{GT} \pi_T \\
-\rho_{TA} \pi_A & \rho_{TC} \pi_C & \rho_{TG} \pi_G & *
+{*} & \rho_{AC} \pi_C & \rho_{AG} \pi_G & \rho_{AT} \pi_T \\
+\rho_{CA} \pi_A & {*}  & \rho_{CG} \pi_G & \rho_{CT} \pi_T \\
+\rho_{GA} \pi_A & \rho_{GC}  \pi_C & {*}  & \rho_{GT} \pi_T \\
+\rho_{TA} \pi_A & \rho_{TC} \pi_C & \rho_{TG} \pi_G & {*}
 \end{pmatrix} \mbox{  ,}$$
 with the constraint that $\rho_{XY} = \rho_{YX}$ for all nucleotide pairs $(X,Y)$. The $\rho$'s are called the relative exchangeabilities (or exchange rates), and the $\pi$'s are the equilibrium frequencies of the process. With the constraint of symmetry for $\rho$, we have 6 distinct values (6 unordered pairs of nucleotides). In addition, and without loss of generality, we can constrain the $\rho$ vector to sum to 1. With these constraints, $\rho$ is a 6-dimensional frequency vector (i.e. it is a point on the simplex $S6$).
 
