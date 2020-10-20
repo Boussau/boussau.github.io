@@ -50,7 +50,7 @@
 	<h1 class="maintitle">TP5 Accounting for variation in substitution rates across sites</h1>
 	<h3 class="subtitle">A mixture model to account for rate variation across sites</h3>
 	<h4 class="authors">Nicolas Lartillot</h4>
-  <h5>Last modified on October 18, 2020</h5>
+  <h5>Last modified on October 19, 2020</h5>
 </div>
 
 
@@ -129,13 +129,13 @@
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>disc_rates := fnDiscretizeGamma(alpha, alpha, 4)
 </code></pre></div></div>
 
-<p>Finally, we specify the substitution process. Now, in addition to the tree and the substitution rate matrix $Q$, we also specify the distribution rates across sites with the ‘siteRates’ keyword:</p>
+<p>Finally, we specify the substitution process. Now, in addition to the tree and the substitution rate matrix $Q$, we also specify the distribution rates across sites with the <code class="highlighter-rouge">siteRates</code> keyword:</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq ~ dnPhyloCTMC(tree=psi, Q=Q, siteRates=disc_rates, type="DNA" )
 </code></pre></div></div>
 
 <p>For the rest, the script is as before. The rate matrix Q could be anything: either the JC, or the T92 or the HKY or the GTR model. Here, we will analyse the BRCA1 gene (again, and short version), for which we can use the T92 model. Concerning the moves, don’t forget to add a move (a scaling move) for the ‘rate_var’ parameter.</p>
 
-<p>Draw the graph of this model. Write the script and run it on the BRCA1 gene. Try first with all coding positions (‘BRCA1short.nex’), and then with only the third coding positions (‘BRCA1third.nex’). Run for 10 000 generations. Using Tracer, visualize the traces, determine the burnin, visualize the posterior distribution on the variance parameter and obtain a point estimate and a 95\% credible interval. Do this for the two datasets (all coding positions and third coding positions). How do you interpret the difference in the variance parameter between these two datasets?</p>
+<p>Draw the graph of this model. Write the script and run it on the BRCA1 gene. Try first with all coding positions (<code class="highlighter-rouge">BRCA1short.nex</code>), and then with only the third coding positions (<code class="highlighter-rouge">BRCA1third.nex</code>). Run for 10 000 generations. Using Tracer, visualize the traces, determine the burnin, visualize the posterior distribution on the variance parameter and obtain a point estimate and a 95\% credible interval. Do this for the two datasets (all coding positions and third coding positions). How do you interpret the difference in the variance parameter between these two datasets?</p>
 
 <p>Do you see major differences in tree inference, compared to the model without rates across sites?</p>
 
