@@ -2,10 +2,14 @@
 title: Codon models
 subtitle: Substitution models for protein-coding sequences
 authors:  Nicolas Lartillot
-level: 3
-order: 1
+level: 2
+order: 0.6
 prerequisites:
-- TP6_CodonModels
+- TP1_simulatingDNAEvolution
+- TP2_JukesCantorHumanChimp
+- TP3_JC_PhylogenyReconstruction
+- TP4_SubstitutionModels
+- TP5_RatesAcrossSites
 index: true
 title-old: RB_CTMC_Tutorial
 redirect: false
