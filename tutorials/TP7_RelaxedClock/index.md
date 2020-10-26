@@ -2,8 +2,8 @@
 title: Relaxed clock models
 subtitle: Estimating (relative) divergence times among primates
 authors:  Nicolas Lartillot
-level: 3
-order: 1
+level: 2
+order: 0.7
 prerequisites:
 - TP4_SubstitutionModels
 index: true
