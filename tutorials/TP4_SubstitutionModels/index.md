@@ -88,7 +88,7 @@ If we now want to use a T92 model instead of a JC model, we need, first, to defi
 
 The transition-transversion rate ratio $\kappa$ is a non negative real number. A reasonable prior assumption about $\kappa$ is that it is not much higher than 10. So, we can use an exponential prior of mean 10 (of rate $\lambda = 0.1$).
 ```
-kappa ~ dnexponential(lambda = 0.1)
+kappa ~ dnExponential(lambda = 0.1)
 ```
 Concerning $\gamma$, it is a number between 0 and 1. We can invoke a uniform prior distribution. The uniform distribution between 0 and 1 is a particular case of the beta distribution, with with parameters 1.0 and 1.0:
 ```
@@ -96,7 +96,7 @@ gamma ~ dnBeta(1.0, 1.0)
 ```
 Then, we can create the rate matrix $Q$, which is now a T92 rate matrix:
 ```
-Q := fnT92(kappa = kappa, gamma = gamma)
+Q := fnT92(kappa = kappa, gc = gamma)
 ```
 Note that the rate matrix is now a deterministic model variable (and not anymore a constant) -- hence, we use `:=`.
 
@@ -164,7 +164,7 @@ seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="DNA" )
 
 We also need to move $\kappa$ and $\pi$. For $\kappa$, we can use a scaling move, as we did for the T92 model. For $\pi$, we can use a move that preserves the positivity of the entries of the vector, but also the constraint that the 4 entries of the vector should sum to 1. The move that does this is a `DirichletSimplex` move. The syntax for this move would be as follows:
 ```
-moves.append(mvDirichletSimplex(nucstat,weight=1.0, alpha=10))
+moves.append(mvDirichletSimplex(pi, weight=1.0, alpha=10))
 ```
 
 Write and run the script on the BRCA1 gene (only the third coding positions). Again, visualize the posterior distribution over the model parameters. In particular, visualize simultaneously the posterior distributions over the 4 nucleotide frequencies. Would you say that HKY should be used instead of T92? Is tree inference fundamentally different between the two models?

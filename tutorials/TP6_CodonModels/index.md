@@ -34,15 +34,13 @@ $$
 Q_{CCA, CCC} = R_{AC} = \pi_C
 $$
 
-Similarly, the transition from CCA to CCG is also synonymous, but now it is a transition, which occurs, at the mutational level, at a different rate: $R_{AG} = $\kappa \pi_G$. Thus:
+Similarly, the transition from CCA to CCG is also synonymous, but now it is a transition, which occurs, at the mutational level, at a different rate: $R_{AG} = \kappa \pi_G$. Thus:
 
 $$
 Q_{CCA, CCG} = R_{AG} = \kappa \pi_G
 $$
 
-Now, consider the two codons CCA and CTA. The first encodes a proline, the second a leucine. The change is expected to be proposed by mutation at a rate $R_{CT} = \kappa \pi_T$. However, it is non-synonymous, and is thus probably under selection, so the rate of substitution (of change at the level of the whole population) is expected to differ from the mutation rate. If selection is purifying (if non-synonymous changes tend to be deleterious), then we expect that the substitution rate will be lower than the mutation rate. If, on the other hand, there is positive selection (e.g. in the context of a race between host and pathogens, new amino-acid variants might often be selected, for instance, if they lead to a more efficient escape from the defense of the host, etc), then the non-synonymous changes will more easily reach fixation in the population, and as a result, the substitution rate will be higher than the mutation rate.
-
-To mathematically represent this, we invoke a new parameter, called $\omega$, which acts multiplicatively on non-synonymous substitutions. Thus, in the present case:
+Now, consider the two codons CCA and CTA. The first encodes a proline, the second a leucine. The change is expected to be proposed by mutation at a rate $R_{CT} = \kappa \pi_T$. However, it is non-synonymous, and is thus probably under selection, so the rate of substitution (of change at the level of the whole population) is expected to differ from the mutation rate. To mathematically represent this, we invoke a new parameter, called $\omega$, which acts multiplicatively on non-synonymous substitutions. Thus, in the present case:
 
 $$
 Q_{CCA, CTA} = R_{CT} \omega = \kappa \pi_T \omega
@@ -59,6 +57,8 @@ And we do this for all possible single nucleotide changes.
 Finally, we consider that double mutations are very unlikely. As a result, the rate of substitution, say, from AAA to ACC, or from AAA to CCC, is equal to 0.
 
 Altogether, in order to build the 61x61 rate matrix $Q$, we have to consider all possible pairs of codons (C,D). For each of them, we determine whether they differ by only one nucleotide. If this is not the case, then we set $Q_{CD} = 0$. Otherwise, we determine the single nucleotide change that would lead from C to D (say, from nucleotide X to nucleotide Y), we read out the mutation rate for this nucleotide change from the 4x4 rate matrix $R$. Next, we determine whether the change is synonymous or non-synonymous. If synonymous, we say that $Q_{CD} = R_{XY}$. If non-synonymous, then $Q_{CD} = R_{XY} \omega$.
+
+The parameter $\omega$ acts as a multiplication in front of all non-synonymous mutations. As a result, it captures the relative rate of non-synonymous changes, compared to synonymous changes, which is often called $dN/dS$. Thus, for instance, if $\omega = 0.2$, then, this means that non-synonymous substitutions are on average 5 times less likely to occur than synonymous substitutions that would have the same underlying mutational propensity.
 
 {% section Implementation %}
 
@@ -121,7 +121,7 @@ Run the script thus modified on ZFX and on BRCA1.
 {% section Modeling variation in omega across sites %}
 
 
-In this section, we would like to model the fact that different coding sites have different selective constraints: some of them are highly constrained, while other are less so. As a result, we would expect to have different values of omega across sites.
+In this section, we would like to model the fact that different coding sites have different selective constraints: some of them are highly constrained, while other are less so, and some of them are even under positive selection. As a result, we would expect to have different values of omega across sites.
 
 A first approach to model this would be to do the same thing as for nucleotide models with rate variation among sites: use a discretized gamma distribution for omega. This model could be implemented in RevBayes. This is left as an optional exercise.
 
@@ -132,11 +132,11 @@ An alternative approach is to implement a mixture model. We specify three catego
 
 Once the model is specified, we can estimate the parameters, and in particular the proportions of sites under each of the three regimes, as well as the strength of purifying and positive selection ($\omega_1$ and $\omega_3$).
 
-Ideally, we should also be able to estimate the posterior probability that each site belongs to each category. Of particular interest would be the posterior probability $p_i$ that site $I$ is under positive selection. However, the current implementation of RevBayes does not allow us to get this information.
+Ideally, we should also be able to estimate the posterior probability that each site belongs to each category. Of particular interest would be the posterior probability that each site is under positive selection. However, the current implementation of RevBayes does not allow us to get this information.
 
 {% subsection Implementation %}
 
-We should first define our priors. For $\omega_1$, one could use a uniform prior between 0 and 1. The second entry, $\omega_2$, is fixed anyway. For $\omega_3$, one could define it as 1.0 + \delta$, where $\delta$ is a positive real number, which could have an exponential prior.
+We should first define our priors. For $\omega_1$, one could use a uniform prior between 0 and 1. The second entry, $\omega_2$, is fixed anyway. For $\omega_3$, one could define it as $1.0 + \delta$, where $\delta$ is a positive real number, which could have an exponential prior.
 
 Then, we should create a vector of omega values, which we could call `omega_vector`, such that each of its entries would correspond to $\omega_i$ for $I=1, 2, 3$. However, we have to be careful: $\omega_1$ is a random variable, $\omega_2$ is a fixed constant, and $\omega_3$ is the sum between a fixed number and a random variable. In RevBayes, a vector should be entirely made of either random variables, or deterministic variables, so we can't define the entries of `omega_vector` directly. Instead, we need to first define the random variables separately, and then defined `omega_vector` as a vector of deterministic model variables.
 
