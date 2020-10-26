@@ -1,13 +1,19 @@
 ---
 title: Projects using RevBayes
-subtitle: 
+subtitle:
 authors:  Nicolas Lartillot, Bastien Boussau
 level: 3
 order: 1
 prerequisites:
-- All
+- TP1_simulatingDNAEvolution
+- TP2_JukesCantorHumanChimp
+- TP3_JC_PhylogenyReconstruction
+- TP4_SubstitutionModels
+- TP5_RatesAcrossSites
+- TP6_CodonModels
+- TP7_RelaxedClock
 index: true
-title-old: RB_CTMC_Tutorial
+title-old: RB_Projects
 redirect: false
 ---
 
@@ -24,14 +30,14 @@ In primates, the mutation rate per generation is mostly determined by the number
 
 The substitution patterns at neutral nucleotide positions in mammalian genomes is not just determined by the mutational process. Another force, GC biased gene conversion (gBGC) is also impacting substitution rates, by increasing the probability of fixation of G and C, compared to A and T. Using population genetics theory, it is possible to derive the nucleotide substitution rate matrix, as a function of the mutation rates and the intensity of gBGC (Lartillot, 2013). The aim is to develop this model and apply it to primate nucleotide data, so as to estimate the intensity of gBGC (and possibly, its variation between branches) using a nucleotide sequence alignment.
 
-{% section Nucleotide compositional variation across species and its impact on phylogenetic reconstruction %}
+{% section [Nucleotide compositional variation across species and its impact on phylogenetic reconstruction](SystBiol2004Foster-1.pdf) %}
 
 The models that we have considered in the tutorials are homogeneous across branches. As a result, they predict the same nucleotide composition in all species. In practice, this is not the case. In some extreme situations, not accounting for compositional variation can result in phylogenetic reconstruction artifacts (typically, unrelated species with similar compositional biases artifactually cluster together). A simple but particularly striking example is shown in Foster, 2004. In this article, a model with branch specific nucleotide composition is also introduced. Here, the aim is to design a similar version of this model with branch-specific GC content, and to see if this improves phylogenetic reconstruction.
 
-{% section Multi-gene phylogenetic reconstruction of the phylogeny of placental mammals. %}
+{% section [Multi-gene phylogenetic reconstruction of the phylogeny of placental mammals](Science2001Murphy.pdf) %}
 
 The idea is to design a model for doing multi-gene phylogenetic reconstruction, in which all genes share the same species phylogeny but differ in their rate of evolution and in their GC content. The model can be used to reconstruct the phylogeny with greater accuracy (compared to single-gene analyses) but also, to estimate the variance in substitution rates and in GC content (or in other aspects of the substitution process) across genes. Two applications can be considered: to reconstruct the phylogeny of mammals (as in Murphy et al, 2001), or the phylogeny of simian primates.
 
-{% section Molecular dating of Holocephali using fossil calibrations %}
+{% section [Molecular dating of Holocephali using fossil calibrations](msq147.pdf) %}
 
-
+Dating a phylogeny relies on interpreting divergence between sequences in the light of fossil calibrations, and in the light of priors on these calibrations and on the shape of the phylogeny. This is a difficult inferrential problem where the priors and the moves that are used can have an important impact on the result and on the convergence of the MCMC. In this project, you will reanalyze a data set built by Inoue et al. to evaluate the robustness of their results to the priors or the moves that are used.
