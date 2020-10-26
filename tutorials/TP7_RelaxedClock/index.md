@@ -1,11 +1,11 @@
 ---
-title: Codon models
-subtitle: Substitution models for protein-coding sequences
+title: Relaxed clock models
+subtitle: Estimating (relative) divergence times among primates
 authors:  Nicolas Lartillot
 level: 3
 order: 1
 prerequisites:
-- TP6_CodonModels
+- TP4_SubstitutionModels
 index: true
 title-old: RB_CTMC_Tutorial
 redirect: false
