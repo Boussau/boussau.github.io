@@ -1,6 +1,6 @@
 
-data <- readDiscreteCharacterData("data/placZFX20.nex")
-# data <- readDiscreteCharacterData("data/placBRCA120.nex")
+# data <- readDiscreteCharacterData("data/placZFX20.nex")
+data <- readDiscreteCharacterData("data/placBRCA120.nex")
 data_codon = data.translateCharacters("Codon")
 print(data_codon)
 
@@ -44,11 +44,11 @@ for (i in 1:n_branches) {
    moves[i+5] = mvScale(bl[i])
 }
 
-#monitors[1] = mnModel(filename="analyses/BRCA120_globom.log", printgen=10, separator = TAB)
-#monitors[2] = mnFile(psi,filename="analyses/BRCA120_globom.trees", printgen=10, separator = TAB)
-monitors[1] = mnModel(filename="analyses/ZFX20_globom.log", printgen=10, separator = TAB)
-monitors[2] = mnFile(psi,filename="analyses/ZFX20_globom.trees", printgen=10, separator = TAB)
-monitors[3] = mnScreen(printgen=100, omega)
+monitors[1] = mnModel(filename="analyses/BRCA120_globom.log", printgen=10, separator = TAB)
+monitors[2] = mnFile(psi,filename="analyses/BRCA120_globom.trees", printgen=10, separator = TAB)
+# monitors[1] = mnModel(filename="analyses/ZFX20_globom.log", printgen=10, separator = TAB)
+# monitors[2] = mnFile(psi,filename="analyses/ZFX20_globom.trees", printgen=10, separator = TAB)
+monitors[3] = mnScreen(printgen=100, kappa, omega)
 
 # Make the analysis object
 analysis = mcmc(my_model, monitors, moves)
