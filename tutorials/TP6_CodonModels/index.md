@@ -82,11 +82,11 @@ print(data_codon)
 
 In RevBayes, we could carefully construct the codon matrix, as described in the previous section. However, there is already a built-in function for this.
 ```
-Q := fnCodonHKY(omega=omega, kappa=kappa, baseFrequencies=pi)
+Q := fnCodonHKY(omega=omega, kappa=kappa, baseFrequencies=nucstat)
 ```
 This function, `fnCodonHKY`, directly takes the parameters of the nucleotide substitution model ($\kappa$ and $\pi$, in the mathematical notation above), as well as the $\omega$ parameter, and then automatically builds the 61x61 rate matrix $Q$.
 
-Of course, before calling this function, you need to create the model variables `kappa`, `pi` and `omega`. For `kappa` and `pi`, you can do as previously, for the HKY model (an exponential prior for `kappa` and a uniform Dirichlet prior for `pi`). For `omega`, we can also use an exponential prior, which we could take of mean 5 (the dN/dS at the level of a gene is rarely above 1, in fact).
+Of course, before calling this function, you need to create the model variables `kappa`, `nucstat` and `omega`. For `kappa` and `nucstat`, you can do as previously, for the HKY model (an exponential prior for `kappa` and a uniform Dirichlet prior for `nucstat`). For `omega`, we can also use an exponential prior, which we could take of mean 5 (the dN/dS at the level of a gene is rarely above 1, in fact).
 
 Once these three parameter components are defined, you can then create the matrix $Q$ (with the command given above), and the substitution process can then be instantiated:
 ```
@@ -159,14 +159,14 @@ omega_vector[3] := 1.0 + delta_pos_om
 
 The weights of the mixture can be arbitrary. We can use a uniform Dirichlet prior (as we did for the nucleotide frequencies, but now with 3 entries, not 4):
 ```
-omega_center = [1.0, 1.0, 1.0]
+omega_center = [1.0/3, 1.0/3, 1.0/3]
 omega_weight ~ dnDirichlet(omega_center)
 ```
 
 Next, one should create the 3 rate matrices, one for each value of omega contained in omega_vector:
 ```
 for (i in 1:3)	{
-	Q_vector[I] :=  fnCodonHKY(omega=omega_vector[i], kappa=kappa, baseFrequencies=pi)
+	Q_vector[i] :=  fnCodonHKY(omega=omega_vector[i], kappa=kappa, baseFrequencies=nucstat)
 }
 ```
 
