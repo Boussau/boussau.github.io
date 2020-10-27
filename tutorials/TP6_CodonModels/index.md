@@ -80,7 +80,7 @@ print(data)
 print(data_codon)
 ```
 
-In RevBayes, we could carefully construct the codon matrix, as described in the previous section. However, there is already a built-in function for this. 
+In RevBayes, we could carefully construct the codon matrix, as described in the previous section. However, there is already a built-in function for this.
 ```
 Q := fnCodonHKY(omega=omega, kappa=kappa, baseFrequencies=nucstat)
 ```
@@ -95,14 +95,14 @@ seq.clamp( data_codon )
 ```
 Note that we have to specify that the data are codons, not nucleotides (type = "Codon"). In addition, we have to clamp the substitution process to the codon-transformed data (`data_codon`) and not `data`, which corresponds to the original nucleotide alignment).
 
-For the rest, the script is as before, except that we need to define a move on omega (a scaling move). 
+For the rest, the script is as before, except that we need to define a move on omega (a scaling move).
 
 Write the script, and run it on the ZFX gene (`placZFX20.nex`). Give a point estimate and a credible interval for omega. Do the same thing for BRCA1 (`placBRCA120.nex`). Again, estimate omega. How would you interpret the difference between ZFX and BRCA1?
 
 
 {% subsection Increasing computational speed (optional) %}
 
-As you can probably notice, the MCMC for this model is much slower than for the nucleotide-level analyses that we have conducted previously. The algorithmic complexity of the likelihood computation (i.e. the time it takes to compute the likelihood) is proportional to the square of the number of states: here, 61x61, as opposed to 4x4. There are three times less sites, and thus, in the end, the relative computational complexity between codon and nucleotide models is 61x61 versus 4x4x3, i.e. 3721 versus 192, which gives a factor 77.5. Each cycle takes 77.5 more time than under a nucleotide-level analysis!
+As you can probably notice, the MCMC for this model is much slower than for the nucleotide-level analyses that we have conducted previously. The algorithmic complexity of the likelihood computation (i.e. the time it takes to compute the likelihood) is proportional to the square of the number of states: here, 61x61, as opposed to 4x4. There are three times fewer sites, and thus, in the end, the relative computational complexity between codon and nucleotide models is 61x61 versus 4x4x3, i.e. 3721 versus 192, which gives a factor 77.5. Each cycle takes 77.5 more time than under a nucleotide-level analysis!
 
 There are other MCMC approaches that circumvent this problem, but they are not easily implemented or used in RevBayes. Here, one way to increase the speed of the inference is to fix the tree topology. Suppose that you have computed the MAP tree (or the consensus tree) for the ZFX dataset using a nucleotide model (e.g. T92). This tree is stored in a file, let us say that this file is called `ZFXmap.tree`. Then, what you can do is load the tree from file:
 ```
@@ -180,10 +180,6 @@ Once this is done, the model can be conditioned on the codon data, and MCMC move
 
 Write the script and run it on ZFX and on BRCA1.
 
-One question of particular interest is to ask whether there are sites under positive selection in a given gene. One way to address this question is to examine the posterior estimate of `omega_weight[3]`: this weight is our estimate of the proportion of sites for which $dN/dS > 1$. 
+One question of particular interest is to ask whether there are sites under positive selection in a given gene. One way to address this question is to examine the posterior estimate of `omega_weight[3]`: this weight is our estimate of the proportion of sites for which $dN/dS > 1$.
 
-Would you say that ZFX has sites under positive selection? What about BRCA1 ? Would you say that purifying selection is stronger/weaker on the remaining sites, for ZFX, compared to BRCA1 ? 
-
-
-
-
+Would you say that ZFX has sites under positive selection? What about BRCA1 ? Would you say that purifying selection is stronger/weaker on the remaining sites, for ZFX, compared to BRCA1 ?
