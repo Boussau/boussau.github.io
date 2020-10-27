@@ -1,11 +1,13 @@
 
-data <- readDiscreteCharacterData("data/placBRCA1short.nex")
+data <- readDiscreteCharacterData("data/mamBRCA1.nex")
+data_codon = data.translateCharacters("Codon")
+print(data_codon)
 
 n_species <- data.ntaxa()
 n_branches <- 2 * n_species - 3
 taxa <- data.taxa()
 
-out_group = clade("Mus")
+out_group = clade("Monodelphis")
 
 topology ~ dnUniformTopology(taxa, outgroup = out_group) 
 for (i in 1:n_branches) {
@@ -25,17 +27,17 @@ my_model = model(psi)
 
 # moves
 mvi <- 1
-moves[1] = mvNNI(topology, weight=1.0)
-moves[2] = mvSPR(topology, weight=1.0)
-moves[3] = mvSlide(gamma, weight=1.0)
+moves[1] = mvNNI(topology, weight=3.0)
+moves[2] = mvSPR(topology, weight=3.0)
+moves[3] = mvSlide(gamma, weight=1.0, delta=0.1)
 moves[4] = mvScale(kappa, weight=1.0)
 for (i in 1:n_branches) {
    moves[i+4] = mvScale(bl[i])
 }
 
-monitors[1] = mnModel(filename="analyses/BRCA1short_T92.log", printgen=10, separator = TAB)
-monitors[2] = mnFile(psi,filename="analyses/BRCA1short_T92.trees", printgen=10, separator = TAB)
-monitors[3] = mnScreen(printgen=100, TL)
+monitors[1] = mnModel(filename="analyses/mamBRCA1_T92.log", printgen=10, separator = TAB)
+monitors[2] = mnFile(psi,filename="analyses/mamBRCA1_T92.trees", printgen=10, separator = TAB)
+monitors[3] = mnScreen(printgen=100, kappa, gamma)
 
 # Make the analysis object
 analysis = mcmc(my_model, monitors, moves)
