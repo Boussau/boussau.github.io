@@ -1,5 +1,5 @@
 ---
-title: Codon models
+title: TP6 Codon models
 subtitle: Substitution models for protein-coding sequences
 authors:  Nicolas Lartillot
 level: 2
