@@ -117,7 +117,7 @@ you can constrain it (clamp it) to the topology specified by the MAP tree:
 ```
 topology.clamp(tree)
 ```
-Finally, you should deactivate the moves on the tree topology (i.e. remove the SPR and NNI moves). This will accelerate the MCMC, first, because less moves are done per cycle, but also, because the MCMC starts directly on a good tree.
+Finally, you should deactivate the moves on the tree topology (i.e. remove the SPR and NNI moves). This will accelerate the MCMC, first, because fewer moves are done per cycle, but also, because the MCMC starts directly on a good tree.
 
 Run the script thus modified on ZFX and on BRCA1.
 
