@@ -5,6 +5,8 @@
 # Overall title for pages.
 title: "Bastien Boussau's github website"
 
+encoding: utf-8
+
 #------------------------------------------------------------
 # Generic settings (should not need to change).
 #------------------------------------------------------------
