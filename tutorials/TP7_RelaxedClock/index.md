@@ -234,7 +234,7 @@ for (i in (n_nodes-1):1)    {
 }
 ```
 
-Once this is done, we still need to specify (or, in fact, to approximate), the mean substitution rate over each branch. We will use the following approximation: the rate on a given branch is the mid-sum of the rates at both ends. The rates at both ends are themselves obtained by taking the exponential of the log-rates at both ends. Altogether, we have to loop over all branches as follows:
+Once this is done, we still need to specify (or, in fact, to approximate), the mean substitution rate over each branch. We will use the following approximation: the rate on a given branch is the average of the rates at both ends. The rates at both ends are themselves obtained by taking the exponential of the log-rates at both ends. Altogether, we have to loop over all branches as follows:
 ```
 for (i in 1:n_branches) {
     clockrate[i] := 0.5 * (exp(nodelograte[tree.parent(i)]) + exp(nodelograte[i]))
