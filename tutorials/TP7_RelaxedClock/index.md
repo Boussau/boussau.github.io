@@ -22,6 +22,8 @@ In this tutorial, we will do dated analyses. However, we will not use fossil cal
 
 All analyses will be done under a fixed tree topology. This topology has been estimated by using an undated model, such as seen during the previous tutorials.
 
+- Take a look at the tree `data/prim.tree` using software like FigTree. Is this tree *ultrametric*? Which lineages seem to have been associated with a high rate of molecular evolution?
+
 We will work on a dataset (file name `prim4fold.nex`) with 58 primates species, plus 2 Dermopterans and a Scandentia (Tupaia), which will be our outgroup. The dataset is adapted from Perelman et al (2011, PLoS Genetics, 7:e1001342, A Molecular Phylogeny of Primates). Here, we use only the 4-fold degenerate third coding positions (1730 aligned nucleotide positions).
 
 {% section Strict clock model %}
@@ -147,7 +149,7 @@ treetrace = readTreeTrace("analyses/prim_clock.trees", treetype="clock", burnin=
 map_tree = mccTree(treetrace, "analyses/prim_clock.tree")
 ```
 Of note, this MAP tree will, by construction, have the same topology as the one given at the beginning of the script. The point of doing this map tree is just to have credible intervals on the node ages.
-The resulting tree, saved into the file named prim_clock.tree, can be visualized using figtree. The credible intervals on node ages can be visualized as blue bars attached to the corresponding nodes.
+The resulting tree, saved into the file named prim_clock.tree, can be visualized using FigTree. The credible intervals on node ages can be visualized as blue bars attached to the corresponding nodes.
 
 Run the script on the primate dataset. Estimate the clock rate (median and credible interval) and visualize the estimated relative ages.
 
@@ -188,7 +190,7 @@ Note that clockrate is now a vector (whereas, in the case of the strict clock mo
 
 For the rest, the script is essentially the same as for the strict clock model considered above. The main difference is that moves should now be implemented for mean_clockrate, relvar_clockrate, and for each of the entries of the clockrate vector. Implementing these moves is left as an exercise.
 
-Write the complete script, using prim_clock.rev as a template and making the required changes. Run the script on the primate dataset. Estimate the mean rate of substitution and its relative variance across branches. Visualize the estimated relative ages on the tree. How does this compare with the strict clock estimates?
+Write the complete script, using prim_clock.rev as a template and making the required changes. Run the script on the primate dataset. Estimate the mean rate of substitution and its relative variance across branches. Visualize the estimated relative ages on the tree. How does this compare with the strict clock estimates? Using FigTree, identify areas of high or low rates of evolution. How does this compare to the fast- or slow-evolving lineages identified by looking at the undated tree?
 
 {% section The auto-correlated relaxed clock model %}
 
