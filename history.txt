@@ -1,6 +1,3 @@
-?dnPhyloCTMCClado
-?dnPhyloCTMCq
-?dnPhyloCTMCDASequence
-?dnPhyloCTMCASiteIID
-dnPhyloCTMCASite
+help()
+ls(all=true, filter="function")
 q()

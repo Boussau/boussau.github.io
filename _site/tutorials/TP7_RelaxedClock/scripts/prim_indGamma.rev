@@ -24,22 +24,32 @@ tree <- readTrees("data/prim.tree", treetype="clock")[1]
 # ajust terminal branch lengths so as to make the tree ultrametric
 tree.makeUltrametric()
 
-# clamp the tree topology 
+# clamp the tree topology
 timetree.clamp(tree)
 
 # rescale root age to 1.0
 # (all ages will be relative to the root)
 root_age.clamp(1.0)
 
-# we assume a strict molecular clock, of unknown rate
-clockrate ~ dnExponential(1.0)
+# we assume a gamma distribution on rates
+mean_clockrate ~ dnExponential(1.0)
+relvar_clockrate ~ dnExponential(1.0)
+
+alpha := 1.0 / relvar_clockrate
+
+beta := alpha / mean_clockrate
+
+for (i in 1:n_branches) {
+    clockrate[i] ~ dnGamma(alpha, beta)
+}
+
 
 # and a T92 process
 kappa ~ dnExponential(0.1)
 gamma ~ dnBeta(1.0, 1.0)
 Q := fnT92(kappa=kappa, gc=gamma)
 
-seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" ) 
+seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" )
 seq.clamp( data )
 
 my_model = model(timetree)
@@ -52,20 +62,29 @@ moves.append(mvScale(mu, weight=1.0))
 
 moves.append(mvSlide(gamma, weight=1.0, delta=0.1))
 moves.append(mvScale(kappa, weight=1.0))
-moves.append(mvScale(clockrate, weight=1.0, lambda=0.1))
+moves.append(mvScale(mean_clockrate, weight=1.0, lambda=0.1))
+moves.append(mvScale(relvar_clockrate, weight=1.0, lambda=0.1))
+
+
+for (i in 1:n_branches) {
+    moves.append(mvScale(clockrate[i], weight=1.0, lambda=0.1))
+}
+
 
 moves.append(mvNodeTimeSlideUniform(timetree, weight=20))
 moves.append(mvSubtreeScale(timetree, weight=4))
 
+
+
+
 monitors[1] = mnModel(filename="analyses/prim_clock.log", printgen=10, separator = TAB)
 monitors[2] = mnFile(timetree ,filename="analyses/prim_clock.trees", printgen=10, separator = TAB)
-monitors[3] = mnScreen(printgen=100, clockrate, kappa, gamma)
+monitors[3] = mnScreen(printgen=100, mean_clockrate, kappa, gamma)
 
 # Make the analysis object
 analysis = mcmc(my_model, monitors, moves)
 # Run the MCMC
 analysis.run(10000)
 
-treetrace = readTreeTrace("analyses/prim_clock.trees", treetype="clock", burnin=0.1)
-map_tree = mccTree(treetrace, "analyses/prim_clock.tree")
-
+treetrace = readTreeTrace("analyses/prim_indGamma.trees", treetype="clock", burnin=0.1)
+map_tree = mccTree(treetrace, "analyses/prim_indGamma.tree")
