@@ -1,0 +1,1089 @@
+[33mcommit 8db8d114934a8df5f65fd14478f9d3a8198d858a[m[33m ([m[1;36mHEAD[m[33m)[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Wed Oct 28 15:50:36 2020 +0100
+
+    Revert "Added suggestions to look at rates along the undated tree."
+    
+    This reverts commit cd61b87a9a2ce8ab63c66277176c76523830ab6b.
+
+[33mcommit 9b3e99f2fbafa52587796bb8c5e5c5bf9c4a1214[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Wed Oct 28 15:47:38 2020 +0100
+
+    using average.
+
+[33mcommit cd61b87a9a2ce8ab63c66277176c76523830ab6b[m[33m ([m[1;31morigin/source[m[33m, [m[1;32msource[m[33m)[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Wed Oct 28 14:40:37 2020 +0100
+
+    Added suggestions to look at rates along the undated tree.
+
+[33mcommit d66267d4274ad3b87dd38b632840b2f5f0637aa3[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Wed Oct 28 14:33:38 2020 +0100
+
+    Typos fixed.
+
+[33mcommit 1a95e921be4e8f5e73c68e718e78e767e2174448[m
+Merge: 28a77ba 1d6c4c7
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Tue Oct 27 19:07:07 2020 +0100
+
+    Merge branch 'source' of https://github.com/Boussau/boussau.github.io into source
+
+[33mcommit 28a77ba9b0874ae9e36a04b0b257c385533f3c16[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Tue Oct 27 19:06:57 2020 +0100
+
+    glob / site om rev modified
+
+[33mcommit 15296ed9c811573ffd5ade115a1a1caae41df175[m[33m ([m[1;31morigin/master[m[33m, [m[1;32mmaster[m[33m)[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 27 18:59:27 2020 +0100
+
+    Updated the website
+
+[33mcommit 1d6c4c768f84adeeb09f72334b0587d497331c80[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 27 18:45:54 2020 +0100
+
+    I -> i
+
+[33mcommit 50e8005af0a826b59ea067fa337bde8e09f4ac2e[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 27 18:41:54 2020 +0100
+
+    Updated the website
+
+[33mcommit b0270df1078dd6b40997bc5924fa4ed1c2d63762[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Tue Oct 27 18:20:21 2020 +0100
+
+    errors corrected on codon model tutorial
+
+[33mcommit cb008a9ab38f6352a6a6b6aeb811fc383e574a73[m
+Merge: fb04e56 b0d5a0b
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Tue Oct 27 16:01:26 2020 +0100
+
+    Merge branch 'source' of https://github.com/Boussau/boussau.github.io into source
+
+[33mcommit fb04e56893a7e774671c31e72f1d92fc796003f6[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Tue Oct 27 16:01:08 2020 +0100
+
+    reverting changes to Gemfile and _config.yml
+
+[33mcommit 645e16eefefa5586091f2aa473a8c672c1ce5d15[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 27 15:35:54 2020 +0100
+
+    Updated the website
+
+[33mcommit 39b10d04d23604e7f3b4a7fddc6fc50d30ed06ea[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Tue Oct 27 15:35:03 2020 +0100
+
+    adding jekyll-utf8 to Gemfile (dunno what I am doing...)
+
+[33mcommit b0d5a0b85ff4657d9bff1231cd3d1e63e843e699[m
+Merge: 404920a ebbc993
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 27 15:34:17 2020 +0100
+
+    Merge branch 'source' of github.com:Boussau/boussau.github.io into source
+
+[33mcommit 404920a50730e57eb32afe01fa6fd0014b0af725[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 27 15:34:13 2020 +0100
+
+    removing useless file
+
+[33mcommit 797cf1c8995ebecc19baa901e01d59f1e7d2cc45[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Tue Oct 27 15:07:28 2020 +0100
+
+    trying to add utf-8 encoding in _config.yml
+
+[33mcommit ebbc993ca02c00ff38934d4a47343c4ed58a8ae9[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Tue Oct 27 14:47:27 2020 +0100
+
+    trying to get around stochastic matrix problem (2)
+
+[33mcommit ef20c03c3f056f24114f5d8b737f476b45ed920c[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Tue Oct 27 14:47:08 2020 +0100
+
+    trying to get around stochastic matrix problem
+
+[33mcommit a3b8e9ad401022b6f8efc0c565b7d68b0614373d[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 27 11:26:22 2020 +0100
+
+    typo defined -> define
+
+[33mcommit 63914eae490aced7e834df47b807c7bf5d738d89[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 27 11:20:09 2020 +0100
+
+    less->fewer 2
+
+[33mcommit 8869fb0ed9e79d04f62c64c485d992ea9ee2b136[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 27 11:18:41 2020 +0100
+
+    less->fewer
+
+[33mcommit b2f4df3ff9f6a4395b7f6d9e1de4bb032b505c26[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 27 11:10:42 2020 +0100
+
+    Better titles.
+
+[33mcommit 70ecda80f914026234478e4fb71b366fc1f535b8[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 27 01:08:58 2020 +0100
+
+    Updated the website
+
+[33mcommit 08cb7af94e3fde68466482741079a8cebc414ba8[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 27 01:06:31 2020 +0100
+
+    trying to solve git error...
+
+[33mcommit d742a5d586c0b9358c9aee25f86618e4397611b3[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 27 00:56:51 2020 +0100
+
+    Trying to solve fatal: index file smaller than expected error.
+
+[33mcommit cb9c1c9e725474a04bcf9b8edcdbe0962b9f7757[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 26 22:37:03 2020 +0100
+
+    Finished links to pdf.
+
+[33mcommit 3232ce243fa99407d4a56e1d2aa42067c0dc72db[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 26 22:34:37 2020 +0100
+
+    Better prerequisites, links to pdfs, and description of the project on dating fishes.
+
+[33mcommit f2fc34823ad0047014092ead94d3b28592c34a28[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 26 22:33:51 2020 +0100
+
+    Removing spaces in pdf names.
+
+[33mcommit 973c3829f9193085ff18d891d62087f3ef3fe2ce[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 26 19:11:18 2020 +0100
+
+    changed title of TP7
+
+[33mcommit 8c3d78dffc3bbbcbe0cad5c4d42fa02cfd5b03cc[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 26 19:10:08 2020 +0100
+
+    added project folder with pdf and short description
+
+[33mcommit b4d5e3b10484028c945d85f9ea1b29e53b091f96[m
+Merge: 10184b9 859f4a0
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 26 15:12:08 2020 +0100
+
+    Merge branch 'source' of https://github.com/Boussau/boussau.github.io into source
+
+[33mcommit 10184b9474165f4bf0f41ccebf4989497b595472[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 26 15:12:06 2020 +0100
+
+    minor edits to TP4 and 6
+
+[33mcommit 1b378db401a21468cab179f00bb5f7123909c76a[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 26 15:10:45 2020 +0100
+
+    TP7: clock models
+
+[33mcommit f307b7b271ab67d1f5e71add9c01a274a8dfc0f0[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 20 11:21:58 2020 +0200
+
+    Updated the website
+
+[33mcommit 859f4a0ebd2cc51ea0378989d14f9a93a8ed6663[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 20 11:21:16 2020 +0200
+
+    Put the TP6 in the proper place.
+
+[33mcommit 7a1aba97f3cb35ac9f71d177b4752db923703dc1[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 20 10:46:00 2020 +0200
+
+    Updated the website
+
+[33mcommit d183f92f20c23ef5fc7d29c3465e713286d1f15b[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 19 17:07:51 2020 +0200
+
+    TP4: GTR matrix corrected
+
+[33mcommit 6e106ffb8c787b5a70deb1a6ffa5a6d0a721cbfa[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 19 16:11:01 2020 +0200
+
+    TP6 first version
+
+[33mcommit 384ae4c1c627065b185f6b0e9ab6bea254a7ba8d[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 19 16:04:52 2020 +0200
+
+    edited TP5
+
+[33mcommit 4dcfb40d97cdad0a79b8bdb704d6d8a417e752f3[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 19 16:04:43 2020 +0200
+
+    edited TP4
+
+[33mcommit 8797bc4db72d599ada19ec1764d08144dea06ff2[m
+Merge: 79c19dc 4144f22
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 19 13:37:24 2020 +0200
+
+    Merge branch 'source' of https://github.com/Boussau/boussau.github.io into source
+
+[33mcommit 79c19dc181b9f7cc1254bf4b6b90c7ac7ad37052[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 19 13:37:18 2020 +0200
+
+    TP6: codon models
+
+[33mcommit b45eabb5b7921ef780c0cb962f3a9eb5c358da21[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Sun Oct 18 23:56:23 2020 +0200
+
+    Updated the website
+
+[33mcommit 4144f22e62625c22e66b63e4d69ce701396a8f94[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Sun Oct 18 23:42:42 2020 +0200
+
+    There was a link problem, and I corrected the prerequisites.
+
+[33mcommit a39c5c2dcb81d212611c8ae96b4928f5ba6885db[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Sun Oct 18 23:24:31 2020 +0200
+
+    Renaming for consistency.
+
+[33mcommit 87f2eb1295042e098fa9930769f9d29937fb1e4a[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Sun Oct 18 23:22:36 2020 +0200
+
+    Structure improvements, no ':' allowed in some lines...
+
+[33mcommit c6a36aef687f6d53108f5b67ffa54388d9c42cbc[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Sun Oct 18 23:08:33 2020 +0200
+
+    Clarifying the structure of the website and the names of the tutorials.
+
+[33mcommit 1a5849d3b892c44500f8eab1bc604e6d27855de3[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Sun Oct 18 21:45:05 2020 +0200
+
+    Picture.
+
+[33mcommit 4a0aba2171cbb8d0473dcef379de4dffe4fd50ae[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Sun Oct 18 21:38:37 2020 +0200
+
+    TP5: rates across sites
+
+[33mcommit 6445154d902ece3a068a8202ee47af087c56deeb[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Sun Oct 18 21:36:52 2020 +0200
+
+    added scripts folder in TP4
+
+[33mcommit 2a21b5b8a6636aaf9ca4282d49d55bceb950d9e4[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Sun Oct 18 21:34:57 2020 +0200
+
+    codon models: added data and modified scripts in phylo
+
+[33mcommit 1ee012b390e448bbba14c8e32e4189a36c021538[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Sun Oct 18 21:33:55 2020 +0200
+
+    TP4: substitution models
+
+[33mcommit 472e31958b36a6a42f0deabb59f12686e20c22a6[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Sun Oct 18 11:42:33 2020 +0200
+
+    removed useless seq file
+
+[33mcommit 201b8a213207564e8a3c5706a6ad430def0a5c21[m
+Merge: e0413a8 d76fdaa
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Sat Oct 17 15:54:36 2020 +0200
+
+    Merge branch 'source' of https://github.com/Boussau/boussau.github.io into source
+
+[33mcommit e0413a864f700a10dc60857a6a5f8ab46b23ea04[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Sat Oct 17 15:54:29 2020 +0200
+
+    scripts for TP4
+
+[33mcommit 68ee47c3abe2c330226bd1920d53f1950435a28f[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Sat Oct 17 00:49:02 2020 +0200
+
+    Updated the website
+
+[33mcommit d76fdaa6f3b2884ac76e3cadda3828ff1698eb6d[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Sat Oct 17 00:45:17 2020 +0200
+
+    Improving the structure of the website.
+
+[33mcommit 9d57bf620d8d83d27b529df43dd5206b2ef7eb99[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Fri Oct 16 23:43:42 2020 +0200
+
+    Updated the website
+
+[33mcommit 69788caec8aac4dfc32421d44024109d9944b6ce[m
+Merge: e658c6b caac655
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Fri Oct 16 23:12:18 2020 +0200
+
+    Merge branch 'source' of github.com:Boussau/boussau.github.io into source
+
+[33mcommit e658c6b2e139990a790fde1f305d6a942871c3ae[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Fri Oct 16 23:12:05 2020 +0200
+
+    Two figures from wikipedia on NNIs and SPRs.
+
+[33mcommit 5c7562e1f4be4a5db747fe11ba9da82bf688926b[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Fri Oct 16 23:11:42 2020 +0200
+
+    Some clarification to the tutorial, with inclusion of 2 new figures.
+
+[33mcommit dde8a14fe35d4212829dd67d819e4b83db15a715[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Fri Oct 16 23:11:11 2020 +0200
+
+    reorganizing, commenting and simplifying the script.
+
+[33mcommit caac6553e4e733fe5b0808c5f65d141bf0255dba[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Fri Oct 16 13:37:27 2020 +0200
+
+    TP2: last retrospective corrections
+
+[33mcommit ea56d68f7e17c2caf2f18f5d1fc5d02378cc055e[m
+Merge: 9adb7b8 434add5
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Fri Oct 16 13:36:31 2020 +0200
+
+    Merge branch 'source' of https://github.com/Boussau/boussau.github.io into source
+
+[33mcommit 9adb7b8a3a9d2e54b89156fc58bdc3564dfe6a10[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Fri Oct 16 13:36:19 2020 +0200
+
+    added phylo directory (private experiments)
+
+[33mcommit 434add50819467fd0340fced2ef90f60e73520c1[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 16:49:28 2020 +0200
+
+    Added a presentation on MCMC.
+
+[33mcommit f97fa8c93b0c2bb0c500d0b4a8ef2d60308f1be1[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 15:11:46 2020 +0200
+
+    Updated the website
+
+[33mcommit c3bf8c2f09ebc0937c4c74aca6a4c4d8f8220328[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 15:08:29 2020 +0200
+
+    Fixed typo in HOWTO.md.
+
+[33mcommit a84b8691c98feaa1615112bfd21bf253dc5aeed3[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 15:05:57 2020 +0200
+
+    Updated the website
+
+[33mcommit 339702784114b5c6dd12ca6233bd228cfea30c1e[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 15:02:00 2020 +0200
+
+    Changed branch length t into l.
+
+[33mcommit 3f9ff1d8ed1844544b02bdf5ec65c00a13c07349[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 14:55:41 2020 +0200
+
+    Updated the website
+
+[33mcommit f5de6aea98c012bb03aae4039f00fc9982aa29c6[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 14:50:14 2020 +0200
+
+    light changes on TP3
+
+[33mcommit 0131f7c9a7af676ed008bfd176197e21677e4359[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 14:45:51 2020 +0200
+
+    TP3 updated and complete.
+
+[33mcommit 8217fa85bcc41ce7ac4af0ce8cf4cf5c4c5a3cf2[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 13:06:38 2020 +0200
+
+    Progress in TP3.
+
+[33mcommit d953a3b10a0c26f96695643fdd758b75d8c7e72d[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 13:06:24 2020 +0200
+
+    Creating subsubsections.
+
+[33mcommit 776a03419f3e4b72cc6c70d476989f13fe32cd6d[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 11:43:52 2020 +0200
+
+    Making the simulation part.
+
+[33mcommit 9892286b90885f0bd0edbe78b911fb4b2c9c0adc[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 11:32:15 2020 +0200
+
+    No need for TL here.
+
+[33mcommit e1429b45c1f0ec201330d6aa1aa272d3130606c9[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 11:09:26 2020 +0200
+
+    Not saving simulated sequences.
+
+[33mcommit bb99e23c155335f849d357bb6f28218923154b27[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 11:08:14 2020 +0200
+
+    Simulation script for TP3.
+
+[33mcommit c2611c789db1cd98f69c40fdf53526474bc3420d[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 10:24:59 2020 +0200
+
+    Updated the website
+
+[33mcommit 44f8f58329c1dcc4b2f91d32754755da5bad2a8e[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 10:23:17 2020 +0200
+
+    updated the tutorials.md to attempt to include the new tutorials.
+
+[33mcommit e461d994bc1e652bf4b795af7a071f2701145548[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 10:21:24 2020 +0200
+
+    Relative time constraints tutorial.
+
+[33mcommit 335136943a99533a8a7d3300267f1b5dcbc845ad[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 10:21:06 2020 +0200
+
+    TP 3.
+
+[33mcommit 530c3bcf1ba4b379c31258695fee19c86d5b8d10[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 13 10:20:41 2020 +0200
+
+    Precisions on installing gems.
+
+[33mcommit a2cd333518b03f2946f2f34bd5618cc44b085a13[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 12 23:58:03 2020 +0200
+
+    Adding the relative_time_constraints tutorial.
+
+[33mcommit b7a0db785cde052e26967d24e66291b9cf94ee32[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 12 23:57:31 2020 +0200
+
+    Link to tutorials on the main page, and to relative_time_constraints.
+
+[33mcommit fdbbe561e7851118b37f32ba361c89344699f05f[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 12 14:19:34 2020 +0200
+
+    debugged the howto.
+
+[33mcommit b582315511d0494a83338d8efc712619654a5967[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 12 14:17:24 2020 +0200
+
+    Updated the website
+
+[33mcommit 4811ccbafa8c881b6d2872d08632afee39e473be[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 12 14:02:02 2020 +0200
+
+    added a last section with phyloCTMC for TP2 (Human/Chimp)
+
+[33mcommit 8059393f41daee7c49b016af8e37d1202252e183[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 12 12:00:39 2020 +0200
+
+    better Howto
+
+[33mcommit a4802ebaec9cfc7d1494021785bda376bdf72e4a[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 12 11:58:18 2020 +0200
+
+    Updated the website
+
+[33mcommit 23991de8aabc18d628bc9412e526d22fcdf09746[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 12 11:57:07 2020 +0200
+
+    Better Howto...
+
+[33mcommit 73d47ccdb476321e2a78de3878545c4c78c9895d[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 12 11:45:54 2020 +0200
+
+    Better Howto...
+
+[33mcommit 6fac0cb9728fd4f2ab8359c7e744dcb80982ad18[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 12 11:44:13 2020 +0200
+
+    How to handle the publication of the website.
+
+[33mcommit dcd7cebaa1f52c2c54549958c14a88a02af1b510[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 12 11:35:15 2020 +0200
+
+    Some changes made by Nicolas had been erased, I put them back in.
+
+[33mcommit d0fb688806dbfe58efe383d7bc72a47cd49fd995[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 17:22:29 2020 +0200
+
+    Changing the organization...
+
+[33mcommit e9fdb7c83c6791ef68939751b24a863b96b9fb17[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 16:32:30 2020 +0200
+
+    Creating a nojekyll file.
+
+[33mcommit 07d1a5850acc41bf13db76310a88e472d963632f[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 16:31:44 2020 +0200
+
+    Will it work?
+
+[33mcommit be5a6208220a70ca832908f4ec71ca9771fb258a[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 15:14:06 2020 +0200
+
+    removing .gitignore.
+
+[33mcommit b6a999161f741d3cf4a51e3be702f227b14c6cb8[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 14:41:15 2020 +0200
+
+    trying my luck...
+
+[33mcommit d92fb20f9b5bb6cece3faa37895ce41699b1faa8[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 14:40:30 2020 +0200
+
+    Some clarification.
+
+[33mcommit 96b45b62f9289765b7c1ea101e354c53310b89b1[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 14:27:06 2020 +0200
+
+    Cleaning master which hopefully will contain just the static webpages.
+
+[33mcommit ead1e784d7efbd7b29891f5ea66742a2b88fcac0[m
+Merge: ff14b32 c46393d
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 14:17:08 2020 +0200
+
+    Merge branch 'source' of github.com:Boussau/boussau.github.io into source
+
+[33mcommit ff14b32c59482ba8ac7615f596c84392bcc4db75[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 00:03:44 2020 +0200
+
+    removing history.txt
+
+[33mcommit 87eb944a0117b1f405c4f3c036e34d742d53d07b[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 00:01:30 2020 +0200
+
+    change back deploy.sh.
+
+[33mcommit dedb16358022feffaacbb3f7510f44c6f384136b[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 23:56:30 2020 +0200
+
+    ignoring history.txt.
+
+[33mcommit 4c857ca2029449a5a02788a370c7dbbde6a00da7[m[33m ([m[1;31morigin/main[m[33m, [m[1;32mmain[m[33m)[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 12:31:24 2020 +0200
+
+    Typo 3!
+
+[33mcommit 85ae002530e7b8c9fead55a12931ece3d81eed1a[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 12:30:24 2020 +0200
+
+    Typo 2!
+
+[33mcommit d22b63eba1f1f4dfe2c9aa239b9beee6c9cae1f0[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 12:28:39 2020 +0200
+
+    Typo
+
+[33mcommit f04fb6316217a0e140202c9781593e31d68949fc[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Tue Oct 6 11:31:48 2020 +0200
+
+    minor modifs to tp2
+
+[33mcommit c46393d5ede377dde0eb5b4fe65373194e9b322d[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 00:03:44 2020 +0200
+
+    removing history.txt
+
+[33mcommit a9d6323b2d3a087125b5131f7a748105a5c35560[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Tue Oct 6 00:01:30 2020 +0200
+
+    change back deploy.sh.
+
+[33mcommit b0ab297f016d0d3ebf5c479a37f437374cf35720[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 23:56:30 2020 +0200
+
+    ignoring history.txt.
+
+[33mcommit 828f142b15444206d71e674f6895023be3c0fe4e[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 23:45:39 2020 +0200
+
+    ignoring history.txt.
+
+[33mcommit ca352af46bcd583a2b12e820347522d696082f22[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 23:31:00 2020 +0200
+
+    ignoring history.txt.
+
+[33mcommit c979302dc5c63703bdcef3ee7295de577dde1c74[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 23:29:04 2020 +0200
+
+    Trying a different thing in deploy.
+
+[33mcommit cf4b1852f215cbf8ece58ef8659451e3a4bbaba9[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 23:28:39 2020 +0200
+
+    Removed pythomic range.
+
+[33mcommit 79a9dc15db09e282ae721589717ab20d2ecc1fe9[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 23:21:49 2020 +0200
+
+    Codon instead of coding, mostly..
+
+[33mcommit 8e06cfd412bd3fb58738054cad191b5e1f28eedf[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 17:30:34 2020 +0200
+
+    Space...
+
+[33mcommit c501b37dde8ee0c26af26d5028a969136ef379b0[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 17:21:02 2020 +0200
+
+    Nicer font.
+
+[33mcommit df427451e7a5921ae65e8bb699f4eee64249de69[m
+Merge: 606c4df 5db76e0
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 17:12:17 2020 +0200
+
+    Merge branch 'main' of github.com:Boussau/boussau.github.io into main
+
+[33mcommit 5db76e060a599a629bc78f2d0373a65b6de65824[m
+Merge: a3805f5 3ccd784
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 5 17:13:33 2020 +0200
+
+    Merge branch 'main' of https://github.com/Boussau/boussau.github.io into main
+
+[33mcommit a3805f50597d14e560c66d575d7e3708ade5fb9a[m
+Merge: 14ec709 5cf2b24
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 5 17:12:27 2020 +0200
+
+    Merge branch 'main' of https://github.com/Boussau/boussau.github.io into main
+
+[33mcommit 14ec70947bfbb60aa56f33eacc586a392c43bd95[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 5 17:12:22 2020 +0200
+
+    added rev scripts for mcmc and reject approaches
+
+[33mcommit 606c4df7ab2d285b897e8c6fb6431bafb33fa904[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 17:12:08 2020 +0200
+
+    Link problems.
+
+[33mcommit f763342aa313343fbaec0ae5ab79a134d3bca1bd[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 5 17:11:36 2020 +0200
+
+    added data file (apes.nex)
+
+[33mcommit 44629690977feec8a34e5a11633076435349f1df[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 5 17:11:16 2020 +0200
+
+    minor edits on tp2 text
+
+[33mcommit 3ccd78488838a0d756a8ab4d560b39c62824777c[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 17:10:16 2020 +0200
+
+    Incorporating Nicolas's new TP.
+
+[33mcommit 5cf2b24fd4ce1554861b9e3271222ca16cf3015e[m
+Merge: 5ac7bd5 ab4b6ae
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 17:06:07 2020 +0200
+
+    Merge branch 'main' of github.com:Boussau/boussau.github.io into main
+
+[33mcommit 5ac7bd52bc68c20b3273c44c1a74ade0b9939b03[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 17:05:55 2020 +0200
+
+    Functions to compute the distribution of the number of changes, and to simulate along a tree with 2 leaves.
+
+[33mcommit ab4b6ae3035f060ae0ceffe41b837fd0d0635133[m
+Author: Nicolas Lartillot <nicolas.lartillot@gmail.com>
+Date:   Mon Oct 5 16:48:42 2020 +0200
+
+    tp2 first version
+
+[33mcommit 106e55663c4b266b8792d97f6a3f8d2a955aba3f[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 16:48:37 2020 +0200
+
+    Alternative for input into R.
+
+[33mcommit 70968e30be7b7f89c4f643f22ff4f5167b5bf842[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 16:48:20 2020 +0200
+
+    Simplifying the output for R.
+
+[33mcommit 7371d9b921b9dba6c1016cc251275d061b907907[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 15:40:34 2020 +0200
+
+    Improvements in the tutorial.
+
+[33mcommit 99ceb3681abd042031c25765cec923857aa2f940[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 15:28:41 2020 +0200
+
+    Small improvements.
+
+[33mcommit 580dba697fb30e48c8326b0affb6d6f02a1f74d6[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 15:26:06 2020 +0200
+
+    Small improvements.
+
+[33mcommit 1fdfa7245ad886998a5f2208c4cf3a6ffc96ecda[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 14:01:00 2020 +0200
+
+    Debugging attempt...
+
+[33mcommit 5f4306b86e51cbb9f0dcbc7e451713a186836ccc[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 13:55:13 2020 +0200
+
+    better names.
+
+[33mcommit 77c137339d73a063db7110a1e3fa85841e78d3e3[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 13:45:32 2020 +0200
+
+    Stop tracking _site
+
+[33mcommit 1b920a4f91beedfd95703bfede5398744fa43484[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 13:42:09 2020 +0200
+
+    No longer tracking _site, as apparently I should not: https://jekyllrb.com/docs/structure/ or http://jmcglone.com/guides/github-pages/ .
+
+[33mcommit 3f499638079080f594b53b12470532e1452b2f14[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 13:29:12 2020 +0200
+
+    cleaning...
+
+[33mcommit 3fe210cb45a3d5c782e95cbc00e56c11acc5f948[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 13:15:16 2020 +0200
+
+    ignoring fewer things.
+
+[33mcommit 1fcace7be969d279014a5c78da175d8cd8b18021[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 13:02:40 2020 +0200
+
+    ignoring fewer things.
+
+[33mcommit 31ef0bb1d78ff95a5c4603ca0ce55c6368c6bc22[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 13:02:20 2020 +0200
+
+    Adding folders that might help...
+
+[33mcommit 037eaf9185ae55ccad1ec4e2a2c6c5d499cfa6c0[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 12:57:52 2020 +0200
+
+    Pages updated by bundle exec jekyll serve.
+
+[33mcommit ff3b3dbe83748d490bdf45096e752f0610ccd179[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 12:56:58 2020 +0200
+
+    gitignore.
+
+[33mcommit a7006360d26bc76b27f868a5f3e4f972949552b3[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 12:48:51 2020 +0200
+
+    bad link?
+
+[33mcommit 5dce6fc86d343eeee624aa800ca60be36f946f82[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 12:43:02 2020 +0200
+
+    bad link.
+
+[33mcommit 195c2e2a329e0b00b6cd74fac2f4b82145b6837d[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 12:39:05 2020 +0200
+
+    Not quiet gitting.
+
+[33mcommit a6f15430c9c36cbb3d47faf99a674cc294141573[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 12:36:22 2020 +0200
+
+    Simulation on tree with 2 leaves first.
+
+[33mcommit 58991077c451e09217e20045cddb1d7a0c16ca05[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 12:32:39 2020 +0200
+
+    Simulation on tree with 2 leaves first.
+
+[33mcommit 760577787b7fee4fbb6536b8aee188101386d474[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 12:21:13 2020 +0200
+
+    A file was removed by deploy...
+
+[33mcommit eb9cc44f9b195ffe00002977d34b0ad4feb586ae[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 12:15:12 2020 +0200
+
+    Trying to solve a push problem.
+
+[33mcommit 0905dd1bba71bb39b29bb265c81a3433fe2381c1[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 12:08:49 2020 +0200
+
+    broken links...
+
+[33mcommit f3f3fdf58438d4ded32293c0335ea823107d45e5[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 12:05:52 2020 +0200
+
+    broken links...
+
+[33mcommit df370af05455b71a0e5978fff3cca65daa50f953[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 12:03:52 2020 +0200
+
+    broken links...
+
+[33mcommit b54d10a7a98433ac75630349922d33855bec6f6a[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 12:01:46 2020 +0200
+
+    broken links...
+
+[33mcommit a941560165bac23d03ebbe1e6afb927bc297ab9a[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 12:00:46 2020 +0200
+
+    broken links...
+
+[33mcommit f8f11714fc5163b3e53304e7909de3be027fce2d[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 11:59:10 2020 +0200
+
+    Broken links...
+
+[33mcommit 830950a7f28e90529cb639adf27202d9acf09a6b[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 11:53:15 2020 +0200
+
+    Broken links...
+
+[33mcommit 66ac5bab54f2a62d288000edf0a96998266a5e55[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 11:49:13 2020 +0200
+
+    Still broken links problem.
+
+[33mcommit 24869f262167b6e7d90cdcebe6888d2557129a29[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 11:44:22 2020 +0200
+
+    Removing bad links
+
+[33mcommit 2aca401ea5ce78ff1a4eb580d94ac63e2015acc9[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 11:44:04 2020 +0200
+
+    Removed useless tutorials.
+
+[33mcommit 37cb8f26f08a2e6dc78856df06b3a807c4e13da9[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 11:40:23 2020 +0200
+
+    Working on link problems.
+
+[33mcommit 525f083cc71c7c633ac05427f769fdab9c7a7ddc[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 11:35:03 2020 +0200
+
+    Removing the submodule problem.
+
+[33mcommit 69d9c2b51d683f1af67a768030c616ff890cf1ef[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 11:28:22 2020 +0200
+
+    Simplifying list of tutorials.
+
+[33mcommit eef2ca16a88293bff849e38031b20ba9776855f9[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 11:24:20 2020 +0200
+
+    Adding the home folder.
+
+[33mcommit 2643afa132b7d8ff4a2bbe3534c6f941465c3658[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 11:16:15 2020 +0200
+
+    Removing theme jekyll-theme-cayman.
+
+[33mcommit d14ba63e0bbcfbf83825fcb47801581ba3b9aa16[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 11:09:30 2020 +0200
+
+    Renaming docs into _site for using deploy.sh
+
+[33mcommit 472d2037e33887ea0f1a02220728376422463f28[m
+Merge: e38bf71 39f441c
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 10:52:23 2020 +0200
+
+    Merge branch 'main' of github.com:Boussau/boussau.github.io into main
+
+[33mcommit e38bf71447d121d476dcecb746124027dcb59cd8[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 10:52:10 2020 +0200
+
+    Remoiving the tikz folder, which is giving problems with github.
+
+[33mcommit 39f441c74a0a28038bc0fff33b574dd934f417ae[m
+Author: Bastien Boussau <boussau@gmail.com>
+Date:   Mon Oct 5 10:50:40 2020 +0200
+
+    Set theme jekyll-theme-cayman
+
+[33mcommit 832f81d87eb10eb5f36745e1d7ed0e28acfc847b[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 10:44:14 2020 +0200
+
+    Slight modification to index.html.
+
+[33mcommit 9c6198529ae1449cb967edc3e7b6b1d45f8990d4[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 10:40:32 2020 +0200
+
+    Adding an index.html.
+
+[33mcommit d5e4fb1c9706ccf44de958c525a9a37d39aff570[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 10:37:09 2020 +0200
+
+    Renaming _site into docs.
+
+[33mcommit 88978d3a0200f24b2e53b7a44baa265e2d779239[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Mon Oct 5 10:28:03 2020 +0200
+
+    Committing the site folder.
+
+[33mcommit 712c3cf42616fe367c8b25f6fa93d3c5bf6f0e34[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Sun Oct 4 23:47:06 2020 +0200
+
+    Adding things that may be useful.
+
+[33mcommit 33efe458b3fc6c8bf41c12af50829b384cd32453[m
+Author: BOUSSAU Bastien <bastien.boussau@univ-lyon1.fr>
+Date:   Sun Oct 4 23:45:02 2020 +0200
+
+    first commit

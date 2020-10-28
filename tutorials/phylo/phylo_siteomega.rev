@@ -1,8 +1,9 @@
-data <- readDiscreteCharacterData("data/placZFX20.nex")
+# data <- readDiscreteCharacterData("data/placZFX20.nex")
+data <- readDiscreteCharacterData("data/placBRCA120.nex")
 data_codon = data.translateCharacters("Codon")
 print(data_codon)
 
-# tree <- readTrees("analyses/ZFX_map.tree", treetype="non-clock")[1]
+# tree <- readTrees("analyses/brca1_map.tree", treetype="non-clock")[1]
 
 n_species <- data.ntaxa()
 n_branches <- 2 * n_species - 3
@@ -57,8 +58,8 @@ for (i in 1:n_branches) {
    moves[i+7] = mvScale(bl[i])
 }
 
-monitors[1] = mnModel(filename="analyses/ZFX20_siteom.log", printgen=10, separator = TAB)
-monitors[2] = mnFile(psi,filename="analyses/ZFX20_siteom.trees", printgen=10, separator = TAB)
+monitors[1] = mnModel(filename="analyses/BRCA120_siteom.log", printgen=10, separator = TAB)
+monitors[2] = mnFile(psi,filename="analyses/BRCA120_siteom.trees", printgen=10, separator = TAB)
 monitors[3] = mnScreen(printgen=100, omega, w)
 
 # Make the analysis object
