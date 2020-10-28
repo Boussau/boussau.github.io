@@ -171,7 +171,7 @@ Next, we need to express the shape and the scale parameter of the gamma distribu
 Inverting these relations allows us to express $\alpha$ and $\beta$ as a function of $m$ and $c$ as follows: $\alpha = 1 / c$ and $\beta = \alpha / m$. In the context of our script, this gives:
 ```
 alpha := 1.0 / relvar_clockrate
-beta := alpha_rate / mean_clockrate
+beta := alpha / mean_clockrate
 ```
 
 Now, we can specify the rates across branches as iid gamma variates:
@@ -190,7 +190,7 @@ Note that clockrate is now a vector (whereas, in the case of the strict clock mo
 
 For the rest, the script is essentially the same as for the strict clock model considered above. The main difference is that moves should now be implemented for mean_clockrate, relvar_clockrate, and for each of the entries of the clockrate vector. Implementing these moves is left as an exercise.
 
-Write the complete script, using prim_clock.rev as a template and making the required changes. Run the script on the primate dataset. Estimate the mean rate of substitution and its relative variance across branches. Visualize the estimated relative ages on the tree. How does this compare with the strict clock estimates? Using FigTree, identify areas of high or low rates of evolution. How does this compare to the fast- or slow-evolving lineages identified by looking at the undated tree?
+Write the complete script, using prim_clock.rev as a template and making the required changes. You may want to remove the variable `clockrate` from the screen monitor to avoid cluttering your terminal, and instead you may want to monitor `mean_clockrate`. Run the script on the primate dataset. Estimate the mean rate of substitution and its relative variance across branches. Visualize the estimated relative ages on the tree. How does this compare with the strict clock estimates? Using FigTree, identify areas of high or low rates of evolution. How does this compare to the fast- or slow-evolving lineages identified by looking at the undated tree?
 
 {% section The auto-correlated relaxed clock model %}
 
