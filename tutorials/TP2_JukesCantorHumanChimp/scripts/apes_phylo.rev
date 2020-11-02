@@ -1,4 +1,4 @@
-data <- readDiscreteCharacterData("HC.nex")
+data <- readDiscreteCharacterData("data/HC.nex")
 taxa <- data.taxa()
 print(taxa)
 
@@ -22,7 +22,7 @@ mymodel = model(Q)
 
 moves[1] = mvScale(T)
 
-monitors[1] = mnModel(filename="jc.log", printgen=10, separator = TAB)
+monitors[1] = mnModel(filename="analyses/jc.log", printgen=10, separator = TAB)
 monitors[2] = mnScreen(printgen=100, T)
 
 mymcmc = mcmc(mymodel, monitors, moves)

@@ -1,9 +1,8 @@
-0# number of aligned nucleotide positions2
+# number of aligned nucleotide positions
 N <- 878
 # number of differences observed in empirical sequence alignments
 k_obs <- 11
 
-# give your formula for r
 # mutation rate per generation
 u <- 2e-8
 # generation time
@@ -11,15 +10,13 @@ tau <- 30
 # mutation (or synonymous substitution) rate per Myr
 r <- u / tau * 1e6
 
-T_max <- 20
-
 # build model
 T ~ dnUniform(0,20)
-# p := Probability( (1 - exp(-2*4/3*r*T)) * 3/4 )
-# k ~ dnBinomial(p,N)
+p := Probability( (1 - exp(-2*4/3*r*T)) * 3/4 )
+k ~ dnBinomial(p,N)
 
 # condition on empirical data
-# k.clamp(k_obs)
+k.clamp(k_obs)
 
 # capture model
 mymodel = model(T)
@@ -28,7 +25,7 @@ mymodel = model(T)
 moves[1] = mvSlide(T)
 
 # monitor MCMC into file and onto screen, every 10 generations
-monitors[1] = mnModel(filename = "apes_mcmc_prior.log", printgen=10, separator = TAB)
+monitors[1] = mnModel(filename = "analyses/apes_mcmc.log", printgen=10, separator = TAB)
 monitors[2] = mnScreen(printgen = 10, T)
 
 # define MCMC object
