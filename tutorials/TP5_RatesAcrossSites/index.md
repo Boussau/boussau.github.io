@@ -32,7 +32,7 @@ Computationally speaking, averaging the likelihood over a gamma distribution at 
 
 We don't know the value of the shape parameter $\alpha$, or equivalently, we don't know the variance of the gamma distribution (which, as we said, is the inverse of $\alpha$). So, we need to consider it as a parameter, with a prior. Here, we parameterize directly in terms of the variance. We use a broad exponential prior, of mean 5 (thus, of rate $\lambda = 0.2$):
 ```
-rate_var ~ dnExponential(0.2)
+rate_var ~ dnExponential(lambda=0.2)
 ```
 Then, we set $\alpha$ as a deterministic variable, equal to the inverse of the variance:
 ```
