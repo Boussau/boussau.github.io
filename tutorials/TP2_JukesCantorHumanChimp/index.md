@@ -64,15 +64,14 @@ The quick estimation obtained in the previous section does not give any measure 
 
 To conduct Bayesian inference, we first need to have a prior distribution over $T$. This prior represents our state of knowledge about $T$, before we have seen the empirical data (the sequence alignment). In the present case, we will consider that we don't know anything a priori about this divergence time, except that it is between 0 and 20 Myr. Mathematically, we represent this by assuming a uniform distribution over $T$. In RevBayes, we can draw $T$ from this prior as follows:
 $$
-T ~ Uniform(0,T_{max})
+T ~ Uniform(0,20)
 $$
 This is the mathematical notation. In RevBayes, we can draw $T$ from this prior as follows:
 
 ```
-T_max = 20
-T = rUniform(1,0,T_max)[1]
+T = rUniform(1,0,20)[1]
 ```
-You can try this command and repeat it several times, to see that, each time, you draw a value of $T$ anywhere between 0 and $T_{max}$.
+You can try this command and repeat it several times, to see that, each time, you draw a value of $T$ anywhere between 0 and 20 Myr.
 
 Now, consider the following program:
 
@@ -84,8 +83,6 @@ k_obs = 11
 
 # give your formula for r
 r = ...
-
-T_max = 20
 
 # number of samples we want from the posterior distribution
 n_sample = 100
@@ -99,8 +96,8 @@ T_sample = rep(0, n_sample)
 # repeat until we have collected n_sample values of T
 while (count < n_sample)	{
 
-	# draw T from prior
-	T = rUniform(1,0,T_max)[1]
+	# draw T from prior: uniform between 0 and 20 Myr
+	T = rUniform(1,0,20)[1]
 
 	# compute q(r,T) for the current value of T
 	# write some code here based on the formula that was derived previously
@@ -118,7 +115,7 @@ while (count < n_sample)	{
 
 # finally, write the sample to a file:
 for (i in 1:n_sample)	{
-	write(T_sample[i], "\n", file="apes_reject.log", append=TRUE)
+	write(T_sample[i], "\n", file="analyses/apes_reject.log", append=TRUE)
 }
 ```
 
@@ -165,7 +162,7 @@ Declaring the model
 {:.subsubsection}
 
 
-As above, we start by defining the fixed parameters (the constant) of the problem: $N$, $r$, $k_{obs}$ and $T_{max}$.
+As above, we start by defining the fixed parameters (the constant) of the problem: $N$, $r$ and $k_{obs}$.
 
 ```
 # number of aligned nucleotide positions
@@ -175,8 +172,6 @@ k_obs <- 11
 
 # give your formula for r
 r = ...
-
-T_max <- 20
 ```
 
 
