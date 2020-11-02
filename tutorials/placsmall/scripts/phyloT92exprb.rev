@@ -2,7 +2,7 @@
 genelist = readDataDelimitedFile("data/genelist.csv")
 n_genes <- 5
 for (gene in 1:n_genes) {
-    data[gene] <- readDiscreteCharacterData(genelist[gene][1])
+    data[gene] <- readDiscreteCharacterData("data/" + genelist[gene][1])
     expr[gene] <- genelist[gene][3]
 }
 
