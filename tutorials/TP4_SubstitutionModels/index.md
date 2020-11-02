@@ -81,7 +81,7 @@ In the case of JC, the rate matrix is a constant, hence the use of `<-`.
 
 Then, we create a stochastic variable, which represents the multiple sequence alignment, such as produced by a substitution process running along the tree psi, and with substitution rates given by $Q$:
 ```
-seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="DNA" )
+seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA")
 ```
 
 If we now want to use a T92 model instead of a JC model, we need, first, to defined the two parameters: $\kappa$ and $\gamma$, as stochastic variables having a prior. Then, we can build the $Q$ matrix, and finally, we create a `phyloCTMC` (`seq`) using this $Q$ matrix. Finally, we need to move these two parameters during the MCMC.
@@ -102,7 +102,7 @@ Note that the rate matrix is now a deterministic model variable (and not anymore
 
 Finally, we can proceed with the sequence evolutionary process:
 ```
-seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="DNA" )
+seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA")
 ```
 
 Concerning the MCMC moves, we need to add moves for $\kappa$ and $\gamma$. For $\kappa$, we can use a scaling (or multiplicative) move, which is the best move to use for positive real numbers. For $\gamma$, we can use a sliding (or additive) move. As in the case of the JC model, we also need to move the tree topology, using NNI and SPR moves, as well as the branch lengths (using scaling moves). Altogether, or move vector can be specified as follows:
@@ -145,8 +145,7 @@ The T92 model is a particular case of the HKY model. For which values of its par
 
 The domain of definition of frequency vectors is called the simplex (here, the simplex S4, since there are 4 entries for the vector). A standard distribution on the simplex is the Dirichlet distribution (you can look at the definition of the Dirichlet distribution on Wikipedia). In particular, a uniform distribution over the simplex is a Dirichlet with weights all equal to 1. Thus, we can assume this prior for $\pi$:
 ```
-pi_center <- [1.0, 1.0, 1.0, 1.0]
-pi ~ dnDirichlet(pi_center)
+pi ~ dnDirichlet([1.0, 1.0, 1.0, 1.0])
 ```
 
 As for the T92 model, we can assume a broad exponential prior for $\kappa$:
@@ -155,11 +154,11 @@ kappa ~ dnexponential(lambda = 0.1)
 ```
 and then define the HKY rate matrix:
 ```
-Q := HKY (kappa, pi)
+Q := fnHKY(kappa=kappa, baseFrequencies=pi)
 ```
 and finally, create the substitution process:
 ```
-seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="DNA" )
+seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA")
 ```
 
 We also need to move $\kappa$ and $\pi$. For $\kappa$, we can use a scaling move, as we did for the T92 model. For $\pi$, we can use a move that preserves the positivity of the entries of the vector, but also the constraint that the 4 entries of the vector should sum to 1. The move that does this is a `DirichletSimplex` move. The syntax for this move would be as follows:
@@ -182,21 +181,19 @@ with the constraint that $\rho_{XY} = \rho_{YX}$ for all nucleotide pairs $(X,Y)
 
 We can use a uniform prior over $\rho$, which is a particular case of the Dirichlet distribution with equal weights:
 ```
-rho_center = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0]
-rho ~ dnDirichlet(rho_center)
+rho ~ dnDirichlet([1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
 ```
 and a uniform prior over $\pi$ (as for the HKY model):
 ```
-pi_center <- [1.0, 1.0, 1.0, 1.0]
-pi ~ dnDirichlet(pi_center)
+pi ~ dnDirichlet([1.0, 1.0, 1.0, 1.0])
 ```
 We can then define the GTR rate matrix:
 ```
-Q := GTR (rho, pi)
+Q := fnGTR(exchangeRates=rho, baseFrequencies=pi)
 ```
 and create the substitution process:
 ```
-seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="DNA" )
+seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA")
 ```
 Finally, we need to move $\rho$ and $\pi$, in both cases using a `DirichletSimplex` move (as we did above for pi in the case of the HKY model).
 
