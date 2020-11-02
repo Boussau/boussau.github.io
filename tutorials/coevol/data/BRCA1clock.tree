@@ -1,0 +1,76 @@
+#NEXUS
+
+	Begin taxa;
+	Dimensions ntax=65;
+	Taxlabels
+		Ailuropoda
+		Amblysomus
+		Antrozous
+		Artibeus
+		Bos
+		Callithrix
+		Canis
+		Castor
+		Chaetophractus
+		Choloepusdi
+		Choloepusho
+		Cynocephalus
+		Dasypus
+		Dipodomys
+		Echinops
+		Elephantulus
+		Equus
+		Erethizon
+		Erinaceus
+		Euphractus
+		Felis
+		Galemys
+		Galeopterus
+		Gorilla
+		Hippopotamus
+		Homo
+		Hystrix
+		Lama
+		Lemur
+		Loxodonta
+		Macaca
+		Manis
+		Megaderma
+		Megaptera
+		Microcebus
+		Monodelphis
+		Mus
+		Myotis
+		Myrmecophaga
+		Nycteris
+		Ochotona
+		Orycteropus
+		Oryctolagus
+		Otolemur
+		Pan
+		Panthera
+		Pedetes
+		Pongo
+		Procavia
+		Pteropus
+		Rattus
+		Rousettus
+		Solenodon
+		Sorex
+		Spermophilus
+		Sus
+		Tadarida
+		Talpa
+		Tamandua
+		Tapirus
+		Tarsius
+		Trichechus
+		Tupaia
+		Tursiops
+		Vicugna
+		;
+End;
+
+Begin trees;
+tree TREE1 = [&R](((((((((((Antrozous[&index=23]:0.116332,Myotis[&index=22]:0.116332)[&index=66,posterior=1.000000,age_95%_HPD={0.101915,0.123641}]:0.067475,Tadarida[&index=21]:0.183807)[&index=67,posterior=1.000000,age_95%_HPD={0.172721,0.196252}]:0.034404,(Artibeus[&index=20]:0.205125,Nycteris[&index=19]:0.205125)[&index=68,posterior=1.000000,age_95%_HPD={0.193906,0.216506}]:0.013086)[&index=69,posterior=1.000000,age_95%_HPD={0.209759,0.232047}]:0.027566,(Pteropus[&index=18]:0.048106,Rousettus[&index=17]:0.048106)[&index=70,posterior=1.000000,age_95%_HPD={0.039513,0.053452}]:0.197670)[&index=71,posterior=1.000000,age_95%_HPD={0.234956,0.257226}]:0.006143,Megaderma[&index=16]:0.251919)[&index=72,posterior=1.000000,age_95%_HPD={0.238392,0.261819}]:0.037336,(Equus[&index=15]:0.173019,Tapirus[&index=14]:0.173019)[&index=73,posterior=1.000000,age_95%_HPD={0.149141,0.191998}]:0.116237)[&index=74,posterior=1.000000,age_95%_HPD={0.275033,0.303548}]:0.004415,((((((Megaptera[&index=13]:0.063131,Tursiops[&index=12]:0.063131)[&index=75,posterior=1.000000,age_95%_HPD={0.055455,0.072385}]:0.106665,Bos[&index=11]:0.169796)[&index=76,posterior=1.000000,age_95%_HPD={0.152475,0.18517}]:0.004998,Hippopotamus[&index=10]:0.174794)[&index=77,posterior=1.000000,age_95%_HPD={0.159694,0.193426}]:0.028447,Sus[&index=9]:0.203241)[&index=78,posterior=1.000000,age_95%_HPD={0.19065,0.214127}]:0.016629,(Lama[&index=8]:0.012499,Vicugna[&index=7]:0.012499)[&index=79,posterior=1.000000,age_95%_HPD={0.008498,0.017792}]:0.207372)[&index=80,posterior=1.000000,age_95%_HPD={0.204687,0.231378}]:0.070333,(((Ailuropoda[&index=3]:0.151601,Canis[&index=2]:0.151601)[&index=81,posterior=1.000000,age_95%_HPD={0.141812,0.164429}]:0.048498,(Felis[&index=5]:0.034301,Panthera[&index=4]:0.034301)[&index=82,posterior=1.000000,age_95%_HPD={0.019946,0.044984}]:0.165799)[&index=83,posterior=1.000000,age_95%_HPD={0.187841,0.213669}]:0.076647,Manis[&index=6]:0.276747)[&index=84,posterior=1.000000,age_95%_HPD={0.258851,0.295365}]:0.013457)[&index=85,posterior=1.000000,age_95%_HPD={0.274018,0.306726}]:0.003468)[&index=86,posterior=1.000000,age_95%_HPD={0.281089,0.310469}]:0.083079,(((Erinaceus[&index=28]:0.328522,Sorex[&index=27]:0.328522)[&index=87,posterior=1.000000,age_95%_HPD={0.315489,0.343351}]:0.017843,(Galemys[&index=26]:0.133315,Talpa[&index=25]:0.133315)[&index=88,posterior=1.000000,age_95%_HPD={0.124149,0.151874}]:0.213051)[&index=89,posterior=1.000000,age_95%_HPD={0.333917,0.358034}]:0.008510,Solenodon[&index=24]:0.354875)[&index=90,posterior=1.000000,age_95%_HPD={0.341906,0.368471}]:0.021875)[&index=91,posterior=1.000000,age_95%_HPD={0.36111,0.385101}]:0.053378,((((((((Gorilla[&index=51]:0.010167,Pan[&index=50]:0.010167)[&index=92,posterior=1.000000,age_95%_HPD={0.005882,0.014181}]:0.003181,Homo[&index=49]:0.013348)[&index=93,posterior=1.000000,age_95%_HPD={0.009065,0.01763}]:0.013038,Pongo[&index=48]:0.026386)[&index=94,posterior=1.000000,age_95%_HPD={0.021724,0.03128}]:0.044416,Macaca[&index=47]:0.070802)[&index=95,posterior=1.000000,age_95%_HPD={0.057867,0.078725}]:0.051136,Callithrix[&index=46]:0.121938)[&index=96,posterior=1.000000,age_95%_HPD={0.114075,0.133274}]:0.194838,Tarsius[&index=45]:0.316776)[&index=97,posterior=1.000000,age_95%_HPD={0.300171,0.327824}]:0.016989,((Lemur[&index=44]:0.092181,Microcebus[&index=43]:0.092181)[&index=98,posterior=1.000000,age_95%_HPD={0.074675,0.106852}]:0.189626,Otolemur[&index=42]:0.281807)[&index=99,posterior=1.000000,age_95%_HPD={0.264066,0.298479}]:0.051958)[&index=100,posterior=1.000000,age_95%_HPD={0.320724,0.34919}]:0.079143,(((((((Mus[&index=41]:0.126743,Rattus[&index=40]:0.126743)[&index=101,posterior=1.000000,age_95%_HPD={0.112246,0.134149}]:0.242231,Pedetes[&index=39]:0.368974)[&index=102,posterior=1.000000,age_95%_HPD={0.360046,0.37779}]:0.008192,(Castor[&index=38]:0.350290,Dipodomys[&index=37]:0.350290)[&index=103,posterior=1.000000,age_95%_HPD={0.33423,0.363797}]:0.026876)[&index=104,posterior=1.000000,age_95%_HPD={0.366999,0.385672}]:0.013387,((Erethizon[&index=36]:0.235970,Hystrix[&index=35]:0.235970)[&index=105,posterior=1.000000,age_95%_HPD={0.224645,0.255635}]:0.150922,Spermophilus[&index=34]:0.386892)[&index=106,posterior=1.000000,age_95%_HPD={0.380862,0.391634}]:0.003660)[&index=107,posterior=1.000000,age_95%_HPD={0.384261,0.39553}]:0.015627,(Ochotona[&index=33]:0.276645,Oryctolagus[&index=32]:0.276645)[&index=108,posterior=1.000000,age_95%_HPD={0.262584,0.287045}]:0.129535)[&index=109,posterior=1.000000,age_95%_HPD={0.399336,0.413536}]:0.003259,(Cynocephalus[&index=31]:0.046402,Galeopterus[&index=30]:0.046402)[&index=110,posterior=1.000000,age_95%_HPD={0.0374,0.050616}]:0.363037)[&index=111,posterior=1.000000,age_95%_HPD={0.401987,0.416076}]:0.002145,Tupaia[&index=29]:0.411584)[&index=112,posterior=1.000000,age_95%_HPD={0.404087,0.418019}]:0.001324)[&index=113,posterior=1.000000,age_95%_HPD={0.40513,0.418818}]:0.017220)[&index=114,posterior=1.000000,age_95%_HPD={0.420474,0.442023}]:0.021630,(((Chaetophractus[&index=58]:0.011383,Euphractus[&index=57]:0.011383)[&index=115,posterior=1.000000,age_95%_HPD={0.008057,0.016988}]:0.102712,Dasypus[&index=56]:0.114095)[&index=116,posterior=1.000000,age_95%_HPD={0.102422,0.127984}]:0.098185,((Choloepusdi[&index=55]:0.041420,Choloepusho[&index=54]:0.041420)[&index=117,posterior=1.000000,age_95%_HPD={0.03415,0.047961}]:0.135241,(Myrmecophaga[&index=53]:0.037027,Tamandua[&index=52]:0.037027)[&index=118,posterior=1.000000,age_95%_HPD={0.026477,0.045552}]:0.139634)[&index=119,posterior=1.000000,age_95%_HPD={0.160769,0.202277}]:0.035618)[&index=120,posterior=1.000000,age_95%_HPD={0.198532,0.231957}]:0.239479)[&index=121,posterior=1.000000,age_95%_HPD={0.436529,0.463921}]:0.048993,((((Amblysomus[&index=65]:0.345516,Echinops[&index=64]:0.345516)[&index=122,posterior=1.000000,age_95%_HPD={0.327818,0.352443}]:0.014237,Elephantulus[&index=63]:0.359752)[&index=123,posterior=1.000000,age_95%_HPD={0.344604,0.369154}]:0.005772,Orycteropus[&index=62]:0.365525)[&index=124,posterior=1.000000,age_95%_HPD={0.352519,0.374992}]:0.008137,((Loxodonta[&index=61]:0.241415,Procavia[&index=60]:0.241415)[&index=125,posterior=1.000000,age_95%_HPD={0.228516,0.253266}]:0.007969,Trichechus[&index=59]:0.249384)[&index=126,posterior=1.000000,age_95%_HPD={0.236105,0.261023}]:0.124278)[&index=127,posterior=1.000000,age_95%_HPD={0.360041,0.380349}]:0.127089)[&index=1,posterior=1.000000,age_95%_HPD={0.50075,0.500752}]:0.000000;
+End;
