@@ -200,4 +200,3 @@ Finally, we need to move $\rho$ and $\pi$, in both cases using a `DirichletSimpl
 Write the script and run it on the BRCA1 dataset (only the 3 coding positions). Explore the posterior distribution over the parameters and, in particular, determine whether all transitions occur at the same relative rate. Same thing for transitions.
 
 
-

@@ -1,4 +1,4 @@
-data <- readDiscreteCharacterData("data/placBRCA1short.nex")
+data <- readDiscreteCharacterData("data/placBRCA1third.nex")
 
 n_species <- data.ntaxa()
 n_branches <- 2 * n_species - 3
