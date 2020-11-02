@@ -1,21 +1,14 @@
-
-# data <- readDiscreteCharacterData("data/placZFX20.nex")
 data <- readDiscreteCharacterData("data/placBRCA120.nex")
+# data <- readDiscreteCharacterData("data/placZFX20.nex")
 data_codon = data.translateCharacters("Codon")
 print(data_codon)
-
-tree <- readTrees("analyses/brca1_map.tree", treetype="non-clock")[1]
-# tree <- readTrees("analyses/BRCA120_JC_map.tree", treetype="non-clock")[1]
 
 n_species <- data.ntaxa()
 n_branches <- 2 * n_species - 3
 taxa <- data.taxa()
 
-
 out_group = clade("Sorex")
 topology ~ dnUniformTopology(taxa, outgroup = out_group) 
-# topology.clamp(tree)
-# print(topology)
 
 for (i in 1:n_branches) {
  bl[i] ~ dnExponential(10.0)
@@ -24,24 +17,24 @@ psi := treeAssembly(topology, bl)
 TL := sum(bl)
 
 kappa ~ dnExponential(1.0)
-nucstat_prior <- [1.0, 1.0, 1.0, 1.0]
-nucstat ~ dnDirichlet(nucstat_prior)
+pi ~ dnDirichlet([1.0, 1.0, 1.0, 1.0])
 omega ~ dnExponential(1.0)
-Q := fnCodonHKY(omega=omega, kappa=kappa, baseFrequencies=nucstat)
+Q := fnCodonHKY(omega=omega, kappa=kappa, baseFrequencies=pi)
 
-seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="Codon" ) 
-seq.clamp( data_codon )
+seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="Codon") 
+seq.clamp(data_codon)
 
 my_model = model(psi)
 
 # moves
-moves[1] = mvNNI(topology, weight=1.0)
-moves[2] = mvSPR(topology, weight=1.0)
-moves[3] = mvScale(kappa, weight=1.0)
-moves[4] = mvScale(omega, weight=1.0)
-moves[5] = mvDirichletSimplex(nucstat,weight=1.0)
+moves = VectorMoves()
+moves.append(mvNNI(topology, weight=1.0))
+moves.append(mvSPR(topology, weight=1.0))
+moves.append(mvScale(kappa, weight=1.0))
+moves.append(mvDirichletSimplex(pi,weight=1.0, alpha=10))
+moves.append(mvScale(omega, weight=1.0))
 for (i in 1:n_branches) {
-   moves[i+5] = mvScale(bl[i])
+   moves.append(mvScale(bl[i], weight=1.0))
 }
 
 monitors[1] = mnModel(filename="analyses/BRCA120_globom.log", printgen=10, separator = TAB)
