@@ -13,23 +13,25 @@ redirect: false
 
 {% section Introduction %}
 
-Thus far, the phylogenetic analyses have been conducted in an undated context: the tree was not ultrametric (i.e. was not a dated tree). Instead, the branch lengths were measured directly in expected number of substitutions per site (i.e. sequence divergence, not absolute nor even relative time).
+Thus far, the phylogenetic analyses have been conducted in an undated context: the tree was not ultrametric (i.e. was not a dated tree). Instead, the branch lengths were measured directly in expected numbers of substitutions per site (i.e. sequence divergence, not absolute nor even relative time).
 
-In this tutorial, we will do dated analyses. On the other hand, we will not use fossil calibrations (which introduces some complications). As a result, the dates will be relative (by definition, the age of the root is equal to 1, and all other dates are thus between 0 and 1). We will explore three alternative clock models:
+In this tutorial, we will do dated analyses. However, we will not use fossil calibrations (which introduce some complications). As a result, the dates will be relative (by definition, the age of the root is equal to 1, and all other dates are thus between 0 and 1). We will explore three alternative clock models:
 - a strict molecular clock
 - a non auto-correlated clock: each branch has an independent rate
 - an auto-correlated clock: the substitution rate on a branch tends to be similar to the rate of the neighbouring branches
 
 All analyses will be done under a fixed tree topology. This topology has been estimated by using an undated model, such as seen during the previous tutorials.
 
-We will work on a dataset (file names `prim4fold.nex`) with 58 primates species, plus 2 Dermopterans and a Scandentia (Tupaia), which will be our outgroup. The dataset is adapted from Perelman et al (2011, PLoS Genetics, 7:e1001342, A Molecular Phylogeny of Primates). Here, we use only the 4-fold degenerate third coding positions (1730 aligned nucleotide positions).
+- Take a look at the tree `data/prim.tree` using software like FigTree. Is this tree *ultrametric*? Which lineages seem to have been associated with a high rate of molecular evolution?
+
+We will work on a dataset (file name `prim4fold.nex`) with 58 primates species, plus 2 Dermopterans and a Scandentia (Tupaia), which will be our outgroup. The dataset is adapted from Perelman et al (2011, PLoS Genetics, 7:e1001342, A Molecular Phylogeny of Primates). Here, we use only the 4-fold degenerate third coding positions (1730 aligned nucleotide positions).
 
 {% section Strict clock model %}
 
 To start the tutorial, we give a script (`prim_clock.rev`), which implements the strict clock model.
 The script is set up as follows.
 
-We first read the nucleotide sequence alignment and get the taxon set and the number of species and the number of branches. 
+We first read the nucleotide sequence alignment and get the taxon set and the number of species and the number of branches.
 ```
 data <- readDiscreteCharacterData("data/prim4fold.nex")
 
@@ -65,7 +67,7 @@ tree <- readTrees("data/prim.tree", treetype="clock")[1]
 # ajust terminal branch lengths so as to make the tree ultrametric
 tree.makeUltrametric()
 
-# clamp the tree topology 
+# clamp the tree topology
 timetree.clamp(tree)
 ```
 The tree given in this file has an arbitrary root age. We rescale it, setting it equal to 1.0:
@@ -92,7 +94,7 @@ Q := fnT92(kappa=kappa, gc=gamma)
 ```
 and the sequence evolutionary process:
 ```
-seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" ) 
+seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" )
 ```
 which we condition on (or clamp to) the observed nucleotide data:
 ```
@@ -147,7 +149,7 @@ treetrace = readTreeTrace("analyses/prim_clock.trees", treetype="clock", burnin=
 map_tree = mccTree(treetrace, "analyses/prim_clock.tree")
 ```
 Of note, this MAP tree will, by construction, have the same topology as the one given at the beginning of the script. The point of doing this map tree is just to have credible intervals on the node ages.
-The resulting tree, saved into the file named prim_clock.tree, can be visualized using figtree. The credible intervals on node ages can be visualized as blue bars attached to the corresponding nodes.
+The resulting tree, saved into the file named prim_clock.tree, can be visualized using FigTree. The credible intervals on node ages can be visualized as blue bars attached to the corresponding nodes.
 
 Run the script on the primate dataset. Estimate the clock rate (median and credible interval) and visualize the estimated relative ages.
 
@@ -169,7 +171,7 @@ Next, we need to express the shape and the scale parameter of the gamma distribu
 Inverting these relations allows us to express $\alpha$ and $\beta$ as a function of $m$ and $c$ as follows: $\alpha = 1 / c$ and $\beta = \alpha / m$. In the context of our script, this gives:
 ```
 alpha := 1.0 / relvar_clockrate
-beta := alpha_rate / mean_clockrate
+beta := alpha / mean_clockrate
 ```
 
 Now, we can specify the rates across branches as iid gamma variates:
@@ -181,18 +183,18 @@ for (i in 1:n_branches) {
 
 Finally, we give these rates across branches to the sequence evolutionary process:
 ```
-seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" ) 
+seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" )
 ```
 
 Note that clockrate is now a vector (whereas, in the case of the strict clock model considerd in the last section, it was a scalar). When receiving a vector, the `dnPhyloCTMC` object automatically deduces that the rates in the vector should be mapped onto the branches of the tree.
 
 For the rest, the script is essentially the same as for the strict clock model considered above. The main difference is that moves should now be implemented for mean_clockrate, relvar_clockrate, and for each of the entries of the clockrate vector. Implementing these moves is left as an exercise.
 
-Write the complete script, using prim_clock.rev as a template and making the required changes. Run the script on the primate dataset. Estimate the mean rate of substitution and its relative variance across branches. Visualize the estimated relative ages on the tree. How does this compare with the strict clock estimates?
+Write the complete script, using prim_clock.rev as a template and making the required changes. You may want to remove the variable `clockrate` from the screen monitor to avoid cluttering your terminal, and instead you may want to monitor `mean_clockrate`. Run the script on the primate dataset. Estimate the mean rate of substitution and its relative variance across branches. Visualize the estimated relative ages on the tree. How does this compare with the strict clock estimates? Using FigTree, identify areas of high or low rates of evolution. How does this compare to the fast- or slow-evolving lineages identified by looking at the undated tree?
 
 {% section The auto-correlated relaxed clock model %}
 
-The non auto-correlated model is convenient and easy to implement. However, empirically, it is not so adequate. The main reason is that the rate of evolution tends to show strong auto-correlation between neighbouring branches. Just think, for instance, that the rate of evolution is partly determined by the generation time (species with longer generation times tend to be more slowly evolving). Yet closely related species tend to have similar generation times. In other words, the generation time (and therefore the substitution rate) show phylogenetic inertia.
+The non auto-correlated model is convenient and easy to implement. However, empirically, it is not so adequate. The main reason is that the rate of evolution tends to show strong auto-correlation between neighbouring branches. Just think, for instance, that the rate of evolution is partly determined by the generation time (species with longer generation times tend to be more slowly evolving). Yet closely related species tend to have similar generation times. In other words, the generation time (and therefore the substitution rate) shows phylogenetic inertia.
 
 One way to account for this auto-correlation is to assume that the logarithm of the substitution rate evolves along the tree according to a Brownian model. This idea has been implemented in several software programs, such as MultiDivTime, PhyloBayes or Coevol.
 
@@ -232,7 +234,7 @@ for (i in (n_nodes-1):1)    {
 }
 ```
 
-Once this is done, we still need to specify (or, in fact, to approximate), the mean substitution rate over each branch. We will use the following approximation: the rate on a given branch is the mid-sum of the rates at both ends. The rates at both ends are themselves obtained by taking the exponential of the log-rates at both ends. Altogether, we have to loop over all branches as follows:
+Once this is done, we still need to specify (or, in fact, to approximate), the mean substitution rate over each branch. We will use the following approximation: the rate on a given branch is the average of the rates at both ends. The rates at both ends are themselves obtained by taking the exponential of the log-rates at both ends. Altogether, we have to loop over all branches as follows:
 ```
 for (i in 1:n_branches) {
     clockrate[i] := 0.5 * (exp(nodelograte[tree.parent(i)]) + exp(nodelograte[i]))
@@ -241,7 +243,7 @@ for (i in 1:n_branches) {
 
 Finally, we can use these rates across branches in our sequence evolutionary process:
 ```
-seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" ) 
+seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" )
 ```
 
 Again, we should move all of the additional free parameters of the model: here, a scaling move for sigma:
@@ -258,5 +260,3 @@ for (i in 1:n_nodes) {
 For the rest, the script unfolds as usual.
 
 Write the complete script, using prim_clock.rev as a template and making the required changes. Run the script on the primate dataset, and compare your estimation with the other clock models considered above.
-
-
