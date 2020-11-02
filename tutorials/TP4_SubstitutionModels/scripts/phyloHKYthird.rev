@@ -18,12 +18,11 @@ TL := sum(bl)
 
 # HKY substitution process
 kappa ~ dnExponential(1.0)
-nuc_freq_prior <- [1.0, 1.0, 1.0, 1.0]
-nuc_freq ~ dnDirichlet(nuc_freq_prior)
+pi ~ dnDirichlet([1.0, 1.0, 1.0, 1.0])
 Q := fnHKY(kappa=kappa, baseFrequencies=nuc_freq)
 
-seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="DNA" ) 
-seq.clamp( data )
+seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA") 
+seq.clamp(data)
 
 my_model = model(psi)
 
@@ -44,7 +43,7 @@ monitors[3] = mnScreen(printgen=100, kappa, nuc_freq)
 # Make the analysis object
 analysis = mcmc(my_model, monitors, moves)
 # Run the MCMC
-analysis.run(1000)
+analysis.run(10000)
 
 # Post-analysis: constructing the maximum a posteriori tree
 treetrace = readTreeTrace("analyses/BRCA1thirdpos_HKY.trees", treetype="non-clock", burnin=0.1)
