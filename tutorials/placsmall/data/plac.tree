@@ -1,0 +1,33 @@
+#NEXUS
+
+	Begin taxa;
+	Dimensions ntax=22;
+	Taxlabels
+		Bos_taurus
+		Canis_familiaris
+		Ceratotherium_simum_simum
+		Dasypus_novemcinctus
+		Equus_caballus
+		Erinaceus_europaeus
+		Felis_catus
+		Homo_sapiens
+		Loxodonta_africana
+		Macaca_mulatta
+		Manis_javanica
+		Microtus_ochrogaster
+		Mus_musculus
+		Myotis_lucifugus
+		Orycteropus_afer_afer
+		Oryctolagus_cuniculus
+		Otolemur_garnettii
+		Pteropus_vampyrus
+		Rattus_norvegicus
+		Sorex_araneus
+		Sus_scrofa
+		Tursiops_truncatus
+		;
+End;
+
+Begin trees;
+tree TREE1 = [&U](((((((((((Mus_musculus[&index=21]:0.035854[&brlen_95%_HPD={0.03294,0.038508}],Rattus_norvegicus[&index=6]:0.035237[&brlen_95%_HPD={0.032681,0.039049}])[&index=23,posterior=1.000000]:0.029818[&brlen_95%_HPD={0.027013,0.032691}],Microtus_ochrogaster[&index=20]:0.051096[&brlen_95%_HPD={0.047341,0.054823}])[&index=24,posterior=1.000000]:0.068530[&brlen_95%_HPD={0.061199,0.074094}],Oryctolagus_cuniculus[&index=16]:0.072039[&brlen_95%_HPD={0.067614,0.077283}])[&index=25,posterior=0.945055]:0.014430[&brlen_95%_HPD={0.012216,0.017558}],((Homo_sapiens[&index=4]:0.011224[&brlen_95%_HPD={0.009221,0.012869}],Macaca_mulatta[&index=3]:0.013738[&brlen_95%_HPD={0.012039,0.0152}])[&index=26,posterior=1.000000]:0.037263[&brlen_95%_HPD={0.033992,0.039904}],Otolemur_garnettii[&index=8]:0.064008[&brlen_95%_HPD={0.060446,0.0683}])[&index=27,posterior=1.000000]:0.009245[&brlen_95%_HPD={0.007332,0.010896}])[&index=28,posterior=0.945055]:0.006639[&brlen_95%_HPD={0.005569,0.007919}],((Loxodonta_africana[&index=19]:0.036515[&brlen_95%_HPD={0.033505,0.039976}],Orycteropus_afer_afer[&index=17]:0.054613[&brlen_95%_HPD={0.049619,0.058624}])[&index=29,posterior=1.000000]:0.021076[&brlen_95%_HPD={0.018644,0.023927}],Dasypus_novemcinctus[&index=9]:0.063215[&brlen_95%_HPD={0.058805,0.06726}])[&index=30,posterior=1.000000]:0.009813[&brlen_95%_HPD={0.008173,0.011757}])[&index=31,posterior=1.000000]:0.009558[&brlen_95%_HPD={0.008179,0.011576}],((Erinaceus_europaeus[&index=14]:0.081368[&brlen_95%_HPD={0.070381,0.100337}],Sorex_araneus[&index=13]:0.115147[&brlen_95%_HPD={0.104141,0.130021}])[&index=32,posterior=0.857143]:0.020039[&brlen_95%_HPD={0.00672,0.025517}],Manis_javanica[&index=7]:0.059172[&brlen_95%_HPD={0.054918,0.063503}])[&index=33,posterior=0.857143]:0.005638[&brlen_95%_HPD={0.00412,0.007874}])[&index=34,posterior=0.857143]:0.003328[&brlen_95%_HPD={0.002466,0.004809}],(Canis_familiaris[&index=5]:0.037219[&brlen_95%_HPD={0.034674,0.04037}],Felis_catus[&index=1]:0.032712[&brlen_95%_HPD={0.030425,0.03527}])[&index=35,posterior=1.000000]:0.019735[&brlen_95%_HPD={0.018057,0.022176}])[&index=36,posterior=0.637363]:0.001808[&brlen_95%_HPD={0.000957,0.002649}],(Ceratotherium_simum_simum[&index=18]:0.021817[&brlen_95%_HPD={0.002624,0.027119}],Equus_caballus[&index=2]:0.028772[&brlen_95%_HPD={0.02652,0.031102}])[&index=37,posterior=0.923077]:0.012059[&brlen_95%_HPD={0.01049,0.013777}])[&index=38,posterior=0.857143]:0.003143[&brlen_95%_HPD={0.002137,0.004131}],(Myotis_lucifugus[&index=15]:0.060833[&brlen_95%_HPD={0.053148,0.078374}],Pteropus_vampyrus[&index=11]:0.043464[&brlen_95%_HPD={0.039875,0.048038}])[&index=39,posterior=0.901099]:0.010680[&brlen_95%_HPD={0.008331,0.012208}])[&index=40,posterior=1.000000]:0.017694[&brlen_95%_HPD={0.01539,0.019893}],Sus_scrofa[&index=22]:0.044937[&brlen_95%_HPD={0.042241,0.047455}])[&index=41,posterior=1.000000]:0.008481[&brlen_95%_HPD={0.006587,0.010072}],Bos_taurus[&index=12]:0.050288[&brlen_95%_HPD={0.047238,0.053618}],Tursiops_truncatus[&index=10]:0.030889[&brlen_95%_HPD={0.028177,0.033432}])[&index=42,posterior=1.000000]:0.000000;
+End;
