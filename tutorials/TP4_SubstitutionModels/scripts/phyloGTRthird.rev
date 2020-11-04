@@ -1,0 +1,52 @@
+data <- readDiscreteCharacterData("data/placBRCA1third.nex")
+
+n_species <- data.ntaxa()
+n_branches <- 2 * n_species - 3
+taxa <- data.taxa()
+
+out_group = clade("Sorex")
+
+# tree topology
+topology ~ dnUniformTopology(taxa, outgroup = out_group) 
+for (i in 1:n_branches) {
+ bl[i] ~ dnExponential(10.0)
+}
+psi := treeAssembly(topology, bl)
+
+# total tree length (just for monitoring)
+TL := sum(bl)
+
+# GTR substitution process
+rho ~ dnDirichlet([1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
+pi ~ dnDirichlet([1.0, 1.0, 1.0, 1.0])
+Q := fnGTR(exchangeRates=rho, baseFrequencies=pi)
+
+seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA") 
+seq.clamp(data)
+
+my_model = model(psi)
+
+# moves
+moves = VectorMoves()
+moves.append(mvNNI(topology, weight=3.0))
+moves.append(mvSPR(topology, weight=3.0))
+moves.append(mvDirichletSimplex(rho, weight=1.0, alpha=10))
+moves.append(mvDirichletSimplex(pi, weight=1.0, alpha=10))
+for (i in 1:n_branches) {
+   moves.append(mvScale(bl[i]))
+}
+
+monitors[1] = mnModel(filename="analyses/BRCA1thirdpos_GTR.log", printgen=10, separator = TAB)
+monitors[2] = mnFile(psi,filename="analyses/BRCA1thirdpos_GTR.trees", printgen=10, separator = TAB)
+monitors[3] = mnScreen(printgen=100, pi)
+
+# Make the analysis object
+analysis = mcmc(my_model, monitors, moves)
+# Run the MCMC
+analysis.run(10000)
+
+# Post-analysis: constructing the maximum a posteriori tree
+treetrace = readTreeTrace("analyses/BRCA1thirdpos_GTR.trees", treetype="non-clock", burnin=0.1)
+map_tree = mapTree(treetrace, "analyses/BRCA1thirdpos_GTR_map.tree")
+
+

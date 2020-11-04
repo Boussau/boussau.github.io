@@ -1,0 +1,79 @@
+clockrate, kappa, gamma2
+
+genelist = readDataDelimitedFile("data/genelist.csv")
+n_genes <- 20
+for (gene in 1:n_genes) {
+    data[gene] <- readDiscreteCharacterData("data/" + genelist[gene][1])
+    expr[gene] <- genelist[gene][3]
+}
+
+taxa = data[1].taxa()
+n_species <- data[1].ntaxa()
+n_branches <- 2 * n_species - 3
+n_nodes <- 2 * n_species - 2
+
+out_group = clade(taxa[1])
+
+print(taxa)
+print(out_group)
+
+topology ~ dnUniformTopology(taxa, outgroup = out_group) 
+for (i in 1:n_branches) {
+ bl[i] ~ dnExponential(10.0)
+}
+psi := treeAssembly(topology, bl)
+TL := sum(bl)
+
+beta ~ dnNormal(0,10)
+sigma ~ dnExponential(1.0)
+gene_rate[1] := 1.0
+for (gene in 2:n_genes) {
+    dev[gene-1] ~ dnNormal(0,sigma)
+    gene_rate[gene] := exp(beta * (expr[gene] - expr[1]) + dev[gene-1])
+}
+
+#for (gene in 1:n_genes)    {
+#    for (i in 1:n_branches) {
+#     genebl[gene][i] := rate[gene] * bl[i]
+#    }
+#    genetree[gene] := treeAssembly(topology, genebl[gene])
+#}
+
+kappa ~ dnExponential(0.1)
+gamma ~ dnBeta(1.0, 1.0)
+Q := fnT92(kappa=kappa, gc=gamma)
+
+for (gene in 1:n_genes) {
+    seq[gene] ~ dnPhyloCTMC(tree=psi, Q=Q, branchRates=gene_rate[gene], type="DNA") 
+    seq[gene].clamp(data[gene])
+}
+
+my_model = model(psi)
+
+# moves
+moves = VectorMoves()
+moves.append(mvNNI(topology, weight=3.0))
+moves.append(mvSPR(topology, weight=3.0))
+moves.append(mvSlide(gamma, weight=1.0, delta=0.03))
+moves.append(mvScale(kappa, weight=1.0, lambda=0.1))
+for (i in 1:n_branches) {
+   moves.append(mvScale(bl[i], weight=1.0, lambda=0.3))
+}
+moves.append(mvSlide(beta, weight=1.0))
+moves.append(mvScale(sigma, weight=1.0))
+for (i in 2:n_genes)    {
+    moves.append(mvSlide(dev[gene-1], weight=1.0))
+}
+
+monitors[1] = mnModel(filename="analyses/plac10genesT92.log", printgen=10, separator = TAB)
+monitors[2] = mnFile(psi,filename="analyses/plac10genesT92.trees", printgen=10, separator = TAB)
+monitors[3] = mnScreen(printgen=100, beta, sigma)
+
+# Make the analysis object
+analysis = mcmc(my_model, monitors, moves)
+# Run the MCMC
+analysis.run(10000)
+
+treetrace = readTreeTrace("analyses/plac10genesT92.trees", treetype="non-clock", burnin=0.1)
+map_tree = mccTree(treetrace, "analyses/plac10genesT92.tree")
+

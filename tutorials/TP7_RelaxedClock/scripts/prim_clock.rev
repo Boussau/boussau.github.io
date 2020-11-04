@@ -13,8 +13,8 @@ lambda ~ dnExponential(1.0)
 # extinction rate
 mu ~ dnExponential(1.0)
 # sampling fraction (in the present)
-# here, we DO NOT assume that all species have been sampled.
-rho <- n_species / 300.0
+# here, we assume that all species have been sampled
+rho <- 1.0
 
 # time tree produced by a birth-death process (BDP)
 timetree ~ dnBDP(lambda, mu, rho, root_age, samplingStrategy="uniform", condition="nTaxa", taxa=taxa)

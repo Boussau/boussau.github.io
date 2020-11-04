@@ -50,7 +50,7 @@
 	<h1 class="maintitle">TP5 Accounting for variation in substitution rates across sites</h1>
 	<h3 class="subtitle">A mixture model to account for rate variation across sites</h3>
 	<h4 class="authors">Nicolas Lartillot</h4>
-  <h5>Last modified on October 19, 2020</h5>
+  <h5>Last modified on November  2, 2020</h5>
 </div>
 
 
@@ -98,6 +98,16 @@
         
         </ul>
     
+        
+        <strong>Scripts</strong>
+        <ul id="scripts">
+        
+        
+        
+          <li><a href="/tutorials/TP5_RatesAcrossSites/scripts/phyloT92rasthird.rev">phyloT92rasthird.rev</a></li>
+        
+        </ul>
+    
 </blockquote>
 
 
@@ -119,7 +129,7 @@
 <hr class="section" />
 
 <p>We don’t know the value of the shape parameter $\alpha$, or equivalently, we don’t know the variance of the gamma distribution (which, as we said, is the inverse of $\alpha$). So, we need to consider it as a parameter, with a prior. Here, we parameterize directly in terms of the variance. We use a broad exponential prior, of mean 5 (thus, of rate $\lambda = 0.2$):</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rate_var ~ dnExponential(0.2)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rate_var ~ dnExponential(lambda=0.2)
 </code></pre></div></div>
 <p>Then, we set $\alpha$ as a deterministic variable, equal to the inverse of the variance:</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alpha := 1.0 / rate_var

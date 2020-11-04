@@ -1,0 +1,51 @@
+#NEXUS
+
+	Begin taxa;
+	Dimensions ntax=40;
+	Taxlabels
+        Nomascus_siki                 
+        Trachypithecus_francoisi      
+        Nasalis_larvatus              
+        Mandrillus_sphinx             
+        Macaca_mulatta                
+        Symphalangus_syndactylus      
+        Chlorocebus_aethiops          
+        Allenopithecus_nigroviridis   
+        Lophocebus_aterrimus          
+        Lagothrix_cana                
+        Chiropotes_chiropotes         
+        Callimico_goeldii             
+        Cacajao_calvus                
+        Pongo_pygmaeus                
+        Hylobates_agilis              
+        Cercopithecus_albogularis     
+        Saimiri_oerstedii             
+        Homo_sapiens                  
+        Colobus_angolensis            
+        Semnopithecus_entellus        
+        Pithecia_pithecia             
+        Erythrocebus_patas            
+        Leontopithecus_rosalia        
+        Gorilla_gorilla               
+        Papio_papio                   
+        Callithrix_jacchus            
+        Piliocolobus_badius           
+        Rhinopithecus_brelichi        
+        Callicebus_donacophilus       
+        Presbytis_melalophos          
+        Alouatta_palliata             
+        Aotus_azarai                  
+        Saguinus_fuscicollis          
+        Ateles_belzebuth              
+        Cebus_apella                  
+        Cercocebus_torquatus          
+        Miopithecus_ogouensis         
+        Pygathrix_cinerea             
+        Pan_paniscus                  
+        Brachyteles_arachnoides       
+		;
+End;
+
+Begin trees;
+tree TREE = [&R](((Callicebus_donacophilus:0.0147108,(Pithecia_pithecia:0.00952312,(Chiropotes_chiropotes:0.00571323,Cacajao_calvus:0.00533583)0.999000:0.003026)1.000000:0.00472266)0.997000:0.00223835,((Alouatta_palliata:0.0101252,(Ateles_belzebuth:0.00650514,(Lagothrix_cana:0.00434368,Brachyteles_arachnoides:0.00767233)0.238000:0.00066753)0.996000:0.00186522)1.000000:0.00456489,((Saguinus_fuscicollis:0.00928601,(Leontopithecus_rosalia:0.0126459,(Callimico_goeldii:0.00772146,Callithrix_jacchus:0.0081631)1.000000:0.00279215)0.874000:0.00081491)1.000000:0.0061857,(Aotus_azarai:0.0113188,(Saimiri_oerstedii:0.012929,Cebus_apella:0.0106798)0.999000:0.00191902)0.620000:0.00037732)1.000000:0.00267581)0.965000:0.00094259)1.000000:0.0184643,(((Nomascus_siki:0.00235839,(Symphalangus_syndactylus:0.00282525,Hylobates_agilis:0.00338925)0.580000:0.00031551)1.000000:0.00627798,(Pongo_pygmaeus:0.00765437,(Gorilla_gorilla:0.00332432,(Homo_sapiens:0.00287512,Pan_paniscus:0.00251746)0.757000:0.0005525)1.000000:0.00362861)0.995000:0.00144949)1.000000:0.00377405,(((Macaca_mulatta:0.00318493,((Lophocebus_aterrimus:0.00310964,Papio_papio:0.0012536)1.000000:0.00135085,(Mandrillus_sphinx:0.00235559,Cercocebus_torquatus:0.00150973)0.974000:0.0005635)0.871000:0.00041727)0.999000:0.00177008,((Chlorocebus_aethiops:0.00188392,Erythrocebus_patas:0.0029496)0.997000:0.00105524,(Cercopithecus_albogularis:0.00208713,(Allenopithecus_nigroviridis:0.00348117,Miopithecus_ogouensis:0.00285094)0.979000:0.00094893)0.672000:5.238e-05)0.996000:0.00099544)1.000000:0.00280935,((Colobus_angolensis:0.00458254,Piliocolobus_badius:0.0044103)0.997000:0.00122269,(Presbytis_melalophos:0.00297883,((Trachypithecus_francoisi:0.00079858,Semnopithecus_entellus:0.00163174)1.000000:0.00264889,(Rhinopithecus_brelichi:0.00262893,(Nasalis_larvatus:0.0022615,Pygathrix_cinerea:0.00273209)0.835000:0.0001936)0.991000:0.00068921)0.828000:0.00012943)0.998000:0.00102253)1.000000:0.00227456)1.000000:0.00852039)1.000000:0.00738331);
+End;
