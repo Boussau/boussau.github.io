@@ -1,5 +1,5 @@
 ---
-title: TP7 Relaxed clock models
+title: TP7b Relaxed clock models
 subtitle: Estimating (relative) divergence times among primates
 authors:  Nicolas Lartillot
 level: 2
