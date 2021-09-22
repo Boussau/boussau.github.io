@@ -1,5 +1,5 @@
 ---
-title: TP7b Relaxed clock models
+title: TP7 Relaxed clock models
 subtitle: Estimating (relative) divergence times among primates
 authors:  Nicolas Lartillot
 level: 2
@@ -12,8 +12,6 @@ redirect: false
 ---
 
 {% section Introduction %}
-
-Trying a modification.
 
 Thus far, the phylogenetic analyses have been conducted in an undated context: the tree was not ultrametric (i.e. was not a dated tree). Instead, the branch lengths were measured directly in expected numbers of substitutions per site (i.e. sequence divergence, not absolute nor even relative time).
 
