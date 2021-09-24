@@ -1,24 +1,15 @@
 ---
-title: TP2 Implementing Bayesian inference with RevBayes
+title: TP1 Implementing Bayesian inference with RevBayes
 subtitle: Inferring the divergence time between Human and Chimpanzee
 authors:  Nicolas Lartillot
 level: 2
 order: 0.2
 index: true
 prerequisites:
-- TP1_simulatingDNAEvolution
 redirect: true
 ---
 
-
-In this tutorial, we will conduct our first Bayesian analysis with RevBayes. Our aim will be to infer the divergence time between Humans and Chimpanzees.
-To do this, we will come back to the simulation model that was developed in the previous tutorial.
-This simulation model was taking the branch length and the substitution rate as the input, and was giving as an output the number of substitution events, or the number of differences between two taxa in their nucleotide sequences.
-
-Here, we consider the problem in the other direction:
-we have empirical data, in the form of a sequence alignment between two species (Human and Chimp). We can count the number of differences between the sequences of these two species. We also have some knowledge about the mutation rate in apes. Based on these data, we would like to infer the divergence time between Human and Chimp.
-
-
+In this tutorial, we will first do simulations, and then conduct our first Bayesian analysis, using RevBayes. We have empirical data, in the form of a sequence alignment between two species (Human and Chimp). We can count the number of differences between the sequences of these two species. We also have some knowledge about the mutation rate in apes. Based on these data, we would like to infer the divergence time between Human and Chimp.
 
 The data
 ===============
@@ -26,205 +17,155 @@ The data
 
 
 The file apes.nex contains an alignment with $N=878$ aligned nucleotide positions, between Human, Chimp and Gorilla. This alignment is a concatenation of 17 nuclear genes, for which only the 4-fold degenerate third codon positions have been kept. To visualize this alignment, you can open it with SeaView.
-Out of these $N$ nucleotide positions, $k_{obs} =11$ are different between the human and the chimpanzee sequences.
+Out of these $N=878$ nucleotide positions, $k_{obs} =11$ are different between the human and the chimpanzee sequences.
 
 We use only the 4-fold degenerate third codon positions because all mutations at these positions are synonymous, and therefore, we can assume that they are neutral (they are not under selection). As a result, the rate at which substitutions will accumulate over time is equal to the mutation rate.
 
-Based on pedigree sequencing, the mutation rate per generation in Human has been estimated at $u = 2.10^{-8}$. Similar experiments have been conducted in Chimpanzees, giving similar estimates. The generation time in Humans is around $\tau = 30$ years. It is a bit shorter in Chimpanzees, however, for simplicity, we will ignore this, and we will assume that the generation time has always been 30 years in great apes.
+Based on the whole-genome sequencing of families (trios), the mutation rate per generation in Human has been estimated at $u = 2.10^{-8}$. Similar experiments have been conducted in Chimpanzees, giving similar estimates. The generation time in Humans is around $\tau = 30$ years. It is a bit shorter in Chimpanzees, however, for simplicity, we will ignore this, and we will assume that the generation time has always been 30 years in great apes.
 
-Based on these estimates for $u$ and $\tau$, What is the mutation rate per million years? Let us call it $r$.
+- Based on these estimates for $u$ and $\tau$, What is the mutation rate per million years? Let us call it $r$.
+
+- Let us denote by $T$ the divergence time $T$ (measured in million years). Based on the observed number of differences between the two sequences (11 out of 878 positions), can you give a first rough estimate of this divergence time?
 
 
 The Jukes-Cantor distance
 ===============
 {:.section}
 
+The rough estimate obtained in the last section does not take into account two complications:
+- the problem of hidden substitutions: the fact that some positions may show the same nucleotide between the two species, and yet this is not the ancestral nucleotide (thus, they have been multiple substitutions along one or the two branches that have resulted in the same nucleotide being observed by chance). This problem is not so serious for closely related species such as Human and Chimp, but can be a more serious problem for more distantly related species.
+- the fact that the total number of differences is small ($k_{obs} = 11$) and thus there is a large uncertainty about our estimate.
 
-We would like to estimate the divergence time between Human and Chimp. Let us call this divergence time $T$ (measured in million years).
+Here, we derive some mathematical identities that will give us a more accurate estimation procedure.
 
-- Given $r$ and $T$, and based on what you did in the first tutorial, what is the probability that a given nucleotide position will be different between Human and Chimp?
-Let us note this probability $q(r,T)$. It is a function of the rate $r$ and the divergence time $T$.
+- First, given $r$ and $T$, we need to derive the probability that a given nucleotide position will be different between Human and Chimp.
+Let us note this probability $q(r,T)$. It is a function of the rate $r$ and the divergence time $T$. Mathematically, it is given by:
+$$$
+q(r,T) = \frac{3/4} \, \left( 1 - e^{-2*4/3*r*T} \right)
+$$$
 
-- Given a sequence of length $N$, what is the expected number $\bar k$ of differences between Human and Chimp over this sequence?
-
-- Conversely, given that you have observed $k_{obs}$ out of $N$ differences in the empirical data, what is your best estimate for the divergence time $T$?
-
-Of note, $\bar k$ is the expected number of differences, that is, the mean number of differences that you observe if you run the simulation many times under a given fixed value for $T$. However, from simulation to simulation, the actual number of differences $k$ will vary. This number $k$ is a random variable, which has a binomial distribution:
+- Second, given a sequence of length $N$, each of the $N$ positions has a probability of being different which is given by $q(r,T)$. As a result, the total number of differences for an alignment of $N=878$ positions, $k$, is random and has a binomial distribution:
 $$
 k \sim Binomial(N, q(r,T))
 $$
-We can see this by noting that, for each position, we will end up observing a difference with probability $q(r,T)$. We repeat this procedure $N$ times independently, and therefore, the total number of 'successes' (i.e. differences) will be binomial of parameter $N$ and $q(r,T)$. This binomial distribution for $k$ is very important for the following.
 
+We will now use these mathematical relations in two different ways. In a first step, we will simulate the evolution of genetic sequences, assuming a given value of the divergence time $T$ (in fact, we will only simulate the number of differences $k$, and not the entire DNA sequence). In a second step, we will rely on the observed number of differences $k_{obs} = 11$ to infer the divergence time $T$.
 
-Bayesian inference of the divergence time $T$: rejection sampling.
+Simulating the evolutionary process
 ===============
 {:.section}
 
-The quick estimation obtained in the previous section does not give any measure of the uncertainty about our estimate of the divergence time $T$. To address this problem, we will now develop a more elaborate approach, based on Bayesian inference. This will also give us an occasion to write our first Bayesian analysis in RevBayes.
-
-To conduct Bayesian inference, we first need to have a prior distribution over $T$. This prior represents our state of knowledge about $T$, before we have seen the empirical data (the sequence alignment). In the present case, we will consider that we don't know anything a priori about this divergence time, except that it is between 0 and 20 Myr. Mathematically, we represent this by assuming a uniform distribution over $T$. In RevBayes, we can draw $T$ from this prior as follows:
-$$
-T ~ Uniform(0,20)
-$$
-This is the mathematical notation. In RevBayes, we can draw $T$ from this prior as follows:
-
+In this section, we will use RevvBayes to write a little program that simulates the number of differences in the alignment, given the mutation parameters and the divergence time between the two species. This will give us a first practical introduction to RevBayes. We will do this directly in the command line environment offered by RevBayes. You can start revbayes by just typing:
 ```
-T = rUniform(1,0,20)[1]
+rb
 ```
-You can try this command and repeat it several times, to see that, each time, you draw a value of $T$ anywhere between 0 and 20 Myr.
+You should now be in the command line environment of RevBayes.
 
-Now, consider the following program:
-
+In this environment, we can first define the parameters of the model (using a syntax that looks very much like R):
 ```
 # number of aligned nucleotide positions
-N = 878
-# number of differences observed in the empirical sequences
-k_obs = 11
-
-# give your formula for r
-r = ...
-
-# number of samples we want from the posterior distribution
-n_sample = 100
-
-# initialize the counter
-count = 0
-
-# create a vector of size n_sample, with all entries initialized at 0
-T_sample = rep(0, n_sample)
-
-# repeat until we have collected n_sample values of T
-while (count < n_sample)	{
-
-	# draw T from prior: uniform between 0 and 20 Myr
-	T = rUniform(1,0,20)[1]
-
-	# compute q(r,T) for the current value of T
-	# write some code here based on the formula that was derived previously
-	q = ...
-
-	# draw k given T
-	k = rbinomial(1,N, Probability(q))[1]
-
-	# condition on k == k_obs (thus rejecting the sample if k is not equal to k_obs)
-	if (k == k_obs)	{
-		count = count + 1
-		T_sample[count] = T
-	}
-}
-
-# finally, write the sample to a file:
-for (i in 1:n_sample)	{
-	write(T_sample[i], "\n", file="analyses/apes_reject.log", append=TRUE)
-}
+N <- 878
+# mutation rate per generation
+u <- 2e-8
+# generation time
+tau <- 30
+```
+Based on these parameters, we can express the substitution rate per Myr:
+```
+# substitution rate per million years
+r <- u / tau * 1e6
 ```
 
-This program repeats the following procedure:
-- draw T from the uniform prior
-- given T, draw the number of differences k between the human and chimp sequences
-- if k == k_obs, keep T, otherwise, discard it
-- do this until 100 values for T have been kept
-
-Import this program in RevBayes and run it. In R, draw the histogram of the 100 values of $T$ that have been stored in the array named sample (and that have been written into the file named apes_reject.out). To get a nicer histogram, you can set n_sample to 1000, but this will take more time.
-
-In RevBayes, you can also compute the mean and the stdev of the sample:
+Then, for the purpose of simulation, we assume a certain value for the divergence time between human and chimp: let's say 6 Myr.
 ```
-mean(T_sample)
-stdev(T_sample)
+T <- 6
 ```
-or the median
+Now, we define a function which, given $r$ and $T$, returns the probability for a given position to be different between the two species (what we have noted $q(r,T)$ above):
 ```
-median(T_sample)
+q := Probability(( 1 - exp(-2*4/3*r*T)) * 3/4)
 ```
-and, finally, have a 95\% credible interval by looking at the quantiles at 2,5\% and 97,5\%:
+Here, there is an important thing to notice: we did not write 'q <- Probability...', but 'q := Probability'. What does that mean exactly? To understand this, you can make the following experiment: first, print the value of $q$:
 ```
-quantile(T_sample, 0.025)
-quantile(T_sample, 0.975)
+print(q)
 ```
+Now, change the value of $T$:
+```
+T <- 4
+```
+And finally, print again the value of $q$:
+```
+print(q)
+```
+Finally, change the value of $T$ back to 6, and print again $q$.
+What do you see? Essentially, the variable $q$ 'keeps an eye' on the variable(s) on which it depends (here $T$). If those variables change their value, then $q$ also updates its value, based on the formula that was used for its definition.
+Finally, we can proceed with the random variable $k$:
+```
+k ~ dnBinomial(q,N)
+print(k)
+```
+Here, we use another symbol: '~', which is called the stochastic operator (as opposed to the deterministic assignment operators that we have seen above). This is just saying that $k$ is a random variable drawn from a binomial distribution of parameters $q$ and $N$.
+Of note, if you try to print $k$ it several times (make the experiment), you will always get the same value (the one that was drawn when you first defined $k$). If you want to re-draw the variable, you have to do it explicitly:
+```
+k.redraw()
+print(k)
+```
+In fact, you can use this to draw multiple times and see the distribution of values of $k$, using a for loop:
+```
+for (i in 1:10) { k.redraw(); print(k) }
+```
+Here again, you can try to change the value of $T$, say, set $T$ equal to 6, or to 20; and then redo 10 draws of $k$. What do you observe? 
 
-As you can see, although the values for $T$ that were initially drawn are uniformly distributed between 0 and 20, the histogram is concentrated around a value of about 9 Myr. In other words, this histogram is enriched in values of $T$ that are more likely to produce a value for the random variable $k$ which turns out to be equal to the empirically observed value $k_{obs}$.
 
-From a Bayesian perspective, this histogram represents a sample from the posterior distribution. The algorithm used here to sample from the posterior distribution is called rejection sampling. Rejection sampling represents the concept of conditioning the model (including the prior) on the observed value $k_{obs}$ (simply by rejecting all runs that did not produce this result).
-
-
-Bayesian inference of the divergence time $T$. MCMC.
+Bayesian inference and estimation of the divergence time
 ===============
 {:.section}
 
+(To avoid interference with the work done above, it can be useful to refresh the environment by closing the current RevBayes session, using the 'quit()' function, and then and open a new session.)
 
-Rejection sampling is conceptually simple, but it is not a very efficient algorithm. For large datasets and more complex models, the probability of reproducing exactly the empirically observed data is just too small. For that reason, we will need to make a huge number of trials until we get 100 or 1000 samples.
+General overview:
+To conduct Bayesian inference, we will use the same model as the one just explored, except that, now, we do not specify a value for $T$. Instead, we specify a prior distribution for $T$. This prior represents our state of knowledge about $T$, before we have seen the empirical data (the sequence alignment). In the present case, we will consider that we don't know anything a priori about this divergence time, except that it is between 0 and 20 Myr. Mathematically, we represent this by assuming a uniform distribution over $T$. In RevBayes, we can draw $T$ from this prior as follows:
 
-A more efficient approach is to use Markov Chain Monte Carlo (MCMC). RevBayes semi-automatically implements MCMC. In this section, we will derive a MCMC version of the inference conducted above using rejection sampling.
-
-
-Declaring the model
----------------------------------------------------
-{:.subsubsection}
-
-
-As above, we start by defining the fixed parameters (the constant) of the problem: $N$, $r$ and $k_{obs}$.
+```
+T ~ dnUniform(0,20)
+```
+Thus, now, $T$ is a random variable (just like $k$). We just need to introduce this random $T$ in the model already considered above. So, we start by defining the fixed parameters (the constant) of the problem: 
 
 ```
 # number of aligned nucleotide positions
 N <- 878
-# number of differences observed in the empirical sequences
-k_obs <- 11
 
-# give your formula for r
-r = ...
+# mutation rate per generation
+u <- 2e-8
+# generation time
+tau <- 30
+# substitution rate per million years
+r <- u / tau * 1e6
 ```
-
-
-Then, we specify the model:
-
+Next, we define our random $T$, from a uniform prior:
 ```
-# T is from a uniform prior
 T ~ dnUniform(0,20)
-
-# here, your formula for q(r,T)
-q := Probability(...)
-
-# k is binomial, given T (q depends on T)
+```
+Given $T$, we define, as before, the probability of a nucleotide difference $q$:
+```
+q := Probability(( 1 - exp(-2*4/3*r*T)) * 3/4)
+```
+and finally, the total number of differences $k$:
+```
 k ~ dnBinomial(N, q)
-
-# k has been observed and turns out to be equal to k_obs
-k.clamp(k_obs)
-
-mymodel = model(T)
 ```
 
-So, here, we just describe the whole problem, step by step:
-- T is from a uniform distribution
+
+Now, we want to condition the model on the observed count (fix $k = 11$) and sample from the posterior distribution on $T$. To condition the model, we just  say that we have observed this random variable $k$, and it turns out that its value was 11 -- in other words, we 'clamp' it at this observed value:
+```
+k.clamp(11)
+```
+
+So, in summary, we can describe the whole problem, step by step:
+- T is unknown and could be anything between 0 and 20 ($T$ is a random variable with a uniform distribution)
 - q is a deterministic function of T (and of r)
 - k is a random variable whose distribution depends on q (and of N)
 - k has been observed and is therefore 'clamped', or constrained, to be equal to this observed value k_obs.
-
-
-Model variables
----------------------------------------------------
-{:.subsubsection}
-
-
-A very important point here: there are several types of variables in revbayes, which are defined using different assignment operators:
-
-- constant variables, like $r$, or $N$ or $k_{obs}$.
-- model variables: here, $T$, $q$ and $k$.
-- MCMC variables: here, 'mymodel' (but the variables called 'moves', 'monitors' or 'mymcmc' below are also MCMC variables).
-
-- constant variables are defined using the assignment operator '<-'
-- the MCMC variables are defined using the assignment operator '='.
-- as for model variables, they can be either stochastic ($T$ and $k$), or deterministic ($q$).
-- stochastic model variables are defined using the stochastic operator '~'
-- deterministic model variables are defined using the deterministic assignment operator ':='
-
-- The model variables have the property that they remember how their value (for deterministic variables) or their probability distribution (for stochastic variables) depends on the other model variables. Thus, if other model variables change their value, then a model variable will 'know' it and will know how to recompute its value or its probability accordingly. This is very useful, because the whole idea of the MCMC is to 'move' the random variables (i.e. try small changes in their value) and accept or reject these moves depending on how this changes the global posterior distribution. Thus, each time we move a particular variable, all other variables will automatically know how they should update their value or probability, and the MCMC will be much more easily implemented.
-
-- the value of a deterministic variable depends on the variables that are directly specified in its definition: here, $q$ depends on $T$ and $r$. Whenever the value of $T$ changes during the MCMC, this will change the value of $q$
-
-- the probability of a stochastic variable depends on the variables that are directly specified in its definition: here, $k$ depends on $q$, and thus, if the value of $q$ changes during the MCMC (which will happen each time the value of $T$ will change), this will change the probability of observing $k = k_{obs}$.
-
-
-The dependencies between the model variables can be visualized in terms of a graphical model. This point will be explained on the board.
+- what is the posterior distribution on T?
 
 
 Constructing the Monte Carlo inference
@@ -232,14 +173,13 @@ Constructing the Monte Carlo inference
 {:.subsubsection}
 
 
-Consider the last line in the code show above:
-
+Our model is now complete, and we capture it as a whole:
 ```
 mymodel = model(T)
 ```
-With this instruction, the entire model will be captured by the RevBayes by searching for all stochastic and deterministic model variables that are interconnected, directly or indirectly, to T. Here, $q$ depends on $T$, and $k$ has a distribution that depends on $q$, so these three model variables, $T$, $q$, and $k$, will be captured in 'mymodel'.
+With this instruction, the entire model will be captured by RevBayes by searching for all stochastic and deterministic model variables that are interconnected, directly or indirectly, to T. Here, $q$ depends on $T$, and $k$ has a distribution that depends on $q$, so these three model variables, $T$, $q$, and $k$, will be captured in 'mymodel'.
 
-Once the model is defined and conditioned (as done above), we should still specify how we want to 'move' the free random variables of the model. Here, we have clamped $k$, so it cannot move. As for $q$, it is not a random variable. On the other hand, $T$ is a random variable, and it is not clamped: it is in fact the variable that we want to estimate. So, this variable should be allowed to 'move' during the MCMC.
+Next, we need to specify how we want to 'move' the free random variables of the model. Here, we have clamped $k$, so it cannot move. As for $q$, it is not a random variable. On the other hand, $T$ is a random variable, and it is not clamped: it is in fact the variable that we want to estimate. So, this variable should be allowed to 'move' during the MCMC.
 Here, we used a 'sliding' move:
 
 ```
@@ -268,8 +208,34 @@ mymcmc.run(generations = 30000)
 After the MCMC has run, a file names apes_mcmc.log has been created. This file contains all of the 3000 values of T visited during the MCMC (why only 3000?).
 
 - Write this program, run it
-- Draw the histogram of the values of $T$ visited during the MCMC
-- Compare this histogram with the histogram obtained above with rejection sampling.
+- Using Tracer, draw the histogram of the values of $T$ visited during the MCMC
+- Compute the posterior mean, median and 95% credible interval for $T$
+
+Model variables
+---------------------------------------------------
+{:.subsubsection}
+
+
+A very important point here: there are several types of variables in revbayes, which are defined using different assignment operators:
+
+- constant variables, like $r$, or $N$.
+- model variables: here, $T$, $q$ and $k$.
+- MCMC variables: here, 'mymodel' (but the variables called 'moves', 'monitors' or 'mymcmc' below are also MCMC variables).
+
+- constant variables are defined using the assignment operator '<-'
+- the MCMC variables are defined using the assignment operator '='.
+- as for model variables, they can be either stochastic ($T$ and $k$), or deterministic ($q$).
+- stochastic model variables are defined using the stochastic operator '~'
+- deterministic model variables are defined using the deterministic assignment operator ':='
+
+- The model variables have the property that they remember how their value (for deterministic variables) or their probability distribution (for stochastic variables) depends on the other model variables. Thus, if other model variables change their value, then a model variable will 'know' it and will know how to recompute its value or its probability accordingly. This is very useful, because the whole idea of the MCMC is to 'move' the random variables (i.e. try small changes in their value) and accept or reject these moves depending on how this changes the global posterior distribution. Thus, each time we move a particular variable, all other variables will automatically know how they should update their value or probability, and the MCMC will be much more easily implemented.
+
+- the value of a deterministic variable depends on the variables that are directly specified in its definition: here, $q$ depends on $T$ and $r$. Whenever the value of $T$ changes during the MCMC, this will change the value of $q$
+
+- the probability of a stochastic variable depends on the variables that are directly specified in its definition: here, $k$ depends on $q$, and thus, if the value of $q$ changes during the MCMC (which will happen each time the value of $T$ will change), this will change the probability of observing $k = k_{obs}$.
+
+
+The dependencies between the model variables can be visualized in terms of a graphical model. This point will be explained on the board.
 
 
 Monte Carlo inference using built-in phylogenetic tools
@@ -288,6 +254,10 @@ The idea is to proceed as follows:
 - implement MCMC moves
 - run the MCMC
 
+Of note, starting from now, it can be more convenient to write the series of commands, such as specified below, in a script, rather than in the command-line environment of RevBayes Then, you can run RevBayes directly on the script with the following command:
+```
+rb <scriptname>
+```
 We now proceed step by step.
 First, we load the data, from the nexus file called HC.nex, which contains only the sequences for Humans and Chimpanzees:
 ```
