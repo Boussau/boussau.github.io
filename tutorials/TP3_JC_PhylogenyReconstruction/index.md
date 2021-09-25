@@ -1,6 +1,6 @@
 
 ---
-title: TP3 Phylogenetic reconstruction on nucleotide data
+title: TP2 Phylogenetic reconstruction on nucleotide data
 subtitle: Phylogenetic inference with the Jukes Cantor model
 authors:  Bastien Boussau
 level: 2

@@ -1,11 +1,10 @@
 ---
-title: TP4 Nucleotide substitution models
+title: TP2 Nucleotide substitution models
 subtitle: Parameter estimation and tree inference
 authors:  Nicolas Lartillot
 level: 2
 order: 0.4
 prerequisites:
-- TP1_simulatingDNAEvolution
 - TP2_JukesCantorHumanChimp
 - TP3_JC_PhylogenyReconstruction
 index: true
