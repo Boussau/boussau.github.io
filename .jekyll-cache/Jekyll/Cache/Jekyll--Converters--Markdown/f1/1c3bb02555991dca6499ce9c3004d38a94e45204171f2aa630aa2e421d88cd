@@ -1,6 +1,0 @@
-I")<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kappaAG ~ dnLognormal(0,1)    # The purine transition rate
-kappaCT ~ dnLognormal(0,1)    # The pyrimindine transition rate
-pi ~ dnDirichlet( v(1,1,1,1) )
-Q := fnTrN(kappaAT, kappaCT, ,pi)
-</code></pre></div></div>
-:ET

@@ -1,8 +1,0 @@
-I"<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># lets get a draw from a Dirichlet distribution
-a &lt;- [1,1,1,1]   # we could also use rep(1,4)
-b ~ dnDirichlet(a)
-b
-# let check if b really sums to 1
-sum(b)
-</code></pre></div></div>
-:ET

@@ -1,8 +1,0 @@
-I"<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-# we draw a correlation matrix from an LKJ distribution
-R ~ dnLKJ(eta=1, dim=5)
-
-# we specify an element swap move
-moves[1] = mvCorrelationMatrixElementSwap(R)
-</code></pre></div></div>
-:ET

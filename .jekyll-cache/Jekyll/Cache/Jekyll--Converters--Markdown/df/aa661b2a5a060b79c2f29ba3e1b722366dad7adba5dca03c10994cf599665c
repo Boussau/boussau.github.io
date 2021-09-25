@@ -1,5 +1,0 @@
-I"™<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = v(1,2,3,4,5)
-max(a)
-# this will print 5
-</code></pre></div></div>
-:ET

@@ -1,8 +1,0 @@
-I"<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># The most important use of the chi-square distribution
-# is arguable the quantile function.
-# You can access it the following way:
-df &lt;- 10
-a := qchisq(0.025, df)
-a
-</code></pre></div></div>
-:ET

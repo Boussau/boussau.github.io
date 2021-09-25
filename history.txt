@@ -1,3 +1,0 @@
-help()
-ls(all=true, filter="function")
-q()

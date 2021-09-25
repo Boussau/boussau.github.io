@@ -1,9 +1,0 @@
-I"Y<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># set an expected value for x
-expectation_of_x &lt;- 1
-# set a mean and sd parameter
-sd &lt;- 0.5
-mean &lt;- ln(expectation_of_x) - 0.5 * sd^2
-# create a lognormal distribution with expected value of 1
-x ~ dnLognormal(mean=mean, sd=sd)
-</code></pre></div></div>
-:ET

@@ -1,5 +1,0 @@
-I"º<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kappa ~ dnLognormal(0,1)
-pi ~ dnDirichlet( v(1,1,1,1) )
-Q := fnHKY(kappa,pi)
-</code></pre></div></div>
-:ET

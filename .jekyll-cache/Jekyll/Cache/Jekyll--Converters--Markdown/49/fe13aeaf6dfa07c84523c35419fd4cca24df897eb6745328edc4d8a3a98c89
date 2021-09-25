@@ -1,9 +1,0 @@
-I"Ø<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Create a RealPos
-x &lt;- 12/13
-type(x)
-
-# Convert the RealPos to Probability
-y := Probability(x)
-type(y)
-</code></pre></div></div>
-:ET

@@ -1,8 +1,0 @@
-I"Ø<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>## Correct usage: does "x" exist?
-x &lt;- 1.0
-exists("x")
-
-## Incorrect usage: does "1.0" exist?
-exists(x)
-</code></pre></div></div>
-:ET

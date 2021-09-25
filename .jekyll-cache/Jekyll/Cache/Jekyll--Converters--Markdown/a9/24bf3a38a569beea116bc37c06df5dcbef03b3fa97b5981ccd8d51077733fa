@@ -1,6 +1,0 @@
-I"V<p><em>Branch-length tree obtained from the timetree by multiplying the branch
-lengths with randomly chosen rates. The rates are sampled from
-two log-normal distributions introducing frequent minor, and sparse major rate
-modifications, respectively. The alignment used for inference was simulated
-along this tree using the JC model.</em></p>
-:ET

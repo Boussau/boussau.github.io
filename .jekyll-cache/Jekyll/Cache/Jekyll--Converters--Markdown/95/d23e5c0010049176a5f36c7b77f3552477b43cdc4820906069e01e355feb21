@@ -1,8 +1,0 @@
-I"ä<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-# we simulate a correlation matrix.
-R &lt;- rLKJ(n=1, eta=1, dim=5)
-
-# let's print the simulated correlation matrix
-R
-</code></pre></div></div>
-:ET

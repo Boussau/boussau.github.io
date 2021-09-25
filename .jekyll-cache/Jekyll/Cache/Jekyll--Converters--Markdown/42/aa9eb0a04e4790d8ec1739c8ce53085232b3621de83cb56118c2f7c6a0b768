@@ -1,8 +1,0 @@
-I"Ð<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># now we have an empty workspace
-ls()
-# next wee add a variable
-a &lt;- 1
-# and we can see it
-ls()
-</code></pre></div></div>
-:ET

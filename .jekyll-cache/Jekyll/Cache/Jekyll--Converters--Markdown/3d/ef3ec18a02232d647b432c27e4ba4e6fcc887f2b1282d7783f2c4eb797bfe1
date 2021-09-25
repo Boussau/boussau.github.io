@@ -1,2 +1,0 @@
-I"ò<p>If you were not able to successfully execute the script, the most common culprit is that RevBayes is not executing from where you think. Try running getwd() and making sure that your starting working directory is what you think it is.</p>
-:ET

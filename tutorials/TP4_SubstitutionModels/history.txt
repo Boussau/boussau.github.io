@@ -1,0 +1,11 @@
+x <- dnDirichlet(1.0,1.0,1.0,1.0)
+x <- dnDirichlet([1.0,1.0,1.0,1.0])
+x0 <- [1.0,1.0,1.0,1.0]
+x <- dnDirichlet(x0)
+x ~ dnDirichlet(x0)
+y ~ dnDirichlet([1.0,1.0,1.0,1.0])
+dnDirichlet
+fnHKY
+fnT92
+fnGTR
+:q

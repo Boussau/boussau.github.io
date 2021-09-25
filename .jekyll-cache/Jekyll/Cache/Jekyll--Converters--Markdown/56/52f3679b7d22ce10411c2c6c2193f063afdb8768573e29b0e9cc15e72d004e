@@ -1,8 +1,0 @@
-I"÷<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># set the lower bound
-a &lt;- -2.5
-# set the upper bound
-b &lt;- -3.9
-# create a stochastic node with a uniform prior
-u ~ dnUniform(a, b)
-</code></pre></div></div>
-:ET

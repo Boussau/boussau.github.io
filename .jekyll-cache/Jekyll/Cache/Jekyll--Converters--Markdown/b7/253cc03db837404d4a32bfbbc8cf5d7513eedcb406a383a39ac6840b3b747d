@@ -1,5 +1,0 @@
-I"›<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = v(0,1,1,2,3,5,8,13)
-min(a)
-# will print 0
-</code></pre></div></div>
-:ET

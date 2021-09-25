@@ -1,5 +1,0 @@
-I"”<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a &lt;- 1:3
-b &lt;- 4
-c := append(a,b)
-</code></pre></div></div>
-:ET

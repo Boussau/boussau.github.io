@@ -1,2 +1,0 @@
-I"º<p>Graphical model representation of a simple phylogenetic model. The graphical model shows the dependencies among parameters <a class="citation" href="#Hoehna2014b">(HÃ¶hna et al. 2014)</a>. Here, the rate matrix $Q$ is a constant variable because it is fixed and does not depend on any parameter. The only free parameters of this model, based on the Jukes-Cantor model of substitution, are the tree $\Psi$ including the branch lengths.</p>
-:ET

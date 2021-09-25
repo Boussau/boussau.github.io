@@ -1,0 +1,62 @@
+data <- readDiscreteCharacterData("data/thermus5.nex")
+
+n_species <- data.ntaxa()
+n_branches <- 2 * n_species - 2
+taxa <- data.taxa()
+
+out_group = clade("Aquifex", "Thermotoga")
+
+# root age
+root_age <- 1
+timetree ~ dnUniformTimeTree(root_age, taxa)
+
+# non auto-correlated clock
+meanclockrate ~ dnExponential(1.0)
+varclockrate ~ dnExponential(1.0)
+alpharate := meanclockrate*meanclockrate/varclockrate
+betarate := alpharate / meanclockrate
+for (i in 1:n_branches) {
+    clockrate[i] ~ dnGamma(alpharate, betarate)
+}
+
+# Tamura 92 substitution process
+kappa ~ dnExponential(0.1)
+gamma ~ dnBeta(1.0, 1.0)
+Q := fnT92(kappa=kappa, gc=gamma)
+
+seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" ) 
+seq.clamp(data)
+
+my_model = model(timetree)
+
+# moves
+moves = VectorMoves()
+moves.append(mvNarrow(timetree, weight=3.0))
+moves.append(mvNNI(timetree, weight=3.0))
+moves.append(mvFNPR(timetree, weight=3.0))
+moves.append(mvGPR(timetree, weight=3.0))
+moves.append(mvNodeTimeSlideUniform(timetree, weight=20))
+moves.append(mvSubtreeScale(timetree, weight=4))
+
+moves.append(mvSlide(gamma, weight=1.0, delta=0.1))
+moves.append(mvScale(kappa, weight=1.0))
+moves.append(mvScale(meanclockrate, weight=1.0))
+moves.append(mvScale(varclockrate, weight=1.0))
+for (i in 1:n_branches) {
+   moves.append(mvScale(clockrate[i]))
+}
+
+monitors[1] = mnModel(filename="analyses/thermusT92.log", printgen=10, separator = TAB)
+monitors[2] = mnFile(timetree,filename="analyses/thermusT92.trees", printgen=10, separator = TAB)
+monitors[3] = mnScreen(printgen=100, kappa, gamma, meanclockrate, varclockrate)
+
+# Make the analysis object
+analysis = mcmc(my_model, monitors, moves)
+# Run the MCMC
+analysis.run(10000)
+
+# Post-analysis: constructing the maximum a posteriori tree
+treetrace = readTreeTrace("analyses/thermusT92.trees", treetype="non-clock", burnin=0.1)
+map_tree = mapTree(treetrace, "analyses/thermusT92b_map.tree")
+
+

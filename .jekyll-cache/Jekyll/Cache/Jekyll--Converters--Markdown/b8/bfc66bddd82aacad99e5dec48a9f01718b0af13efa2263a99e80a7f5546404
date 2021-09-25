@@ -1,3 +1,0 @@
-I"ü<p><img src="figures/primates_cytb_JC_TL_Trace.png" width="500" /> <img src="figures/primates_cytb_JC_TL_Distribution.png" width="500" /></p>
-<figcaption><strong>Left:</strong> Trace of tree-length samples for one MCMC run. The caterpillar-like look is a good sign.You will also see that the effective sample size is comparably large, i.e., much larger than 200. <strong>Right:</strong> Posterior distribution of the tree length of the primate phylogeny under a Jukes-Cantor substitution model.</figcaption>
-:ET

@@ -1,8 +1,0 @@
-I"Ë<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a = v(5,3,2,6,8)
-median(a)
-# 5 is the result
-b = v(1,1,2,3,5,8)
-median(b)
-# 2.5 is the result
-</code></pre></div></div>
-:ET

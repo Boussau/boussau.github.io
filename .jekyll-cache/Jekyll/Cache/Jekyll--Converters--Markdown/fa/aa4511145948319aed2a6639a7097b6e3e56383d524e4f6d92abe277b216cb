@@ -1,7 +1,0 @@
-I"ú<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># we simulate a partial correlation matrix.
-P &lt;- rLKJPartial(n=1, eta=1, dim=5)
-
-# let's print the simulated partial correlation matrix
-P
-</code></pre></div></div>
-:ET

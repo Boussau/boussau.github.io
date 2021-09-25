@@ -1,4 +1,0 @@
-I"¹<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>trees=readTrees(text="(a,(b,c));\n(d:0.1,(e:0.1,f:0.1):0.1);")
-print(trees)
-</code></pre></div></div>
-:ET
