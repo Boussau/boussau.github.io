@@ -27,6 +27,7 @@ then
 
     git pull origin source
 
+    echo "BUILD SITE"
     # build the site
     cd _site
     #git fetch --quiet origin
