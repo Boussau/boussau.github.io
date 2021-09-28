@@ -5,11 +5,9 @@ authors:  Nicolas Lartillot, Bastien Boussau
 level: 2
 order: 0.8
 prerequisites:
-- TP1_simulatingDNAEvolution
 - TP2_JukesCantorHumanChimp
 - TP3_JC_PhylogenyReconstruction
 - TP4_SubstitutionModels
-- TP5_RatesAcrossSites
 - TP6_CodonModels
 - TP7_RelaxedClock
 index: true
