@@ -1,5 +1,5 @@
 ---
-title: TP2 Nucleotide substitution models
+title: TP3 Nucleotide substitution models
 subtitle: Parameter estimation and tree inference
 authors:  Nicolas Lartillot
 level: 2
