@@ -23,9 +23,9 @@ We use only the 4-fold degenerate third codon positions because all mutations at
 
 Based on the whole-genome sequencing of families (trios), the mutation rate per generation in Human has been estimated at $u = 2.10^{-8}$. Similar experiments have been conducted in Chimpanzees, giving similar estimates. The generation time in Humans is around $\tau = 30$ years. It is a bit shorter in Chimpanzees, however, for simplicity, we will ignore this, and we will assume that the generation time has always been 30 years in great apes.
 
-- Based on these estimates for $u$ and $\tau$, What is the mutation rate per million years? Let us call it $r$.
+- Based on these estimates for $u$ and $\tau$, what is the mutation rate per million years? Let us call it $r$.
 
-- Let us denote by $T$ the divergence time $T$ (measured in million years). Based on the observed number of differences between the two sequences (11 out of 878 positions), can you give a first rough estimate of this divergence time?
+- Let us denote by $T$ the divergence time (measured in million years). Based on the observed number of differences between the two sequences (11 out of 878 positions), can you give a first rough estimate of this divergence time?
 
 
 The Jukes-Cantor distance
@@ -113,7 +113,7 @@ In fact, you can use this to draw multiple times and see the distribution of val
 ```
 for (i in 1:10) { k.redraw(); print(k) }
 ```
-Here again, you can try to change the value of $T$, say, set $T$ equal to 6, or to 20; and then redo 10 draws of $k$. What do you observe? 
+Here again, you can try to change the value of $T$, say, set $T$ equal to 6, or to 20; and then redo 10 draws of $k$. What do you observe?
 
 
 Bayesian inference and estimation of the divergence time
@@ -128,7 +128,7 @@ To conduct Bayesian inference, we will use the same model as the one just explor
 ```
 T ~ dnUniform(0,20)
 ```
-Thus, now, $T$ is a random variable (just like $k$). We just need to introduce this random $T$ in the model already considered above. So, we start by defining the fixed parameters (the constant) of the problem: 
+Thus, now, $T$ is a random variable (just like $k$). We just need to introduce this random $T$ in the model already considered above. So, we start by defining the fixed parameters (the constant) of the problem:
 
 ```
 # number of aligned nucleotide positions
@@ -306,4 +306,3 @@ mymcmc.run(generations=30000)
 - Write this program, run it
 - Draw the histogram of the values of $T$ visited during the MCMC
 - Compare this histogram with the histogram obtained above with rejection sampling.
-
