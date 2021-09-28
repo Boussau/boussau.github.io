@@ -212,30 +212,36 @@ After the MCMC has run, a file named apes_mcmc.log has been created. This file c
 - Using Tracer, draw the histogram of the values of $T$ visited during the MCMC
 - Compute the posterior mean, median and 95% credible interval for $T$
 
-Model variables
+Types of variables in RevBayes
 ---------------------------------------------------
 {:.subsubsection}
 
 
 A very important point here: there are several types of variables in revbayes, which are defined using different assignment operators:
 
-- constant variables, like $r$, or $N$.
-- model variables: here, $T$, $q$ and $k$.
-- MCMC variables: here, 'mymodel' (but the variables called 'moves', 'monitors' or 'mymcmc' below are also MCMC variables).
+- **constant variables**, like $r$, or $N$.
+- **MCMC variables**: like 'mymodel', 'moves', 'monitors' or 'mymcmc'.
+- **model variables**: here, $T$, $q$ and $k$.
 
-- constant variables are defined using the assignment operator '<-'
-- the MCMC variables are defined using the assignment operator '='.
+These types of variables use different assignment operators.
 
-As for model variables, they can be either stochastic ($T$ and $k$), or deterministic ($q$).
+**Constant variables** are defined using the assignment operator '<-'.
+
+**MCMC variables** are defined using the assignment operator '='.
+
+
+**Model variables**
+
+Model variables can be either stochastic ($T$ and $k$), or deterministic ($q$), and deserve a more detailed presentation.
+
 - stochastic model variables are defined using the stochastic operator '~'
 - deterministic model variables are defined using the deterministic assignment operator ':='
 
-- The model variables have the property that they remember how their value (for deterministic variables) or their probability distribution (for stochastic variables) depends on the other model variables. Thus, if other model variables change their value, then a model variable will 'know' it and will know how to recompute its value or its probability accordingly. This is very useful, because the whole idea of the MCMC is to 'move' the random variables (i.e. try small changes in their value) and accept or reject these moves depending on how this changes the global posterior distribution. Thus, each time we move a particular variable, all other variables will automatically know how they should update their value or probability, and the MCMC will be much more easily implemented.
+The model variables have the property that they remember how their value (for deterministic variables) or their probability distribution (for stochastic variables) depends on the other model variables. Thus, if other model variables change their value, then a model variable will 'know' it and will know how to recompute its value or its probability accordingly. This is very useful, because the whole idea of the MCMC is to 'move' the random variables (i.e. try small changes in their value) and accept or reject these moves depending on how this changes the global posterior distribution. Thus, each time we move a particular variable, all other variables will automatically know how they should update their value or probability, and the MCMC will be much more easily implemented.
 
-- the value of a deterministic variable depends on the variables that are directly specified in its definition: here, $q$ depends on $T$ and $r$. Whenever the value of $T$ changes during the MCMC, this will change the value of $q$
+The value of a deterministic variable depends on the variables that are directly specified in its definition: here, $q$ depends on $T$ and $r$. Whenever the value of $T$ changes during the MCMC, this will change the value of $q$
 
-- the probability of a stochastic variable depends on the variables that are directly specified in its definition: here, $k$ depends on $q$, and thus, if the value of $q$ changes during the MCMC (which will happen each time the value of $T$ will change), this will change the probability of observing $k = k_{obs}$.
-
+The probability of a stochastic variable depends on the variables that are directly specified in its definition: here, $k$ depends on $q$, and thus, if the value of $q$ changes during the MCMC (which will happen each time the value of $T$ will change), this will change the probability of observing $k = 11$.
 
 The dependencies between the model variables can be visualized in terms of a graphical model. This point will be explained on the board.
 
