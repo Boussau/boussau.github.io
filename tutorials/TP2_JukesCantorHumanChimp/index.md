@@ -33,7 +33,7 @@ The Jukes-Cantor distance
 {:.section}
 
 The rough estimate obtained in the last section does not take into account two complications:
-- the problem of hidden substitutions: the fact that some positions may show the same nucleotide between the two species, and yet this is not the ancestral nucleotide (thus, they have been multiple substitutions along one or the two branches that have resulted in the same nucleotide being observed by chance). This problem is not so serious for closely related species such as Human and Chimp, but can be a more serious problem for more distantly related species.
+- the problem of hidden substitutions: the fact that some positions may show the same nucleotide between the two species, and yet this is not the ancestral nucleotide (thus, there have been multiple substitutions along one or the two branches that have resulted in the same nucleotide being observed by chance). This problem is not so serious for closely related species such as Human and Chimp, but can be a more serious problem for more distantly related species.
 - the fact that the total number of differences is small ($k_{obs} = 11$) and thus there is a large uncertainty about our estimate.
 
 Here, we derive some mathematical identities that will give us a more accurate estimation procedure.
