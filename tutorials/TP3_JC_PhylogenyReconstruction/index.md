@@ -1,4 +1,3 @@
-
 ---
 title: TP2 Phylogenetic reconstruction on nucleotide data
 subtitle: Phylogenetic inference with the Jukes Cantor model
