@@ -40,9 +40,9 @@ Here, we derive some mathematical identities that will give us a more accurate e
 
 - First, given $r$ and $T$, we need to derive the probability that a given nucleotide position will be different between Human and Chimp.
 Let us note this probability $q(r,T)$. It is a function of the rate $r$ and the divergence time $T$. Mathematically, it is given by:
-$$$
-q(r,T) = \frac{3/4} \, \left( 1 - e^{-2*4/3*r*T} \right)
-$$$
+$$
+q(r,T) = \frac{3}{4} \, \left( 1 - e^{-2*4/3*r*T} \right)
+$$
 
 - Second, given a sequence of length $N$, each of the $N$ positions has a probability of being different which is given by $q(r,T)$. As a result, the total number of differences for an alignment of $N=878$ positions, $k$, is random and has a binomial distribution:
 $$
@@ -97,8 +97,8 @@ And finally, print again the value of $q$:
 print(q)
 ```
 Finally, change the value of $T$ back to 6, and print again $q$.
-What do you see? Essentially, the variable $q$ 'keeps an eye' on the variable(s) on which it depends (here $T$). If those variables change their value, then $q$ also updates its value, based on the formula that was used for its definition. $q$ is called a *deterministic variable* as it depends on other variables through a deterministic relationship, that was instantiated through the ':=' operator.
- 
+What do you see? Essentially, the variable $q$ 'keeps an eye' on the variable(s) on which it depends (here $T$). If those variables change their value, then $q$ also updates its value, based on the formula that was used for its definition. Formally, $q$ is called a *deterministic variable* as it depends on other variables through a deterministic relationship, that was instantiated through the ':=' operator.
+
 Finally, we can proceed with the random variable $k$:
 ```
 k ~ dnBinomial(q,N)
