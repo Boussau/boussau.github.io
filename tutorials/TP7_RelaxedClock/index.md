@@ -1,5 +1,5 @@
 ---
-title: TP5 Relaxed clock models
+title: TP5 Molecular dating and relaxed clock models
 subtitle: Estimating (relative) divergence times among primates
 authors:  Nicolas Lartillot
 level: 2
