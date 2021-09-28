@@ -97,7 +97,8 @@ And finally, print again the value of $q$:
 print(q)
 ```
 Finally, change the value of $T$ back to 6, and print again $q$.
-What do you see? Essentially, the variable $q$ 'keeps an eye' on the variable(s) on which it depends (here $T$). If those variables change their value, then $q$ also updates its value, based on the formula that was used for its definition. $q$ is called a *deterministic variable* as it depends on other variables through a deterministic relationship, that was instantiated through the ':=' operator. 
+What do you see? Essentially, the variable $q$ 'keeps an eye' on the variable(s) on which it depends (here $T$). If those variables change their value, then $q$ also updates its value, based on the formula that was used for its definition. $q$ is called a *deterministic variable* as it depends on other variables through a deterministic relationship, that was instantiated through the ':=' operator.
+ 
 Finally, we can proceed with the random variable $k$:
 ```
 k ~ dnBinomial(q,N)
