@@ -97,15 +97,15 @@ And finally, print again the value of $q$:
 print(q)
 ```
 Finally, change the value of $T$ back to 6, and print again $q$.
-What do you see? Essentially, the variable $q$ 'keeps an eye' on the variable(s) on which it depends (here $T$). If those variables change their value, then $q$ also updates its value, based on the formula that was used for its definition. Formally, $q$ is called a *deterministic variable* as it depends on other variables through a deterministic relationship, that was instantiated through the ':=' operator.
+What do you see? Essentially, the variable $q$ 'keeps an eye' on the variable(s) on which it depends (here $T$). If those variables change their value, then $q$ also updates its value, based on the formula that was used for its definition. Formally, $q$ is called a *deterministic variable* as it depends on other variables through a deterministic relationship, that was instantiated through the ':=' *deterministic assignment operator*.
 
 Finally, we can proceed with the random variable $k$:
 ```
 k ~ dnBinomial(q,N)
 print(k)
 ```
-Here, we use another symbol: '~', which is called the stochastic operator (as opposed to the deterministic assignment operators that we have seen above). This is just saying that $k$ is a random variable drawn from a binomial distribution of parameters $q$ and $N$.
-Of note, if you try to print $k$ it several times (make the experiment), you will always get the same value (the one that was drawn when you first defined $k$). If you want to re-draw the variable, you have to do it explicitly:
+Here, we use another symbol: '~', which is called the *stochastic assignment operator*. This is just saying that $k$ is a random variable drawn from a binomial distribution of parameters $q$ and $N$.
+Of note, if you try to print $k$ several times (make the experiment), you will always get the same value (the one that was drawn when you first defined $k$). If you want to re-draw the variable, you have to do it explicitly:
 ```
 k.redraw()
 print(k)
@@ -121,7 +121,7 @@ Bayesian inference and estimation of the divergence time
 ===============
 {:.section}
 
-(To avoid interference with the work done above, it can be useful to refresh the environment by closing the current RevBayes session, using the 'quit()' function, and then and open a new session.)
+(To avoid interference with the work done above, it can be useful to refresh the environment by closing the current RevBayes session, using the 'quit()' function, and then open a new session.)
 
 General overview:
 To conduct Bayesian inference, we will use the same model as the one just explored, except that, now, we do not specify a value for $T$. Instead, we specify a prior distribution for $T$. This prior represents our state of knowledge about $T$, before we have seen the empirical data (the sequence alignment). In the present case, we will consider that we don't know anything a priori about this divergence time, except that it is between 0 and 20 Myr. Mathematically, we represent this by assuming a uniform distribution over $T$. In RevBayes, we can draw $T$ from this prior as follows:
@@ -156,7 +156,7 @@ k ~ dnBinomial(N, q)
 ```
 
 
-Now, we want to condition the model on the observed count (fix $k = 11$) and sample from the posterior distribution on $T$. To condition the model, we just  say that we have observed this random variable $k$, and it turns out that its value was 11 -- in other words, we 'clamp' it at this observed value:
+Now, we want to condition the model on the observed count ($k = 11$) and sample from the posterior distribution on $T$. To condition the model, we just  say that we have observed this random variable $k$, and it turns out that its value was 11 -- in other words, we 'clamp' it at this observed value:
 ```
 k.clamp(11)
 ```
@@ -164,8 +164,8 @@ k.clamp(11)
 So, in summary, we can describe the whole problem, step by step:
 - T is unknown and could be anything between 0 and 20 ($T$ is a random variable with a uniform distribution)
 - q is a deterministic function of T (and of r)
-- k is a random variable whose distribution depends on q (and of N)
-- k has been observed and is therefore 'clamped', or constrained, to be equal to this observed value k_obs.
+- k is a random variable whose distribution depends on q (and on N)
+- k has been observed and is therefore 'clamped', or constrained, to be equal to the observed value $11$.
 - what is the posterior distribution on T?
 
 
@@ -181,7 +181,7 @@ mymodel = model(T)
 With this instruction, the entire model will be captured by RevBayes by searching for all stochastic and deterministic model variables that are interconnected, directly or indirectly, to T. Here, $q$ depends on $T$, and $k$ has a distribution that depends on $q$, so these three model variables, $T$, $q$, and $k$, will be captured in 'mymodel'.
 
 Next, we need to specify how we want to 'move' the free random variables of the model. Here, we have clamped $k$, so it cannot move. As for $q$, it is not a random variable. On the other hand, $T$ is a random variable, and it is not clamped: it is in fact the variable that we want to estimate. So, this variable should be allowed to 'move' during the MCMC.
-Here, we used a 'sliding' move:
+Here, we use a 'sliding' move:
 
 ```
 moves[1] = mvSlide(T)
@@ -206,7 +206,7 @@ Now, we can run the model for 30 000 generations:
 ```
 mymcmc.run(generations = 30000)
 ```
-After the MCMC has run, a file names apes_mcmc.log has been created. This file contains all of the 3000 values of T visited during the MCMC (why only 3000?).
+After the MCMC has run, a file named apes_mcmc.log has been created. This file contains all of the 3000 values of T visited during the MCMC (why only 3000 and not 30000?).
 
 - Write this program, run it
 - Using Tracer, draw the histogram of the values of $T$ visited during the MCMC
@@ -225,7 +225,8 @@ A very important point here: there are several types of variables in revbayes, w
 
 - constant variables are defined using the assignment operator '<-'
 - the MCMC variables are defined using the assignment operator '='.
-- as for model variables, they can be either stochastic ($T$ and $k$), or deterministic ($q$).
+
+As for model variables, they can be either stochastic ($T$ and $k$), or deterministic ($q$).
 - stochastic model variables are defined using the stochastic operator '~'
 - deterministic model variables are defined using the deterministic assignment operator ':='
 
@@ -255,12 +256,12 @@ The idea is to proceed as follows:
 - implement MCMC moves
 - run the MCMC
 
-Of note, starting from now, it can be more convenient to write the series of commands, such as specified below, in a script, rather than in the command-line environment of RevBayes Then, you can run RevBayes directly on the script with the following command:
+Of note, starting from now, it can be more convenient to write the series of commands, such as specified below, in a script, rather than in the command-line environment of RevBayes. Then, you can run RevBayes directly on the script 'scriptname.Rev' with the following command in the terminal:
 ```
-rb <scriptname>
+rb scriptname.Rev
 ```
 We now proceed step by step.
-First, we load the data, from the nexus file called HC.nex, which contains only the sequences for Humans and Chimpanzees:
+First, we load the data, from the nexus file called 'HC.nex', which contains only the sequences for Humans and Chimpanzees:
 ```
 data <- readDiscreteCharacterData("HC.nex")
 taxa <- data.taxa()
@@ -285,16 +286,16 @@ We then create the rate matrix for the Jukes-Cantor model
 # JC substitution process
 Q <- fnJC(4)
 ```
-And then we invoke a substitution process along the tree tau, according to the Jukes Cantor substitution process Q, with an absolute substitution rate r, producing a DNA sequence alignment. Finally, we say that this process has led to the observed data; thus, we condition on the sequence alignment:
+And then we invoke a substitution process along the tree $tau$, according to the Jukes Cantor substitution process $Q$, with an absolute substitution rate $r$, producing a DNA sequence alignment. Finally, we say that this process has led to the observed data; thus, we condition on the sequence alignment:
 ```
 seq ~ dnPhyloCTMC(tree=tau, Q=Q, branchRates=r, type="DNA" )
 seq.clamp(data)
 ```
-As above, we pull out the model starting from one of the model variables (here, the age T):
+As above, we pull out the model starting from one of the model variables (here, the age $T$):
 ```
 mymodel = model(T)
 ```
-And then we propose a scaling move on T, a series of monitors, and create the MCMC:
+And then we propose a scaling move on $T$, a series of monitors, and create the MCMC:
 ```
 moves[1] = mvScale(T)
 
@@ -306,4 +307,4 @@ mymcmc.run(generations=30000)
 ```
 - Write this program, run it
 - Draw the histogram of the values of $T$ visited during the MCMC
-- Compare this histogram with the histogram obtained above with rejection sampling.
+- Compare this histogram with the histogram obtained above with the non-phylogenetic inference.
