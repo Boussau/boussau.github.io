@@ -1,0 +1,8 @@
+I"<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vec[1] ~ dnDirichlet( [1,1,1,1] )
+vec[2] ~ dnDirichlet( [1,1,1,1] )
+vec[3] ~ dnDirichlet( [1,1,1,1] )
+vec[4] ~ dnDirichlet( [1,1,1,1] )
+
+m := stochasticMatrix(vec)
+</code></pre></div></div>
+:ET

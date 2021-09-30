@@ -1,0 +1,7 @@
+I"”<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>a &lt;- 2
+type(a)
+
+b &lt;- 2.0
+type(b)
+</code></pre></div></div>
+:ET

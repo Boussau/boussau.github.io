@@ -1,0 +1,14 @@
+I"<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>dim = 4
+df = 100
+kappa &lt;- 2
+Sigma ~ dnWishart(df, kappa, dim)
+for (i in 1:dim) { mu[i] ~ dnUnif(-1, 1) }
+x ~ dnMultivariateNormal( mean=mu, covariance=Sigma )
+mv[1] = mvCorrelationMatrixElementSwap(Sigma)
+mv[2] = mvCorrelationMatrixRandomWalk(Sigma)
+mv[3] = mvCorrelationMatrixSingleElementBeta(Sigma)
+mv[4] = mvCorrelationMatrixSpecificElementBeta(Sigma)
+mv[5] = mvCorrelationMatrixUpdate(Sigma)
+mv[6] = mvVectorSlide(x)
+</code></pre></div></div>
+:ET

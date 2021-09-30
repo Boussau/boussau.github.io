@@ -1,0 +1,13 @@
+I"Æ<p>For large phylogenetic trees, i.e., with more than 200 taxa, it might be more
+efficient to specify a combined topology and branch length prior distribution.
+We can achieve this by simply using the distribution <code class="highlighter-rouge">dnUniformTopologyBranchLength()</code>.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>br_len_lambda &lt;- 10.0
+psi ~ dnUniformTopologyBranchLength(taxa, branchLengthDistribution=dnExponential(br_len_lambda))
+moves.append( mvNNI(psi, weight=num_taxa) )
+moves.append( mvSPR(psi, weight=num_taxa/10.0) )
+moves.append( mvBranchLengthScale(psi, weight=num_branches) )
+</code></pre></div></div>
+<p>You might think that this approach is in fact simpler than the <code class="highlighter-rouge">for</code> loop that we
+explained above. We thought that it was pedagogical to specify the prior on
+each branch length separately in this tutorial to emphasize all components of the model.</p>
+:ET

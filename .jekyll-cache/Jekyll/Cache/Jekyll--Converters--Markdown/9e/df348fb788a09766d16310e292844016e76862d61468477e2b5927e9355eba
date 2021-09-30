@@ -1,0 +1,11 @@
+I"s<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># we simulate some oversations
+x &lt;- rhalfNormal(n=10,offset=0,sd=10)
+# let's see what the minimum is (you could do the max too)
+# the minimum should never be less than the offset
+min(x)
+# let's also see what the mean and the variance are
+mean(x)
+var(x)
+sd(x)
+</code></pre></div></div>
+:ET

@@ -1,0 +1,5 @@
+I"Á<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>er ~ dnDirichlet( v(1,1,1,1,1,1) )
+pi ~ dnDirichlet( v(1,1,1,1) )
+Q := fnGTR(er,pi)
+</code></pre></div></div>
+:ET

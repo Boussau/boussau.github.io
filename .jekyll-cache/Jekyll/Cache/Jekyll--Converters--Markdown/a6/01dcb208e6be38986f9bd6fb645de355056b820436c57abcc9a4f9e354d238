@@ -1,0 +1,8 @@
+I"Ë<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>printSeed()
+
+# Set the seed to a new value
+seed(12345)
+# Now print the seed again
+printSeed()
+</code></pre></div></div>
+:ET

@@ -1,0 +1,10 @@
+I"U<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># compute the ceiling of a real number
+number &lt;- 3.4
+ceiled_number &lt;- ceil(number)
+if (ceiled_number != 4.0) {
+    print("Problem when computing a ceiled value.")
+} else {
+    print("Correct computation of a ceiled value.")
+}
+</code></pre></div></div>
+:ET

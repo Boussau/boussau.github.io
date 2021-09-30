@@ -1,0 +1,7 @@
+I"<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Read in tree trace
+tree_trace = readTreeTrace("output/my.trees", burnin=0.25)
+
+# Generate the MAP tree
+map_tree = mapTree(trace=tree_trace, file="map.tree")
+</code></pre></div></div>
+:ET

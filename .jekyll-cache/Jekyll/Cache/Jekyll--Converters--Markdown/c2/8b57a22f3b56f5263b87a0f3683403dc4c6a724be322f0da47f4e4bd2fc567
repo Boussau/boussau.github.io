@@ -1,0 +1,6 @@
+I"Þ<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># set the file name
+fn = "rb_tutorial.Rev"
+# the source function will run the Rev code in the file fn
+source(fn)
+</code></pre></div></div>
+:ET

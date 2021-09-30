@@ -1,0 +1,9 @@
+I"K<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># we simulate some obversations
+x &lt;- rCauchy(n=10,location=0,scale=1)
+# let's see what the mean and the variance are.
+The mean will not converge with more samples, the Cauchy family has no moments.
+mean(x)
+var(x)
+sd(x)
+</code></pre></div></div>
+:ET
