@@ -39,3 +39,13 @@ The idea is to design a model for doing multi-gene phylogenetic reconstruction, 
 {% section Molecular dating of [Holocephali using fossil calibrations](msq147.pdf) %}
 
 Dating a phylogeny relies on interpreting divergence between sequences in the light of fossil calibrations, and in the light of priors on these calibrations and on the shape of the phylogeny. This is a difficult inferrential problem where the priors and the moves that are used can have an important impact on the result and on the convergence of the MCMC. In this project, you will reanalyze a data set built by Inoue et al. to evaluate the robustness of their results to the priors or the moves that are used.
+
+
+{% section Analysis of the SEMG2 gene in Primates %}
+
+Here the project is to analyze an alignment of the SEMG2 gene from primate species that differ in their mating systems.
+
+
+{% section Analysis of gene alignments from Gamma Proteobacteria %}
+
+Here the project is to analyze alignments from several genes from gamma-Proteobacteria, some of which are free-living, and others are endosymbionts.
