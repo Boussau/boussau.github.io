@@ -91,7 +91,7 @@ Once these three parameter components are defined, you can then create the matri
 seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="Codon" )
 seq.clamp( data_codon )
 ```
-Note that we have to specify that the data are codons, not nucleotides (type = "Codon"). In addition, we have to clamp the substitution process to the codon-transformed data (`data_codon`) and not `data`, which corresponds to the original nucleotide alignment).
+Note that we have to specify that the data are codons, not nucleotides (type = "Codon"). In addition, we have to clamp the substitution process to the codon-transformed data (`data_codon`) and not `data`, which corresponds to the original nucleotide alignment.
 
 For the rest, the script is as before, except that we need to define a move on omega (a scaling move).
 
