@@ -111,11 +111,11 @@ then, after creating the tree topology:
 out_group = clade("Sorex")
 topology ~ dnUniformTopology(taxa, outgroup = out_group)
 ```
-you can constrain it (clamp it) to the topology specified by the MAP tree:
+you can constrain it (set its value) to the topology specified by the MAP tree:
 ```
-topology.clamp(tree)
+topology.setValue(tree)
 ```
-Finally, you should deactivate the moves on the tree topology (i.e. remove the SPR and NNI moves). This will accelerate the MCMC, first, because fewer moves are done per cycle, but also, because the MCMC starts directly on a good tree.
+Finally, you should deactivate the moves on the tree topology (i.e. remove or comment out the SPR and NNI moves). This will accelerate the MCMC, first, because fewer moves are done per cycle, but also, because the MCMC starts directly on a good tree.
 
 Run the script thus modified on ZFX and on BRCA1.
 
