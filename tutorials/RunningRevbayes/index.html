@@ -84,7 +84,25 @@ conda activate revbayesenv
 conda config --add channels bioconda
 conda config --add channels conda-forge
 conda install  revbayes
+conda install revbayes
+conda install tracer
+conda install figtree
 conda deactivate
+</code></pre></div></div>
+
+<h2 class="section" id="installing-revbayes-on-pedago-ngs">Installing Revbayes on Pedago-NGS</h2>
+<hr class="section" />
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+bash miniconda.sh
+conda init
+
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda install revbayes
+conda install tracer
+conda install figtree
+
 </code></pre></div></div>
 
 <h2 class="section" id="using-revbayes">Using Revbayes</h2>

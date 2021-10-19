@@ -1,0 +1,55 @@
+I"Ó<h2 class="section" id="installing-revbayes">Installing Revbayes</h2>
+<hr class="section" />
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create --name revbayesenv
+conda activate revbayesenv
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda install  revbayes
+conda install revbayes
+conda install tracer
+conda install figtree
+conda deactivate
+</code></pre></div></div>
+
+<h2 class="section" id="installing-revbayes-on-pedago-ngs">Installing Revbayes on Pedago-NGS</h2>
+<hr class="section" />
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+bash miniconda.sh
+conda init
+
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda install revbayes
+conda install tracer
+conda install figtree
+
+</code></pre></div></div>
+
+<h2 class="section" id="using-revbayes">Using Revbayes</h2>
+<hr class="section" />
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate revbayesenv
+rb
+conda deactivate
+</code></pre></div></div>
+
+<h2 class="section" id="suggested-folder-organization">Suggested folder organization</h2>
+<hr class="section" />
+
+<p>We like to create 3 folders: one for scripts, one for the data, and one for the output from the analyses.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir scripts
+mkdir analyses
+mkdir data
+
+</code></pre></div></div>
+
+<p>To work on a script, one can run:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd scripts
+nano myScript.Rev
+
+</code></pre></div></div>
+:ET
