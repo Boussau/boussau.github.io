@@ -1,2 +1,21 @@
-?mcmc
+d~dunif(0, 1)
+d~dUniform(0, 1)
+d~dnUniform(0, 1)
+d
+help(d)
+help(dnUniform)
+d.methods()
+d.setValue(0.5)
+d.setvalue(0.5)
+d.set(0.5)
+d.redraw()
+d
+type(d)
+q()
+d~dnUniform(0, 1)
+type(d)
+d.redraw()
+d
+d.setValue(0.5)
+d
 q()

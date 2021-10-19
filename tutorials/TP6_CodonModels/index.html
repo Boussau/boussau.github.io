@@ -50,7 +50,7 @@
 	<h1 class="maintitle">TP4 Codon models</h1>
 	<h3 class="subtitle">Substitution models for protein-coding sequences</h3>
 	<h4 class="authors">Nicolas Lartillot</h4>
-  <h5>Last modified on September 25, 2021</h5>
+  <h5>Last modified on October 19, 2021</h5>
 </div>
 
 
@@ -93,18 +93,6 @@
           <li><a href="/tutorials/TP6_CodonModels/data/placBRCA120.nex">placBRCA120.nex</a></li>
         
           <li><a href="/tutorials/TP6_CodonModels/data/placZFX20.nex">placZFX20.nex</a></li>
-        
-        </ul>
-    
-        
-        <strong>Scripts</strong>
-        <ul id="scripts">
-        
-        
-        
-          <li><a href="/tutorials/TP6_CodonModels/scripts/phylo_globomega.rev">phylo_globomega.rev</a></li>
-        
-          <li><a href="/tutorials/TP6_CodonModels/scripts/phylo_siteomega.rev">phylo_siteomega.rev</a></li>
         
         </ul>
     
@@ -179,7 +167,7 @@ print(data_codon)
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="Codon" )
 seq.clamp( data_codon )
 </code></pre></div></div>
-<p>Note that we have to specify that the data are codons, not nucleotides (type = “Codon”). In addition, we have to clamp the substitution process to the codon-transformed data (<code class="highlighter-rouge">data_codon</code>) and not <code class="highlighter-rouge">data</code>, which corresponds to the original nucleotide alignment).</p>
+<p>Note that we have to specify that the data are codons, not nucleotides (type = “Codon”). In addition, we have to clamp the substitution process to the codon-transformed data (<code class="highlighter-rouge">data_codon</code>) and not <code class="highlighter-rouge">data</code>, which corresponds to the original nucleotide alignment.</p>
 
 <p>For the rest, the script is as before, except that we need to define a move on omega (a scaling move).</p>
 
@@ -197,10 +185,10 @@ seq.clamp( data_codon )
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>out_group = clade("Sorex")
 topology ~ dnUniformTopology(taxa, outgroup = out_group)
 </code></pre></div></div>
-<p>you can constrain it (clamp it) to the topology specified by the MAP tree:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>topology.clamp(tree)
+<p>you can constrain it (set its value) to the topology specified by the MAP tree:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>topology.setValue(tree)
 </code></pre></div></div>
-<p>Finally, you should deactivate the moves on the tree topology (i.e. remove the SPR and NNI moves). This will accelerate the MCMC, first, because fewer moves are done per cycle, but also, because the MCMC starts directly on a good tree.</p>
+<p>Finally, you should deactivate the moves on the tree topology (i.e. remove or comment out the SPR and NNI moves). This will accelerate the MCMC, first, because fewer moves are done per cycle, but also, because the MCMC starts directly on a good tree.</p>
 
 <p>Run the script thus modified on ZFX and on BRCA1.</p>
 
