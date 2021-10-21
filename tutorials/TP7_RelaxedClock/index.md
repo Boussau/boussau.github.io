@@ -16,9 +16,9 @@ redirect: false
 Thus far, the phylogenetic analyses have been conducted in an undated context: the tree was not ultrametric (i.e. was not a dated tree). Instead, the branch lengths were measured directly in expected numbers of substitutions per site (i.e. sequence divergence, not absolute nor even relative time).
 
 In this tutorial, we will do dated analyses. However, we will not use fossil calibrations (which introduce some complications). As a result, the dates will be relative (by definition, the age of the root is equal to 1, and all other dates are thus between 0 and 1). We will explore three alternative clock models:
-- a strict molecular clock
-- a non auto-correlated clock: each branch has an independent rate
-- an auto-correlated clock: the substitution rate on a branch tends to be similar to the rate of the neighbouring branches
+- a *strict molecular clock*
+- a *non auto-correlated clock*: each branch has an independent rate
+- an *auto-correlated clock*: the substitution rate on a branch tends to be similar to the rate of the neighbouring branches
 
 All analyses will be done under a fixed tree topology. This topology has been estimated by using an undated model, such as seen during the previous tutorials.
 
@@ -67,14 +67,14 @@ tree <- readTrees("data/prim.tree", treetype="clock")[1]
 # ajust terminal branch lengths so as to make the tree ultrametric
 tree.makeUltrametric()
 
-# clamp the tree topology
-timetree.clamp(tree)
+# set the value of the tree topology
+timetree.setValue(tree)
 ```
 The tree given in this file has an arbitrary root age. We rescale it, setting it equal to 1.0:
 ```
 # rescale root age to 1.0
 # (all ages will be relative to the root)
-root_age.clamp(1.0)
+root_age.setValue(1.0)
 ```
 Altogether, we have specified a constrained dated tree, whose topology is fixed, and whose root is constrained to be at age 1.0. On the other hand, the ages of the nodes will still be allowed to vary. These node ages will be determined by a compromise between the birth-death (or constant speciation-extinction) process, which is used here as a prior on divergence times, and the information obtained from the nucleotide sequences.
 
@@ -83,7 +83,7 @@ Now that we have a tree, we can model the process of substitution along this tre
 # we assume a strict molecular clock, of unknown rate
 clockrate ~ dnExponential(1.0)
 ```
-Of note, a quick estimate of the age of primates is between 50 and 100 Myr, and the mutation rate per year in Humans is of the order ot $10^{-9}$ per year, which gives us a rough estimate of $\sim 10^{-1}$ substitution over the total time span of the tree (100 Myr). Thus, an exponential of mean 1 will be safe (given that the true value is probably less than 1).
+Of note, a rough estimate of the age of primates is between 50 and 100 Myr, and the mutation rate per year in Humans is of the order of $10^{-9}$ per year, which gives us a rough estimate of $\sim 10^{-1}$ substitution over the total time span of the tree (100 Myr). Thus, an exponential of mean 1 will be safe (given that the true value is probably less than 1).
 
 Then, we specify the Tamura 92 nucleotide substitution process:
 ```
@@ -128,7 +128,7 @@ and the relative ages of the internal nodes of the tree:
 moves.append(mvNodeTimeSlideUniform(timetree, weight=20))
 moves.append(mvSubtreeScale(timetree, weight=4))
 ```
-Note that we have no move on the tree topology (since the topology is fixed).
+Note that we have no move on the tree topology (since we want to fix the topology).
 
 For the monitoring streams, we can record the parameters and the trees, while printing the clock rate, the transition-transversion ratio and the equilibrium GC content onto screen:
 ```
@@ -260,3 +260,5 @@ for (i in 1:n_nodes) {
 For the rest, the script unfolds as usual.
 
 Write the complete script, using prim_clock.rev as a template and making the required changes. Run the script on the primate dataset, and compare your estimation with the other clock models considered above.
+
+{% aside Setting up a node age calibration %}
