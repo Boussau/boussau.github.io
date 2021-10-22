@@ -1,0 +1,13 @@
+log(0.1)
+log(1-0.9)
+log(0.1, 10)
+log(0.1, 2)
+q()
+exp(-3.32)
+exp(-2.0)
+q()
+x ~ dnExponential(10.0, offset=-100)
+x
+x.redraw()
+x
+q()

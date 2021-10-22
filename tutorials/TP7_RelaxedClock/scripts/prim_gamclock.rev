@@ -24,12 +24,12 @@ tree <- readTrees("data/prim.tree", treetype="clock")[1]
 # ajust terminal branch lengths so as to make the tree ultrametric
 tree.makeUltrametric()
 
-# clamp the tree topology 
-timetree.clamp(tree)
+# set the value of the tree topology
+timetree.setValue(tree)
 
 # rescale root age to 1.0
 # (all ages will be relative to the root)
-root_age.clamp(1.0)
+root_age.setValue(1.0)
 
 # non auto-correlated clock
 meanclockrate ~ dnExponential(1.0)
@@ -45,7 +45,7 @@ kappa ~ dnExponential(0.1)
 gamma ~ dnBeta(1.0, 1.0)
 Q := fnT92(kappa=kappa, gc=gamma)
 
-seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" ) 
+seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" )
 seq.clamp( data )
 
 my_model = model(timetree)
@@ -79,4 +79,3 @@ analysis.run(10000)
 
 treetrace = readTreeTrace("analyses/prim_gamclock.trees", treetype="clock", burnin=0.1)
 map_tree = mccTree(treetrace, "analyses/prim_gamclock.tree")
-

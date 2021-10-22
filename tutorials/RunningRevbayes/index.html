@@ -50,7 +50,7 @@
 	<h1 class="maintitle">Installing and using RevBayes with conda</h1>
 	<h3 class="subtitle"></h3>
 	<h4 class="authors">Nicolas Lartillot, Bastien Boussau</h4>
-  <h5>Last modified on October 19, 2021</h5>
+  <h5>Last modified on October 22, 2021</h5>
 </div>
 
 
@@ -76,37 +76,37 @@
 
 
 </div>
+<h2 class="section" id="revbayes-on-pedago-ngs">Revbayes on Pedago-NGS</h2>
+<hr class="section" />
+
+<p>To work on Pedago-NGS, you first need to install conda. Once this has been done, installation of RevBayes can proceed as indicated further below.</p>
+
+<p>To install conda:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+bash miniconda.sh
+conda init
+
+</code></pre></div></div>
+
 <h2 class="section" id="installing-revbayes">Installing Revbayes</h2>
 <hr class="section" />
+
+<p>We suggest that you install RevBayes in an <em>environment</em>. Environments are a nice way to encapsulate programs and settings without changing the parameters of your entire system. The environment we will create is called <code class="highlighter-rouge">revbayesenv</code>, and we will install all the software we need within this environment.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create --name revbayesenv
 conda activate revbayesenv
 conda config --add channels bioconda
 conda config --add channels conda-forge
-conda install  revbayes
 conda install revbayes
 conda install tracer
 conda install figtree
 conda deactivate
 </code></pre></div></div>
 
-<h2 class="section" id="installing-revbayes-on-pedago-ngs">Installing Revbayes on Pedago-NGS</h2>
-<hr class="section" />
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
-bash miniconda.sh
-conda init
-
-conda config --add channels bioconda
-conda config --add channels conda-forge
-conda install revbayes
-conda install tracer
-conda install figtree
-
-</code></pre></div></div>
-
 <h2 class="section" id="using-revbayes">Using Revbayes</h2>
 <hr class="section" />
+
+<p>Assuming we have installed our programs in the environment <code class="highlighter-rouge">revbayesenv</code>, to use them we just need to activate it.</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate revbayesenv
 rb
@@ -116,15 +116,15 @@ conda deactivate
 <h2 class="section" id="suggested-folder-organization">Suggested folder organization</h2>
 <hr class="section" />
 
-<p>We like to create 3 folders: one for scripts, one for the data, and one for the output from the analyses.</p>
+<p>We like to create 3 folders: one for scripts (<code class="highlighter-rouge">scripts</code>), one for the data (<code class="highlighter-rouge">data</code>), and one for the output from the analyses (<code class="highlighter-rouge">analyses</code>).</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir scripts
-mkdir analyses
 mkdir data
+mkdir analyses
 
 </code></pre></div></div>
 
-<p>To work on a script, one can run:</p>
+<p>To work on a script, one can use a text editor like nano:</p>
 
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd scripts
 nano myScript.Rev
