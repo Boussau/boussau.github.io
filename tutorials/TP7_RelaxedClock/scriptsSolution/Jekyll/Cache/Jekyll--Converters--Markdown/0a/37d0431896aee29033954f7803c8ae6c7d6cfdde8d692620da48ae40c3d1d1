@@ -1,0 +1,10 @@
+I"5<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># compute the absolute value of a real number
+getOption("linewidth")
+
+# let us set the linewidth to a new value
+setOption("linewidth", 200)
+
+# now let's check what the value is
+getOption("linewidth")
+</code></pre></div></div>
+:ET

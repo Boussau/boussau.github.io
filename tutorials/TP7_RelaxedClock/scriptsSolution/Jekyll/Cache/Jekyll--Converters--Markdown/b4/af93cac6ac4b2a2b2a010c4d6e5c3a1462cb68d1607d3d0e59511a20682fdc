@@ -1,0 +1,13 @@
+I"t<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ls()   # check what is in the workspace
+a &lt;- 1
+b := exp(a)
+ls()   # check what is in the workspace
+clear()
+ls()   # check what is in the workspace
+a &lt;- 1
+b := exp(a)
+ls()   # check what is in the workspace
+clear( b )
+ls()   # check what is in the workspace
+</code></pre></div></div>
+:ET
