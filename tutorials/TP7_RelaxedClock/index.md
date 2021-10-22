@@ -1,7 +1,7 @@
 ---
 title: TP5 Molecular dating and relaxed clock models
 subtitle: Estimating (relative) divergence times among primates
-authors:  Nicolas Lartillot
+authors:  Nicolas Lartillot and Bastien Boussau
 level: 2
 order: 0.7
 prerequisites:
@@ -186,7 +186,7 @@ Finally, we give these rates across branches to the sequence evolutionary proces
 seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" )
 ```
 
-Note that clockrate is now a vector (whereas, in the case of the strict clock model considerd in the last section, it was a scalar). When receiving a vector, the `dnPhyloCTMC` object automatically deduces that the rates in the vector should be mapped onto the branches of the tree.
+Note that clockrate is now a vector (whereas, in the case of the strict clock model considered in the last section, it was a scalar). When receiving a vector, the `dnPhyloCTMC` object automatically deduces that the rates in the vector should be mapped onto the branches of the tree.
 
 For the rest, the script is essentially the same as for the strict clock model considered above. The main difference is that moves should now be implemented for mean_clockrate, relvar_clockrate, and for each of the entries of the clockrate vector. Implementing these moves is left as an exercise.
 
@@ -204,7 +204,7 @@ $$
 X(t + \Delta t) \sim Normal \left( X(t), \sigma^2 \Delta t \right)
 $$
 
-We can use this equation to model the distribution of the substitution rates at the nodes of the tree: consider some node $n$ of the tree, other than the root, and which lives at time $u$. Consider the node immediatly before node $n$ (the parent of $n$), and call it $m$. Node $m$ lives at time $t < u$.  Let $X(t)$ denote the log of the rate at node $m$. Then, according to the equation above, $X(u)$ is normally distributed, as follows:
+We can use this equation to model the distribution of the substitution rates at the nodes of the tree: consider some node $n$ of the tree, other than the root, and which lives at time $u$. Consider the node immediately before node $n$ (the parent of $n$), and call it $m$. Node $m$ lives at time $t < u$.  Let $X(t)$ denote the log of the rate at node $m$. Then, according to the equation above, $X(u)$ is normally distributed, as follows:
 
 $$
 X(u) \sim Normal(X(t), \sigma^2 (t-u))
@@ -262,3 +262,58 @@ For the rest, the script unfolds as usual.
 Write the complete script, using prim_clock.rev as a template and making the required changes. Run the script on the primate dataset, and compare your estimation with the other clock models considered above.
 
 {% aside Setting up a node age calibration %}
+To date a phylogeny it is useful to be able to associate a date in time to one or several nodes (i.e., clades) of the phylogeny. This is called calibrating a node age. Typically, node age calibrations can be obtained from the fossil record. In this primate phylogeny, several fossils could be used to calibrate the age of several nodes. Here we will calibrate a single node in the phylogeny, but in practice it is often better to calibrate several nodes using several fossil ages.
+
+We will calibrate the node ancestral to all Anthropoidea. To do this, we first need to define the corresponding clade:
+```
+clade_Anthropoidea <- clade("Cebus_apella","Homo_sapiens")
+```
+
+From the [literature](https://www.sciencedirect.com/science/article/pii/S1055790314000827) we find that it can be calibrated with a minimum age at 31.5 Mya. We will implement this calibration as a minimum bound, which means that we assume that the clade was formed before that time.
+```
+minimum_bound_Anthropoidea <- 31.5
+```
+
+Then, we compute the clade age (*i.e.*, the time at which the clade was born) as found in the timetree in the current iteration of the MCMC:
+```
+speciation_clade_Anthropoidea := tmrca(timetree, clade_Anthropoidea)
+```
+
+Finally we calibrate the node age with the fossil age. Because we are using a minimal bound, we know that the node age has to be older than the fossil age. The delay between the node age and the fossil age is considered to be distributed according to an exponential distribution. However the writing of this simple assumption is a bit tricky: we are going to write that the variable that is clamped is generated according to an exponential waiting time that started at time `-speciation_clade_Anthropoidea`. Here is how we specify this:
+
+```
+obs_age_clade_Anthropoidea~ dnExponential(0.2, offset = - speciation_clade_Anthropoidea)
+```
+
+Then we clamp the stochastic variable to minus our fossil age:
+
+```
+obs_age_clade_Anthropoidea.clamp(-minimum_bound_Anthropoidea)
+```
+
+The figure below shows how a common exponential distribution (in black) shifts when it is offset by a value of -40 (i.e., here `speciation_clade_Anthropoidea`=40). According to this shifted distribution, the likelihood of observing the fossil at age -31.5 is about 0.037.
+
+{% figure node age calibration %}
+<img src="figures/calibration_density.png" />
+{% figcaption %}
+Density of an exponential distribution without and with offset, and the likelihood of observing fossil age -31.5 given clade age -40.  
+{% endfigcaption %}
+{% endfigure %}
+
+One way to interpret this calibration is to represent the likelihood for different values of the clade age `speciation_clade_Anthropoidea`. This is shown in the figure below.
+
+{% figure node age calibration %}
+<img src="figures/likelihood_density.png" />
+{% figcaption %}
+Likelihood curve for clade age `speciation_clade_Anthropoidea` given fossil age -31.5 and rate for the exponential distribution 0.2.  
+{% endfigcaption %}
+{% endfigure %}
+
+We observe that the most likely clade ages are right before the fossil age, and that the likelihood of clade age decreases as the clade becomes much older than the fossil age.
+
+Finally, implementing this node age calibration into the relaxed clock scripts involves copying the code lines given above, but also changing how we handle the root age, which we had fixed to be 1.0 (we were using `root_age.setValue(1.0)`, we need to remove this line). Instead, we need to sample root age values by specifying moves on the root age, as follows:
+
+```
+moves.append(mvScale(root_age, weight=1.0, lambda=0.1))
+```
+{% endaside %}
