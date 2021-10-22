@@ -15,7 +15,7 @@ redirect: false
 
 Thus far, the phylogenetic analyses have been conducted in an undated context: the tree was not ultrametric (i.e. was not a dated tree). Instead, the branch lengths were measured directly in expected numbers of substitutions per site (i.e. sequence divergence, not absolute nor even relative time).
 
-In this tutorial, we will do dated analyses. However, we will not use fossil calibrations (which introduce some complications). As a result, the dates will be relative (by definition, the age of the root is equal to 1, and all other dates are thus between 0 and 1). We will explore three alternative clock models:
+In this tutorial, we will do dated analyses. However, we will not use fossil calibrations, which introduce some complications (but if you want to set up a fossil calibration see the end of the tutorial). As a result, the dates will be relative (by definition, the age of the root is equal to 1, and all other dates are thus between 0 and 1). We will explore two alternative clock models, with a third optional one:
 - a *strict molecular clock*
 - a *non auto-correlated clock*: each branch has an independent rate
 - an *auto-correlated clock*: the substitution rate on a branch tends to be similar to the rate of the neighbouring branches
@@ -28,7 +28,7 @@ We will work on a dataset (file name `prim4fold.nex`) with 58 primates species, 
 
 {% section Strict clock model %}
 
-To start the tutorial, we give a script (`prim_clock.rev`), which implements the strict clock model.
+To start the tutorial, we give a script (`prim_strictclock.rev`), which implements the strict clock model.
 The script is set up as follows.
 
 We first read the nucleotide sequence alignment and get the taxon set and the number of species and the number of branches.
@@ -132,8 +132,8 @@ Note that we have no move on the tree topology (since we want to fix the topolog
 
 For the monitoring streams, we can record the parameters and the trees, while printing the clock rate, the transition-transversion ratio and the equilibrium GC content onto screen:
 ```
-monitors[1] = mnModel(filename="analyses/prim_clock.log", printgen=10, separator = TAB)
-monitors[2] = mnFile(timetree ,filename="analyses/prim_clock.trees", printgen=10, separator = TAB)
+monitors[1] = mnModel(filename="analyses/prim_strictclock.log", printgen=10, separator = TAB)
+monitors[2] = mnFile(timetree ,filename="analyses/prim_strictclock.trees", printgen=10, separator = TAB)
 monitors[3] = mnScreen(printgen=100, clockrate, kappa, gamma)
 ```
 
@@ -145,11 +145,11 @@ analysis.run(10000)
 Once the analysis has run, first, we can estimate the burn-in and obtain a point estimate and a credible interval for the clock rate, using Tracer.
 Next, we can read the tree trace and make the MAP tree:
 ```
-treetrace = readTreeTrace("analyses/prim_clock.trees", treetype="clock", burnin=0.1)
-map_tree = mccTree(treetrace, "analyses/prim_clock.tree")
+treetrace = readTreeTrace("analyses/prim_strictclock.trees", treetype="clock", burnin=0.1)
+map_tree = mccTree(treetrace, "analyses/prim_strictclock.tree")
 ```
 Of note, this MAP tree will, by construction, have the same topology as the one given at the beginning of the script. The point of doing this map tree is just to have credible intervals on the node ages.
-The resulting tree, saved into the file named prim_clock.tree, can be visualized using FigTree. The credible intervals on node ages can be visualized as blue bars attached to the corresponding nodes.
+The resulting tree, saved into the file named `prim_strictclock.tree`, can be visualized using FigTree. The credible intervals on node ages can be visualized as blue bars attached to the corresponding nodes.
 
 Run the script on the primate dataset. Estimate the clock rate (median and credible interval) and visualize the estimated relative ages.
 
@@ -190,9 +190,9 @@ Note that clockrate is now a vector (whereas, in the case of the strict clock mo
 
 For the rest, the script is essentially the same as for the strict clock model considered above. The main difference is that moves should now be implemented for mean_clockrate, relvar_clockrate, and for each of the entries of the clockrate vector. Implementing these moves is left as an exercise.
 
-Write the complete script, using prim_clock.rev as a template and making the required changes. You may want to remove the variable `clockrate` from the screen monitor to avoid cluttering your terminal, and instead you may want to monitor `mean_clockrate`. Run the script on the primate dataset. Estimate the mean rate of substitution and its relative variance across branches. Visualize the estimated relative ages on the tree. How does this compare with the strict clock estimates? Using FigTree, identify areas of high or low rates of evolution. How does this compare to the fast- or slow-evolving lineages identified by looking at the undated tree?
+Write the complete script, using `prim_strictclock.rev` as a template and making the required changes. You may want to remove the variable `clockrate` from the screen monitor to avoid cluttering your terminal, and instead you may want to monitor `mean_clockrate`. Run the script on the primate dataset. Estimate the mean rate of substitution and its relative variance across branches. Visualize the estimated relative ages on the tree. How does this compare with the strict clock estimates? Using FigTree, identify areas of high or low rates of evolution. How does this compare to the fast- or slow-evolving lineages identified by looking at the undated tree?
 
-{% section The auto-correlated relaxed clock model %}
+{% aside The auto-correlated relaxed clock model %}
 
 The non auto-correlated model is convenient and easy to implement. However, empirically, it is not so adequate. The main reason is that the rate of evolution tends to show strong auto-correlation between neighbouring branches. Just think, for instance, that the rate of evolution is partly determined by the generation time (species with longer generation times tend to be more slowly evolving). Yet closely related species tend to have similar generation times. In other words, the generation time (and therefore the substitution rate) shows phylogenetic inertia.
 
@@ -259,7 +259,10 @@ for (i in 1:n_nodes) {
 
 For the rest, the script unfolds as usual.
 
-Write the complete script, using prim_clock.rev as a template and making the required changes. Run the script on the primate dataset, and compare your estimation with the other clock models considered above.
+Write the complete script, using `prim_strictclock.rev` as a template and making the required changes. Run the script on the primate dataset, and compare your estimation with the other clock models considered above.
+
+{% endaside %}
+
 
 {% aside Setting up a node age calibration %}
 To date a phylogeny it is useful to be able to associate a date in time to one or several nodes (i.e., clades) of the phylogeny. This is called calibrating a node age. Typically, node age calibrations can be obtained from the fossil record. In this primate phylogeny, several fossils could be used to calibrate the age of several nodes. Here we will calibrate a single node in the phylogeny, but in practice it is often better to calibrate several nodes using several fossil ages.
