@@ -1,7 +1,0 @@
-I"J<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># a log-uniform prior over the rate of change of a Brownian trait (or a Brownian relaxed clock)
-trueTree = readTrees("data/primates.tree")[1]
-sigma ~ dnLogUniform(min=0.001, max=1000)
-X ~ dnBrownian(trueTree,sigma)
-# ...
-</code></pre></div></div>
-:ET
