@@ -1,0 +1,30 @@
+data <- readDiscreteCharacterData("data/HC.nex")
+taxa <- data.taxa()
+print(taxa)
+
+# mutation rate per generation
+mu <- 2e-8
+# generation time
+gentime <- 30
+# mutation rate per Myr
+r <- mu / gentime * 1e6
+
+T ~ dnUniform(0, 20)
+tree ~ dnUniformTimeTree(T, taxa)
+print(tree)
+
+# JC substitution process
+Q <- fnJC(4)
+seq ~ dnPhyloCTMC(tree=tree, Q=Q, branchRates=r, type="DNA" ) 
+seq.clamp(data)
+
+mymodel = model(Q)
+
+moves[1] = mvScale(T)
+
+monitors[1] = mnModel(filename="analyses/jc.log", printgen=10, separator = TAB)
+monitors[2] = mnScreen(printgen=100, T)
+
+mymcmc = mcmc(mymodel, monitors, moves)
+mymcmc.run(generations=10000)
+
