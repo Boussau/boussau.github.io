@@ -1,5 +1,5 @@
 ---
-title: TP2 Phylogenetic reconstruction on nucleotide data
+title: Evol Mol TP1 - Phylogenetic reconstruction on nucleotide data
 subtitle: Phylogenetic inference with the Jukes Cantor model
 authors:  Bastien Boussau, Nicolas Lartillot
 level: 2
