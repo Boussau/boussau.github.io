@@ -12,7 +12,7 @@ redirect: false
 
 This tutorial demonstrates how to set up a Jukes and Cantor (1969, herafter
 named JC) model of
-nucleotide substitution, and then how to perform phylogenetic
+nucleotide substitution, and then how to perform simulations and phylogenetic
 inference using this model.
 JC is the simplest model for describing nucleotide sequence evolution. It is
 a continuous time Markov chain (ctmc) model. In general ctmc models are
@@ -66,6 +66,7 @@ Specific functions for substitution models available in RevBayes.
 
 This tutorial involves:
 1. setting up a Jukes-Cantor (JC) substitution model for an alignment of the cytochrome b subunit;
+2. simulating DNA sequence evolution;
 3. approximating the posterior probability of the tree topology and branch
 lengths using MCMC;
 4. summarizing the MCMC output by computing the maximum *a posteriori* tree.
@@ -74,7 +75,7 @@ lengths using MCMC;
 {% figure jc_graphical_model %}
 <img src="figures/jc_graphical_model.png" />
 {% figcaption %}
-Graphical model representation of a simple phylogenetic model. The graphical model shows the dependencies among parameters {% cite Hoehna2014b %}. Here, the rate matrix $Q$ is a constant variable because it is fixed and does not depend on any parameter. The only free parameters of this model, based on the Jukes-Cantor model of substitution, are the tree $\Psi$ including the branch lengths.
+Graphical model representation of a simple phylogenetic model. The graphical model shows the dependencies among parameters {% cite Hoehna2014b %}. Here, the rate matrix $Q$ is a constant variable because it is fixed and does not depend on any parameter. The only free parameters of this model, based on the Jukes-Cantor model of substitution, are the tree topology $\tau$ and the branch lengths ($bl$).
 {% endfigcaption %}
 {% endfigure %}
 
@@ -88,14 +89,6 @@ $$Q_{JC} = \begin{pmatrix}
 \frac{1}{3} & \frac{1}{3} & {*} & \frac{1}{3} \\
 \frac{1}{3} & \frac{1}{3} & \frac{1}{3} & {*}
 \end{pmatrix} \mbox{  ,}$$
-
-which has the advantage that the transition probability matrix can be
-computed analytically
-
-$$P_{JC} = \begin{pmatrix} {\frac{1}{4} + \frac{3}{4}e^{-l}} & {\frac{1}{4} - \frac{1}{4}e^{-l}} & {\frac{1}{4} - \frac{1}{4}e^{-l}} & {\frac{1}{4} - \frac{1}{4}e^{-l}} \\\\ {\frac{1}{4} - \frac{1}{4}e^{-l}} & {\frac{1}{4} + \frac{3}{4}e^{-l}} & {\frac{1}{4} - \frac{1}{4}e^{-l}} & {\frac{1}{4} - \frac{1}{4}e^{-l}} \\\\ {\frac{1}{4} - \frac{1}{4}e^{-l}} & {\frac{1}{4} - \frac{1}{4}e^{-l}} & {\frac{1}{4} + \frac{3}{4}e^{-l}} & {\frac{1}{4} - \frac{1}{4}e^{-l}} \\\\ {\frac{1}{4} - \frac{1}{4}e^{-l}} & {\frac{1}{4} - \frac{1}{4}e^{-l}} & {\frac{1}{4} - \frac{1}{4}e^{-l}} & {\frac{1}{4} + \frac{3}{4}e^{-l}}
-\end{pmatrix} \mbox{  ,}$$
-
-where $l$ is the branch length in units of expected numbers of substitutions, which corresponds to the product of the time and the rate of substitution. **Don’t worry, you won’t have to calculate all of the transition probabilities, because RevBayes will take care of all the computations for you.** Here we only provide some of the equations for the models in case you might be interested in the details. You will be able to complete the exercises without understanding the underlying math.
 
 {% subsection Simulating a DNA alignment %}
 
@@ -119,38 +112,7 @@ Below we are going to go through the script and explain what it does, step by st
 The first thing the script does is to load a DNA alignment. Although this step is
 not necessary for simulating an alignment, here we use the empirical alignment
 just to get its number of sequences, its number of sites, and the sequence names.
-
-{% aside Checking and Changing Your Working Directory %}
-For this tutorial and much of the work you will do in RevBayes, you will need to access files.
-It is important that you are aware of your current working directory if you use relative file paths
-in your Rev scripts or in the RevBayes console.
-
-To check your current working directory, use the function `getwd()`.
-
-```
-getwd()
-```
-```
-/Users/tombayes/Work
-```
-{:.Rev-output}
-
-If you want to change the directory, enter the path to your directory in the arguments of the function `setwd()`.
-
-```
-setwd("Tutorials/RB_CTMC_Tutorial")
-```
-{:.Rev-output}
-
-Now check your directory again to make sure you are where you want to be:
-```
-getwd()
-```
-```
-/Users/tombayes/Work/Tutorials/RB_CTMC_Tutorial
-```
-{:.Rev-output}
-{% endaside %}
+We will also compare the simulated sequences with the empirical sequences.
 
 We load in the sequences using the `readDiscreteCharacterData()`
 function.
@@ -198,7 +160,8 @@ taxa <- data.taxa()
 num_sites <- data.nchar()
 ```
 
--   **Why are we using "<-" and not ":=" or "~"?**
+Here, we are defining constants of our model. In RevBayes, we define constants using "<-".
+We will see later that we have two other assignment operators, for the random and deterministic variables of the model.
 
 With the data loaded, we can now proceed to specifying the model.
 
@@ -222,8 +185,6 @@ instantaneous-rate matrix:
 Q <- fnJC(4)
 ```
 
--   **What does the "4" stand for?**
-
 You can see the rates of the $Q$ matrix by typing
 
 ```
@@ -241,34 +202,31 @@ As you can see, all substitution rates are equal.
 
 {% subsubsubsection Tree Topology and Branch Lengths | subsub-TreeBlMod %}
 
-The tree topology and branch lengths are stochastic nodes in our phylogenetic model.
-In {% ref jc_graphical_model %}, the tree topology is denoted $\Psi$ and the
+The tree topology and branch lengths are unknown (we want to estimate them). In Bayesian inference, we formalize this by defining them as random variables, with a prior probability distribution. In the graphical representation of our model, random variables are always shown by plain circles. They are also called stochastic nodes of our phylogenetic model.
+In {% ref jc_graphical_model %}, the tree topology is denoted $\tau$ and the
 length of the branch leading to node $i$ is $bl_i$.
 
-We will assume that all possible labeled, unrooted tree topologies have equal probability.
+We will assume that all possible labeled, unrooted tree topologies have equal probability a priori.
 This is the `dnUniformTopology()` distribution in RevBayes.
-Note that in RevBayes it is advisable to specify the outgroup for your study system
-if you use an unrooted tree prior, whereas other software, such as
-MrBayes, use the first taxon in the data matrix file as the outgroup.
-Providing RevBayes with an outgroup clade will make sure that when trees are
-written to file, the topologies have the outgroup clade at the base,
-thus making the trees easier to visualize.
+In RevBayes it is advisable to specify the outgroup for your study system.
+Here, we will use Galeopterus, which is the sister group to all other primates.
 
--   **Does the root position of the tree matter for the JC model?**
-
-Specify the `topology` stochastic node by passing in the list of `taxa`
+Specify the `topology` stochastic node by passing in the list of `taxa` and the outgroup
 to the `dnUniformTopology()` distribution:
 
 ```
 out_group = clade("Galeopterus_variegatus")
 topology ~ dnUniformTopology(taxa, outgroup=out_group)
 ```
+See how we define a new random variable (or a new stochastic node) of our model: by using the stochastic operator '~'. Thus, it is different from constants, for which we used '<-'.
 
 Next we have to create a stochastic node representing the length of each of the
 $2N - 3$ branches in our tree (where $N=$ `n_species`). We can do this using a
-`for` loop — this is a plate in our graphical model. In this loop, we can
-create each of the branch-length nodes. Copy this entire
-block of Rev code into the console:
+`for` loop. In this loop, we can create each of the branch-length nodes.
+Each branch length is a random variable, and we have to define a prior for each of them. Note that the branch lengths are measured in number of substitutions per site. Usually, these numbers are relatively small (of the order of $0.01$ or $0.1$). Usually, in phylogenetics, we use an exponential prior of mean $0.1$ for branch lengths. Equivalently, we use an exponential of rate 10 (the rate of an exponential distribution is the inverse of the mean).
+
+Altogether, you can copy this entire
+block of Revcode into the console:
 
 ```
 for (i in 1:num_branches) {
@@ -276,62 +234,18 @@ for (i in 1:num_branches) {
 }
 ```
 
+See how we have defined a vector of branch lengths, just by defining all its components, using a for loop and using the indexation operator '[]'. Also, as above for the tree topology, we again use the stochastic operator '~'.
+
 Finally, we can create a *phylogram* (a phylogeny in which the branch lengths are
 proportional to the expected number of substitutions per site) by combining the
 tree topology and branch lengths. We do this using the `treeAssembly()` function,
 which applies the value of the $i^{th}$ member of the `br_lens` vector to the
-branch leading to the $i^{th}$ node in `topology`. Thus, the `psi` variable is
-a deterministic node:
+branch leading to the $i^{th}$ node in `topology`:
 
 ```
 psi := treeAssembly(topology, br_lens)
 ```
-
-{% aside Alternative tree priors %}
-For large phylogenetic trees, i.e., with more than 200 taxa, it might be more
-efficient to specify a combined topology and branch length prior distribution.
-We can achieve this by simply using the distribution `dnUniformTopologyBranchLength()`.
-```
-br_len_lambda <- 10.0
-psi ~ dnUniformTopologyBranchLength(taxa, branchLengthDistribution=dnExponential(br_len_lambda))
-moves.append( mvNNI(psi, weight=num_taxa) )
-moves.append( mvSPR(psi, weight=num_taxa/10.0) )
-moves.append( mvBranchLengthScale(psi, weight=num_branches) )
-```
-You might think that this approach is in fact simpler than the `for` loop that we
-explained above. We thought that it was pedagogical to specify the prior on
-each branch length separately in this tutorial to emphasize all components of the model.
-{% endaside %}
-
-{% aside Alternative branch-length priors %}
-Some studies, *e.g.* {% citet Brown2010 Rannala2012 %},
-have criticized the exponential prior distribution for branch lengths
-because it induces a gamma-distributed tree-length and the mean of this gamma
-distribution grows with the number of taxa. As an alternative, we can instead
-use a specific gamma prior distribution (or any other distribution yielding a
-positive real variable) for the tree length, and then use a Dirichlet prior
-distribution to break the tree length into the corresponding branch lengths
-{% cite Zhang2012 %}.
-
-First, specify a prior distribution on the tree length with your desired mean.
-For example, we use a gamma distribution as our prior on the tree length.
-```
-TL ~ dnGamma(2,4)
-moves.append( mvScale(TL) )
-```
-
-Now we create a random variable for the relative branch lengths.
-```
-rel_branch_lengths ~ dnDirichlet( rep(1.0,num_branches) )
-moves.append( mvBetaSimplex(rel_branch_lengths, weight=num_branches) )
-moves.append( mvDirichletSimplex(rel_branch_lengths, weight=num_branches/10.0) )
-```
-Finally, transform the relative branch lengths into actual branch lengths
-```
-br_lens := rel_branch_lengths * TL
-```
-{% endaside %}
-
+The `psi` variable is a deterministic node: its value is entirely determined by its two parents, topology and br_lengths (in the present case, it is just a container that puts together these two components of the model). Deterministic nodes are created using the ':=' assignment operator. This is different from '<-', which was used for constants, because deterministic nodes will have to update their value when we will change the value of their parents.
 
 {% subsubsubsection Putting it All Together %}
 
@@ -538,7 +452,7 @@ These moves do not have tuning parameters associated with them, thus we only nee
 to pass in the `topology` node and proposal `weight`.
 
 ```
-# moves.append( mvSPR(topology, weight=3) )
+moves.append( mvSPR(topology, weight=3) )
 ```
 
 The weight specifies how often the move will be applied either on average per
@@ -556,7 +470,7 @@ for (i in 1:num_branches) {
 ```
 
 Here each branch length is associated to a `mvScale` move that basically multiplies
-the current value of a branch length by a real positive number.
+the current value of a branch length by a real positive random number.
 
 -   **What type of stochastic variable is particularly appropriate for the `mvScale`
 move?**
