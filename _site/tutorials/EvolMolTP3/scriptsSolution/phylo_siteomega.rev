@@ -1,0 +1,62 @@
+data <- readDiscreteCharacterData("data/placBRCA120.nex")
+# data <- readDiscreteCharacterData("data/placZFX20.nex")
+data_codon = data.translateCharacters("Codon")
+print(data_codon)
+
+n_species <- data.ntaxa()
+n_branches <- 2 * n_species - 3
+taxa <- data.taxa()
+
+out_group = clade("Sorex")
+topology ~ dnUniformTopology(taxa, outgroup = out_group) 
+
+for (i in 1:n_branches) {
+ bl[i] ~ dnExponential(10.0)
+}
+psi := treeAssembly(topology, bl)
+TL := sum(bl)
+
+kappa ~ dnExponential(1.0)
+pi ~ dnDirichlet([1.0, 1.0, 1.0, 1.0])
+
+purom ~ dnBeta(1.0,1.0)
+dposom ~ dnExponential(1.0)
+omega[1] := purom
+omega[2] := 1.0
+omega[3] := 1 + dposom
+
+w ~ dnDirichlet([1.0, 1.0, 1.0])
+
+Q[1] := fnCodonHKY(omega=omega[1], kappa=kappa, baseFrequencies=pi)
+Q[2] := fnCodonHKY(omega=omega[2], kappa=kappa, baseFrequencies=pi)
+Q[3] := fnCodonHKY(omega=omega[3], kappa=kappa, baseFrequencies=pi)
+
+seq ~ dnPhyloCTMC(tree=psi, Q=Q, siteMatrices=w, type="Codon") 
+seq.clamp( data_codon )
+
+my_model = model(psi)
+
+# moves
+moves = VectorMoves()
+moves.append(mvNNI(topology, weight=1.0))
+moves.append(mvSPR(topology, weight=1.0))
+moves.append(mvScale(kappa, weight=1.0))
+moves.append(mvDirichletSimplex(pi,weight=1.0, alpha=10))
+moves.append(mvSlide(purom, weight=1.0))
+moves.append(mvScale(dposom, weight=1.0))
+moves.append(mvDirichletSimplex(w, weight=1.0))
+for (i in 1:n_branches) {
+   moves.append(mvScale(bl[i], weight=1.0))
+}
+
+monitors[1] = mnModel(filename="analyses/BRCA120_siteom.log", printgen=10, separator = TAB)
+monitors[2] = mnFile(psi,filename="analyses/BRCA120_siteom.trees", printgen=10, separator = TAB)
+monitors[3] = mnScreen(printgen=100, omega, w)
+
+# Make the analysis object
+analysis = mcmc(my_model, monitors, moves)
+# Run the MCMC
+analysis.run(10000)
+# Show how the moves performed
+analysis.operatorSummary()
+
