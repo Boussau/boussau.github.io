@@ -4,11 +4,15 @@ title: Tutorials
 subtitle: RevBayes Tutorials
 permalink: /tutorials/
 levels:
-- General structure of the tutorials
+- General information
 - Tutorials for M2 students in Lyon
+- Tutorials for L3 students in Lyon
 - Tutorial on dating with relative constraints
 levels_id:
 - tutorial_structure
+- M2_Tutorials
+- L3_Tutorials
+
 ---
 
 This list shows some RevBayes tutorials for learning various aspects of RevBayes and Bayesian phylogenetic analysis.
@@ -29,7 +33,7 @@ Please see the {% page_ref format %} guide for details about how to read the tut
 {% if page.levels[i] %}
 <h3>{{ page.levels[i] }}</h3>{:id="{{ page.levels_id[i] }}"}
 {% else %}
-<h3>Miscellaneous Tutorials</h3>
+<h3> </h3>
 {% endif %}
 
 {% assign tutorials = level.items | sort:"order","last" %}

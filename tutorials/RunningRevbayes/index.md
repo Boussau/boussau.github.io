@@ -2,8 +2,8 @@
 title: Installing and using RevBayes with conda
 subtitle:
 authors:  Nicolas Lartillot, Bastien Boussau
-level: 2
-order: 0.8
+level: 0
+order: 0.2
 prerequisites:
 index: true
 title-old: RB_Install

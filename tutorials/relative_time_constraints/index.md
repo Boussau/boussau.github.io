@@ -2,7 +2,7 @@
 title:  Dating with relative constraints
 subtitle: Constraining the relative order of nodes when dating a phylogeny
 authors: Dominik Schrempf, Gergely Szöllősi, and Bastien Boussau
-level: 3
+level: 4
 prerequisites:
 index: true
 ---

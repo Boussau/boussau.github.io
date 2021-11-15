@@ -2,8 +2,8 @@
 title: Primer on MCMC
 subtitle:
 authors:  Bastien Boussau
-level: 2
-order: 0.8
+level: 0
+order: 0.3
 prerequisites:
 index: true
 title-old: Primer_MCMC

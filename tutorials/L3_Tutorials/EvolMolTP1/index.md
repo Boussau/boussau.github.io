@@ -2,7 +2,7 @@
 title: Evol Mol TP1 - Phylogenetic reconstruction on nucleotide data
 subtitle: Phylogenetic inference with the Jukes Cantor model
 authors:  Bastien Boussau, Nicolas Lartillot
-level: 2
+level: 3
 order: 0.3
 prerequisites:
 index: true
@@ -28,7 +28,7 @@ $$Q = \begin{pmatrix}
 where $\mu_{ij}$ represents the instantaneous rate of substitution from
 state $i$ to state $j$. The diagonal elements $\mu_i$ are the rates of
 *not* changing out of state $i$, equal to the sum of the elements in the
-corresponding row. 
+corresponding row.
 
 Each of the named substitution models (e.g., JC, TN92, HKY or GTR)
 has a uniquely defined instantaneous-rate matrix, $Q$.

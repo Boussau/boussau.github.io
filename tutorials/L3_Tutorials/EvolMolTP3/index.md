@@ -2,7 +2,7 @@
 title: Evol Mol TP3 Codon models
 subtitle: Substitution models for protein-coding sequences
 authors:  Nicolas Lartillot
-level: 2
+level: 3
 order: 0.6
 prerequisites:
 - EvolMolTP1

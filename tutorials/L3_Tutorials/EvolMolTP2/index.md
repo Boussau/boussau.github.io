@@ -2,10 +2,10 @@
 title: Evol Mol TP2 - Nucleotide substitution models
 subtitle: Estimating substitution rates between nucleotides
 authors:  Nicolas Lartillot
-level: 2
+level: 3
 order: 0.4
 prerequisites:
-- EvolMolTP1 
+- EvolMolTP1
 index: true
 title-old: RB_CTMC_Tutorial
 redirect: false
@@ -26,7 +26,7 @@ $$Q_{JC} = \begin{pmatrix}
 
 This model, however, is simplistic. In practice, different types of substitutions (or different types of point mutations) might not occur at the same rate. Thus, we might need to use more sophisticated models.
 
-Here, we will explore 3 alternative models, of increasing complexity. For each substitution model, we will write a script and run it. This will give us a joint posterior distribution on trees, but also on model parameters. Once the analysis has been conducted, we can then interpret the posterior distribution over the parameters of the model. This will give us information about the process of molecular evolution. 
+Here, we will explore 3 alternative models, of increasing complexity. For each substitution model, we will write a script and run it. This will give us a joint posterior distribution on trees, but also on model parameters. Once the analysis has been conducted, we can then interpret the posterior distribution over the parameters of the model. This will give us information about the process of molecular evolution.
 
 The models explored in this tutorial are summarized in this table.
 
@@ -196,5 +196,3 @@ seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA")
 Finally, we need to move $\rho$ and $\pi$, in both cases using a `DirichletSimplex` move (as we did above for pi in the case of the HKY model).
 
 Write the script and run it on the BRCA1 dataset (only the 3 coding positions). Explore the posterior distribution over the parameters and, in particular, determine whether all transitions occur at the same relative rate. Same thing for transitions.
-
-
