@@ -6,12 +6,12 @@ permalink: /tutorials/
 levels:
 - General information
 - Tutorials for M2 students in Lyon
-- Tutorials for L3 students in Lyon
+- Tutorials for M1 students at ENS Lyon
 - Tutorial on dating with relative constraints
 levels_id:
 - tutorial_structure
 - M2_Tutorials
-- L3_Tutorials
+- M1_Tutorials
 
 ---
 
