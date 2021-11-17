@@ -1,0 +1,126 @@
+################################################################################
+#
+# RevBayes Example: Bayesian inference of phylogeny using a Jukes-Cantor
+#            substitution model on a single gene.
+#
+# authors: Sebastian Hoehna, Michael Landis, Tracy A. Heath, N. Lartillot, B. Boussau
+#
+################################################################################
+
+
+### Read in sequence data for both genes
+data = readDiscreteCharacterData("data/primates_and_galeopterus_cytb.nex")
+
+# Get some useful variables from the data. We need these later on.
+num_taxa <- data.ntaxa()
+num_branches <- 2 * num_taxa - 3
+taxa <- data.taxa()
+
+
+######################
+# Substitution Model #
+######################
+
+# create a constant variable for the rate matrix
+Q <- fnJC(4)
+
+
+##############
+# Tree model #
+##############
+
+out_group = clade("Galeopterus_variegatus")
+# Prior distribution on the tree topology
+topology ~ dnUniformTopology(taxa, outgroup=out_group)
+
+# Branch length prior
+for (i in 1:num_branches) {
+    bl[i] ~ dnExponential(10.0)
+}
+
+TL := sum(bl)
+
+psi := treeAssembly(topology, bl)
+
+
+
+###################
+# PhyloCTMC Model #
+###################
+
+# the sequence evolution model
+seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA")
+
+# attach the data
+seq.clamp(data)
+
+
+##################
+# Complete Model #
+##################
+# Any node of the model can be used to create it:
+mymodel = model(psi)
+
+
+########################
+# Specifying the moves #
+########################
+# For each stochastic variable, one has to encode moves, so that the MCMC algorithm
+# samples from them.
+moves    = VectorMoves()
+
+# Topological moves on the topology
+# We do nearest neighbor interchanges: the simplest type of move, that
+# involves swapping subtrees around an internal branch
+moves.append( mvNNI(topology, weight=3) )
+# We could do SPR moves, which involve pruning a subtree and regrafting  it
+# somewhere else in the tree.
+# moves.append( mvSPR(topology, weight=3) )
+
+# Moves on the branch lengths:
+for (i in 1:num_branches) {
+    moves.append( mvScale(bl[i]) )
+}
+
+
+#######################
+# Specifying monitors #
+#######################
+monitors = VectorMonitors()
+
+
+# add monitors
+monitors.append( mnScreen(TL, printgen=100) )
+monitors.append( mnFile(psi, filename="output/primates_cytb_JC.trees", printgen=1) )
+monitors.append( mnModel(filename="output/primates_cytb_JC.log", printgen=1) )
+
+
+################################
+# Performing the MCMC sampling #
+################################
+
+# run the analysis
+mymcmc = mcmc(mymodel, moves, monitors, nruns=1)
+# Alternative: we could do 4 runs, which is useful for checking convergence of
+# the MCMC sampling. In that case, one can run all 4 chains with the following
+# line, and still produce a long trace file in which all 4 chains are mixed.
+# mymcmc = mcmc(mymodel, moves, monitors, nruns=4, combine="mixed")
+
+# Actually run the MCMC. Here we only 2500 iterations in the interest of time,
+# but in an analysis of empirical data, more iterations would be recommended.
+mymcmc.run(generations=2500, tuningInterval=100)
+
+
+###################
+# Post processing #
+###################
+
+# Now, we will analyze the tree output.
+# Let us start by reading in the tree trace
+treetrace = readTreeTrace("output/primates_cytb_JC.trees", treetype="non-clock")
+# and then get the Maximum a Posteriori tree
+map_tree = mapTree(treetrace,"output/primates_cytb_JC_MAP.tree")
+
+
+# you may want to quit RevBayes now
+q()
