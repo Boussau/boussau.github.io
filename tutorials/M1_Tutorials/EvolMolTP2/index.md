@@ -1,6 +1,6 @@
 ---
 title: Evol Mol TP2 - Nucleotide substitution models
-subtitle: Estimating substitution rates between nucleotides
+subtitle: Estimating substitution (and mutation) rates between nucleotides
 authors:  Nicolas Lartillot
 level: 3
 order: 0.4
@@ -11,7 +11,7 @@ title-old: RB_CTMC_Tutorial
 redirect: false
 ---
 
-The last tutorial was introducing how to conduct a Bayesian phylogenetic analysis under the Jukes-Cantor model. In this tutorial, we will follow up on this, by exploring other models of nucleotide substitution.
+The last tutorial was introducing how to conduct a Bayesian phylogenetic analysis under the Jukes-Cantor model. In this tutorial, we will follow up on this, by exploring other models of nucleotide substitution. Starting from now, our main interest will not be in phylogenetic inference but in the substitution processes themselves. However, to estimate them, we need to account for the phylogeny.
 
 A model of nucleotide substitution specifies the rates of substitution between all pairs of nucleotides. It is entirely defined by a 4x4 matrix called instantaneous rate matrix, or more simply, rate matrix ($Q$).
 
@@ -24,7 +24,7 @@ $$Q_{JC} = \begin{pmatrix}
 \frac{1}{3} & \frac{1}{3} & \frac{1}{3} & {*}
 \end{pmatrix} \mbox{  ,}$$
 
-This model, however, is simplistic. In practice, different types of substitutions (or different types of point mutations) might not occur at the same rate. Thus, we might need to use more sophisticated models.
+This model, however, is simplistic. In practice, different types of substitutions (or different types of point mutations) might not occur at the same rate.
 
 Here, we will explore 3 alternative models, of increasing complexity. For each substitution model, we will write a script and run it. This will give us a joint posterior distribution on trees, but also on model parameters. Once the analysis has been conducted, we can then interpret the posterior distribution over the parameters of the model. This will give us information about the process of molecular evolution.
 
@@ -66,8 +66,7 @@ For which values of $\kappa$ and $\gamma$ does the T92 model reduce to JC ?
 
 {% subsection Implementation %}
 
-A script (`scripts/phyloJC.rev`), implementing phylogenetic inference with the JC model, is given with the tutorial. It is slightly different from the one that you used for the last tutorial, but is essentially equivalent. It was just re-written so as to better separate the model declaration from the moves and the monitors. In addition, the move schedule was slightly modified, so as to allow for faster analysis on the specific dataset of interest for today. This dataset is an alignment of the BRCA1 gene in placental mammals (`data/placBRCA1.nex`). To further accelerate the analyses, we will in fact use a short version of this dataset (in the file called `placBRCA1short.nex`), which contains only the 600 first nucleotide positions of this gene. Finally, a third dataset is provided (file called `placBRCA1third.nex`), which contains only the third coding positions of the original alignment. In the following, we will explore both `placBRCA1short.nex` and `placBRCA1third.nex`.
-
+A script (`scripts/phyloJC.rev`), implementing phylogenetic inference with the JC model, is given with the tutorial. It is slightly different from the one that you used for the last tutorial, but is essentially equivalent. In particular, the move schedule was slightly modified, so as to allow for faster analysis on the specific dataset of interest for today. This dataset is an alignment of the BRCA1 gene in placental mammals (`data/placBRCA1.nex`). To further accelerate the analyses, we will in fact use a short version of this dataset (in the file called `placBRCA1short.nex`), which contains only the 600 first nucleotide positions of this gene. Finally, a third dataset is provided (file called `placBRCA1third.nex`), which contains only the third coding positions of the original alignment. In the following, we will explore both `placBRCA1short.nex` and `placBRCA1third.nex`.
 
 Copy the JC script into a new script, which you may call `phyloT92.rev`), and open it. You will modify this script so as to implement a T92 model. Much of the script should stay the same, but you will have to introduce several modifications in order to take into account the specific aspects of this new and more complex model.
 
@@ -84,9 +83,9 @@ seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA")
 
 If we now want to use a T92 model instead of a JC model, we need, first, to defined the two parameters: $\kappa$ and $\gamma$, as stochastic variables having a prior. Then, we can build the $Q$ matrix, and finally, we create a `phyloCTMC` (`seq`) using this $Q$ matrix. Finally, we need to move these two parameters during the MCMC.
 
-The transition-transversion rate ratio $\kappa$ is a non negative real number. A reasonable prior assumption about $\kappa$ is that it is not much higher than 10. So, we can use an exponential prior of mean 10 (of rate $\lambda = 0.1$).
+The transition-transversion rate ratio $\kappa$ is a non negative real number. A reasonable prior assumption about $\kappa$ is that it is not higher than 10. So, we can use a uniform prior:
 ```
-kappa ~ dnExponential(lambda = 0.1)
+kappa ~ dnUniform(0,10)
 ```
 Concerning $\gamma$, it is a number between 0 and 1. We can invoke a uniform prior distribution. The uniform distribution between 0 and 1 is a particular case of the beta distribution, with with parameters 1.0 and 1.0:
 ```
@@ -103,13 +102,13 @@ Finally, we can proceed with the sequence evolutionary process:
 seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA")
 ```
 
-Concerning the MCMC moves, we need to add moves for $\kappa$ and $\gamma$. For $\kappa$, we can use a scaling (or multiplicative) move, which is the best move to use for positive real numbers. For $\gamma$, we can use a sliding (or additive) move. As in the case of the JC model, we also need to move the tree topology, using NNI and SPR moves, as well as the branch lengths (using scaling moves). Altogether, or move vector can be specified as follows:
+Concerning the MCMC moves, we need to add moves for $\kappa$ and $\gamma$. For $\kappa$ and $\gamma$, we can use a sliding move. As in the case of the JC model, we also need to move the tree topology, using NNI and SPR moves, as well as the branch lengths (using scaling moves). Altogether, or move vector can be specified as follows:
 ```
 moves = VectorMoves()
 moves.append(mvNNI(topology, weight=3.0))
 moves.append(mvSPR(topology, weight=3.0))
 moves.append(mvSlide(gamma, weight=1.0))
-moves.append(mvScale(kappa, weight=1.0))
+moves.append(mvSlide(kappa, weight=1.0))
 for (i in 1:n_branches) {
    moves.append(mvScale(bl[i], weight=1.0))
 }
@@ -148,7 +147,7 @@ pi ~ dnDirichlet([1.0, 1.0, 1.0, 1.0])
 
 As for the T92 model, we can assume a broad exponential prior for $\kappa$:
 ```
-kappa ~ dnexponential(lambda = 0.1)
+kappa ~ dnUniform(0,10)
 ```
 and then define the HKY rate matrix:
 ```
@@ -159,7 +158,7 @@ and finally, create the substitution process:
 seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA")
 ```
 
-We also need to move $\kappa$ and $\pi$. For $\kappa$, we can use a scaling move, as we did for the T92 model. For $\pi$, we can use a move that preserves the positivity of the entries of the vector, but also the constraint that the 4 entries of the vector should sum to 1. The move that does this is a `DirichletSimplex` move. The syntax for this move would be as follows:
+We also need to move $\kappa$ and $\pi$. For $\kappa$, we can use a sliding move, as we did for the T92 model. For $\pi$, we can use a move that preserves the positivity of the entries of the vector, but also the constraint that the 4 entries of the vector should sum to 1. The move that does this is a `DirichletSimplex` move. The syntax for this move would be as follows:
 ```
 moves.append(mvDirichletSimplex(pi, weight=1.0, alpha=10))
 ```

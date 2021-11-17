@@ -1,5 +1,5 @@
 ---
-title: Evol Mol TP1 - Phylogenetic reconstruction on nucleotide data
+title: Evol Mol TP1 - A primer on Bayesian phylogenetic models
 subtitle: Phylogenetic inference with the Jukes Cantor model
 authors:  Bastien Boussau, Nicolas Lartillot
 level: 3
