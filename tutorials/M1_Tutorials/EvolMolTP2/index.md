@@ -1,5 +1,5 @@
 ---
-title: Evol Mol TP2 - Nucleotide substitution models
+title: Evol Mol TP1b - Nucleotide substitution models
 subtitle: Estimating substitution (and mutation) rates between nucleotides
 authors:  Nicolas Lartillot
 level: 3

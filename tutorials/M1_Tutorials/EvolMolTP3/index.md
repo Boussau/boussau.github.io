@@ -1,5 +1,5 @@
 ---
-title: Evol Mol TP3 - Codon models
+title: Evol Mol TP1c - Codon models
 subtitle: Substitution models for protein-coding sequences
 authors:  Nicolas Lartillot
 level: 3
