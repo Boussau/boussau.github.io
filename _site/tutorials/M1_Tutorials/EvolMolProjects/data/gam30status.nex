@@ -1,0 +1,59 @@
+#NEXUS
+
+BEGIN DATA;
+DIMENSIONS NTAX=50 NCHAR=1;
+FORMAT DATATYPE=standard GAP=- MISSING=?;
+MATRIX
+
+Pseudomonas_aeruginosa  0
+Xanthomonas_axonopodis  0
+Vibrio_cholerae  0
+Pasteurella_multocida  0
+Haemophilus_influenzae  0
+Proteus_mirabilis  0
+Riesia_pediculicola  1
+Arsenophonus_nasoniae  1
+Xenorhabdus_nematophila  0
+Xenorhabdus_bovienii  0
+Photorhabdus_luminescens  0
+Photorhabdus_asymbiotica  0
+Serratia_proteamaculans  0
+Yersinia_pestis  0
+Regiella_insecticola  1
+Hamiltonella_defensa  1
+Sodalis_glossinidius  1
+Baumannia_cicadellinicola  1
+Wigglesworthia_glossinidia  1
+Blochmannia_pennsylvanicus  1
+Blochmannia_floridanus  1
+Pectobacterium_carotovorum  0
+Pectobacterium_wasabiae  0
+Pectobacterium_atrosepticum  0
+Dickeya_dadantii_Ech703  0
+Dickeya_zeae  0
+Dickeya_dadantii_Ech586  0
+Edwardsiella_tarda  0
+Edwardsiella_ictaluri  0
+Cronobacter_turicensis  0
+Cronobacter_sakazakii  0
+Klebsiella_variicola  0
+Klebsiella_pneumoniae  0
+Enterobacter_sp_638  0
+Enterobacter_cloacae  0
+Citrobacter_rodentium  0
+Escherichia_coli  0
+Salmonella_enterica  0
+Citrobacter_koseri  0
+Erwinia_billingiae  0
+Erwinia_tasmaniensis  0
+Erwinia_pyrifoliae  0
+Erwinia_amylovora_CFBP1430  0
+Erwinia_amylovora_ATCC_49946  0
+Pantoea_ananatis  1
+Ishikawaella_capsulata  1
+Buchnera_aphidicola_str_Sg  1
+Buchnera_aphidicola_str_APS  1
+Buchnera_aphidicola_str_Bp  1
+Buchnera_aphidicola_str_Cc  1
+	;
+end;

@@ -1,0 +1,76 @@
+genenames <- ["data/tax30COG49_rpsG.nex", "data/tax30COG51_rpsJ.nex", "data/tax30COG52_rpsB.nex"]
+
+status <- readDiscreteCharacterData("data/gam30status.nex")
+
+ngene=3
+
+for (i in 1:ngene) {
+    data[i] <- readDiscreteCharacterData(genenames[i])
+    data_codon[i] = data[i].translateCharacters("Codon")
+}
+
+n_species <- data[1].ntaxa()
+n_branches <- 2 * n_species - 3
+taxa <- data[1].taxa()
+
+out_group = clade("Xanthomonas_axonopodis")
+
+# tree topology
+topology ~ dnUniformTopology(taxa, outgroup = out_group) 
+tree <- readTrees("data/gamprot30.tree", treetype="non-clock")[1]
+topology.clamp(tree)
+
+for (i in 1:n_branches) {
+ bl[i] ~ dnExponential(10.0)
+}
+psi := treeAssembly(topology, bl)
+
+# total tree length (just for monitoring)
+TL := sum(bl)
+
+
+kappa ~ dnExponential(lambda = 0.1)
+nucstat ~ dnDirichlet([1.0, 1.0, 1.0, 1.0])
+
+# definir les 3 matrice codon Q
+for (j in 1:3) {
+    omega[j] ~ dnExponential(lambda = 0.2)
+    Qcodon[j] := fnCodonHKY(omega=omega[j], kappa=kappa, baseFrequencies=nucstat)
+}
+
+for (i in 1:n_species){
+    index = status.taxonIndex(taxa[i].getSpeciesName())
+    branchQ[i]:=Qcodon[status[index][1]+1]
+}
+for (i in (n_species+1):n_branches){
+    branchQ[i]:=Qcodon[3]
+}
+
+freqs := Qcodon[3].getStationaryFrequencies()
+
+for (i in 1:ngene) {
+    seq[i] ~ dnPhyloCTMC( tree=psi, Q=branchQ, type="Codon", rootFrequencies=freqs )
+    seq[i].clamp(data_codon[i])
+}
+
+my_model = model(psi)
+
+# moves
+moves = VectorMoves()
+moves.append(mvScale(kappa, weight=1.0))
+moves.append(mvDirichletSimplex(nucstat, weight=1.0, alpha=10))
+for (i in 1:3) {
+    moves.append(mvScale(omega[i], weight=1.0, lambda=1.0))
+}
+for (i in 1:n_branches) {
+   moves.append(mvScale(bl[i], weight=1.0))
+}
+
+monitors[1] = mnModel(filename="analyses/tax30_3omega.log", printgen=10, separator = TAB)
+monitors[2] = mnScreen(printgen=10, omega, kappa)
+
+# Make the analysis object
+analysis = mcmc(my_model, monitors, moves)
+# Run the MCMC
+analysis.run(3000)
+

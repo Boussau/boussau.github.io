@@ -1,0 +1,73 @@
+source("scripts/simulation_JC.Rev")
+data <- readDiscreteCharacterData("data/primates_and_galeopterus_cytb.nex")
+ls
+data
+data <- readDiscreteCharacterData("data/primates_and_galeopterus_cytb.nex")
+data
+taxa <- data.taxa()
+taxa
+num_branches <- 2*ntaxa - 3
+num_taxa <- data.ntaxa()
+num_branches <- 2*num_taxa - 3
+num_sites <- data.nchar()
+num_sites
+Q <- fnJC(4)
+Q
+out_group = clade("Galeopterus_variegatus")
+source("scripts/simulation_JC.Rev")
+quit()
+n <- 5
+k_obs <- 3
+x ~ dnBeta(1.0, 1.0)
+x
+x.redraw()
+x
+k ~ dnBinomial(n,x)
+k
+k.clamp(k_obs)
+binomial_model = model(k)
+moves = VectorMoves()
+moves.append(mvSlide(x))
+monitors = VectorMonitors()
+monitors.append(mnScreen(printgen=100,x))
+mymcmc = mcmc(binomial_model, monitors, moves)
+mymcmc.run(100)
+mymcmc.run(1000)
+mymcmc.run(10000)
+x
+data <- readDiscreteCharacterData("data/primates_and_galeopterus_cytb.nex")
+data
+num_taxa <- data.ntaxa()
+num_branches <- 2*num_taxa - 3
+taxa <- data.taxa()
+num_sites <- data.nchar()
+Q <- fnJC(4)
+out_group = clade("Galeopterus_variegatus")
+topology ~ dnUniformTopology(taxa, outgroup=out_group)
+topology
+for (i in 1:num_branches) {br_lens[i] ~ dnExponential(10.0)}
+br_lens
+psi := treeAssembly(topology, br_lens)
+seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA", nSites=num_sites)
+TL := sum(br_lens)
+TL
+br_lens.redraw()
+br_lens[1].redraw()
+br_lens[2].redraw()
+for (i in 1:num_branches) {br_lens[i].redraw()}
+TL
+mymodel = model(Q)
+moves = VectorMoves()
+moves.append(mvNNI(topology, weight=3))
+moves.append(mvSPR(topology, weight=3))
+for (i in 1:num_branches) {
+moves.append(mvScale(br_lens[i], weight=1))
+}
+monitors = VectorMonitors()
+monitors.append(mnModel(filename="output/primates_cytb_JC.log", printgen=1, separator=TAB))
+monitors.append(mnFile(psi, filename="output/primates_cytb_JC.tree", printgen=1))
+monitors.append(mnScreen(TL, printgen=100))
+mymcmc = mcmc(mymodel, moves, monitors)
+mymcmc.run(generations=2500)
+seq.clamp(data)
+mymcmc.run(generations=500)
