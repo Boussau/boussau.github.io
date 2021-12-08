@@ -27,7 +27,7 @@ rho <- 1.0
 timetree ~ dnBDP(speciation, extinction, rho, root_age, samplingStrategy="uniform", condition="nTaxa", taxa=taxa)
 
 # on charge un arbre enracine (calcule prealablement, avec un autre script) depuis un fichier
-tree <- readTrees("analyses/simians.tree", treetype="clock")[1]
+tree <- readTrees("data/simians.tree", treetype="clock")[1]
 # ajustement de la longueur des branches pour rendre l'arbre ultrametrique : 
 tree.makeUltrametric()
 # on fixe la topologie de l'arbre pour notre analyse:
