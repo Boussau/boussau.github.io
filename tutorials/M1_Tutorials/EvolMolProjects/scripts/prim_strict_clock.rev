@@ -1,0 +1,153 @@
+data <- readDiscreteCharacterData("data/simians4fold.nex") # Chargement des alignements  
+n_species <- data.ntaxa() # Nombre de taxons
+n_branches <- 2 * n_species - 2 # Nombre de branches
+n_nodes <- 2 * n_species - 1 # Nombre de noeuds
+taxa <- data.taxa() # Noms des taxons
+
+# Chargement de la matrice de traits d'histoire de vie
+contdata<-readContinuousCharacterData("data/primlht.nex")
+
+# Time tree :
+# Prior sur l'age de la racine :
+root_age ~ dnUniform(10,100) 
+
+# Utilisation d'un birth-death process: speciation et extinction a taux constant
+# en moyenne: 1.1 speciation et 1 extinction par lignage et par million d'annees
+# la difference (0.1) represente le taux de croissance du groupe
+# speciation ~ dnExponential(1.0)
+# extinction ~ dnExponential(1.0)
+speciation <- 1.1
+extinction <- 1
+
+# rho: fraction des especes actuelles qui sont presentes dans les feuilles de l'arbre
+# ici: 100% (mais c'est un peu naif)
+rho <- 1.0
+
+# arbre phylogenetique date, produit par le processus speciation et extinctions a taux constant
+timetree ~ dnBDP(speciation, extinction, rho, root_age, samplingStrategy="uniform", condition="nTaxa", taxa=taxa)
+
+# on charge un arbre enracine (calcule prealablement, avec un autre script) depuis un fichier
+tree <- readTrees("analyses/simians.tree", treetype="clock")[1]
+# ajustement de la longueur des branches pour rendre l'arbre ultrametrique : 
+tree.makeUltrametric()
+# on fixe la topologie de l'arbre pour notre analyse:
+timetree.setValue(tree)
+# on propose une premiere valeur raisonnable pour l'age de la racine
+root_age.setValue(50)
+
+# on fixe l'horloge moleculaire en fonction de l'estimee chez l'humain
+
+# estimee obtenue a partir des approches phylogenetiques:
+clockrate = 0.7*10^(-3)
+
+# estimee obtenue a partir de sequencage de genomes de familles
+# clockrate = 0.4*10^(-3)
+
+# en plus de la datation, on ajoute un modele d'evolution du temps de generation au cours du temps
+# ce modele dit que le log du temps de generation evolue suivant un processus brownien
+# la vitesse d'evolution est donnee par le parametre sigmaG
+# pour sigmaG on prend une prior non informative: uniforme entre 0 et 10
+sigmaG ~ dnUniform(0,10)
+# on propose une premiere valeur raisonnable pour sigmaG
+sigmaG.setValue(0.1)
+
+# on va construire un table nodelogG, tel que nodelogG[i] represente le log (en base 10) du temps de generation au noeud i de l'arbre.
+# le processus demarre a la racine, avec une valeur pour laquelle on se donne une prior uniforme entre -1 et 1: autrement dit, le temps de generation de l'ancetre des simiens est entre 0.1 annee (1,2 mois) et 100 ans. L'indice de la racine est n_nodes:
+nodelogG[n_nodes] ~ dnUniform(-1,1)
+
+# ensuite, on veut decrire la distribution des valeurs de nodelogG a travers tout l'arbre
+# un processus brownien a pour propriete que la valeur du processus a un temps t2>t1 est normalement distribuee, autour de la valeur au temps t1, avec une variance egale a sigmaG^2*(t2-t1)
+# on utilise cette propriete pour exprimer la distribution de probabilite du log du temps de generation (nodelogG) en chaque noeud de l'arbre, en fonction de la valeur au noeud ancetre:
+# ici, on fait une boucle for descendante (parce que les noeuds de l'arbre sont indexes de telle sorte que les noeuds les plus anciens ont des indices plus eleve)
+for (i in (n_nodes-1):1)    {
+    nodelogG[i] ~ dnNormal(mean=nodelogG[tree.parent(i)], sd=sigmaG*sqrt(tree.branchLength(i)))
+}
+
+# ici, on exprime le fait qu'on observe les valeurs du temps de generation aux feuilles de l'arbre (attention, il y a des donnees manquantes, caracterisees par une valeur -1)
+for (i in 1:n_species)  {
+    # nom de l'espece a la feuille de l'arbre d'indice i
+	species <- tree.nodeName(i) 
+    # valeur du temps de generation pour cette espece, en jours
+	GspeciesDays <- contdata[contdata.taxonIndex(species)][6]
+	if (GspeciesDays != -1) {
+        # valeur du temps de generation en annee
+        GspeciesYears <- GspeciesDays/365
+        # on fixe la valeur de nodelogG[i], en log en base 10
+		nodelogG[i].clamp(log(abs(GspeciesYears), 10))
+	}
+}
+
+# Estimation du temps de generation moyen sur chaque branche:
+# tout simplement, on prend la moyenne du log en base 10 des valeurs
+# aux deux bouts de la branche (telles que specifiees par nodelogG)
+# puis on prend 10^ cette valeur
+for (i in 1:(n_nodes-1))    {
+	branchG[i] := 10^(0.5*nodelogG[tree.parent(i)] + 0.5*nodelogG[i])
+}
+# ici, on calcule juste le temps de generation moyen a travers toutes les branches
+meanG := mean(branchG)
+
+
+# modelisation du processus d'evolution des sequences nucleotidiques:
+# modele T92
+# Prior sur le taux de transitions/taux de transversions (kappa) : 
+kappa ~ dnUniform(0,10)
+# Prior sur contenu GC d'equilibre
+# une beta 1,1 est equivalente a une uniforme sur l'intervalle (0,1)
+gamma ~ dnBeta(1.0, 1.0)
+
+# Definition de la matrice de substitution T92 :
+Q := fnT92(kappa=kappa, gc=gamma)
+# Mise en place du processus d'evolution des sequences : 
+seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" )
+# le processus est conditionne sur les donnees de sequences observees
+seq.clamp( data )
+
+# creation du modele
+my_model = model(timetree, sigmaG)
+
+## Mouvements MCMC
+moves = VectorMoves()
+### Mouvement sur l'age de la racine :
+moves.append(mvScale(root_age, weight=1.0))
+### Mouvements sur les taux de spéciation et d’extinction : 
+#moves.append(mvScale(speciation, weight=1.0))
+#moves.append(mvScale(extinction, weight=1.0))
+### Mouvements sur le ratio transitions/transversions et sur contenu GC à l’équilibre : 
+moves.append(mvSlide(gamma, weight=1.0))
+moves.append(mvSlide(kappa, weight=1.0))
+### Mouvements sur les ages relatifs des noeuds internes : 
+moves.append(mvNodeTimeSlideUniform(timetree, weight=20))
+moves.append(mvSubtreeScale(timetree, weight=4))
+### Mouvements sur sigmaG :
+moves.append(mvScale(sigmaG, weight=1.0))
+### Mouvements sur les nodelogG des noeuds internes de l'arbre
+for (i in (n_species+1):n_nodes) {
+    moves.append(mvSlide(nodelogG[i], weight=1.0))
+}
+### Mouvements sur les nodelogG des feuilles pour lesquelles les donnees sont manquantes
+for (i in 1:n_species)  {
+	species <- tree.nodeName(i) 
+	GspeciesDays <- contdata[contdata.taxonIndex(species)][6]
+	if (GspeciesDays == -1) {
+		moves.append(mvSlide(nodelogG[i], weight=1.0))
+	}
+}
+## Moniteurs : 
+monitors[1] = mnModel(filename="analyses/simians_strictclock.log", printgen=10, separator = TAB)
+monitors[2] = mnFile(timetree ,filename="analyses/simians_strictclock.trees", printgen=10, separator = TAB)
+monitors[3] = mnScreen(printgen=100, root_age, sigmaG, meanG)
+
+# Lancement du MCMC:
+analysis = mcmc(my_model, monitors, moves)
+analysis.run(10000) # Nombre de cycles, a augmenter si les parametres ne se stabilisent pas 
+
+# post-analyse:
+# construction du chronogramme date
+treetrace = readTreeTrace("analyses/simians_strictclock.trees", treetype="clock", burnin=0.1)
+map_tree = mccTree(treetrace, "analyses/simians_strictclock.tree")
+
+# on quitte revbayes
+quit()
+
+
