@@ -2,7 +2,7 @@
 title: Two projects using RevBayes
 subtitle:
 authors:  Nicolas Lartillot, Bastien Boussau
-level: 2
+level: 3
 order: 0.8
 prerequisites:
 - EvolMolTP1
