@@ -1,0 +1,92 @@
+data <- readDiscreteCharacterData("data/test.fa")
+
+# We extract the number of species, branches, and the taxon labels from the data.
+n_species <- data.ntaxa()
+n_branches <- 2 * n_species - 3
+taxa <- data.taxa()
+
+# Let's define an outgroup, so that the output trees are written consistently
+# with the first bifurcation between the outgroup and the other sequences.
+out_group = clade("Loach")
+
+# We define a uniform prior on (undated) tree topologies.
+topology ~ dnUniformTopology(taxa, outgroup = out_group)
+
+# We define exponential priors of mean 1/10 for branch lengths.
+for (i in 1:n_branches) {
+ bls[i] ~ dnExponential(10.0)
+}
+
+# We assemble the topology "topology" and branch lengths bls to get a phylogeny psi.
+psi := treeAssembly(topology, bls)
+
+# We compute the total tree length, just for monitoring.
+TL := sum(bls)
+
+# We define a Tamura 92 substitution process.
+# This model is defined by a transition/transversion ratio kappa,
+# and an equilibrium GC content gamma.
+kappa ~ dnExponential(0.1)
+gamma ~ dnBeta(1.0, 1.0)
+
+# The substitution matrix Q is computed deterministically from kappa and gamma.
+Q := fnT92(kappa=kappa, gc=gamma)
+
+# Sequences are distributed according to a Continuous Time Markov Chain
+# running along the phylogeny psi, using the substitution matrix Q.
+seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="DNA" )
+
+# So far, we have defined the model, which can be used for simulation or
+# for inference. To use the model for inference, we need to link the model to the
+# observed data, by clamping the "seq" node to the data.
+seq.clamp( data )
+
+# We declare the model as one big object that we are going to use in the MCMC.
+my_model = model(psi)
+
+# For the MCMC to run, we need to define moves on the various stochastic variables
+# that we have defined.
+
+# We store all moves in a vector.
+moves = VectorMoves()
+
+# We define 2 moves on the topology.
+moves.append(mvNNI(topology, weight=3.0))
+moves.append(mvSPR(topology, weight=3.0))
+
+# We define moves on the branch lengths, for each branch.
+for (i in 1:n_branches) {
+   moves.append(mvScale(bls[i], tune=TRUE))
+}
+
+# We define moves on the parameters of the substitution matrix.
+moves.append(mvSlide(gamma, weight=1.0, delta=0.1, tune=TRUE))
+moves.append(mvScale(kappa, weight=1.0, tune=TRUE))
+
+# Now we define monitors to keep trace of what's happening during the MCMC.
+# One monitor to store the parameter distributions into a file.
+monitors[1] = mnModel(filename="analyses/test_burnin.log", printgen=10, separator = TAB)
+
+# One monitor to store the trees.
+monitors[2] = mnFile(psi,filename="analyses/test_burnin.trees", printgen=10, separator = TAB)
+
+# One monitor to show information on the screen.
+monitors[3] = mnScreen(printgen=100, kappa, gamma)
+
+# Create an MCMC object.
+analysis = mcmc(my_model, monitors, moves)
+
+# We run burnin during a few iterations
+analysis.burnin(generations=3000, tuningInterval=300)
+
+# We run the MCMC for 10,000 iterations.
+analysis.run(10000)
+
+# Post-analysis
+# Let's look at move statistics:
+analysis.operatorSummary()
+
+
+# we construct the maximum a posteriori tree
+treetrace = readTreeTrace("analyses/test_burnin.trees", treetype="non-clock", burnin=0.1)
+map_tree = mapTree(treetrace, "analyses/test_burnin_map.tree")
