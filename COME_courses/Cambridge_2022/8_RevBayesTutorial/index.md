@@ -1,173 +1,19 @@
 ---
-title: TP3 Nucleotide substitution models
+title: Bayesian phylogenetic inference with GTR
 subtitle: Parameter estimation and tree inference
-authors:  Nicolas Lartillot
+authors:  Bastien Boussau
 level: 2
 order: 0.4
-prerequisites:
-- TP2_JukesCantorHumanChimp
-- TP3_JC_PhylogenyReconstruction
 index: true
 title-old: RB_CTMC_Tutorial
 redirect: false
 ---
 
-The last tutorial was introducing how to conduct a Bayesian phylogenetic analysis under the Jukes-Cantor model. In this tutorial, we will follow up on this, by exploring other models of nucleotide substitution.
+In this tutorial, we will perform phylogenetic analysis using the GTR model of nucleotide substitution, accounting for rate heterogeneity across sites.
 
 A model of nucleotide substitution specifies the rates of substitution between all pairs of nucleotides. It is entirely defined by a 4x4 matrix called instantaneous rate matrix, or more simply, rate matrix ($Q$).
 
-We have seen in the last tutorial that the instantaneous rate matrix for the JC model is given by:
-
-$$Q_{JC} = \begin{pmatrix}
-{*} & \frac{1}{3} & \frac{1}{3} & \frac{1}{3} \\
-\frac{1}{3} & {*} & \frac{1}{3} & \frac{1}{3} \\
-\frac{1}{3} & \frac{1}{3} & {*} & \frac{1}{3} \\
-\frac{1}{3} & \frac{1}{3} & \frac{1}{3} & {*}
-\end{pmatrix} \mbox{  ,}$$
-
-This model, however, is simplistic. In practice, different types of substitutions (or different types of point mutations) might not occur at the same rate. Thus, we might need to use more sophisticated models.
-
-Here, we will explore 3 alternative models, of increasing complexity. For each substitution model, we will write a script and run it. This will give us a joint posterior distribution on trees, but also on model parameters. Once the analysis has been conducted, we can then interpret the posterior distribution over the parameters of the model. This will give us information about the process of molecular evolution. Second, we can compute the map or consensus tree, and see if tree inference is sensitive to the nucleotide substitution model that was chosen to conduct the inference.
-
-The models explored in this tutorial are summarized in this table.
-
-{% table tab_subst_models %}
-{% tabcaption %}
-Specific functions for substitution models available in RevBayes.
-{% endtabcaption %}
-
- |   **Model**      |        **Reference**        |  **Function**   |      **Parameters**     |
- |:----------------:|:---------------------------:|:---------------:|:-----------------------:|
- |   Jukes-Cantor   |    {% cite Jukes1969 %}     |      fnJC       |           -             |
- |        T92       |    {% cite Tamura1992 %}    |      fnT92      | $\pi_{GC}$, $\kappa$    |
- |        HKY       |   {% cite Hasegawa1985 %}   |      fnHKY      |     $\pi$, $\kappa$     |
- |        GTR       |    {% cite Tavare1986 %}    |      fnGTR      |     $\pi$, $\epsilon$   |
-
-{% endtable %}
-They are now presented in more details.
-
-{% section The Tamura 92 model (T92) %}
-
-{% subsection Description of the model %}
-
-This model has two parameters, $\kappa$ and $\gamma$. The rate matrix is given by:
-
-$$Q_{T92} = \begin{pmatrix}
-{*} & \frac{\gamma}{2} & \kappa \frac{\gamma}{2} & \frac{1-\gamma}{2} \\
-\frac{1-\gamma}{2} & {*} & \frac{\gamma}{2} & \kappa \frac{1-\gamma}{2} \\
-\kappa \frac{1-\gamma}{2} & \frac{\gamma}{2} & {*} & \frac{1-\gamma}{2} \\
-\frac{1-\gamma}{2} & \kappa \frac{\gamma}{2} & \frac{\gamma}{2} & {*}
-\end{pmatrix} \mbox{  ,}$$
-
-Two things are important to note:
-- if $\kappa > 1$, then this says that transitions between purines (A and G) or between pyrimidines (C and T) are more frequent than transversions (from a purine to a pyrimidine, or vice versa). If $kappa < 1$, on the other hand, then transitions are less frequent than transversions.
-- if $\gamma < 0.5$, then substitutions from GC to AT occur at a higher rate, compared to substitutions from AT to GC, and conversely if $\gamma > 0.5$.
-
-For which values of $\kappa$ and $\gamma$ does the T92 model reduce to JC ?
-
-{% subsection Implementation %}
-
-A script (`scripts/phyloJC.rev`), implementing phylogenetic inference with the JC model, is given with the tutorial. It is slightly different from the one that you used for the last tutorial, but is essentially equivalent. It was just re-written so as to better separate the model declaration from the moves and the monitors. In addition, the move schedule was slightly modified, so as to allow for faster analysis on the specific dataset of interest for today. This dataset is an alignment of the BRCA1 gene in placental mammals (`data/placBRCA1.nex`). To further accelerate the analyses, we will in fact use a short version of this dataset (in the file called `placBRCA1short.nex`), which contains only the 600 first nucleotide positions of this gene. Finally, a third dataset is provided (file called `placBRCA1third.nex`), which contains only the third coding positions of the original alignment. In the following, we will explore both `placBRCA1short.nex` and `placBRCA1third.nex`.
-
-
-Copy the JC script into a new script, which you may call `phyloT92.rev`), and open it. You will modify this script so as to implement a T92 model. Much of the script should stay the same, but you will have to introduce several modifications in order to take into account the specific aspects of this new and more complex model.
-
-First, under JC, the rate matrix and the sequence evolutionary process were specified as follows:
-```
-Q <- fnJC(4)
-```
-In the case of JC, the rate matrix is a constant, hence the use of `<-`.
-
-Then, we create a stochastic variable, which represents the multiple sequence alignment, such as produced by a substitution process running along the tree psi, and with substitution rates given by $Q$:
-```
-seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA")
-```
-
-If we now want to use a T92 model instead of a JC model, we need, first, to defined the two parameters: $\kappa$ and $\gamma$, as stochastic variables having a prior. Then, we can build the $Q$ matrix, and finally, we create a `phyloCTMC` (`seq`) using this $Q$ matrix. Finally, we need to move these two parameters during the MCMC.
-
-The transition-transversion rate ratio $\kappa$ is a non negative real number. A reasonable prior assumption about $\kappa$ is that it is not much higher than 10. So, we can use an exponential prior of mean 10 (of rate $\lambda = 0.1$).
-```
-kappa ~ dnExponential(lambda = 0.1)
-```
-Concerning $\gamma$, it is a number between 0 and 1. We can invoke a uniform prior distribution. The uniform distribution between 0 and 1 is a particular case of the beta distribution, with with parameters 1.0 and 1.0:
-```
-gamma ~ dnBeta(1.0, 1.0)
-```
-Then, we can create the rate matrix $Q$, which is now a T92 rate matrix:
-```
-Q := fnT92(kappa = kappa, gc = gamma)
-```
-Note that the rate matrix is now a deterministic model variable (and not anymore a constant) -- hence, we use `:=`.
-
-Finally, we can proceed with the sequence evolutionary process:
-```
-seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA")
-```
-
-Concerning the MCMC moves, we need to add moves for $\kappa$ and $\gamma$. For $\kappa$, we can use a scaling (or multiplicative) move, which is the best move to use for positive real numbers. For $\gamma$, we can use a sliding (or additive) move. As in the case of the JC model, we also need to move the tree topology, using NNI and SPR moves, as well as the branch lengths (using scaling moves). Altogether, or move vector can be specified as follows:
-```
-moves = VectorMoves()
-moves.append(mvNNI(topology, weight=3.0))
-moves.append(mvSPR(topology, weight=3.0))
-moves.append(mvSlide(gamma, weight=1.0))
-moves.append(mvScale(kappa, weight=1.0))
-for (i in 1:n_branches) {
-   moves.append(mvScale(bl[i], weight=1.0))
-}
-```
-
-Write the script, run it on the BRCA1 dataset (short version). Load the log file in Tracer. Estimate the burnin and visualize the posterior distribution for $\kappa$. Give a point estimate (median) and a symmetric 95\% credible interval. Do the same thing for $\gamma$.
-
-Based on your point estimated and credible intervals, would you say that T92 provides a better fit to the data, compared to JC?
-
-Do a similar analysis, now with only the third coding positions (file called `placBRCA1third.nex`). Run the chain for 10 000 generations. Visualize the posterior distribution and give a point estimate and a credible interval for $\kappa$ and $\gamma$. Compare with the estimates obtained under the complete dataset (all coding positions). How do you interpret the differences?
-
-Print out the map or posterior consensus tree. Does that differ a lot from the consensus tree inferred using the JC model?
-
-{% section The Hasegawa, Kishino and Yano model (HKY)%}
-
-
-The HKY model is slightly more complex than T92. It also relies on a transition/transversion ratio ($\kappa$). However, whereas T92 assumes that the equilibrium frequencies of G and C are the same (both equal to $\gamma/2$), and similarly for A and T (with frequencies both equal to $(1-\gamma)/2$, the HKY does not make this assumption. Under HKY, the equilibrium frequencies of the 4 nucleotides can be arbitrary. They are mathematically formalized by a frequency vector of dimension 4, $\pi = (\pi_A, \pi_C, \pi_G, \pi_T)$ such that:
-$$\pi_A + \pi_C + \pi_G + \pi_T = 1$$
-
-The rate matrix of HKY is:
-
-$$Q_{HKY} = \begin{pmatrix}
-{*} & \pi_{C} & \kappa \pi_{G} & \pi_{T} \\
-\pi_{A} & {*}  & \pi_{G} & \kappa \pi_{T} \\
-\kappa \pi_{A} & \pi_{C} & {*}  & \pi_{T} \\
-\pi_{A} & \kappa \pi_{C} & \pi_{G} & {*}
-\end{pmatrix} \mbox{  ,}$$
-
-
-The T92 model is a particular case of the HKY model. For which values of its parameters does HKY reduce to T92?
-
-The domain of definition of frequency vectors is called the simplex (here, the simplex S4, since there are 4 entries for the vector). A standard distribution on the simplex is the Dirichlet distribution (you can look at the definition of the Dirichlet distribution on Wikipedia). In particular, a uniform distribution over the simplex is a Dirichlet with weights all equal to 1. Thus, we can assume this prior for $\pi$:
-```
-pi ~ dnDirichlet([1.0, 1.0, 1.0, 1.0])
-```
-
-As for the T92 model, we can assume a broad exponential prior for $\kappa$:
-```
-kappa ~ dnexponential(lambda = 0.1)
-```
-and then define the HKY rate matrix:
-```
-Q := fnHKY(kappa=kappa, baseFrequencies=pi)
-```
-and finally, create the substitution process:
-```
-seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA")
-```
-
-We also need to move $\kappa$ and $\pi$. For $\kappa$, we can use a scaling move, as we did for the T92 model. For $\pi$, we can use a move that preserves the positivity of the entries of the vector, but also the constraint that the 4 entries of the vector should sum to 1. The move that does this is a `DirichletSimplex` move. The syntax for this move would be as follows:
-```
-moves.append(mvDirichletSimplex(pi, weight=1.0, alpha=10))
-```
-
-Write and run the script on the BRCA1 gene (only the third coding positions). Again, visualize the posterior distribution over the model parameters. In particular, visualize simultaneously the posterior distributions over the 4 nucleotide frequencies. Would you say that HKY should be used instead of T92? Is tree inference fundamentally different between the two models?
-
-{% section The GTR model (optional) %}
+{% section The GTR model %}
 
 The most general time reversible model can be parameterized as follows:
 $$Q = \begin{pmatrix}
@@ -178,24 +24,207 @@ $$Q = \begin{pmatrix}
 \end{pmatrix} \mbox{  ,}$$
 with the constraint that $\rho_{XY} = \rho_{YX}$ for all nucleotide pairs $(X,Y)$. The $\rho$'s are called the relative exchangeabilities (or exchange rates), and the $\pi$'s are the equilibrium frequencies of the process. With the constraint of symmetry for $\rho$, we have 6 distinct values (6 unordered pairs of nucleotides). In addition, and without loss of generality, we can constrain the $\rho$ vector to sum to 1. With these constraints, $\rho$ is a 6-dimensional frequency vector (i.e. it is a point on the simplex $S6$).
 
-We can use a uniform prior over $\rho$, which is a particular case of the Dirichlet distribution with equal weights:
-```
-rho ~ dnDirichlet([1.0, 1.0, 1.0, 1.0, 1.0, 1.0])
-```
-and a uniform prior over $\pi$ (as for the HKY model):
-```
-pi ~ dnDirichlet([1.0, 1.0, 1.0, 1.0])
-```
-We can then define the GTR rate matrix:
-```
-Q := fnGTR(exchangeRates=rho, baseFrequencies=pi)
-```
-and create the substitution process:
-```
-seq ~ dnPhyloCTMC(tree=psi, Q=Q, type="DNA")
-```
-Finally, we need to move $\rho$ and $\pi$, in both cases using a `DirichletSimplex` move (as we did above for pi in the case of the HKY model).
-
-Write the script and run it on the BRCA1 dataset (only the 3 coding positions). Explore the posterior distribution over the parameters and, in particular, determine whether all transitions occur at the same relative rate. Same thing for transitions.
 
 
+{% figure gtr_graphical_model %}
+<img src="figures/gtr_graphical_model.png" />
+{% figcaption %}
+Graphical model representation of the general-time reversible (GTR) phylogenetic model.
+{% endfigcaption %}
+{% endfigure %}
+
+
+We want to use a uniform prior over $\er$, so we use a Dirichlet distribution with equal weights.
+We first define a constant node specifying the vector of
+concentration-parameter values using the `v()` function:
+
+```
+er_prior <- v(1,1,1,1,1,1)
+```
+
+
+This node defines the concentration-parameter values of the Dirichlet
+prior distribution on the exchangeability rates. Now, we can create a
+stochastic node for the exchangeability rates themselves using the `dnDirichlet()`
+function, which takes the vector of concentration-parameter values as an
+argument and the `~` operator. Together, these create a stochastic node
+named `er` ($\theta$ in {% ref gtr_graphical_model %}):
+
+```
+er ~ dnDirichlet(er_prior)
+```
+
+The Dirichlet distribution assigns probability densities to a [*simplex*](http://en.wikipedia.org/wiki/Simplex), a vector of values between 0 and 1.0 and must sum to 1. Simplices thus describe vectors of proportions. Here, we have specified a six-parameter Dirichlet prior, where each value describes one of the six relative rates of the GTR model: (1) $A\leftrightarrows C$; (2) $A\leftrightarrows G$; (3) $A\leftrightarrows T$; (4) $C\leftrightarrows G$; (5) $C\leftrightarrows T$; (6) $G\leftrightarrows T$. The input parameters of a Dirichlet distribution are called shape (or concentration) parameters. The expectation and variance for each variable are related to the sum of the shape parameters. The prior we specified above is a ‘flat’ or symmetric Dirichlet distribution; all of the shape parameters are equal (1,1,1,1,1,1). This describes a model that allows for equal rates of change between nucleotides, such that the expected rate for each is equal to $\frac{1}{6}$ ({% ref dirichletFig %}a).
+
+We might also parameterize the Dirichlet distribution such that all of the shape parameters were equal to 100, which would also specify a prior with an expectation of equal exchangeability rates ({% ref dirichletFig %}b). However, by increasing the values of the shape parameters, `er_prior <- v(100,100,100,100,100,100)`, the Dirichlet distribution will more strongly favor equal exchangeability rates; (*i.e.*, a relatively informative prior).
+
+Alternatively, we might consider an asymmetric Dirichlet parameterization that could reflect a strong prior belief that transition and transversion substitutions occur at different rates. For example, we might specify the prior density `er_prior <- v(4,8,4,4,8,4)`. Under this model, the expected rate for transversions would be $\frac{4}{32}$ and that for transitions would be $\frac{8}{32}$, and there would be greater prior probability on sets of GTR rates that match this configuration ({% ref dirichletFig %}c).
+
+Yet another asymmetric prior could specify that each of the six GTR rates had a different value conforming to a Dirichlet(2,4,6,8,10,12). This would lead to a different prior probability density for each rate parameter ({% ref dirichletFig %}d). Without strong prior knowledge about the pattern of relative rates, however, we can better reflect our uncertainty by using a vague prior on the GTR rates. Notably, all patterns of relative rates have the same probability density under `er_prior <- v(1,1,1,1,1,1)`.
+
+{% figure dirichletFig %}
+<img src="figures/dirichlet_rates.png" width="600" />
+{% figcaption %}
+Four different examples of Dirichlet priors on exchangeability rates.
+{% endfigcaption %}
+{% endfigure %}
+
+For each stochastic node in our model, we must also specify a proposal mechanism if we wish to sample values for that parameter.
+
+```
+moves.append( mvBetaSimplex(er, weight=3) )
+moves.append( mvDirichletSimplex(er, weight=1) )
+```
+
+We can use the same type of distribution as a prior on the 4 stationary
+frequencies ($\pi_A, \pi_C, \pi_G, \pi_T$) since these parameters also
+represent proportions. We specify a flat Dirichlet prior density on the
+base frequencies:
+
+```
+pi_prior <- v(1,1,1,1)
+pi ~ dnDirichlet(pi_prior)
+```
+
+The node `pi` represents the $\pi$ node in {% ref gtr_graphical_model %}. Now add the simplex scale move on the stationary frequencies to the moves vector:
+
+```
+moves.append( mvBetaSimplex(pi, weight=2) )
+moves.append( mvDirichletSimplex(pi, weight=1) )
+```
+
+We can finish setting up this part of the model by creating a deterministic node for the GTR instantaneous-rate matrix `Q`. The `fnGTR()` function takes a set of exchangeability rates and a set of base frequencies to compute the instantaneous-rate matrix used when calculating the likelihood of our model.
+
+```
+Q := fnGTR(er,pi)
+```
+
+{% subsection Exercise 3 %}
+
+-   Implement the GTR model and run an analysis.
+
+-   Explore the resulting tree. Does it look like the RaxML tree?
+
+-   Using Tracer, evaluate parameter convergence. Do we have enough samples to evaluate the posterior distribution of all parameters?
+
+
+
+{% section The Discrete Gamma Model of Among Site Rate Variation %}
+
+The model we have defined above assumes that rates are homogeneous across sites, an assumption that is often violated by real data. We can accommodate variation in substitution rate among sites (ASRV) by adopting the discrete-gamma model {% cite Yang1994a %}. This model assumes that the substitution rate at each site is a random variable that is described by a discretized gamma distribution, which has two parameters: the shape parameter, $\alpha$, and the rate parameter, $\beta$. Since we want to interpret the branch lengths as the expected number of substitutions per site, we enforce that the mean site rate is equal to 1. The mean of the gamma is equal to $\alpha/\beta$, so a mean-one gamma is specified by setting the two parameters to be equal, $\alpha=\beta$. This means that we can fully describe the gamma distribution with the single shape parameter, $\alpha$. The degree of among-site substitution rate variation is inversely proportional to the value of the $\alpha$-shape parameter. As the value of the $\alpha$-shape increases, the gamma distribution increasingly resembles a normal distribution with decreasing variance, which therefore corresponds to decreasing levels of ASRV ({% ref asrhGammaFig %}). By contrast, when the value of the $\alpha$-shape parameter is $< 1$, the gamma distribution assumes a concave distribution that concentrates most of the prior density on low rates, but retains some prior mass on sites with very high rates, which therefore corresponds to high levels of ASRV ({% ref asrhGammaFig %}). Note that, when $\alpha = 1$, the gamma distribution collapses to an exponential distribution with a rate parameter equal to $\beta$.
+
+{% figure asrhGammaFig %}
+<img src="figures/asrh_gamma.png" width="600" />
+{% figcaption %}
+The probability density of mean-one gamma-distributed rates for different values of the $\alpha$-shape parameter.
+{% endfigcaption %}
+{% endfigure %}
+
+We typically lack prior knowledge regarding the degree of ASRV for a given alignment.
+Accordingly, rather than specifying a precise value of $\alpha$, we can instead estimate the value of the $\alpha$-shape parameter from the data. This requires that we specify a diffuse (relatively ['uninformative'](http://andrewgelman.com/2013/11/21/hidden-dangers-noninformative-priors/)) prior on the $\alpha$-shape parameter. For this analysis, we will use a uniform distribution between 0 and 10.
+
+This approach for accommodating ASRV is an example of a hierarchical model ({% ref fig_gtrg %}).
+That is, variation in substitution rates across sites is addressed by applying a site-specific rate multiplier $r_j$ to each of the $j$ sites.
+These rate-multipliers are drawn from a discrete, mean-one gamma distribution; the shape of this prior distribution (and the corresponding degree of ASRV) is governed by the $\alpha$-shape parameter. The $\alpha$-shape parameter, in turn, is treated as a uniform random variable dranw between $0$ and $10$.
+
+{% figure fig_gtrg %}
+![]( figures/gtr_Gamma_graphical_model.png)
+{% figcaption %}
+Graphical model representation of the General Time Reversible (GTR) + Gamma phylogenetic model.
+{% endfigcaption %}
+{% endfigure %}
+
+{% subsubsection Setting up the Gamma Model in RevBayes %}
+
+Then create a stochastic node called `alpha` with a uniform prior distribution between 0.0 and $10$
+(this represents the stochastic node for the $\alpha$-shape parameter in
+{% ref fig_gtrg %}):
+
+```
+alpha ~ dnUniform( 0.0, 10 )
+```
+
+The way the ASRV model is implemented involves discretizing the mean-one gamma distribution into a set number of rate categories, $k$. Thus, we can analytically marginalize over the uncertainty in the rate at each site. The likelihood of each site is averaged over the $k$ rate categories, where the rate multiplier is the mean (or median) of each of the discrete $k$ categories. To specify this, we need a deterministic node that is a vector that will hold the set of $k$ rates drawn from the gamma distribution with $k$ rate categories. The `fnDiscretizeGamma()` function returns this deterministic node and takes three arguments: the shape and rate of the gamma distribution and the number of categories. Since we want to discretize a mean-one gamma distribution, we can pass in `alpha` for both the shape and rate.
+
+Initialize the `sr` deterministic node vector using the `fnDiscretizeGamma()` function with `4` bins:
+
+```
+sr := fnDiscretizeGamma( alpha, alpha, 4 )
+```
+
+Note that here, by convention, we set $k = 4$. The random variable that controls the rate variation is the stochastic node `alpha`. We will apply a simple scale move to this parameter.
+
+```
+moves.append( mvScale(alpha, weight=2.0) )
+```
+
+Remember that you need to call the `PhyloCTMC` constructor to include the new site-rate parameter:
+
+```
+seq ~ dnPhyloCTMC(tree=psi, Q=Q, siteRates=sr, type="DNA")
+```
+
+{% subsection Exercise 4 %}
+
+-   Extend the GTR model to account for ASRV and run
+    an analysis.
+
+-   What is the distribution of the alpha parameter? Is there a lot of rate heterogeneity in the data?
+
+{% section Modeling Invariable Sites %}
+
+The substitution models described so far assume that all sites in the sequence data are potentially variable. That is, we assume that the sequence data are random variables; specifically, we assume that they are realizations of the specified `PhyloCTMC` distribution. However, some sites may not be free to vary—when the substitution rate of a site is zero, it is said to be *invariable*. Invariable sites are often confused with *invariant* sites—when each species exhibits the same state, it is said to be invariant. The concepts are related but distinct. If a site is truly invariable, it will necessarily give rise to an invariant site pattern, as such sites will always have a zero substitution rate. However, an invariant site pattern may be achieved via multiple substitutions that happen to end in the same state for every species.
+
+Here we describe an extension to our phylogenetic model to accommodate invariable sites. Under the invariable-sites model {% cite Hasegawa1985 %}, each site is invariable with probability `p_inv`, and variable with probability $1-$`p_inv`.
+
+
+{% figure fig_gtrg %}
+![]( figures/gtr_GammaI_graphical_model.png)
+{% figcaption %}
+Graphical model representation of the General Time Reversible (GTR) + Gamma phylogenetic model with invariable sites.
+{% endfigcaption %}
+{% endfigure %}
+
+
+First, let’s have a look at the data and see how many invariant sites we have:
+
+```
+data.getNumInvariantSites()
+```
+
+There seems to be a substantial number of invariant sites.
+
+Now let’s specify the invariable-sites model in RevBayes. We need to specify the prior probability that a site is invariable. A Beta distribution is a common choice for parameters representing probabilities.
+
+```
+p_inv ~ dnBeta(1,1)
+```
+
+The `Beta(1,1)` distribution is a flat prior distribution that specifies equal probability for all values between 0 and 1. It is the equivalent of the Dirichlet distribution, but for a single proportion.
+
+Then, as usual, we add a move to change this stochastic variable; we’ll use a simple sliding window move.
+
+```
+moves.append( mvSlide(p_inv) )
+```
+
+Finally, you need to call the `PhyloCTMC` constructor to include the
+new `p_inv` parameter:
+
+```
+seq ~ dnPhyloCTMC(tree=psi, Q=Q, siteRates=sr, pInv=p_inv, type="DNA")
+```
+
+{% subsection Exercise 5 %}
+
+-   Extend the GTR model to account for invariable sites and run
+    an analysis.
+
+-   What is the estimated probability of invariable sites and how does
+    it relate to the ratio of invariant sites to the total number of
+    sites?
+
+-   Extend the GTR+$\Gamma$ model to account for invariable sites and
+    run an analysis.
+
+-   What is the estimated probability of invariable sites now?
