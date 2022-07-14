@@ -4,18 +4,18 @@
 #############################################
 
 # We read the alignment:
-data <- readDiscreteCharacterData("data/test.fa")
+data = readDiscreteCharacterData("data/test.fa")
 
 # We extract the number of species, branches, and the taxon labels from the data:
-n_species <- data.ntaxa()
-n_branches <- 2 * n_species - 3
-taxa <- data.taxa()
+n_species = data.ntaxa()
+n_branches = 2 * n_species - 3
+taxa = data.taxa()
 
 # We create a vector of moves to store them all:
 moves = VectorMoves()
 
 # We decide on a stub name for the output files:
-output_stub <- "testGTRGammaInv"
+output_stub = "testGTRGammaInv"
 
 
 ################################
@@ -24,7 +24,7 @@ output_stub <- "testGTRGammaInv"
 
 # Let's define an outgroup for our tree, so that the output trees are written consistently
 # with the first bifurcation between the outgroup and the other sequences:
-out_group = clade("Loach")
+out_group <- clade("Loach")
 
 # We define a uniform prior on (undated) tree topologies:
 topology ~ dnUniformTopology(taxa, outgroup = out_group)
@@ -44,8 +44,8 @@ TL := sum(bls)
 # that we have defined.
 
 # We define 2 moves on the topology.
-moves.append(mvNNI(topology, weight=3.0))
-moves.append(mvSPR(topology, weight=3.0))
+moves.append(mvNNI(topology, weight=10.0))
+moves.append(mvSPR(topology, weight=10.0))
 
 # We define moves on the branch lengths, one for each branch.
 for (i in 1:n_branches) {
@@ -88,8 +88,12 @@ moves.append( mvScaleBactrian(alpha, weight=2.0, tune=TRUE) )
 ##################################
 # Proportion of invariant sites  #
 ##################################
+
+# We model the proportion of invariant sites
 p_inv ~ dnBeta(1,1)
-moves.append( mvSlide(p_inv) )
+
+# We define a move on the proportion of invariant sites parameter
+moves.append( mvSlide(p_inv, tune=TRUE) )
 
 
 #########
@@ -130,10 +134,13 @@ monitors[2] = mnFile(psi,filename="analyses/"+output_stub+".trees", printgen=10,
 monitors[3] = mnScreen(printgen=100, TL, alpha, p_inv)
 
 # We create an MCMC object:
-analysis = mcmc(my_model, monitors, moves)
+analysis = mcmc(my_model, monitors, moves, nruns = 2, combine = "sequential")
 
 # We run burnin during a few iterations:
-analysis.burnin(generations=3000, tuningInterval=300)
+analysis.burnin(generations=1000, tuningInterval=100)
+
+# Let's look at move statistics for the burnin:
+analysis.operatorSummary()
 
 # We run the MCMC for 10,000 iterations:
 analysis.run(10000)
@@ -143,7 +150,7 @@ analysis.run(10000)
 # Post MCMC analysis  #
 #######################
 
-# Let's look at move statistics:
+# Let's look at move statistics for the whole analysis:
 analysis.operatorSummary()
 
 # we construct the maximum a posteriori tree
