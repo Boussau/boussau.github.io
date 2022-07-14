@@ -17,7 +17,6 @@ moves = VectorMoves()
 # We decide on a stub name for the output files:
 output_stub <- "testGTR"
 
-
 ################################
 # Topology and branch lengths  #
 ################################
@@ -79,8 +78,8 @@ moves.append( mvDirichletSimplex(pi, weight=1.0, alpha=10, tune=TRUE))
 
 # Sequences are distributed according to a Continuous Time Markov Chain
 # running along the phylogeny psi, using the substitution matrix Q,
-# and assuming rate heterogeneity across sites.
-seq ~ dnPhyloCTMC( tree=psi, Q=Q, siteRates=sr, type="DNA" )
+# and assuming no rate heterogeneity across sites.
+seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="DNA" )
 
 
 ###################################
