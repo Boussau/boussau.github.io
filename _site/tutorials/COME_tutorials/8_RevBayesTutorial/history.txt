@@ -1,0 +1,36 @@
+?readDiscreteCharacterData
+data <- readDiscreteCharacterData("data/test.fa", type="Fasta")
+data <- readDiscreteCharacterData("data/test.fa", type="fasta")
+?readDiscreteCharacterData
+data <- readDiscreteCharacterData("data/test.fa")
+q()
+?fnT92
+q()
+help()
+ls(all=true, filter="function")
+ls(all=true)
+analysis.operatorSummary()
+q()
+ls(all=true, filter="move")
+q()
+?mvScaleBactrian
+q()
+?mvScale
+?mcmc
+?mcmc.burnin
+q()
+?mvDirichletSimplex
+q()
+?dnGamma
+?dnDirichlet
+q()
+?mvScale
+?mvDirichletSimplex
+q()
+?mvBetaSimplex
+?mvDirichlet
+?mvDirichletSimplex
+q()
+data <- readDiscreteCharacterData("data/test.fa")
+data.getNumInvariantSites()
+q()

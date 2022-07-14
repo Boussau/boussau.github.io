@@ -1,0 +1,19 @@
+#NEXUS
+
+	Begin taxa;
+	Dimensions ntax=8;
+	Taxlabels
+		Chicken
+		Cow
+		Frog
+		Human
+		Loach
+		Mouse
+		Seal
+		Whale
+		;
+End;
+
+Begin trees;
+tree TREE1 = [&U](((((Cow[&index=2]:0.157749[&brlen_95%_HPD={0.101631,0.221722}],Seal[&index=1]:0.199071[&brlen_95%_HPD={0.125071,0.281255}])[&index=9,posterior=0.537181]:0.039154[&brlen_95%_HPD={0.003472,0.076532}],Whale[&index=3]:0.141428[&brlen_95%_HPD={0.079088,0.206237}])[&index=10,posterior=0.722531]:0.078168[&brlen_95%_HPD={0.018475,0.138353}],Mouse[&index=4]:0.234577[&brlen_95%_HPD={0.132277,0.34206}])[&index=11,posterior=0.971143]:0.117530[&brlen_95%_HPD={0.040511,0.218289}],Human[&index=5]:0.502882[&brlen_95%_HPD={0.317312,0.67777}])[&index=12,posterior=1.000000]:0.183366[&brlen_95%_HPD={0.073785,0.307517}],(Frog[&index=7]:0.230034[&brlen_95%_HPD={0.123456,0.334479}],Loach[&index=8]:0.396371[&brlen_95%_HPD={0.255623,0.551452}])[&index=13,posterior=0.952275]:0.105150[&brlen_95%_HPD={0.01495,0.199}],Chicken[&index=6]:0.488109[&brlen_95%_HPD={0.320452,0.678824}])[&index=14,posterior=1.000000]:0.000000;
+End;

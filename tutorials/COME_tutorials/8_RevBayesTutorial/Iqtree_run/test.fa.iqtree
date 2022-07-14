@@ -1,0 +1,105 @@
+IQ-TREE 1.6.12 built Aug 15 2019
+
+Input file name: data/test.fa
+Type of analysis: tree reconstruction
+Random seed number: 718843
+
+REFERENCES
+----------
+
+To cite IQ-TREE please use:
+
+Lam-Tung Nguyen, Heiko A. Schmidt, Arndt von Haeseler, and Bui Quang Minh
+(2015) IQ-TREE: A fast and effective stochastic algorithm for estimating
+maximum likelihood phylogenies. Mol Biol Evol, 32:268-274.
+https://doi.org/10.1093/molbev/msu300
+
+SEQUENCE ALIGNMENT
+------------------
+
+Input data: 8 sequences with 705 nucleotide sites
+Number of constant sites: 323 (= 45.8156% of all sites)
+Number of invariant (constant or ambiguous constant) sites: 323 (= 45.8156% of all sites)
+Number of parsimony informative sites: 246
+Number of distinct site patterns: 332
+
+SUBSTITUTION PROCESS
+--------------------
+
+Model of substitution: GTR+F+G4
+
+Rate parameter R:
+
+  A-C: 3.2988
+  A-G: 6.2497
+  A-T: 2.5063
+  C-G: 1.1179
+  C-T: 16.2010
+  G-T: 1.0000
+
+State frequencies: (empirical counts from alignment)
+
+  pi(A) = 0.3188
+  pi(C) = 0.2748
+  pi(G) = 0.1464
+  pi(T) = 0.2599
+
+Rate matrix Q:
+
+  A   -0.6095    0.2234    0.2255    0.1605
+  C    0.2592    -1.337   0.04034     1.038
+  G     0.491   0.07572   -0.6308   0.06406
+  T    0.1969     1.097   0.03608     -1.33
+
+Model of rate heterogeneity: Gamma with 4 categories
+Gamma shape alpha: 0.3426
+
+ Category  Relative_rate  Proportion
+  1         0.009377       0.25
+  2         0.1378         0.25
+  3         0.6609         0.25
+  4         3.192          0.25
+Relative rates are computed as MEAN of the portion of the Gamma distribution falling in the category.
+
+MAXIMUM LIKELIHOOD TREE
+-----------------------
+
+Log-likelihood of the tree: -4075.0977 (s.e. 100.9312)
+Unconstrained log-likelihood (without tree): -3167.3261
+Number of free parameters (#branches + #model parameters): 22
+Akaike information criterion (AIC) score: 8194.1954
+Corrected Akaike information criterion (AICc) score: 8195.6793
+Bayesian information criterion (BIC) score: 8294.4758
+
+Total tree length (sum of branch lengths): 3.1844
+Sum of internal branch lengths: 0.5101 (16.0181% of tree length)
+
+NOTE: Tree is UNROOTED although outgroup taxon 'Cow' is drawn at root
+
++---------Cow
+|
+|                       +----------------------------------Chicken
+|            +----------|
+|            |          |     +---------------------------Loach
+|            |          +-----|
+|            |                +--------------Frog
+|      +-----|
+|      |     +-----------------------------------Human
+|  +---|
+|  |   +--------------Mouse
++--|
+|  +--------Whale
+|
++------------Seal
+
+Tree in newick format:
+
+(Cow:0.1763292869,((((Chicken:0.5671680624,(Loach:0.4553880800,Frog:0.2566998639):0.1071254907):0.1905084962,Human:0.5823275022):0.1051589282,Mouse:0.2551737962):0.0739390612,Whale:0.1572043430):0.0333408713,Seal:0.2239886154);
+
+TIME STAMP
+----------
+
+Date and time: Tue Jul 12 11:33:41 2022
+Total CPU time used: 0.422123 seconds (0h:0m:0s)
+Total wall-clock time used: 0.430417 seconds (0h:0m:0s)
+
