@@ -8,16 +8,18 @@ levels:
 - Tutorials for M2 students in Lyon
 - Tutorials for M1 students at ENS Lyon
 - Tutorial on dating with relative constraints
+- Computational Molecular Evolution tutorials
 levels_id:
 - tutorial_structure
 - M2_Tutorials
 - M1_Tutorials
-
+- relative_time_constraints
+- COME_tutorials
 ---
 
 This list shows some RevBayes tutorials for learning various aspects of RevBayes and Bayesian phylogenetic analysis.
 Each one explicitly walks you through model specification and analysis set-up for different phylogenetic methods.
-These tutorials have been written for M2 students in Lyon or to provide an example of how to use relative time constraints for dating in RevBayes.
+These tutorials have been written for M2 students in Lyon, to provide an example of how to use relative time constraints for dating in RevBayes, or for the Computational Molecular Evolution course in Cambridge.
 
 Please see the {% page_ref format %} guide for details about how to read the tutorials.
 

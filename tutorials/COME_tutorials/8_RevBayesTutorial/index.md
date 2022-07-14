@@ -2,11 +2,9 @@
 title: Bayesian phylogenetic inference with GTR
 subtitle: Parameter estimation and tree inference
 authors:  Bastien Boussau
-level: 2
-order: 0.4
+level: 5
 index: true
-title-old: RB_CTMC_Tutorial
-redirect: false
+prerequisites:
 ---
 
 In this tutorial, we will perform phylogenetic analysis using the GTR model of nucleotide substitution, accounting for rate heterogeneity across sites.
@@ -54,7 +52,7 @@ named `er` ($\theta$ in {% ref gtr_graphical_model %}):
 er ~ dnDirichlet(er_prior)
 ```
 
-The Dirichlet distribution assigns probability densities to a [*simplex*](http://en.wikipedia.org/wiki/Simplex), a vector of values between 0 and 1.0 and must sum to 1. Simplices thus describe vectors of proportions. Here, we have specified a six-parameter Dirichlet prior, where each value describes one of the six relative rates of the GTR model: (1) $A\leftrightarrows C$; (2) $A\leftrightarrows G$; (3) $A\leftrightarrows T$; (4) $C\leftrightarrows G$; (5) $C\leftrightarrows T$; (6) $G\leftrightarrows T$. The input parameters of a Dirichlet distribution are called shape (or concentration) parameters. The expectation and variance for each variable are related to the sum of the shape parameters. The prior we specified above is a ‘flat’ or symmetric Dirichlet distribution; all of the shape parameters are equal (1,1,1,1,1,1). This describes a model that allows for equal rates of change between nucleotides, such that the expected rate for each is equal to $\frac{1}{6}$ ({% ref dirichletFig %}a).
+The Dirichlet distribution assigns probability densities to a [*simplex*](http://en.wikipedia.org/wiki/Simplex), a vector of values between 0 and 1.0 that must sum to 1. Simplices thus describe vectors of proportions. Here, we have specified a six-parameter Dirichlet prior, where each value describes one of the six relative rates of the GTR model: (1) $A\leftrightarrows C$; (2) $A\leftrightarrows G$; (3) $A\leftrightarrows T$; (4) $C\leftrightarrows G$; (5) $C\leftrightarrows T$; (6) $G\leftrightarrows T$. The input parameters of a Dirichlet distribution are called shape (or concentration) parameters. The expectation and variance for each variable are related to the sum of the shape parameters. The prior we specified above is a ‘flat’ or symmetric Dirichlet distribution; all of the shape parameters are equal (1,1,1,1,1,1). This describes a model that allows for equal rates of change between nucleotides, such that the expected rate for each is equal to $\frac{1}{6}$ ({% ref dirichletFig %}a).
 
 We might also parameterize the Dirichlet distribution such that all of the shape parameters were equal to 100, which would also specify a prior with an expectation of equal exchangeability rates ({% ref dirichletFig %}b). However, by increasing the values of the shape parameters, `er_prior <- v(100,100,100,100,100,100)`, the Dirichlet distribution will more strongly favor equal exchangeability rates; (*i.e.*, a relatively informative prior).
 
@@ -86,7 +84,7 @@ pi_prior <- v(1,1,1,1)
 pi ~ dnDirichlet(pi_prior)
 ```
 
-The node `pi` represents the $\pi$ node in {% ref gtr_graphical_model %}. Now add the simplex scale move on the stationary frequencies to the moves vector:
+The node `pi` represents the $\pi$ node in {% ref gtr_graphical_model %}. Now we add the simplex scale move on the stationary frequencies to the moves vector:
 
 ```
 moves.append( mvBetaSimplex(pi, weight=2) )
@@ -99,11 +97,11 @@ We can finish setting up this part of the model by creating a deterministic node
 Q := fnGTR(er,pi)
 ```
 
-{% subsection Exercise 3 %}
+{% subsection Exercise 1 %}
 
 -   Implement the GTR model and run an analysis.
 
--   Explore the resulting tree. Does it look like the RaxML tree?
+-   Explore the resulting tree. Does it look like the RaxML tree? Are there differences?
 
 -   Using Tracer, evaluate parameter convergence. Do we have enough samples to evaluate the posterior distribution of all parameters?
 
@@ -128,7 +126,7 @@ That is, variation in substitution rates across sites is addressed by applying a
 These rate-multipliers are drawn from a discrete, mean-one gamma distribution; the shape of this prior distribution (and the corresponding degree of ASRV) is governed by the $\alpha$-shape parameter. The $\alpha$-shape parameter, in turn, is treated as a uniform random variable dranw between $0$ and $10$.
 
 {% figure fig_gtrg %}
-![]( figures/gtr_Gamma_graphical_model.png)
+![]( figures/GTR_Gamma_graphical_model.png)
 {% figcaption %}
 Graphical model representation of the General Time Reversible (GTR) + Gamma phylogenetic model.
 {% endfigcaption %}
@@ -164,7 +162,7 @@ Remember that you need to call the `PhyloCTMC` constructor to include the new si
 seq ~ dnPhyloCTMC(tree=psi, Q=Q, siteRates=sr, type="DNA")
 ```
 
-{% subsection Exercise 4 %}
+{% subsection Exercise 2 %}
 
 -   Extend the GTR model to account for ASRV and run
     an analysis.
@@ -179,7 +177,7 @@ Here we describe an extension to our phylogenetic model to accommodate invariabl
 
 
 {% figure fig_gtrg %}
-![]( figures/gtr_GammaI_graphical_model.png)
+![]( figures/GTR_GammaI_graphical_model.png)
 {% figcaption %}
 Graphical model representation of the General Time Reversible (GTR) + Gamma phylogenetic model with invariable sites.
 {% endfigcaption %}
@@ -215,7 +213,7 @@ new `p_inv` parameter:
 seq ~ dnPhyloCTMC(tree=psi, Q=Q, siteRates=sr, pInv=p_inv, type="DNA")
 ```
 
-{% subsection Exercise 5 %}
+{% subsection Exercise 3 %}
 
 -   Extend the GTR model to account for invariable sites and run
     an analysis.
