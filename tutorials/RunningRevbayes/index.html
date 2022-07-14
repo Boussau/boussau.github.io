@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap-theme.css" />
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
-    <title>Bastien Boussau's github website: Exponential offset</title>
+    <title>Bastien Boussau's github website: Installing and using RevBayes with conda</title>
   </head>
   <body>
     <div class="container">
@@ -47,9 +47,9 @@
 </nav>
 
       <div class="titlebar">
-	<h1 class="maintitle">Exponential offset</h1>
+	<h1 class="maintitle">Installing and using RevBayes with conda</h1>
 	<h3 class="subtitle"></h3>
-	<h4 class="authors"></h4>
+	<h4 class="authors">Nicolas Lartillot, Bastien Boussau</h4>
   <h5>Last modified on November 15, 2021</h5>
 </div>
 
@@ -76,37 +76,60 @@
 
 
 </div>
-```{r, fig.width=15, fig.height=10}
-par(mfrow=c(1,1), mar=c(5, 4, 4, 2) + 0.1)
-x<-(1:15000)/100
-plot(x, dexp(x, rate=0.2), t="l", lwd=4, xlab="Time", ylab="density", xlim=c(-50, 50), ylim=c(0, 0.19), cex.lab=1.5)
-x2 <- x - 40
-lines(x2, dexp(x, rate=0.2), t="l", lwd=4, col="red")
-legend(legend=c("dExponential(rate=0.2)", "dExponential(rate=0.2, offset=-40.0)", "Fossil age", "Probability of observing\nspeciation_clade_Anthropoidea=-40 (~0.037)"), lwd=c(3, 3, 5, 5), col=c("black", "red", "blue", "grey"), "topright", cex=1.5, lty=c(1,1,3, 2))
-abline(v=-31.5, col="blue", lwd=5, lty=3)
-polygon(x=c(-40, -60, -60, -40), y=c(-0.1, -0.1, 0.3, 0.3), col=rgb(0.3, 0.3, 0.3, 0.1), border=NA)
-abline(h=dexp(rate=0.2, x=40-31.5), col="grey", lwd=5, lty=2)
-abline(h=0.0, col="grey", lty=4)
-abline(v=0.0, col="grey", lty=4)
-```
+<h2 class="section" id="revbayes-on-pedago-ngs">Revbayes on Pedago-NGS</h2>
+<hr class="section" />
 
+<p>To work on Pedago-NGS, you first need to install conda. Once this has been done, installation of RevBayes can proceed as indicated further below.</p>
 
-```{r}
+<p>To install conda:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+bash miniconda.sh
+conda init
 
-x3 <- (1:15000)/100 - 181.5
+</code></pre></div></div>
 
-par(mfrow=c(1,1), mar=c(5, 4, 4, 2) + 0.1)
-plot(x3, dexp(x[order(x, decreasing = T)], rate=0.2), t="l", lwd=4, col="red", ylab="Prior density", xlab="Clade age", xlim=c(-80, -30))
-#legend(legend=c("dExponential(rate=0.2)", "dExponential(rate=0.2, offset=-40.0)", "Fossil age", "Probability of observing\nspeciation_clade_Anthropoidea=-40 (~0.037)"), lwd=c(3, 3, 5, 5), col=c("black", "red", "blue", "grey"), "topright", cex=1.5, lty=c(1,1,3, 2))
-abline(v=-31.5, col="blue", lwd=5, lty=3)
-abline(h=0.0, col="grey", lty=4)
-abline(v=0.0, col="grey", lty=4)
+<h2 class="section" id="installing-revbayes">Installing Revbayes</h2>
+<hr class="section" />
 
+<p>We suggest that you install RevBayes in an <em>environment</em>. Environments are a nice way to encapsulate programs and settings without changing the parameters of your entire system. The environment we will create is called <code class="highlighter-rouge">revbayesenv</code>, and we will install all the software we need within this environment.</p>
 
-```
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create --name revbayesenv
+conda activate revbayesenv
+conda config --add channels bioconda
+conda config --add channels conda-forge
+conda install revbayes
+conda install tracer
+conda install figtree
+conda deactivate
+</code></pre></div></div>
 
+<h2 class="section" id="using-revbayes">Using Revbayes</h2>
+<hr class="section" />
 
+<p>Assuming we have installed our programs in the environment <code class="highlighter-rouge">revbayesenv</code>, to use them we just need to activate it.</p>
 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate revbayesenv
+rb
+conda deactivate
+</code></pre></div></div>
+
+<h2 class="section" id="suggested-folder-organization">Suggested folder organization</h2>
+<hr class="section" />
+
+<p>We like to create 3 folders: one for scripts (<code class="highlighter-rouge">scripts</code>), one for the data (<code class="highlighter-rouge">data</code>), and one for the output from the analyses (<code class="highlighter-rouge">analyses</code>).</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir scripts
+mkdir data
+mkdir analyses
+
+</code></pre></div></div>
+
+<p>To work on a script, one can use a text editor like nano:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd scripts
+nano myScript.Rev
+
+</code></pre></div></div>
 
 <ol class="bibliography"></ol>
 

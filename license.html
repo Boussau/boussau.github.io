@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap-theme.css" />
     <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
-    <title>Bastien Boussau's github website: Exponential offset</title>
+    <title>Bastien Boussau's github website: License</title>
   </head>
   <body>
     <div class="container">
@@ -46,84 +46,21 @@
   </div>
 </nav>
 
-      <div class="titlebar">
-	<h1 class="maintitle">Exponential offset</h1>
-	<h3 class="subtitle"></h3>
-	<h4 class="authors"></h4>
-  <h5>Last modified on November 15, 2021</h5>
-</div>
+      <h1 class="maintitle">
 
+License
 
-<div class="sidebar no-print">
-<blockquote class="overview" id="overview">
-  <h2>Overview</h2>
-  
-  <div class="row">
-    <div class="col-md-9">
-        <strong>Prerequisites</strong>
-        
-          <ul>
-          <li>None</li>
-          </ul>
-        
-    </div>
-  </div>
-  
-</blockquote>
+</h1>
+<hr>
 
+<h3 id="revbayes-software">RevBayes Software</h3>
 
+<p>RevBayes and all associated software developed by the <a href="https://github.com/revbayes">RevBayes Team</a> are distributed for free and open-source. These products are licensed under <a href="http://www.gnu.org/copyleft/gpl.html">version 3 of the GNU General Public License</a> (GPL). The source code is available on <a href="https://github.com/revbayes/revbayes">GitHub</a>.</p>
 
+<h3 id="revbayes-website-and-tutorials">RevBayes Website and Tutorials</h3>
 
+<p>The <a href="">RevBayes website</a> is generated using <a href="https://jekyllrb.com/">Jekyll</a>. All of the content on this site, except where otherwise noted, is licensed under a <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 license</a>.</p>
 
-</div>
-```{r, fig.width=15, fig.height=10}
-par(mfrow=c(1,1), mar=c(5, 4, 4, 2) + 0.1)
-x<-(1:15000)/100
-plot(x, dexp(x, rate=0.2), t="l", lwd=4, xlab="Time", ylab="density", xlim=c(-50, 50), ylim=c(0, 0.19), cex.lab=1.5)
-x2 <- x - 40
-lines(x2, dexp(x, rate=0.2), t="l", lwd=4, col="red")
-legend(legend=c("dExponential(rate=0.2)", "dExponential(rate=0.2, offset=-40.0)", "Fossil age", "Probability of observing\nspeciation_clade_Anthropoidea=-40 (~0.037)"), lwd=c(3, 3, 5, 5), col=c("black", "red", "blue", "grey"), "topright", cex=1.5, lty=c(1,1,3, 2))
-abline(v=-31.5, col="blue", lwd=5, lty=3)
-polygon(x=c(-40, -60, -60, -40), y=c(-0.1, -0.1, 0.3, 0.3), col=rgb(0.3, 0.3, 0.3, 0.1), border=NA)
-abline(h=dexp(rate=0.2, x=40-31.5), col="grey", lwd=5, lty=2)
-abline(h=0.0, col="grey", lty=4)
-abline(v=0.0, col="grey", lty=4)
-```
-
-
-```{r}
-
-x3 <- (1:15000)/100 - 181.5
-
-par(mfrow=c(1,1), mar=c(5, 4, 4, 2) + 0.1)
-plot(x3, dexp(x[order(x, decreasing = T)], rate=0.2), t="l", lwd=4, col="red", ylab="Prior density", xlab="Clade age", xlim=c(-80, -30))
-#legend(legend=c("dExponential(rate=0.2)", "dExponential(rate=0.2, offset=-40.0)", "Fossil age", "Probability of observing\nspeciation_clade_Anthropoidea=-40 (~0.037)"), lwd=c(3, 3, 5, 5), col=c("black", "red", "blue", "grey"), "topright", cex=1.5, lty=c(1,1,3, 2))
-abline(v=-31.5, col="blue", lwd=5, lty=3)
-abline(h=0.0, col="grey", lty=4)
-abline(v=0.0, col="grey", lty=4)
-
-
-```
-
-
-
-
-<ol class="bibliography"></ol>
-
-<script type="text/javascript">
-var _ol = document.querySelectorAll('ol');
-for (var i = 0, elem_ol; elem_ol = _ol[i]; i++) {
-	if ( elem_ol.classList == "bibliography" ) {
-		var _li = elem_ol.getElementsByTagName("li");
-		//for (var j = 0, elem_li; elem_li = _li[j]; j++)
-		//{
-		//	elem_li.innerHTML = elem_li.innerHTML.replace(/(https?:\/\/)([^\s<]+)/,"<a href=\"$1$2\">$2");
-		//}
-		if(_li.length > 0)
-			elem_ol.outerHTML = "<h2 class='references'>References</h2><hr class='references'>"+elem_ol.outerHTML
-	}
-}
-</script>
 
       <br>
 <footer>
@@ -148,14 +85,14 @@ for (var i = 0, elem_ol; elem_ol = _ol[i]; i++) {
 $(":not(code).highlighter-rouge").each(function() {
   
   if( this.classList == "highlighter-rouge") {
-    this.classList = "Rev highlighter-rouge";
+    this.classList = "default highlighter-rouge";
   }
   
 });
 // $("code.highlighter-rouge").each(function() {
 //   
 //   if( this.classList == "highlighter-rouge") {
-//       this.classList = "Rev highlighter-rouge";
+//       this.classList = "default highlighter-rouge";
 //   }
 //   
 // });
