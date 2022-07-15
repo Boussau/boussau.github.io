@@ -97,13 +97,84 @@ We can finish setting up this part of the model by creating a deterministic node
 Q := fnGTR(er,pi)
 ```
 
+{% subsection Checking convergence %}
+
+Now we need to check whether our MCMC converged and mixed sufficiently to produce an adequate approximation of the joint posterior distribution of our model.
+The first thing we usually do is assess behavior for continuous model parameters using `Tracer`.
+To do this, we launch `Tracer` and load our `.log` file.
+The bottom-left panel lists all the parameters in the log file (as well as the (unnormalized) posterior, likelihood and prior at each step of the chain), and has columns for the posterior mean estimate and the effective sample size (ESS) for each parameter.
+`Tracer` will indicate when it thinks a parameter has insufficient ESS by highlighting the value in red (ESS lower than 100) or yellow (ESS lower than 200).
+We can inspect histograms of the marginal posterior distribution in the "Estimates" panel, a smoothed marginal posterior density in the "Marginal Density" panel, the joint posterior distribution of two or more parameters in the "Joint-Marginal" panel, and (last but not least) the trace of the parameter value over the course of the chain in the "Trace" panel.
+This chain looks like it's (mostly) behaving adequately, especially for the substitution model parameters:
+
+{% figure firstTracerPlot %}
+<img src="figures/tracer_1.png" width="600" />
+{% figcaption %}
+The `Tracer` window for these MCMC analyses. All of the substitution model parameters appear to be working well, but some of the branch-length parameters appear to be struggling.
+{% endfigcaption %}
+{% endfigure %}
+
+However, notice that the ESS values for some of the branch lengths are dangerously low! When we inspect the trace plot for one of these branches, we see that it rarely flips between two alternative modes:
+
+{% figure secondTracerPlot %}
+<img src="figures/tracer_2.png" width="600" />
+{% figcaption %}
+The trace plot of a branch length parameter. This trace suggests the posterior distribution of this parameter is multimodal.
+{% endfigcaption %}
+{% endfigure %}
+
+What's going on here? Why would branch-length parameters by multimodal, but substitution-model parameters unimodal?
+
+`Tracer` only lets us inspect traces for simple numerical parameters, not the tree itself.
+Given that we know the tree topology is often the most difficult parameter in our model, we should be skeptical that nice Tracer results mean our MCMC worked!
+We'll use the `R` package `convenience` to assess convergence for the tree topology.
+If you haven't installed `convenience` yet, open `R` and install it with by executing the following code:
+
+```
+install.packages("devtools")
+library(devtools)
+install_github("lfabreti/convenience")
+```
+
+We're going to use `convenience` to check whether split frequencies for each split in our two MCMC runs appear to be drawn from the same distribution (implictly the posterior distribution).
+To do this, we'll open `R` and run the following code:
+```
+# load convenience
+library(convenience)
+
+# specify paths to the log files
+files <- c("analyses/testGTR_run_1.log",
+           "analyses/testGTR_run_2.log",
+           "analyses/testGTR_run_1.trees",
+           "analyses/testGTR_run_2.trees")
+
+# perform convergence checking
+cc <- checkConvergence( list_files = files)
+
+# plot the split differences
+plotDiffSplits(cc)
+```
+
+The resulting plot indicates that we cannot reject that split frequencies from the two runs are drawn from the same distribution (the MCMC worked!):
+
+{% figure conveniencePlot %}
+<img src="figures/split_diff.png" width="600" />
+{% figcaption %}
+Split-frequency difference plot for the GTR model. Each dot represents a split; the x-coordinate is the average posterior probability of that split (among the two runs), and the y-coordinate is the difference in split frequencies between the two runs for that split.
+We can reject the hypothesis that the two runs are sampling from the same posterior distribution for a particular split if the corresponding dot is above the concave curve (i.e., is outside the grey region).
+{% endfigcaption %}
+{% endfigure %}
+
+For more details about how you can assess MCMC convergence with `convenience`, visit the `RevBayes` [Convergence assessment
+](https://revbayes.github.io/tutorials/convergence/) tutorial.
+
 {% subsection Exercise 1 %}
 
 -   Implement the GTR model and run an analysis.
 
 -   Explore the resulting tree. Does it look like the RaxML tree? Are there differences?
 
--   Using Tracer, evaluate parameter convergence. Do we have enough samples to evaluate the posterior distribution of all parameters?
+-   Using `Tracer` and `convenience`, evaluate parameter and tree convergence. Do we have enough samples to evaluate the posterior distribution of all parameters?
 
 
 
