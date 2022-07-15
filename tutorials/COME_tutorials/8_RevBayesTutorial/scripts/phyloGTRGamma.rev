@@ -132,8 +132,8 @@ analysis.burnin(generations=1000, tuningInterval=100)
 # Let's look at move statistics for the burnin:
 analysis.operatorSummary()
 
-# We run the MCMC for 10,000 iterations:
-analysis.run(10000)
+# We run the MCMC for 20,000 iterations:
+analysis.run(20000)
 
 
 #######################
