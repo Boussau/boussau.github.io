@@ -1,0 +1,4 @@
+I",<p><img src="figures/split_diff.png" width="600" /></p>
+<figcaption>Split-frequency difference plot for the GTR model. Each dot represents a split; the x-coordinate is the average posterior probability of that split (among the two runs), and the y-coordinate is the difference in split frequencies between the two runs for that split.
+We can reject the hypothesis that the two runs are sampling from the same posterior distribution for a particular split if the corresponding dot is above the concave curve (i.e., is outside the grey region).</figcaption>
+:ET

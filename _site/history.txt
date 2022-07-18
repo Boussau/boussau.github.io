@@ -1,0 +1,13 @@
+dnExponential(1.355
+)
+dnExponential(1.355)
+x~dnExponential(1.355)
+x
+x~dnExponential(1.355)
+x
+x~dnExponential(1.355)
+x
+x.redraw()
+x
+x.redraw() ; x
+q()

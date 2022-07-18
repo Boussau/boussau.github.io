@@ -1,0 +1,43 @@
+I"%<p>To date a phylogeny it is useful to be able to associate a date in time to one or several nodes (i.e., clades) of the phylogeny. This is called calibrating a node age. Typically, node age calibrations can be obtained from the fossil record. In this primate phylogeny, several fossils could be used to calibrate the age of several nodes. Here we will calibrate a single node in the phylogeny, but in practice it is often better to calibrate several nodes using several fossil ages.</p>
+
+<p>We will calibrate the node ancestral to all Anthropoidea. To do this, we first need to define the corresponding clade:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>clade_Anthropoidea &lt;- clade("Cebus_apella","Homo_sapiens")
+</code></pre></div></div>
+
+<p>From the <a href="https://www.sciencedirect.com/science/article/pii/S1055790314000827">literature</a> we find that it can be calibrated with a minimum age at 31.5 Mya. We will implement this calibration as a minimum bound, which means that we assume that the clade was formed before that time.</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>minimum_bound_Anthropoidea &lt;- 31.5
+</code></pre></div></div>
+
+<p>Then, we compute the clade age (<em>i.e.</em>, the time at which the clade was born) as found in the timetree in the current iteration of the MCMC:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>speciation_clade_Anthropoidea := tmrca(timetree, clade_Anthropoidea)
+</code></pre></div></div>
+
+<p>Finally we calibrate the node age with the fossil age. Because we are using a minimal bound, we know that the node age has to be older than the fossil age. The delay between the node age and the fossil age is considered to be distributed according to an exponential distribution. However the writing of this simple assumption is a bit tricky: we are going to write that the variable that is clamped is generated according to an exponential waiting time that started at time <code class="language-plaintext highlighter-rouge">-speciation_clade_Anthropoidea</code>. Here is how we specify this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>obs_age_clade_Anthropoidea~ dnExponential(0.2, offset = - speciation_clade_Anthropoidea)
+</code></pre></div></div>
+
+<p>Then we clamp the stochastic variable to minus our fossil age:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>obs_age_clade_Anthropoidea.clamp(-minimum_bound_Anthropoidea)
+</code></pre></div></div>
+
+<p>The figure below shows how a common exponential distribution (in black) shifts when it is offset by a value of -40 (i.e., here <code class="language-plaintext highlighter-rouge">speciation_clade_Anthropoidea</code>=40). According to this shifted distribution, the likelihood of observing the fossil at age -31.5 is about 0.037.</p>
+
+<figure id="node age calibration"><p><img src="figures/calibration_density.png" /></p>
+<figcaption>Density of an exponential distribution without and with offset, and the likelihood of observing fossil age -31.5 given clade age -40.</figcaption>
+</figure>
+
+<p>One way to interpret this calibration is to represent the likelihood for different values of the clade age <code class="language-plaintext highlighter-rouge">speciation_clade_Anthropoidea</code>. This is shown in the figure below.</p>
+
+<figure id="node age calibration"><p><img src="figures/likelihood_density.png" /></p>
+<figcaption>Likelihood curve for clade age <code class="language-plaintext highlighter-rouge">speciation_clade_Anthropoidea</code> given fossil age -31.5 and rate for the exponential distribution 0.2.</figcaption>
+</figure>
+
+<p>We observe that the most likely clade ages are right before the fossil age, and that the likelihood of clade age decreases as the clade becomes much older than the fossil age.</p>
+
+<p>Finally, implementing this node age calibration into the relaxed clock scripts involves copying the code lines given above, but also changing how we handle the root age, which we had fixed to be 1.0 (we were using <code class="language-plaintext highlighter-rouge">root_age.setValue(1.0)</code>, we need to remove this line). Instead, we need to sample root age values by specifying moves on the root age, as follows:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append(mvScale(root_age, weight=1.0, lambda=0.1))
+</code></pre></div></div>
+:ET
