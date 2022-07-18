@@ -1,7 +1,7 @@
 ---
 title: Bayesian phylogenetic inference with GTR
 subtitle: Parameter estimation and tree inference
-authors:  Bastien Boussau
+authors:  Bastien Boussau and Mike May
 level: 5
 index: true
 prerequisites:
@@ -123,7 +123,7 @@ The trace plot of a branch length parameter. This trace suggests the posterior d
 {% endfigcaption %}
 {% endfigure %}
 
-What's going on here? Why would branch-length parameters by multimodal, but substitution-model parameters unimodal?
+What's going on here? Why would branch-length parameters be multimodal, but substitution-model parameters unimodal?
 
 `Tracer` only lets us inspect traces for simple numerical parameters, not the tree itself.
 Given that we know the tree topology is often the most difficult parameter in our model, we should be skeptical that nice Tracer results mean our MCMC worked!
