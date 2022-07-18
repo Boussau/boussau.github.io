@@ -51,6 +51,7 @@ GEM
       citeproc-ruby (~> 1.0)
       csl-styles (~> 1.0)
       jekyll (~> 4.0)
+    jekyll-utf8 (0.0.1)
     jekyll-watch (2.2.1)
       listen (~> 3.0)
     kramdown (2.4.0)
@@ -87,6 +88,7 @@ DEPENDENCIES
   jekyll
   jekyll-last-modified-at
   jekyll-scholar
+  jekyll-utf8
   tzinfo-data
 
 BUNDLED WITH
