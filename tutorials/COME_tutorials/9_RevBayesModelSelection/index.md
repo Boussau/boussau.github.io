@@ -393,7 +393,7 @@ The posterior distribution of the `p_inv` indicator. When `p_inv_indicator` is 0
 | Transition-transversion model | | |
 | Unequal exchange-rates model | | |
 | Gamma-distributed rates | | |
-| Invariante sites| | |
+| Invariant sites| | |
 
 {% figcaption %}
 Marginal likelihoods for different substitution models.
