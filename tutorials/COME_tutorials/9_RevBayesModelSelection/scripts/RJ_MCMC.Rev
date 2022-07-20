@@ -1,0 +1,198 @@
+
+#############################################
+# Input and output data, general variables  #
+#############################################
+
+# We read the alignment:
+data = readDiscreteCharacterData("data/fagus_ITS.nex")
+
+# We extract the number of species, branches, and the taxon labels from the data:
+n_species = data.ntaxa()
+n_branches = 2 * n_species - 3
+taxa = data.taxa()
+
+# We create a vector of moves to store them all:
+moves = VectorMoves()
+
+# name the analysis
+output_stub = "RJ_ITS"
+
+################################
+# Topology and branch lengths  #
+################################
+
+# Let's define an outgroup for our tree, so that the output trees are written consistently
+# with the first bifurcation between the outgroup and the other sequences:
+
+# We define a uniform prior on (undated) tree topologies:
+topology ~ dnUniformTopology(taxa)
+
+# We define relative branch lengths from a Dirichlet prior
+relative_bl ~ dnDirichlet( rep(1, n_branches) )
+
+# We define the total tree length parameter
+TL ~ dnUniform(0, 10)
+
+# We compute the branch lengths from the relative branch lengths and tree length
+bls := abs(relative_bl) * TL
+
+# We assemble the topology "topology" and branch lengths bls to get a phylogeny psi:
+psi := treeAssembly(topology, bls)
+
+# For the MCMC to run, we need to define moves on the various stochastic variables
+# that we have defined.
+
+# We define 2 moves on the topology.
+moves.append(mvNNI(topology, weight=10.0))
+moves.append(mvSPR(topology, weight=10.0))
+
+# We define moves on the branch lengths and tree length
+moves.append( mvBetaSimplex(relative_bl, weight = n_species) )
+moves.append( mvScale(TL, weight = 5.0) )
+
+############################################
+# Define the substitution model parameters #
+############################################
+
+# We first define reversible jump over uniform and non-uniform stationary frequencies
+# construct the stationary frequency mixture
+pi ~ dnReversibleJumpMixture(simplex(v(1,1,1,1)), dnDirichlet(v(1,1,1,1)), 0.5)
+
+# include proposals for jumping between models, as well as for the
+# parameter when it is estimated
+moves.append( mvRJSwitch(pi, weight=10.0) )
+moves.append( mvBetaSimplex(pi, weight=2.0) )
+
+# We track whether the stationary frequencies are uniform
+pi_model := ifelse(pi == simplex(v(1,1,1,1)), 1, 2)
+
+# We next define the mixture model over exchangeability rates
+# We define exchange rates for each of three models:
+# 1. An equal rates model
+er_flat <- simplex(rep(1,6))
+
+# 2. A model with different transition and transversion rates
+kappa ~ dnUniform(0, 10)
+moves.append( mvScale(kappa, weight=2.0) )
+er_kappa := simplex(v(1, kappa, 1, 1, kappa, 1))
+
+# 3. A model with unequal exchange rates
+er_unequal ~ dnDirichlet(v(1,1,1,1,1,1))
+moves.append( mvBetaSimplex(er_unequal, weight=2.0) )
+
+# We place all of the exchange rates in a list of rates...
+er_vec := v(er_flat, er_kappa, er_unequal)
+
+# ... and then we draw the exchange rates from this list
+er ~ dnMixture( values=er_vec, probabilities=simplex(rep(1, er_vec.size())) )
+moves.append( mvGibbsMixtureAllocation(er, weight=10.0) )
+
+# We track which exchange-rate vector we are visiting
+er_model := ifelse(er == er_flat, 1, ifelse(er == er_kappa, 2, 3))
+kappa_indicator := ifelse(er == er_kappa, 1, 0)
+er_unequal_indicator := ifelse(er == er_unequal, 1, 0)
+
+# Finally, we use the stationary frequencies and exchange rates to construct
+# a model (using the most generic GTR model)
+Q := fnGTR(er, pi)
+
+#################################################
+# Define the model of among-site rate variation #
+#################################################
+
+# We jump between models with and without rate heterogeneity across sites
+# A model without rate heterogeneity is like a model with rate heterogeneity,
+# but with a high alpha value
+alpha ~ dnReversibleJumpMixture(10000, dnUniform( 0, 10 ), 0.5)
+
+# We define a move on the parameter of the gamma distribution for rate heterogeneity across sites:
+moves.append( mvRJSwitch(alpha, weight=5.0) )
+moves.append( mvScaleBactrian(alpha, weight=2.0, tune=TRUE) )
+
+# We compute the site rates for the sampled value of alpha
+sr := fnDiscretizeGamma( alpha, alpha, 4 )
+
+# We keep track of whether alpha is "included" in the model
+alpha_indicator := ifelse(alpha == 10000, 0, 1)
+
+
+##################################
+# Proportion of invariant sites  #
+##################################
+
+# We jump between models with and without invariate sites
+p_inv ~ dnReversibleJumpMixture(0, dnBeta(1,1), 0.5)
+
+# We keep track of whether pinv is "included" in the model
+p_inv_indicator := ifelse(p_inv == 0, 0, 1)
+
+# We define a move on the proportion of invariant sites parameter
+moves.append( mvRJSwitch(p_inv, weight=5.0) )
+moves.append( mvSlide(p_inv, tune=TRUE) )
+
+#########
+# CTMC  #
+#########
+
+# Sequences are distributed according to a Continuous Time Markov Chain
+# running along the phylogeny psi, using the substitution matrix Q,
+# and assuming rate heterogeneity across sites.
+seq ~ dnPhyloCTMC( tree=psi, Q=Q, siteRates=sr, pInv=p_inv, type="DNA")
+
+
+
+###################################
+# Clamping the model to the data  #
+###################################
+
+# So far, we have defined the model, which can be used for simulation or
+# for inference. To use the model for inference, we need to condition the model on the
+# observed data, by clamping the "seq" node to the data.
+seq.clamp( data )
+
+##################
+# MCMC analysis  #
+##################
+
+# We declare the model as one big object that we are going to use in the MCMC:
+my_model = model(psi)
+
+# Now we define monitors to keep track of what's happening during the MCMC.
+# We use the stub name
+# One monitor to store the parameter distributions into a file:
+monitors[1] = mnModel(filename="analyses/"+output_stub+".log", printgen=10, separator = TAB)
+
+# One monitor to store the trees:
+monitors[2] = mnFile(psi,filename="analyses/"+output_stub+".trees", printgen=10, separator = TAB)
+
+# One monitor to show information on the screen:
+monitors[3] = mnScreen(printgen=100, pi_model, er_model, alpha, p_inv)
+
+# We create an MCMC object:
+analysis = mcmc(my_model, monitors, moves, nruns = 2, combine = "sequential")
+
+# We run burnin during a few iterations:
+analysis.burnin(generations=1000, tuningInterval=100)
+
+# Let's look at move statistics for the burnin:
+analysis.operatorSummary()
+
+# We run the MCMC for 30,000 iterations:
+analysis.run(30000)
+
+
+#######################
+# Post MCMC analysis  #
+#######################
+
+# Let's look at move statistics for the whole analysis:
+analysis.operatorSummary()
+
+# we construct the maximum a posteriori tree
+treetrace = readTreeTrace("analyses/"+output_stub+".trees", treetype="non-clock", burnin=0.1)
+map_tree = mapTree(treetrace, "analyses/"+output_stub+"_map.tree")
+
+############
+# Bye-bye  #
+############
+q()
