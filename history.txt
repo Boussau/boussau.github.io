@@ -1,13 +1,82 @@
-dnExponential(1.355
-)
-dnExponential(1.355)
-x~dnExponential(1.355)
+rnorm(n=10, 0,1)
+qnorm(n=10, 0,1)
+qnorm(0,1)
+?qnorm
+qnorm(p=0.0, mean=0,sd=1)
+qnorm(p=0.5, mean=0,sd=1)
+qnorm(p=0.51, mean=0,sd=1)
+qnorm(p=0.49, mean=0,sd=1)
+x~dnorm(mean=0,sd=1)
+x~dnormal(mean=0,sd=1)
+x~dnNormal(mean=0,sd=1)
 x
-x~dnExponential(1.355)
+str(x)
+x~power(2,2)
+x:=power(2,2)
 x
-x~dnExponential(1.355)
+a <- 1
+b <- 2
+x ~ dnNormal(mean=a, sd=b)
+print(x)
+y := x*x
+z <- x*x
+x.redraw() ; print(x) ; print(y) ; print(z)
+a <- 1
+b <- 2
+x ~ dnNormal(mean=a, sd=b)
+print(x)
+y := x*x
+z <- x*x
+x.redraw() ; print(x) ; print(y) ; print(z)
+x*x
 x
-x.redraw()
+x*x
+a<-1
+b<-2
+x~dnNormal(mean=a, sd=b)
+print(x)
+y:=x*x
+z<-x*x
+x.redraw() ; print(x) ; print(y) ; print(z)
+q()
+a<-1
+b<-2
+x~dnNormal(mean=a, sd=b)
+print(x)
+y:=x*x
+z<-x*x
+x.redraw() ; print(x) ; print(y) ; print(z)
+z
+q()
+a<-1
+b<-2
+x~dnNormal(mean=a, sd=b)
+print(x)
 x
-x.redraw() ; x
+y:=x*x
+z<-x*x
+z
+q()
+a<-1
+b<-2
+x~dnNormal(mean=a,sd=b)
+print(x)
+y:=x*x
+z<-x*x
+x.redraw();print(x);print(y);print(z)
+q()
+a<-1
+b<-2
+x~dnNormal(mean=a,sd=b)
+print(x)
+y:=x*x
+z<-x*x
+x.redraw();print("x: "+x);print("y: "+y);print("z: "+z)
+y.redraw()
+z.redraw()
+q()
+?fnJC
+q()
+?rExp
+?dnExponential
 q()

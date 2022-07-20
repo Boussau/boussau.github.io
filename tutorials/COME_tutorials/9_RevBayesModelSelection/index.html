@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en">
+<link rel="icon" type="image/png" href="/assets/img/favicon.png" >
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="search-domain" value="https://boussau.github.io/">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/syntax.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+    <title>Bastien Boussau's github website: Bayesian Model Comparison and Model Averaging</title>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="/" class="pull-left">
+        
+        <img class="navbar-logo" src="/assets/img/aquabayes-desaturated.png" alt="RevBayes Home" />
+        
+      </a>
+
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar" align="right"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      <li><a href="/tutorials/">Tutorials</a></li>
+      <li><a href="/tutorials/relative_time_constraints/">Dating with relative constraints</a></li>
+      </ul>
+      <!-- <form class="navbar-form navbar-right" role="search" id="search" onsubmit="google_search(); return false;">
+        <div class="form-group">
+          <input type="text" id="google-search" placeholder="Search..." aria-label="Google site search">
+        </div>
+      </form> -->
+    </div>
+  </div>
+</nav>
+
+      <div class="titlebar">
+	<h1 class="maintitle">Bayesian Model Comparison and Model Averaging</h1>
+	<h3 class="subtitle">Parameter estimation and tree inference</h3>
+	<h4 class="authors">Mike May & Bastien Boussau (modified from tutorials by Sebastian Höhna, Michael J Landis, Tracy A Heath and Brian R Moore)</h4>
+  <h5>Last modified on July 20, 2022</h5>
+</div>
+
+
+<div class="sidebar no-print">
+<blockquote class="overview" id="overview">
+  <h2>Overview</h2>
+  
+  <div class="row">
+    <div class="col-md-9">
+        <strong>Prerequisites</strong>
+        
+          <ul>
+          <li>None</li>
+          </ul>
+        
+    </div>
+  </div>
+  
+</blockquote>
+
+
+
+
+
+<blockquote class="tutorial_files" id="tutorial_files">
+    <h2>Data files and scripts</h2>
+    
+        
+        <strong>Data Files</strong>
+        <ul id="data_files">
+        
+        
+        
+          <li><a href="/tutorials/COME_tutorials/9_RevBayesModelSelection/data/fagus_ITS.nex">fagus_ITS.nex</a></li>
+        
+          <li><a href="/tutorials/COME_tutorials/9_RevBayesModelSelection/data/fagus_matK.nex">fagus_matK.nex</a></li>
+        
+          <li><a href="/tutorials/COME_tutorials/9_RevBayesModelSelection/data/fagus_rbcL.nex">fagus_rbcL.nex</a></li>
+        
+          <li><a href="/tutorials/COME_tutorials/9_RevBayesModelSelection/data/test.fa">test.fa</a></li>
+        
+        </ul>
+    
+        
+        <strong>Scripts</strong>
+        <ul id="scripts">
+        
+        
+        
+          <li><a href="/tutorials/COME_tutorials/9_RevBayesModelSelection/scripts/RJ_MCMC.Rev">RJ_MCMC.Rev</a></li>
+        
+          <li><a href="/tutorials/COME_tutorials/9_RevBayesModelSelection/scripts/powp_GTR.Rev">powp_GTR.Rev</a></li>
+        
+          <li><a href="/tutorials/COME_tutorials/9_RevBayesModelSelection/scripts/powp_GTR_Gamma.Rev">powp_GTR_Gamma.Rev</a></li>
+        
+          <li><a href="/tutorials/COME_tutorials/9_RevBayesModelSelection/scripts/powp_GTR_Gamma_Inv.Rev">powp_GTR_Gamma_Inv.Rev</a></li>
+        
+          <li><a href="/tutorials/COME_tutorials/9_RevBayesModelSelection/scripts/powp_GTR_Inv.Rev">powp_GTR_Inv.Rev</a></li>
+        
+          <li><a href="/tutorials/COME_tutorials/9_RevBayesModelSelection/scripts/powp_JC.Rev">powp_JC.Rev</a></li>
+        
+        </ul>
+    
+</blockquote>
+
+
+</div>
+<p>In this tutorial, we will learn how to use Bayesian model selection tools to compare between alternative substitution models. We will also use Bayesian model averaging with reversible-jump MCMC to average over uncertainty in substitution models.</p>
+
+<h2 class="section" id="introduction">Introduction</h2>
+<hr class="section" />
+
+<p>For most sequence alignments, several (possibly many) substitution
+models of varying complexity are plausible <em>a priori</em>. We therefore need
+a way to objectively identify the model that balances estimation bias
+and inflated error variance associated with under- and
+over-parameterized models, respectively. Increasingly, model selection
+is based on <em>Bayes factors</em> [<em>e.g.</em>,
+<a class="citation" href="#Suchard2001">(Suchard et al. 2001; Lartillot 2006; Xie et al. 2011; Baele et al. 2012; Baele et al. 2013)</a>], which
+involves first calculating the marginal likelihood of each candidate
+model and then comparing the ratio of the marginal likelihoods for the
+set of candidate models.</p>
+
+<p>Given two models, $M_0$ and $M_1$, the Bayes-factor comparison assessing
+the relative fit of each model to the data, $BF(M_0,M_1)$, is:</p>
+
+\[\begin{aligned}
+BF(M_0,M_1) = \frac{\mathbb{P}(\mathbf X \mid M_0)}{\mathbb{P}(\mathbf X \mid M_1)},
+\end{aligned}\]
+
+<p>where $\mathbb{P}(\mathbf X \mid M_i)$ is the <em>marginal likelihood</em> of
+of model $M_i$ (this may be familiar to you as the denominator of Bayes
+Theorem, which is variously referred to as the <em>model evidence</em> or
+<em>integrated likelihood</em>). Formally, the marginal likelihood is the
+probability of the observed data ($\mathbf X$) under a given model
+($M_i$) that is averaged over all possible values of the parameters of
+the model ($\theta_i$) with respect to the prior density on $\theta_i$</p>
+
+\[\begin{equation}
+\mathbb{P}(\mathbf X \mid M_i) = \int \mathbb{P}(\mathbf X \mid \theta_i) \mathbb{P}(\theta_i)dt.
+\tag{Marginal Likelihood}\label{eq:marginal_likelihood}
+\end{equation}\]
+
+<p>This makes it clear that more complex (parameter-rich) models are
+penalized by virtue of the associated prior: each additional parameter
+entails integration of the likelihood over the corresponding prior
+density.</p>
+
+<p>Note that interpreting Bayes factors involves some subjectivity. That
+is, it is up to <em>you</em> to decide the degree of your belief in $M_0$
+relative to $M_1$. Despite the absence of an absolutely objective
+model-selection threshold, we can refer to the scale [outlined by
+<a class="citation" href="#Jeffreys1961">(Jeffreys 1961)</a>] that provides a “rule-of-thumb” for interpreting these
+measures (<a href="#tab_bf"></a>).</p>
+
+<figure id="tab_bf"><table>
+  <thead>
+    <tr>
+      <th style="text-align: right"><strong>Strength of evidence</strong></th>
+      <th style="text-align: center">BF($M_0$,$M_1$)**</th>
+      <th style="text-align: center"><strong>log(BF($M_0$,$M_1$))</strong></th>
+      <th style="text-align: center"><strong>$log_{10}(BF(M_0$,$M_1))$</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">Negative (supports $M_1$)</td>
+      <td style="text-align: center">$&lt;1$</td>
+      <td style="text-align: center">$&lt;0$</td>
+      <td style="text-align: center">$&lt;0$</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Barely worth mentioning</td>
+      <td style="text-align: center">$1$ to $3.2$</td>
+      <td style="text-align: center">$0$ to $1.16$</td>
+      <td style="text-align: center">$0$ to $0.5$</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Substantial</td>
+      <td style="text-align: center">$3.2$ to $10$</td>
+      <td style="text-align: center">$1.16$ to $2.3$</td>
+      <td style="text-align: center">$0.5$ to $1$</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Strong</td>
+      <td style="text-align: center">$10$ to $100$</td>
+      <td style="text-align: center">$2.3$  to $4.6$</td>
+      <td style="text-align: center">$1$ to $2$</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Decisive</td>
+      <td style="text-align: center">$&gt;100$</td>
+      <td style="text-align: center">$&gt;4.6$</td>
+      <td style="text-align: center">$&gt;2$</td>
+    </tr>
+  </tbody>
+</table>
+
+<figcaption>The scale for interpreting Bayes factors by Harold <a class="citation" href="#Jeffreys1961">(Jeffreys 1961)</a>.</figcaption>
+</figure>
+
+<p>We can perform a Bayes factor comparison of two models by
+calculating the marginal likelihood for each one. Alas, exact solutions
+for calculating marginal likelihoods are not known for phylogenetic
+models (see equation \eqref{eq:marginal_likelihood}), thus we must resort to numerical integration methods to estimate or approximate these values. In this
+exercise, we will estimate the marginal likelihood for each partition
+scheme using both the stepping-stone <a class="citation" href="#Xie2011">(Xie et al. 2011; Fan et al. 2011)</a> and path
+sampling estimators <a class="citation" href="#Lartillot2006">(Lartillot 2006; Baele et al. 2012)</a>.</p>
+
+<h2 class="section" id="substitution-models">Substitution Models</h2>
+<hr class="section" />
+
+<p>The models we use here are equivalent to the models described in the
+previous exercise on substitution models (continuous time Markov
+models). To specify the model please consult the previous exercise.
+Specifically, you will need to specify the following substitution
+models:</p>
+
+<ul>
+  <li>Jukes-Cantor (JC) substitution model <a class="citation" href="#Jukes1969">(Jukes and Cantor 1969)</a></li>
+  <li>General-Time-Reversible (GTR) substitution model <a class="citation" href="#Tavare1986">(Tavaré 1986)</a></li>
+  <li>Gamma (+G) model for among-site rate variation <a class="citation" href="#Yang1994a">(Yang 1994)</a></li>
+  <li>Invariable-sites (+I) model <a class="citation" href="#Hasegawa1985">(Hasegawa et al. 1985)</a></li>
+</ul>
+
+<p>The scripts we use to specify these models are almost identical to those we used in our previous tutorial, <a href="https://boussau.github.io/tutorials/COME_tutorials/8_RevBayesTutorial/">Bayesian phylogenetic inference with GTR</a>.
+The main difference is that we must perform a so-called “power-posterior” analysis instead of a standard MCMC analysis.</p>
+
+<h3 class="subsection" id="estimating-the-marginal-likelihood">Estimating the Marginal Likelihood</h3>
+<hr class="subsection" />
+
+<p>We will estimate the marginal likelihood of a given model using a
+power-posterior algorithm. This algorithm is
+similar to the familiar MCMC algorithms, which are intended to sample
+from (and estimate) the joint posterior probability of the model
+parameters. Power-posterior algorithms are like a series of MCMC
+simulations that iteratively sample from a specified number of
+distributions that are discrete steps between the posterior and the
+prior probability distributions. The basic idea is to estimate the
+probability of the data for all points between the posterior and the
+prior—effectively summing the probability of the data over the prior
+probability of the parameters to estimate the marginal likelihood.
+Technically, the steps correspond to a series of <code class="highlighter-rouge">powerPosteriors()</code>,
+where the likelihood is iteratively raised to a series of numbers
+between 1 and 0 (Figure [fig:ss]). When the likelihood is raised to
+the power of 1 (typically the first stepping stone), samples are drawn
+from the (untransformed) posterior. By contrast, when the likelihood is
+raised to the power of 0 (typically the last stepping stone), samples
+are drawn from the prior. To perform a stepping-stone simulation, we
+need to specify (1) the number of stepping stones (power posteriors)
+that we will use to traverse the path between the posterior and the
+prior (<em>e.g.</em>, we specify 50 or 100 stones),
+(2) the spacing of the stones between the posterior and prior
+(<em>e.g.</em>, we may specify that the stones are
+distributed according to a beta distribution), (3) the number of samples
+(and their thinning) to be drawn from each stepping stone, and (4) the
+direction we will take (<em>i.e.</em>, from the
+posterior to the prior or vice versa).</p>
+
+<figure id="ss"><p><img src="figures/ss.png" width="75%" /></p>
+<figcaption>Estimating marginal likelihoods using power-posterior simulation. Estimating the marginal likelihood involves integrating the likelihood of the data over the entire prior probability density for the model parameters. MCMC algorithms target the posterior probability density, which is typically concentrated in a small region of the prior probability density (A). Accordingly, standard MCMC simulation cannot provide unbiased estimates of the marginal likelihood because it will typically fail to explore most of the prior density. (B) Power-posterior algorithms estimate the marginal likelihood by means of a series of MCMC-like simulations, where the likelihood is iteratively raised to a series of powers, effectively forcing the simulation to more fully explore the prior density of the model parameters. Here, six uniformly spaced stones span the posterior, where the power posterior is $\beta=6/6=1$, to the prior, where the power posterior is $\beta=0/6=0$.</figcaption>
+</figure>
+
+<p>This method computes a vector of powers from a beta distribution, then
+executes an MCMC run for each power step while raising the likelihood to
+that power. In this implementation, the vector of powers starts with 1,
+sampling the likelihood close to the posterior and incrementally
+sampling closer and closer to the prior as the power decreases.</p>
+
+<h3 class="subsection" id="estimating-the-marginal-likelihood-for-the-jc-substitution-model">Estimating the Marginal Likelihood for the JC Substitution Model</h3>
+<hr class="subsection" />
+
+<p>We’ll begin with the simplest substitution model, the Jukes-Cantor model.
+We specify this model in the <code class="highlighter-rouge">powp_JC.Rev</code> script. Here, we focus on the parts of this code that are specific to power-posterior analysis, rather than the substitution mode itself. To perform a power-posterior analysis, we replace the standard <code class="highlighter-rouge">mcmc()</code> analysis function with the <code class="highlighter-rouge">powerPosterior()</code> analysis function. This function is similar to the standard MCMC, but we must specify the number of powers (stones) to use (<code class="highlighter-rouge">cats</code>), the filename(s) for the samples from individual stones, and the frequency with which to write sampled likelihood values to file (<code class="highlighter-rouge">sampleFreq</code>):</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># We create a power-posterior object:
+pow_p = powerPosterior(my_model, moves, monitors, filename="analyses/"+output_stub+".out", sampleFreq=5, cats=20)
+</code></pre></div></div>
+<p>(note that <code class="highlighter-rouge">output_stub</code> was a variable that we can change for each model, in this case it is <code class="highlighter-rouge">ppJC</code>, because we’re doing a power-posterior analysis with the Jukes-Cantor model).</p>
+
+<p>Now we run the power-posterior analysis:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># We run _each stone_ MCMC for 5,000 iterations:
+pow_p.run(generations=5000)
+</code></pre></div></div>
+<p>Note that the number of generations is <em>per stone</em>! That means that this stepping-stone analysis will actually perform <code class="highlighter-rouge">cats * generations</code> total generations.
+Also note that this analysis will perform a short burnin for each stone (by default, 10%), which adapts the MCMC proposals to the current stone.</p>
+
+<p>After the power-posterior analysis completes, we read the samples back into RevBayes to compute the marginal likelihood either with the path-sampler or stepping-stone sampler algorithms:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># compute the marginal likelihood with the path-sampling equation
+ps = pathSampler(file="analyses/"+output_stub+".out", powerColumnName="power", likelihoodColumnName="likelihood")
+ps.marginal()
+
+# compute the marginal likelihood with the stepping-stone equation
+ss = steppingStoneSampler(file="analyses/"+output_stub+".out", powerColumnName="power", likelihoodColumnName="likelihood")
+ss.marginal()
+</code></pre></div></div>
+
+<p>For a small number of stones, the stepping-stone sampler should provide a more accurate estimate of the marginal likelihood. However, as the number of stones increases, we expect the estimates to converge. Therefore, it’s a good idea to use both estimators to check that they are close to each other (which indicates that the estimates are relatively stable).</p>
+
+<h3 class="subsection" id="exercise-1">Exercise 1</h3>
+<hr class="subsection" />
+
+<h3 class="subsection" id="model-averaging-with-reversible-jump-mcmc">Model Averaging with Reversible-Jump MCMC</h3>
+<hr class="subsection" />
+
+<ul>
+  <li>Compute the marginal likelihoods of the <em>cytb</em> alignment for the
+following substitution models:
+    <ol>
+      <li>Jukes-Cantor (JC) substitution model</li>
+      <li>General-Time-Reversible (GTR) substitution model</li>
+      <li>GTR with gamma distributed-rate model (GTR+G)</li>
+      <li>GTR with invariable-sites model (GTR+I)</li>
+      <li>GTR+I+G model</li>
+    </ol>
+  </li>
+  <li>Enter the marginal likelihood estimate for each model in the
+corresponding cell of the table below.</li>
+  <li>Which is the best fitting substitution model?</li>
+</ul>
+
+<figure id="tab_ml_subst_models"><table>
+  <thead>
+    <tr>
+      <th style="text-align: right"><strong>Model</strong></th>
+      <th style="text-align: center"><strong>Path-Sampling</strong></th>
+      <th style="text-align: center"><strong>Stepping-Stone-Sampling</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">JC ($M_1$)</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">GTR ($M_3$)</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">GTR+$\Gamma$ ($M_4$)</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">GTR+I ($M_5$)</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">GTR+$\Gamma$+I ($M_6$)</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+  </tbody>
+</table>
+
+<figcaption>Marginal likelihoods for different substitution models.</figcaption>
+</figure>
+
+<h2 class="section" id="bayesian-model-averaging">Bayesian Model Averaging</h2>
+<hr class="section" />
+
+<p>Sometimes, the data are indecisive about which model is preferred by Bayes factor.
+We call this phenomenon <em>model uncertainty</em> because we’re actually uncertain about
+which model is the best description of the process that generated our data.
+The natural Bayesian solution to this problem is simply to treat the model itself as a random variable,
+which averages parameter estimates (including the tree, branch lengths,
+and all substitution model parameters) over the uncertainty in the model itself.
+We accomplish this (generally) using a special “reversible-jump” MCMC algorithm
+(also known “rjMCMC”, “transdimensional MCMC”, or “the Green algorithm”)
+which adds, removes, or combines parameters to move between models.</p>
+
+<p>The state space of potential models is vast, so we’ll restrict ourselves to a very particular set of
+models, in particular, we’re going to average over the “named” members of the GTR models
+(the ones you learned specifically in class), models with and without Gamma-distributed ASRV, and models with and without invariant sites.</p>
+
+<p>This analysis is specified in the <code class="highlighter-rouge">RJ_MCMC.Rev</code> script; in this example, we use ITS sequences from the genus <em>Fagus</em> (Beech trees). We will skip over details of this script that do not relate to the substitution model, for example the tree topology and branch lengths, and instead focus on the model-averaging aspects of this script.</p>
+
+<h3 class="subsection" id="averaging-over-stationary-frequency-models">Averaging over stationary frequency models</h3>
+<hr class="subsection" />
+
+<p>We use the distribution <code class="highlighter-rouge">dnReversibleJumpMixture</code> to jump between models with uniform (equal) and non-uniform stationary frequencies.
+To use this distribution, we must provide: 1) a fixed value (the value the parameter takes when it is not estimated), 2) a prior distribution (for when the parameter value is estimated), and 3) the prior probability that the parameter is estimated.</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># We first define reversible jump over uniform and non-uniform stationary frequencies
+# construct the stationary frequency mixture
+pi ~ dnReversibleJumpMixture(simplex(v(1,1,1,1)), dnDirichlet(v(1,1,1,1)), 0.5)
+</code></pre></div></div>
+
+<p>Now, we use an MCMC proposal that move between the two models (equal and non-equal), as well as a proposal that modifies the parameter value when it is estimated:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># include proposals for jumping between models, as well as for the
+# parameter when it is estimated
+moves.append( mvRJSwitch(pi, weight=10.0) )
+moves.append( mvBetaSimplex(pi, weight=2.0) )
+</code></pre></div></div>
+
+<p>Finally, we will keep track of which stationary frequency model the MCMC is visiting, by creating a helper variable that is <code class="highlighter-rouge">0</code> when the frequencies are equal, and <code class="highlighter-rouge">1</code> when the frequencies are estimated:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># We track whether the stationary frequencies are uniform
+pi_model := ifelse(pi == simplex(v(1,1,1,1)), 1, 2)
+</code></pre></div></div>
+
+<h3 class="subsection" id="averaging-over-exchangeability-rate-models">Averaging over exchangeability-rate models</h3>
+<hr class="subsection" />
+
+<p>We will consider three models for exchangeability rates: 1) a model with equal exchangeability rates, 2) a model with a transition-transversion rate parameter, and 3) a model where all exchangeability rates are different.
+In this case, we won’t be to use the <code class="highlighter-rouge">dnReversibleJumpMixture</code> distribution because we have more than two models.
+Instead, we’ll specify separate exchangeability-rate parameters for each model, and then sample the exchangeability rates from among those models.</p>
+
+<p>We begin by specifying the equal-rates model.
+In this case, all exchangeability rates are the same, so there are no free parameters:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 1. An equal rates model
+er_flat &lt;- simplex(rep(1,6))
+</code></pre></div></div>
+
+<p>Next, we specify a model with transition and transversion rates using the parameter <code class="highlighter-rouge">kappa</code>.
+We first create the <code class="highlighter-rouge">kappa</code> parameter:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 2. A model with different transition and transversion rates
+kappa ~ dnUniform(0, 10)
+moves.append( mvScale(kappa, weight=2.0) )
+</code></pre></div></div>
+<p>and then we create a vector of exchangeability rates using <code class="highlighter-rouge">kappa</code>:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>er_kappa := simplex(v(1, kappa, 1, 1, kappa, 1))
+</code></pre></div></div>
+
+<p>Finally, we specify a model with unequal exchange rates by drawing them from a Dirichlet prior:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># 3. A model with unequal exchange rates
+er_unequal ~ dnDirichlet(v(1,1,1,1,1,1))
+moves.append( mvBetaSimplex(er_unequal, weight=2.0) )
+</code></pre></div></div>
+
+<p>Now that we have specified our three exchangeability-rate models, we group them together in a single vector:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># We place all of the exchange rates in a list of rates...
+er_vec := v(er_flat, er_kappa, er_unequal)
+</code></pre></div></div>
+<p>and then draw the exchangeability rates to use in the model from a mixture distribution:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># ... and then we draw the exchange rates from this list
+er ~ dnMixture( values=er_vec, probabilities=simplex(rep(1, er_vec.size())) )
+</code></pre></div></div>
+<p>This distribution draws the <code class="highlighter-rouge">er</code> parameter from among the provided <code class="highlighter-rouge">values</code> (<code class="highlighter-rouge">er_vec</code>), each with equal prior probability (specified with <code class="highlighter-rouge">simplex(rep(1, er_vec.size()))</code>).
+We then provide a move that proposes to change <code class="highlighter-rouge">er</code> to one of the other values in the <code class="highlighter-rouge">er_vec</code> vector:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append( mvGibbsMixtureAllocation(er, weight=10.0) )
+</code></pre></div></div>
+
+<p>Once again, we set up a helper variable to keep track of which model we are visiting:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># We track which exchange-rate vector we are visiting
+er_model := ifelse(er == er_flat, 1, ifelse(er == er_kappa, 2, 3))
+kappa_indicator := ifelse(er == er_kappa, 1, 0)
+er_unequal_indicator := ifelse(er == er_unequal, 1, 0)
+</code></pre></div></div>
+
+<p>Now that we have both stationary frequencies and exchangeability rates, we can provide them to the <code class="highlighter-rouge">fnGTR</code> function to create our Q matrix:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Finally, we use the stationary frequencies and exchange rates to construct
+# a model (using the most generic GTR model)
+Q := fnGTR(er, pi)
+</code></pre></div></div>
+
+<h3 class="subsection" id="averaging-over-asrv-models">Averaging over ASRV models</h3>
+<hr class="subsection" />
+
+<p>We can jump over Gamma-distributed rate models using <code class="highlighter-rouge">dnReversibleJumpMixture</code> like so:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># We jump between models with and without rate heterogeneity across sites
+# A model without rate heterogeneity is like a model with rate heterogeneity,
+# but with a high alpha value
+alpha ~ dnReversibleJumpMixture(10000, dnUniform( 0, 10 ), 0.5)
+</code></pre></div></div>
+<p>In this case, we are moving between models with a very large <code class="highlighter-rouge">alpha</code> value (10000) and with estimated alpha values (between 0 and 10 <em>a priori</em>).
+We’re using a value of <code class="highlighter-rouge">alpha=10000</code> to approximate “no rate variation”,
+because, as $\alpha \rightarrow \infty$, the Gamma-model collapse to a spike at 1 (i.e., approximately no rate variation):</p>
+
+<figure id="gamma_rates"><p><img src="figures/gammas.png" width="75%" /></p>
+<figcaption>Gamma distribution for different choices of $\alpha$.</figcaption>
+</figure>
+
+<p>As before, we specify proposals for the model as well as <code class="highlighter-rouge">alpha</code>, and construct the site-rates vector using the sampled value of <code class="highlighter-rouge">alpha</code>:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># We define a move on the parameter of the gamma distribution for rate heterogeneity across sites:
+moves.append( mvRJSwitch(alpha, weight=5.0) )
+moves.append( mvScaleBactrian(alpha, weight=2.0, tune=TRUE) )
+
+# We compute the site rates for the sampled value of alpha
+sr := fnDiscretizeGamma( alpha, alpha, 4 )
+</code></pre></div></div>
+
+<p>Finally, we track whether <code class="highlighter-rouge">alpha</code> is “included” in the model:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alpha_indicator := ifelse(alpha == 10000, 0, 1)
+</code></pre></div></div>
+
+<h3 class="subsection" id="averaging-over-invariable-sites-models">Averaging over invariable-sites models</h3>
+<hr class="subsection" />
+
+<p>Finally, we jump over models without invariant sites (<code class="highlighter-rouge">p_inv = 0</code>) and models with invariant sites (<code class="highlighter-rouge">p_inv &gt; 0</code>).
+This works very similarly to the stationary frequency and ASRV models, so we will skip the gory details:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># We jump between models with and without invariate sites
+p_inv ~ dnReversibleJumpMixture(0, dnBeta(1,1), 0.5)
+
+# We keep track of whether pinv is "included" in the model
+p_inv_indicator := ifelse(p_inv == 0, 0, 1)
+
+# We define a move on the proportion of invariant sites parameter
+moves.append( mvRJSwitch(p_inv, weight=5.0) )
+moves.append( mvSlide(p_inv, tune=TRUE) )
+</code></pre></div></div>
+
+<h3 class="subsection" id="putting-the-models-together">Putting the models together</h3>
+<hr class="subsection" />
+
+<p>We’ve set these models up in such a way that the likelihood function doesn’t need to know the exact identity of the model! That is, in all cases we have <em>some</em> value of <code class="highlighter-rouge">pi</code>, <code class="highlighter-rouge">er</code>, <code class="highlighter-rouge">site_rates</code>, and <code class="highlighter-rouge">p_inv</code>, regardless of the identify of the current model (i.e., whether or not a particular model component is “included” in the model).
+Therefore, we can simply pass these variables to the CTMC model as we did in the previous tutorials:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq ~ dnPhyloCTMC( tree=psi, Q=Q, siteRates=sr, pInv=p_inv, type="DNA")
+</code></pre></div></div>
+
+<h3 class="subsection" id="running-the-mcmc">Running the MCMC</h3>
+<hr class="subsection" />
+
+<p>Beyond having special prior distribution and proposals for reversible-jump models, there is nothing special we have to do to run this analysis: it is just a regular MCMC at this point!
+We create our model and monitors as before, and run a standard MCMC as we did in previous tutorials.
+Because we sample the substitution models in proportion to their posterior probability, our estimates of the phylogeny will naturally average over uncertainty in the substitution models.</p>
+
+<h3 class="subsection" id="estimating-posterior-probabilities-of-models">Estimating posterior probabilities of models</h3>
+<hr class="subsection" />
+
+<p>In addition to averaging our phylogenetic estimates over uncertainty in the substitution model, we can also use RJ MCMC to estimate the posterior probabilities of the models themselves!
+When using RJ MCMC, the posterior probability of a given model is the fraction of times that model is sampled during the MCMC.
+Here, we examine the posterior probability of the invariant-sites models:</p>
+<figure id="rj_pinv"><p><img src="figures/RJ_pinv.png" width="75%" /></p>
+<figcaption>The posterior distribution of the <code class="highlighter-rouge">p_inv</code> indicator. When <code class="highlighter-rouge">p_inv_indicator</code> is 0, the invariant-sites model is “turn off”; when it is 1, it is “turned on”. Therefore, the fraction of samples for which <code class="highlighter-rouge">p_inv_indicator = 1</code> is the posterior probability of the invariant-sites model.</figcaption>
+</figure>
+
+<h3 class="subsection" id="exercise-2">Exercise 2</h3>
+<hr class="subsection" />
+
+<ul>
+  <li>Run the reversible-jump MCMC analysis on the <em>Fagus</em> ITS dataset.</li>
+  <li>Then, repeat the analysis with the matK and rbcL datasets.</li>
+  <li>Enter the posterior probabilities for each model/locus combination in the corresponding cell of the table below.</li>
+</ul>
+
+<figure id="fagus_RJ"><table>
+  <thead>
+    <tr>
+      <th style="text-align: right"><strong>Model</strong></th>
+      <th style="text-align: center"><strong>ITS</strong></th>
+      <th style="text-align: center"><strong>matK</strong></th>
+      <th style="text-align: center"><strong>rbcL</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">Unequal stationary frequencies</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Transition-transversion model</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Unequal exchange-rates model</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Gamma-distributed rates</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Invariante sites</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+  </tbody>
+</table>
+
+<figcaption>Marginal likelihoods for different substitution models.</figcaption>
+</figure>
+
+<!--  -->
+
+<ol class="bibliography"><li><span id="Baele2012">Baele G., Lemey P., Bedford T., Rambaut A., Suchard M.A., Alekseyenko A.V. 2012. Improving the Accuracy of Demographic and Molecular Clock Model Comparison while Accommodating Phylogenetic Uncertainty. Molecular Biology and Evolution. 29:2157–2167.</span>
+
+<a href="https://doi.org/10.1093/molbev/mss084">10.1093/molbev/mss084</a>
+
+</li>
+<li><span id="Baele2013">Baele G., Li W.L.S., Drummond A.J., Suchard M.A., Lemey P. 2013. Accurate Model Selection of Relaxed Molecular Clocks in Bayesian Phylogenetics. Molecular Biology and Evolution. 30:239–243.</span>
+
+<a href="https://doi.org/10.1093/molbev/mss243">10.1093/molbev/mss243</a>
+
+</li>
+<li><span id="Fan2011">Fan Y., Wu R., Chen M.-H., Kuo L., Lewis P.O. 2011. Choosing among Partition Models in Bayesian Phylogenetics. Molecular Biology and Evolution. 28:523–532.</span>
+
+</li>
+<li><span id="Hasegawa1985">Hasegawa M., Kishino H., Yano T. 1985. Dating of the Human-Ape Splitting by a molecular Clock of Mitochondrial DNA. Journal of Molecular Evolution. 22:160–174.</span>
+
+<a href="https://doi.org/10.1007/BF02101694">10.1007/BF02101694</a>
+
+</li>
+<li><span id="Jeffreys1961">Jeffreys H. 1961. The Theory of Probability. Oxford University Press.</span>
+
+<a href="https://doi.org/10.1038/109132a0">10.1038/109132a0</a>
+
+</li>
+<li><span id="Jukes1969">Jukes T.H., Cantor C.R. 1969. Evolution of Protein Molecules. Mammalian Protein Metabolism. 3:21–132.</span>
+
+<a href="https://doi.org/10.1016/B978-1-4832-3211-9.50009-7">10.1016/B978-1-4832-3211-9.50009-7</a>
+
+</li>
+<li><span id="Lartillot2006">Lartillot N. 2006. Conjugate Gibbs Sampling for Bayesian Phylogenetic Models. Journal of Computational Biology. 13:1701–1722.</span>
+
+</li>
+<li><span id="Suchard2001">Suchard M.A., Weiss R.E., Sinsheimer J.S. 2001. Bayesian Selection of Continuous-Time Markov Chain Evolutionary Models. Molecular Biology and Evolution. 18:1001–1013.</span>
+
+</li>
+<li><span id="Tavare1986">Tavaré S. 1986. Some Probabilistic and Statistical Problems in the Analysis of DNA Sequences. Some Mathematical Questions in Biology: DNA Sequence Analysis. 17:57–86.</span>
+
+</li>
+<li><span id="Xie2011">Xie W., Lewis P.O., Fan Y., Kuo L., Chen M.H. 2011. Improving Marginal Likelihood Estimation for Bayesian Phylogenetic Model Selection. Systematic Biology. 60:150–160.</span>
+
+</li>
+<li><span id="Yang1994a">Yang Z. 1994. Maximum Likelihood Phylogenetic Estimation from DNA Sequences with Variable Rates Over Sites: Approximate Methods. Journal of Molecular Evolution. 39:306–314.</span>
+
+<a href="https://doi.org/10.1007/BF00160154">10.1007/BF00160154</a>
+
+</li></ol>
+
+<script type="text/javascript">
+var _ol = document.querySelectorAll('ol');
+for (var i = 0, elem_ol; elem_ol = _ol[i]; i++) {
+	if ( elem_ol.classList == "bibliography" ) {
+		var _li = elem_ol.getElementsByTagName("li");
+		//for (var j = 0, elem_li; elem_li = _li[j]; j++)
+		//{
+		//	elem_li.innerHTML = elem_li.innerHTML.replace(/(https?:\/\/)([^\s<]+)/,"<a href=\"$1$2\">$2");
+		//}
+		if(_li.length > 0)
+			elem_ol.outerHTML = "<h2 class='references'>References</h2><hr class='references'>"+elem_ol.outerHTML
+	}
+}
+</script>
+
+      <br>
+<footer>
+  <div class="container">
+  <div class="row">
+    <div class="col-sm-12" align="center">
+      <a href="https://github.com/revbayes">GitHub</a>  | <a href="https://groups.google.com/forum/#!forum/revbayes-users">Users Forum</a>
+    </div>
+  </div>
+  <br>
+  </div>
+</footer>
+
+    </div>
+    <script src="/assets/js/vendor/jquery.min.js"></script>
+<script src="/assets/js/vendor/FileSaver.min.js"></script>
+<script src="/assets/js/vendor/jszip.min.js"></script>
+<script src="/assets/js/vendor/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+// Add default language
+$(":not(code).highlighter-rouge").each(function() {
+  
+  if( this.classList == "highlighter-rouge") {
+    this.classList = "Rev highlighter-rouge";
+  }
+  
+});
+// $("code.highlighter-rouge").each(function() {
+//   
+//   if( this.classList == "highlighter-rouge") {
+//       this.classList = "Rev highlighter-rouge";
+//   }
+//   
+// });
+</script>
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+    });
+    MathJax.Hub.Queue(function () {
+      $(".aside").each(function() {
+          $("div .MathJax", this).hide();
+      });
+    });
+</script>
+<script src="/assets/js/base.js"></script>
+
+  </body>
+</html>

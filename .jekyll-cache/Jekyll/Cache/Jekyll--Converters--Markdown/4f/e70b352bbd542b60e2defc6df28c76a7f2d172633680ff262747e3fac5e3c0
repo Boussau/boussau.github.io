@@ -1,0 +1,39 @@
+I"�<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"><strong>Model</strong></th>
+      <th style="text-align: center"><strong>Path-Sampling</strong></th>
+      <th style="text-align: center"><strong>Stepping-Stone-Sampling</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">JC ($M_1$)</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">GTR ($M_3$)</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">GTR+$\Gamma$ ($M_4$)</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">GTR+I ($M_5$)</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+    <tr>
+      <td style="text-align: right">GTR+$\Gamma$+I ($M_6$)</td>
+      <td style="text-align: center"> </td>
+      <td style="text-align: center"> </td>
+    </tr>
+  </tbody>
+</table>
+
+<figcaption>Marginal likelihoods for different substitution models.</figcaption>
+:ET

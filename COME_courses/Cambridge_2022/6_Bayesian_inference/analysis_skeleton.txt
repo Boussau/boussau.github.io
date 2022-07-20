@@ -1,0 +1,59 @@
+########
+# Data #
+########
+# We read the sequence alignment:
+data = readDiscreteCharacterData("...")
+n_branches = 2 * data.ntaxa() - 3
+
+###############################
+# Model of sequence evolution #
+###############################
+# Uniform prior on topologies
+topology ~ dnUniformTopology("")
+
+# Exponential priors on branch lengths
+for (i in 1:n_branches) {
+ bls[i] ~ dnExponential(10)
+}
+
+# Putting branch lengths and topology together
+psi := treeAssembly(topology, bls)
+
+# We define a JC rate matrix:
+Q <- fnJC(4)
+
+# The sequences are drawn from a CTMC running along the tree
+seq ~ dnPhyloCTMC( tree=psi, Q=Q, type="DNA" )
+
+# We condition the CTMC on the sequence alignment.
+seq.clamp( data )
+
+# We declare the model as one big object that we are going to use in the MCMC:
+my_model = model(psi)
+
+
+#########
+# Moves #
+#########
+# We create a vector of moves to store them all:
+moves = VectorMoves()
+# Move on the topology
+moves.append(mvNNI(topology, weight=10.0))
+# We define moves on the branch lengths, one for each branch.
+for (i in 1:n_branches) {
+   moves.append(mvScaleBactrian(bls[i], tune=TRUE))
+}
+
+#################
+# MCMC analysis #
+#################
+# Now we define monitors to keep track of what's happening during the MCMC.
+# We use the stub name
+# One monitor to store the parameter distributions into a file:
+monitors[1] = mnModel(filename="...", printgen=10, separator = TAB)
+
+# We create an MCMC object:
+analysis = mcmc(my_model, monitors, moves, ...)
+
+# We run the MCMC for 20,000 iterations:
+analysis.run(20000)

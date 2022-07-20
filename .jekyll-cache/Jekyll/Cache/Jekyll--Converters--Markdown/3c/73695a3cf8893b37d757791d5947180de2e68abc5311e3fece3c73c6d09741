@@ -1,0 +1,3 @@
+I"�<p><img src="figures/RJ_pinv.png" width="75%" /></p>
+<figcaption>The posterior distribution of the <code class="highlighter-rouge">p_inv</code> indicator. When <code class="highlighter-rouge">p_inv_indicator</code> is 0, the invariant-sites model is “turn off”; when it is 1, it is “turned on”. Therefore, the fraction of samples for which <code class="highlighter-rouge">p_inv_indicator = 1</code> is the posterior probability of the invariant-sites model.</figcaption>
+:ET
