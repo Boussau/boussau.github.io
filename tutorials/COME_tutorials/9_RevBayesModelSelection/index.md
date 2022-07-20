@@ -168,8 +168,6 @@ For a small number of stones, the stepping-stone sampler should provide a more a
 
 {% subsection Exercise 1 %}
 
-{% subsection Model Averaging with Reversible-Jump MCMC %}
-
 -   Compute the marginal likelihoods of the *cytb* alignment for the
     following substitution models:
     1.  Jukes-Cantor (JC) substitution model
@@ -186,10 +184,10 @@ For a small number of stones, the stepping-stone sampler should provide a more a
  |       **Model**        |   **Path-Sampling**   |   **Stepping-Stone-Sampling**   |
   -----------------------:|:---------------------:|:-------------------------------:|
  |        JC ($M_1$)      |                       |                                 |
- |       GTR ($M_3$)      |                       |                                 |
- |  GTR+$\Gamma$ ($M_4$)  |                       |                                 |
- |      GTR+I ($M_5$)     |                       |                                 |
- | GTR+$\Gamma$+I ($M_6$) |                       |                                 |
+ |       GTR ($M_2$)      |                       |                                 |
+ |  GTR+$\Gamma$ ($M_3$)  |                       |                                 |
+ |      GTR+I ($M_4$)     |                       |                                 |
+ | GTR+$\Gamma$+I ($M_5$) |                       |                                 |
 
 {% figcaption %}
 Marginal likelihoods for different substitution models.
@@ -376,7 +374,7 @@ Here, we examine the posterior probability of the invariant-sites models:
 {% figure rj_pinv %}
 <img src="figures/RJ_pinv.png" width="75%"/>
 {% figcaption %}
-The posterior distribution of the `p_inv` indicator. When `p_inv_indicator` is 0, the invariant-sites model is "turn off"; when it is 1, it is "turned on". Therefore, the fraction of samples for which `p_inv_indicator = 1` is the posterior probability of the invariant-sites model.
+The posterior distribution of the `p_inv` indicator. When `p_inv_indicator` is 0, the invariant-sites model is "turned off"; when it is 1, it is "turned on". Therefore, the fraction of samples for which `p_inv_indicator = 1` is the posterior probability of the invariant-sites model.
 {% endfigcaption %}
 {% endfigure %}
 
