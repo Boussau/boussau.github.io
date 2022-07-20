@@ -374,7 +374,7 @@ Here, we examine the posterior probability of the invariant-sites models:
 {% figure rj_pinv %}
 <img src="figures/RJ_pinv.png" width="75%"/>
 {% figcaption %}
-The posterior distribution of the `p_inv` indicator. When `p_inv_indicator` is 0, the invariant-sites model is "turn off"; when it is 1, it is "turned on". Therefore, the fraction of samples for which `p_inv_indicator = 1` is the posterior probability of the invariant-sites model.
+The posterior distribution of the `p_inv` indicator. When `p_inv_indicator` is 0, the invariant-sites model is "turned off"; when it is 1, it is "turned on". Therefore, the fraction of samples for which `p_inv_indicator = 1` is the posterior probability of the invariant-sites model.
 {% endfigcaption %}
 {% endfigure %}
 
