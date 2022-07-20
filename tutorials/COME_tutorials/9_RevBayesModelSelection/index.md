@@ -1,7 +1,7 @@
 ---
 title: Bayesian Model Comparison and Model Averaging
-subtitle: Parameter estimation and tree inference
-authors:  Mike May & Bastien Boussau (modified from tutorials by Sebastian Höhna, Michael J Landis, Tracy A Heath and Brian R Moore)
+subtitle: Power-posterior analysis and reversible-jump MCMC analysis
+authors:  Mike May and Bastien Boussau (modified from tutorials by Sebastian Höhna, Michael J Landis, Tracy A Heath and Brian R Moore)
 level: 5
 index: true
 prerequisites:
@@ -343,7 +343,7 @@ alpha_indicator := ifelse(alpha == 10000, 0, 1)
 Finally, we jump over models without invariant sites (`p_inv = 0`) and models with invariant sites (`p_inv > 0`).
 This works very similarly to the stationary frequency and ASRV models, so we will skip the gory details:
 ```
-# We jump between models with and without invariate sites
+# We jump between models with and without invariant sites
 p_inv ~ dnReversibleJumpMixture(0, dnBeta(1,1), 0.5)
 
 # We keep track of whether pinv is "included" in the model
@@ -393,10 +393,9 @@ The posterior distribution of the `p_inv` indicator. When `p_inv_indicator` is 0
 | Transition-transversion model | | |
 | Unequal exchange-rates model | | |
 | Gamma-distributed rates | | |
-| Invariante sites| | |
-
+| Invariant sites| | |
 {% figcaption %}
-Marginal likelihoods for different substitution models.
+Posterior probabilities for different substitution model components by dataset.
 {% endfigcaption %}
 {% endfigure %}
 
