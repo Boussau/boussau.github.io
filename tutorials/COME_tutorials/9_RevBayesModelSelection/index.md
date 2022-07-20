@@ -122,22 +122,12 @@ distributed according to a beta distribution), (3) the number of samples
 direction we will take (*i.e.*, from the
 posterior to the prior or vice versa).
 
-> ![](figures/ss.png)
-> Estimating marginal likelihoods using
-> power-posterior simulation. Estimating the marginal likelihood involves
-> integrating the likelihood of the data over the entire prior probability
-> density for the model parameters. MCMC algorithms target the posterior
-> probability density, which is typically concentrated in a small region
-> of the prior probability density (A). Accordingly, standard MCMC
-> simulation cannot provide unbiased estimates of the marginal likelihood
-> because it will typically fail to explore most of the prior density. (B)
-> Power-posterior algorithms estimate the marginal likelihood by means of a
-> series of MCMC-like simulations, where the likelihood is iteratively
-> raised to a series of powers, effectively forcing the simulation to more
-> fully explore the prior density of the model parameters. Here, six
-> uniformly spaced stones span the posterior, where the power posterior is
-> $\beta=6/6=1$, to the prior, where the power posterior is $\beta=0/6=0$.
-{:.figure}
+{% figure marginal_likelihoods %}
+<img src="figures/ss.png" width="75%"/>
+{% figcaption %}
+Estimating marginal likelihoods using power-posterior simulation. Estimating the marginal likelihood involves integrating the likelihood of the data over the entire prior probability density for the model parameters. MCMC algorithms target the posterior probability density, which is typically concentrated in a small region of the prior probability density (A). Accordingly, standard MCMC simulation cannot provide unbiased estimates of the marginal likelihood because it will typically fail to explore most of the prior density. (B) Power-posterior algorithms estimate the marginal likelihood by means of a series of MCMC-like simulations, where the likelihood is iteratively raised to a series of powers, effectively forcing the simulation to more fully explore the prior density of the model parameters. Here, six uniformly spaced stones span the posterior, where the power posterior is $\beta=6/6=1$, to the prior, where the power posterior is $\beta=0/6=0$.
+{% endfigcaption %}
+{% endfigure %}
 
 This method computes a vector of powers from a beta distribution, then
 executes an MCMC run for each power step while raising the likelihood to
