@@ -122,7 +122,7 @@ distributed according to a beta distribution), (3) the number of samples
 direction we will take (*i.e.*, from the
 posterior to the prior or vice versa).
 
-{% figure marginal_likelihoods %}
+{% figure ss %}
 <img src="figures/ss.png" width="75%"/>
 {% figcaption %}
 Estimating marginal likelihoods using power-posterior simulation. Estimating the marginal likelihood involves integrating the likelihood of the data over the entire prior probability density for the model parameters. MCMC algorithms target the posterior probability density, which is typically concentrated in a small region of the prior probability density (A). Accordingly, standard MCMC simulation cannot provide unbiased estimates of the marginal likelihood because it will typically fail to explore most of the prior density. (B) Power-posterior algorithms estimate the marginal likelihood by means of a series of MCMC-like simulations, where the likelihood is iteratively raised to a series of powers, effectively forcing the simulation to more fully explore the prior density of the model parameters. Here, six uniformly spaced stones span the posterior, where the power posterior is $\beta=6/6=1$, to the prior, where the power posterior is $\beta=0/6=0$.
@@ -135,7 +135,7 @@ that power. In this implementation, the vector of powers starts with 1,
 sampling the likelihood close to the posterior and incrementally
 sampling closer and closer to the prior as the power decreases.
 
-{% Estimating the Marginal Likelihood for the JC Substitution Model %}
+{% subsection Estimating the Marginal Likelihood for the JC Substitution Model %}
 
 We'll begin with the simplest substitution model, the Jukes-Cantor model.
 We specify this model in the `powp_JC.Rev` script. Here, we focus on the parts of this code that are specific to power-posterior analysis, rather than the substitution mode itself. To perform a power-posterior analysis, we replace the standard `mcmc()` analysis function with the `powerPosterior()` analysis function. This function is similar to the standard MCMC, but we must specify the number of powers (stones) to use (`cats`), the filename(s) for the samples from individual stones, and the frequency with which to write sampled likelihood values to file (`sampleFreq`):
@@ -168,7 +168,7 @@ For a small number of stones, the stepping-stone sampler should provide a more a
 
 {% subsection Exercise 1 %}
 
-{% Model Averaging with Reversible-Jump MCMC %}
+{% subsection Model Averaging with Reversible-Jump MCMC %}
 
 -   Compute the marginal likelihoods of the *cytb* alignment for the
     following substitution models:
