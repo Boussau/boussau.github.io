@@ -394,9 +394,8 @@ The posterior distribution of the `p_inv` indicator. When `p_inv_indicator` is 0
 | Unequal exchange-rates model | | |
 | Gamma-distributed rates | | |
 | Invariant sites| | |
-
 {% figcaption %}
-Marginal likelihoods for different substitution models.
+Posterior probabilities for different substitution model components by dataset.
 {% endfigcaption %}
 {% endfigure %}
 
