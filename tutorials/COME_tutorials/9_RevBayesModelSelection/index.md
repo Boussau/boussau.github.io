@@ -168,8 +168,6 @@ For a small number of stones, the stepping-stone sampler should provide a more a
 
 {% subsection Exercise 1 %}
 
-{% subsection Model Averaging with Reversible-Jump MCMC %}
-
 -   Compute the marginal likelihoods of the *cytb* alignment for the
     following substitution models:
     1.  Jukes-Cantor (JC) substitution model
