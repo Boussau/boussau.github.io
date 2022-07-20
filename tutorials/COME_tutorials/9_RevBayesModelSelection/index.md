@@ -186,10 +186,10 @@ For a small number of stones, the stepping-stone sampler should provide a more a
  |       **Model**        |   **Path-Sampling**   |   **Stepping-Stone-Sampling**   |
   -----------------------:|:---------------------:|:-------------------------------:|
  |        JC ($M_1$)      |                       |                                 |
- |       GTR ($M_3$)      |                       |                                 |
- |  GTR+$\Gamma$ ($M_4$)  |                       |                                 |
- |      GTR+I ($M_5$)     |                       |                                 |
- | GTR+$\Gamma$+I ($M_6$) |                       |                                 |
+ |       GTR ($M_2$)      |                       |                                 |
+ |  GTR+$\Gamma$ ($M_3$)  |                       |                                 |
+ |      GTR+I ($M_4$)     |                       |                                 |
+ | GTR+$\Gamma$+I ($M_5$) |                       |                                 |
 
 {% figcaption %}
 Marginal likelihoods for different substitution models.
