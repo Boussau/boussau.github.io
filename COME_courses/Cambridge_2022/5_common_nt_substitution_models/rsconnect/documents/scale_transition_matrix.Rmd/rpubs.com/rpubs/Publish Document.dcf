@@ -1,0 +1,11 @@
+name: Publish Document
+title:
+username:
+account: rpubs
+server: rpubs.com
+hostUrl: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/926016/316cee8425c04718bd2d4422af330fe7
+bundleId: https://api.rpubs.com/api/v1/document/926016/316cee8425c04718bd2d4422af330fe7
+url: http://rpubs.com/boussau/926016
+when: 1658409468.05437
+lastSyncTime: 1658409468.05439

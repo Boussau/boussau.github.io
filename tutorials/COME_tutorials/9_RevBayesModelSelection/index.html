@@ -48,9 +48,9 @@
 
       <div class="titlebar">
 	<h1 class="maintitle">Bayesian Model Comparison and Model Averaging</h1>
-	<h3 class="subtitle">Parameter estimation and tree inference</h3>
-	<h4 class="authors">Mike May & Bastien Boussau (modified from tutorials by Sebastian Höhna, Michael J Landis, Tracy A Heath and Brian R Moore)</h4>
-  <h5>Last modified on July 20, 2022</h5>
+	<h3 class="subtitle">Power-posterior analysis and reversible-jump MCMC analysis</h3>
+	<h4 class="authors">Mike May and Bastien Boussau (modified from tutorials by Sebastian Höhna, Michael J Landis, Tracy A Heath and Brian R Moore)</h4>
+  <h5>Last modified on July 21, 2022</h5>
 </div>
 
 
@@ -300,19 +300,16 @@ Also note that this analysis will perform a short burnin for each stone (by defa
 <p>After the power-posterior analysis completes, we read the samples back into RevBayes to compute the marginal likelihood either with the path-sampler or stepping-stone sampler algorithms:</p>
 <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># compute the marginal likelihood with the path-sampling equation
 ps = pathSampler(file="analyses/"+output_stub+".out", powerColumnName="power", likelihoodColumnName="likelihood")
-ps.marginal()
+print("Marginal likelihood (path sampling):  " + ps.marginal())
 
 # compute the marginal likelihood with the stepping-stone equation
 ss = steppingStoneSampler(file="analyses/"+output_stub+".out", powerColumnName="power", likelihoodColumnName="likelihood")
-ss.marginal()
+print("Marginal likelihood (stepping-stone): " + ss.marginal())
 </code></pre></div></div>
 
 <p>For a small number of stones, the stepping-stone sampler should provide a more accurate estimate of the marginal likelihood. However, as the number of stones increases, we expect the estimates to converge. Therefore, it’s a good idea to use both estimators to check that they are close to each other (which indicates that the estimates are relatively stable).</p>
 
 <h3 class="subsection" id="exercise-1">Exercise 1</h3>
-<hr class="subsection" />
-
-<h3 class="subsection" id="model-averaging-with-reversible-jump-mcmc">Model Averaging with Reversible-Jump MCMC</h3>
 <hr class="subsection" />
 
 <ul>
@@ -346,22 +343,22 @@ corresponding cell of the table below.</li>
       <td style="text-align: center"> </td>
     </tr>
     <tr>
-      <td style="text-align: right">GTR ($M_3$)</td>
+      <td style="text-align: right">GTR ($M_2$)</td>
       <td style="text-align: center"> </td>
       <td style="text-align: center"> </td>
     </tr>
     <tr>
-      <td style="text-align: right">GTR+$\Gamma$ ($M_4$)</td>
+      <td style="text-align: right">GTR+$\Gamma$ ($M_3$)</td>
       <td style="text-align: center"> </td>
       <td style="text-align: center"> </td>
     </tr>
     <tr>
-      <td style="text-align: right">GTR+I ($M_5$)</td>
+      <td style="text-align: right">GTR+I ($M_4$)</td>
       <td style="text-align: center"> </td>
       <td style="text-align: center"> </td>
     </tr>
     <tr>
-      <td style="text-align: right">GTR+$\Gamma$+I ($M_6$)</td>
+      <td style="text-align: right">GTR+$\Gamma$+I ($M_5$)</td>
       <td style="text-align: center"> </td>
       <td style="text-align: center"> </td>
     </tr>
@@ -503,7 +500,7 @@ sr := fnDiscretizeGamma( alpha, alpha, 4 )
 
 <p>Finally, we jump over models without invariant sites (<code class="highlighter-rouge">p_inv = 0</code>) and models with invariant sites (<code class="highlighter-rouge">p_inv &gt; 0</code>).
 This works very similarly to the stationary frequency and ASRV models, so we will skip the gory details:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># We jump between models with and without invariate sites
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># We jump between models with and without invariant sites
 p_inv ~ dnReversibleJumpMixture(0, dnBeta(1,1), 0.5)
 
 # We keep track of whether pinv is "included" in the model
@@ -536,7 +533,7 @@ Because we sample the substitution models in proportion to their posterior proba
 When using RJ MCMC, the posterior probability of a given model is the fraction of times that model is sampled during the MCMC.
 Here, we examine the posterior probability of the invariant-sites models:</p>
 <figure id="rj_pinv"><p><img src="figures/RJ_pinv.png" width="75%" /></p>
-<figcaption>The posterior distribution of the <code class="highlighter-rouge">p_inv</code> indicator. When <code class="highlighter-rouge">p_inv_indicator</code> is 0, the invariant-sites model is “turn off”; when it is 1, it is “turned on”. Therefore, the fraction of samples for which <code class="highlighter-rouge">p_inv_indicator = 1</code> is the posterior probability of the invariant-sites model.</figcaption>
+<figcaption>The posterior distribution of the <code class="highlighter-rouge">p_inv</code> indicator. When <code class="highlighter-rouge">p_inv_indicator</code> is 0, the invariant-sites model is “turned off”; when it is 1, it is “turned on”. Therefore, the fraction of samples for which <code class="highlighter-rouge">p_inv_indicator = 1</code> is the posterior probability of the invariant-sites model.</figcaption>
 </figure>
 
 <h3 class="subsection" id="exercise-2">Exercise 2</h3>
@@ -548,50 +545,14 @@ Here, we examine the posterior probability of the invariant-sites models:</p>
   <li>Enter the posterior probabilities for each model/locus combination in the corresponding cell of the table below.</li>
 </ul>
 
-<figure id="fagus_RJ"><table>
-  <thead>
-    <tr>
-      <th style="text-align: right"><strong>Model</strong></th>
-      <th style="text-align: center"><strong>ITS</strong></th>
-      <th style="text-align: center"><strong>matK</strong></th>
-      <th style="text-align: center"><strong>rbcL</strong></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">Unequal stationary frequencies</td>
-      <td style="text-align: center"> </td>
-      <td style="text-align: center"> </td>
-      <td style="text-align: center"> </td>
-    </tr>
-    <tr>
-      <td style="text-align: right">Transition-transversion model</td>
-      <td style="text-align: center"> </td>
-      <td style="text-align: center"> </td>
-      <td style="text-align: center"> </td>
-    </tr>
-    <tr>
-      <td style="text-align: right">Unequal exchange-rates model</td>
-      <td style="text-align: center"> </td>
-      <td style="text-align: center"> </td>
-      <td style="text-align: center"> </td>
-    </tr>
-    <tr>
-      <td style="text-align: right">Gamma-distributed rates</td>
-      <td style="text-align: center"> </td>
-      <td style="text-align: center"> </td>
-      <td style="text-align: center"> </td>
-    </tr>
-    <tr>
-      <td style="text-align: right">Invariante sites</td>
-      <td style="text-align: center"> </td>
-      <td style="text-align: center"> </td>
-      <td style="text-align: center"> </td>
-    </tr>
-  </tbody>
-</table>
-
-<figcaption>Marginal likelihoods for different substitution models.</figcaption>
+<figure id="fagus_RJ"><p>|       <strong>Model</strong>        |   <strong>ITS</strong>             |   <strong>matK</strong>                      |   <strong>rbcL</strong>             |
+|———————–:|:———————:|:——————————-:|:———————-:|
+| Unequal stationary frequencies | | |
+| Transition-transversion model | | |
+| Unequal exchange-rates model | | |
+| Gamma-distributed rates | | |
+| Invariant sites| | |</p>
+<figcaption>Posterior probabilities for different substitution model components by dataset.</figcaption>
 </figure>
 
 <!--  -->
