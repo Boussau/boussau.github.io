@@ -157,11 +157,11 @@ After the power-posterior analysis completes, we read the samples back into RevB
 ```
 # compute the marginal likelihood with the path-sampling equation
 ps = pathSampler(file="analyses/"+output_stub+".out", powerColumnName="power", likelihoodColumnName="likelihood")
-ps.marginal()
+print("Marginal likelihood (path sampling):  " + ps.marginal())
 
 # compute the marginal likelihood with the stepping-stone equation
 ss = steppingStoneSampler(file="analyses/"+output_stub+".out", powerColumnName="power", likelihoodColumnName="likelihood")
-ss.marginal()
+print("Marginal likelihood (stepping-stone): " + ss.marginal())
 ```
 
 For a small number of stones, the stepping-stone sampler should provide a more accurate estimate of the marginal likelihood. However, as the number of stones increases, we expect the estimates to converge. Therefore, it's a good idea to use both estimators to check that they are close to each other (which indicates that the estimates are relatively stable).
