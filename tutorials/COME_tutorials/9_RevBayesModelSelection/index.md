@@ -355,7 +355,7 @@ moves.append( mvSlide(p_inv, tune=TRUE) )
 {% subsection Putting the models together %}
 
 We've set these models up in such a way that the likelihood function doesn't need to know the exact identity of the model! That is, in all cases we have _some_ value of `pi`, `er`, `site_rates`, and `p_inv`, regardless of the identify of the current model (i.e., whether or not a particular model component is "included" in the model).
-Therefore, we can simply pass these variables to the CTMC model as we did in the previous tutorials:
+Therefore, we can simply pass these variables to the CTMC model as we did in the previous tutorial:
 ```
 seq ~ dnPhyloCTMC( tree=psi, Q=Q, siteRates=sr, pInv=p_inv, type="DNA")
 ```
@@ -363,7 +363,7 @@ seq ~ dnPhyloCTMC( tree=psi, Q=Q, siteRates=sr, pInv=p_inv, type="DNA")
 {% subsection Running the MCMC %}
 
 Beyond having special prior distribution and proposals for reversible-jump models, there is nothing special we have to do to run this analysis: it is just a regular MCMC at this point!
-We create our model and monitors as before, and run a standard MCMC as we did in previous tutorials.
+We create our model and monitors as before, and run a standard MCMC as we did in the previous tutorial.
 Because we sample the substitution models in proportion to their posterior probability, our estimates of the phylogeny will naturally average over uncertainty in the substitution models.
 
 {% subsection Estimating posterior probabilities of models %}
