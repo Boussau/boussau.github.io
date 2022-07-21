@@ -138,7 +138,7 @@ sampling closer and closer to the prior as the power decreases.
 {% subsection Estimating the Marginal Likelihood for the JC Substitution Model %}
 
 We'll begin with the simplest substitution model, the Jukes-Cantor model.
-We specify this model in the `powp_JC.Rev` script. Here, we focus on the parts of this code that are specific to power-posterior analysis, rather than the substitution mode itself. To perform a power-posterior analysis, we replace the standard `mcmc()` analysis function with the `powerPosterior()` analysis function. This function is similar to the standard MCMC, but we must specify the number of powers (stones) to use (`cats`), the filename(s) for the samples from individual stones, and the frequency with which to write sampled likelihood values to file (`sampleFreq`):
+We specify this model in the `powp_JC.Rev` script. Here, we focus on the parts of this code that are specific to power-posterior analysis, rather than the substitution model itself. To perform a power-posterior analysis, we replace the standard `mcmc()` analysis function with the `powerPosterior()` analysis function. This function is similar to the standard MCMC, but we must specify the number of powers (stones) to use (`cats`), the filename(s) for the samples from individual stones, and the frequency with which to write sampled likelihood values to file (`sampleFreq`):
 ```
 # We create a power-posterior object:
 pow_p = powerPosterior(my_model, moves, monitors, filename="analyses/"+output_stub+".out", sampleFreq=5, cats=20)
