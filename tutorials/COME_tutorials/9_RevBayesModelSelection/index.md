@@ -219,11 +219,11 @@ We use the distribution `dnReversibleJumpMixture` to jump between models with un
 To use this distribution, we must provide: 1) a fixed value (the value the parameter takes when it is not estimated), 2) a prior distribution (for when the parameter value is estimated), and 3) the prior probability that the parameter is estimated.
 ```
 # We first define reversible jump over uniform and non-uniform stationary frequencies
-# construct the stationary frequency mixture
+# to construct the stationary frequency mixture
 pi ~ dnReversibleJumpMixture(simplex(v(1,1,1,1)), dnDirichlet(v(1,1,1,1)), 0.5)
 ```
 
-Now, we use an MCMC proposal that move between the two models (equal and non-equal), as well as a proposal that modifies the parameter value when it is estimated:
+Now, we use an MCMC proposal that moves between the two models (equal and non-equal), as well as a proposal that modifies the parameter value when it is estimated:
 ```
 # include proposals for jumping between models, as well as for the
 # parameter when it is estimated
