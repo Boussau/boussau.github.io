@@ -385,13 +385,15 @@ The posterior distribution of the `p_inv` indicator. When `p_inv_indicator` is 0
 - Enter the posterior probabilities for each model/locus combination in the corresponding cell of the table below.
 
 {% figure fagus_RJ %}
+
 |       **Model**        |   **ITS**             |   **matK**                      |   **rbcL**             |
-|-----------------------:|:---------------------:|:-------------------------------:|:----------------------:|
-| Unequal stationary frequencies | | |
-| Transition-transversion model | | |
-| Unequal exchange-rates model | | |
-| Gamma-distributed rates | | |
-| Invariant sites| | |
+ -----------------------:|:---------------------:|:-------------------------------:|:----------------------:|
+| Unequal stationary frequencies | | | |
+| Transition-transversion model | | | |
+| Unequal exchange-rates model | | | |
+| Gamma-distributed rates | | | |
+| Invariable sites| | | |
+
 {% figcaption %}
 Posterior probabilities for different substitution model components by dataset.
 {% endfigcaption %}
