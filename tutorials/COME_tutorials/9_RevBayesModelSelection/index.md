@@ -29,7 +29,7 @@ $$\begin{aligned}
 BF(M_0,M_1) = \frac{\mathbb{P}(\mathbf X \mid M_0)}{\mathbb{P}(\mathbf X \mid M_1)},
 \end{aligned}$$
 
-where $\mathbb{P}(\mathbf X \mid M_i)$ is the *marginal likelihood* of
+where $\mathbb{P}(\mathbf X \mid M_i)$ is the *marginal likelihood*
 of model $M_i$ (this may be familiar to you as the denominator of Bayes
 Theorem, which is variously referred to as the *model evidence* or
 *integrated likelihood*). Formally, the marginal likelihood is the
