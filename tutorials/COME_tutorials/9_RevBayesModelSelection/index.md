@@ -92,7 +92,7 @@ models:
 The scripts we use to specify these models are almost identical to those we used in our previous tutorial, [Bayesian phylogenetic inference with GTR](https://boussau.github.io/tutorials/COME_tutorials/8_RevBayesTutorial/).
 The main difference is that we must perform a so-called "power-posterior" analysis instead of a standard MCMC analysis.
 
-{% subsection Estimating the Marginal Likelihood %}
+{% section Estimating the Marginal Likelihood %}
 
 We will estimate the marginal likelihood of a given model using a
 power-posterior algorithm. This algorithm is
