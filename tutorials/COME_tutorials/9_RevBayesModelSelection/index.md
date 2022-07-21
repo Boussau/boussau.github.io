@@ -338,7 +338,7 @@ alpha_indicator := ifelse(alpha == 10000, 0, 1)
 
 {% subsection Averaging over invariable-sites models %}
 
-Finally, we jump over models without invariant sites (`p_inv = 0`) and models with invariant sites (`p_inv > 0`).
+Finally, we jump over models without invariable sites (`p_inv = 0`) and models with invariable sites (`p_inv > 0`).
 This works very similarly to the stationary frequency and ASRV models, so we will skip the gory details:
 ```
 # We jump between models with and without invariant sites
