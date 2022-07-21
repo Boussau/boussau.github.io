@@ -72,8 +72,8 @@ We can perform a Bayes factor comparison of two models by
 calculating the marginal likelihood for each one. Alas, exact solutions
 for calculating marginal likelihoods are not known for phylogenetic
 models (see equation \eqref{eq:marginal_likelihood}), thus we must resort to numerical integration methods to estimate or approximate these values. In this
-exercise, we will estimate the marginal likelihood for each partition
-scheme using both the stepping-stone {% cite Xie2011 Fan2011 %} and path
+exercise, we will estimate the marginal likelihood for each model
+using both the stepping-stone {% cite Xie2011 Fan2011 %} and path
 sampling estimators {% cite Lartillot2006 Baele2012 %}.
 
 {% section Substitution Models %}
