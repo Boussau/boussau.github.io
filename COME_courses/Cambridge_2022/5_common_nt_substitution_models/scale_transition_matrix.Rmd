@@ -1,0 +1,170 @@
+---
+title: "The scale of a substitution rate matrix"
+output: html_notebook
+---
+
+*In this notebook, we will try to see how the scale of a substitution rate matrix matters.*
+
+```{r}
+library(expm) # to compute a matrix exponential
+```
+
+## Useful functions for simulating DNA evolution along a branch
+```{r}
+# Function for drawing a DNA state, for instance at the root
+# We assume the order is A, C, G, T
+drawStateAtRoot <- function (probabilities){
+    states <- c("A", "C", "G", "T")
+    u <- runif(n=1, min=0,max=1)
+    if (u < probabilities[1])
+      { return (states[1])}
+    else if (u < probabilities[1]+probabilities[2])
+      { return (states[2])}
+    else if (u < probabilities[1]+probabilities[2]+probabilities[3])
+      { return (states[3])}
+    else { return (states[4])}
+}
+
+# Function to draw a state on a branch
+drawNewState <- function (probabilities, states){
+    u <- runif(n=1, min=0,max=1)
+    if (u < probabilities[1])
+      { return (states[1])}
+    else if (u < probabilities[1]+probabilities[2])
+      { return (states[2])}
+    else { return (states[3])}
+}
+
+# Function to compute the stationary frequencies associated to a rate matrix
+computeStationaryFrequencies <- function(rateMatrix) {
+  return(expm(rateMatrix*100)[1,])
+}
+
+# Function to simulate along a branch using the Gillespie algorithm,
+# under a particular rate matrix, given some branch length, 
+# and given a starting state.
+simulateAlongBranch <- function(startingState, branchLength, rateMatrix) {
+    l <- 0.0
+    numberOfSubstitutions <- 0
+    current <- startingState
+    while (l < branchLength) {
+        currentRow=1
+        if (current =='C') {
+          currentRow=2  
+        }
+        else if (current =='G') {
+          currentRow=3  
+        }
+        else if (current =='T') {
+          currentRow=4  
+        }
+        # rateOfMovingAway is the sum of the rates of all possible events, 
+        # aka minus the diagonal element
+        rateOfMovingAway = - rateMatrix[currentRow, currentRow]
+        l <- l + rexp(rate=rateOfMovingAway, n=1) 
+        if (l < branchLength) {
+            numberOfSubstitutions <- numberOfSubstitutions + 1
+            possibleArrivingIndices <- setdiff(c(1,2,3,4), currentRow)
+            probabilitiesOfArrivingStates <- rateMatrix[currentRow, possibleArrivingIndices]/rateOfMovingAway
+            current <- drawNewState(probabilitiesOfArrivingStates, c("A", "C", "G", "T")[possibleArrivingIndices])
+        }
+    }
+    return (c(current, numberOfSubstitutions))
+}
+
+# Simulate a site history given starting (root) frequencies, a branch length,
+# and a rate matrix.
+simulateSiteHistory <- function (startingFrequencies, branchLength, rateMatrix) {
+  rootState <- drawStateAtRoot(startingFrequencies)
+  return(simulateAlongBranch(startingState=rootState, branchLength=branchLength, rateMatrix=rateMatrix))
+}
+
+# Simulate numberOfSites site histories along a branch of length branchLength,
+# with a rate matrix rateMatrix.
+simulateManySiteHistories <- function (branchLength, rateMatrix, numberOfSites) {
+  stationaryFrequencies <- computeStationaryFrequencies(rateMatrix)
+  allHistories <- matrix(rep(NA, 2*numberOfSites), nrow=numberOfSites, ncol=2)
+  for (i in 1:numberOfSites) {
+    allHistories[i,] <- simulateSiteHistory(startingFrequencies=stationaryFrequencies, branchLength=branchLength, rateMatrix=rateMatrix)
+  }
+  return(allHistories)
+}
+
+# Plot the number of substitutions as contained in siteHistories.
+plotNumbersOfSubstitutions <- function (siteHistories) {
+  numbers <- as.numeric(siteHistories[,2])
+  hist(numbers, main=paste0("Number of substitutions; mean = ", mean(numbers)), xlab="Numbers of substitutions", ylab="Number of sites")
+}
+
+```
+
+
+## Let's create a substitution rate matrix, and look at it
+```{r}
+substitutionRateMatrix <- 3*matrix(c(c(-1.916, 0.541, 0.787, 0.588), c(0.148, -1.069, 0.415, 0.506), c(0.286, 0.170, -0.591, 0.135), c(0.525, 0.236, 0.594, -1.355)), nrow=4, ncol=4, byrow=TRUE)
+print(substitutionRateMatrix)
+```
+
+## Let's simulate 1000 sites with this substitution matrix
+We want to simulate DNA evolution along a branch of length 0.5.
+```{r}
+siteHistories <- simulateManySiteHistories(branchLength=0.5, rateMatrix=substitutionRateMatrix, numberOfSites=1000)
+```
+
+### While doing our simulation, we counted the number of substitutions per site
+Let's look at them!
+```{r}
+plotNumbersOfSubstitutions(siteHistories)
+```
+
+
+When simulating along a branch of length 0.5 with our substitution rate matrix, on average there are ~1.5 substitution per site. That's not very convenient.
+
+
+## Scaling the substitution rate matrix
+Let's scale the substitution rate matrix: at stationarity, we want the total rate of substitution per unit time to be 1, i.e.:
+
+$$\sum_{i \in {A,C,G,T}}~\sum_{j \in {A,C,G,T}} \pi_i q_{ij} = 1,~~i \neq j$$
+or, equivalently:
+$$-\sum_{i \in {A,C,G,T}} \pi_i q_{ii} = 1$$
+
+What is the scale of our current matrix?
+
+```{r}
+computeScaleOfMatrix <- function(rateMatrix) {
+  stationaryFrequencies <- computeStationaryFrequencies(rateMatrix)
+  qiis <- c(rateMatrix[1,1], rateMatrix[2,2], rateMatrix[3,3], rateMatrix[4,4])
+  scale <- -(stationaryFrequencies[1] * qiis[1] + stationaryFrequencies[2] * qiis[2] + stationaryFrequencies[3] * qiis[3] + stationaryFrequencies[4] * qiis[4])
+  return(scale)
+}
+```
+
+```{r}
+scale <- computeScaleOfMatrix(substitutionRateMatrix)
+print(scale)
+```
+
+Our matrix does not have scale 1.0...
+
+## Rescaling our matrix
+
+```{r}
+scaledSubstitutionRateMatrix <- substitutionRateMatrix / scale
+```
+
+## Simulating with a scaled substitution matrix:
+
+```{r}
+
+siteHistories <- simulateManySiteHistories(branchLength=0.5, rateMatrix=scaledSubstitutionRateMatrix, numberOfSites=1000)
+plotNumbersOfSubstitutions(siteHistories)
+
+```
+When we simulate sites along a branch of length 0.5, with a scaled substitution rate matrix, we get on average 0.5 substitution per site.
+
+
+# Conclusion
+To be able to interpret branch lengths as expected numbers of substitutions per site, we need to use scaled substitution rate matrices.
+
+
+
