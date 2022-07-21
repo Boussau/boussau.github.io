@@ -209,7 +209,7 @@ which adds, removes, or combines parameters to move between models.
 
 The state space of potential models is vast, so we'll restrict ourselves to a very particular set of
 models, in particular, we're going to average over the "named" members of the GTR models
-(the ones you learned specifically in class), models with and without Gamma-distributed ASRV, and models with and without invariant sites.
+(the ones you learned specifically in class), models with and without Gamma-distributed ASRV, and models with and without a proportion of invariable sites.
 
 This analysis is specified in the `RJ_MCMC.Rev` script; in this example, we use ITS sequences from the genus _Fagus_ (Beech trees). We will skip over details of this script that do not relate to the substitution model, for example the tree topology and branch lengths, and instead focus on the model-averaging aspects of this script.
 
