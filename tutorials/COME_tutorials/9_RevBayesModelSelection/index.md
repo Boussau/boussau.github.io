@@ -78,11 +78,7 @@ sampling estimators {% cite Lartillot2006 Baele2012 %}.
 
 {% section Substitution Models %}
 
-The models we use here are equivalent to the models described in the
-previous exercise on substitution models (continuous time Markov
-models). To specify the model please consult the previous exercise.
-Specifically, you will need to specify the following substitution
-models:
+The models we use here are the same ones we used in the [previous tutorial](https://boussau.github.io/tutorials/COME_tutorials/8_RevBayesTutorial/). To specify the model please consult the previous exercise. Specifically, you will specify the following substitution models:
 
 -   Jukes-Cantor (JC) substitution model {% cite Jukes1969 %}
 -   General-Time-Reversible (GTR) substitution model {% cite Tavare1986 %}
@@ -240,8 +236,8 @@ pi_model := ifelse(pi == simplex(v(1,1,1,1)), 1, 2)
 
 {% subsection Averaging over exchangeability-rate models %}
 
-We will consider three models for exchangeability rates: 1) a model with equal exchangeability rates, 2) a model with a transition-transversion rate parameter, and 3) a model where all exchangeability rates are different.
-In this case, we won't be to use the `dnReversibleJumpMixture` distribution because we have more than two models.
+We will consider three models for exchangeability rates: 1) a model with equal exchangeability rates, 2) a model with a transition-transversion rate-ratio parameter ($\kappa$), and 3) a model where all exchangeability rates are different.
+In this case, we won't be able to use `dnReversibleJumpMixture` because we have more than two models.
 Instead, we'll specify separate exchangeability-rate parameters for each model, and then sample the exchangeability rates from among those models.
 
 We begin by specifying the equal-rates model.
