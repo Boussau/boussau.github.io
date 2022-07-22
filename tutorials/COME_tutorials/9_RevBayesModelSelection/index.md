@@ -29,7 +29,7 @@ $$\begin{aligned}
 BF(M_0,M_1) = \frac{\mathbb{P}(\mathbf X \mid M_0)}{\mathbb{P}(\mathbf X \mid M_1)},
 \end{aligned}$$
 
-where $\mathbb{P}(\mathbf X \mid M_i)$ is the *marginal likelihood* of
+where $\mathbb{P}(\mathbf X \mid M_i)$ is the *marginal likelihood*
 of model $M_i$ (this may be familiar to you as the denominator of Bayes
 Theorem, which is variously referred to as the *model evidence* or
 *integrated likelihood*). Formally, the marginal likelihood is the
@@ -72,8 +72,8 @@ We can perform a Bayes factor comparison of two models by
 calculating the marginal likelihood for each one. Alas, exact solutions
 for calculating marginal likelihoods are not known for phylogenetic
 models (see equation \eqref{eq:marginal_likelihood}), thus we must resort to numerical integration methods to estimate or approximate these values. In this
-exercise, we will estimate the marginal likelihood for each partition
-scheme using both the stepping-stone {% cite Xie2011 Fan2011 %} and path
+exercise, we will estimate the marginal likelihood for each model
+using both the stepping-stone {% cite Xie2011 Fan2011 %} and path
 sampling estimators {% cite Lartillot2006 Baele2012 %}.
 
 {% section Substitution Models %}
@@ -88,7 +88,7 @@ The models we use here are the same ones we used in the [previous tutorial](http
 The scripts we use to specify these models are almost identical to those we used in our previous tutorial, [Bayesian phylogenetic inference with GTR](https://boussau.github.io/tutorials/COME_tutorials/8_RevBayesTutorial/).
 The main difference is that we must perform a so-called "power-posterior" analysis instead of a standard MCMC analysis.
 
-{% subsection Estimating the Marginal Likelihood %}
+{% section Estimating the Marginal Likelihood %}
 
 We will estimate the marginal likelihood of a given model using a
 power-posterior algorithm. This algorithm is
@@ -134,7 +134,7 @@ sampling closer and closer to the prior as the power decreases.
 {% subsection Estimating the Marginal Likelihood for the JC Substitution Model %}
 
 We'll begin with the simplest substitution model, the Jukes-Cantor model.
-We specify this model in the `powp_JC.Rev` script. Here, we focus on the parts of this code that are specific to power-posterior analysis, rather than the substitution mode itself. To perform a power-posterior analysis, we replace the standard `mcmc()` analysis function with the `powerPosterior()` analysis function. This function is similar to the standard MCMC, but we must specify the number of powers (stones) to use (`cats`), the filename(s) for the samples from individual stones, and the frequency with which to write sampled likelihood values to file (`sampleFreq`):
+We specify this model in the `powp_JC.Rev` script. Here, we focus on the parts of this code that are specific to power-posterior analysis, rather than the substitution model itself. To perform a power-posterior analysis, we replace the standard `mcmc()` analysis function with the `powerPosterior()` analysis function. This function is similar to the standard MCMC, but we must specify the number of powers (stones) to use (`cats`), the filename(s) for the samples from individual stones, and the frequency with which to write sampled likelihood values to file (`sampleFreq`):
 ```
 # We create a power-posterior object:
 pow_p = powerPosterior(my_model, moves, monitors, filename="analyses/"+output_stub+".out", sampleFreq=5, cats=20)
@@ -205,7 +205,7 @@ which adds, removes, or combines parameters to move between models.
 
 The state space of potential models is vast, so we'll restrict ourselves to a very particular set of
 models, in particular, we're going to average over the "named" members of the GTR models
-(the ones you learned specifically in class), models with and without Gamma-distributed ASRV, and models with and without invariant sites.
+(the ones you learned specifically in class), models with and without Gamma-distributed ASRV, and models with and without a proportion of invariable sites.
 
 This analysis is specified in the `RJ_MCMC.Rev` script; in this example, we use ITS sequences from the genus _Fagus_ (Beech trees). We will skip over details of this script that do not relate to the substitution model, for example the tree topology and branch lengths, and instead focus on the model-averaging aspects of this script.
 
@@ -215,11 +215,11 @@ We use the distribution `dnReversibleJumpMixture` to jump between models with un
 To use this distribution, we must provide: 1) a fixed value (the value the parameter takes when it is not estimated), 2) a prior distribution (for when the parameter value is estimated), and 3) the prior probability that the parameter is estimated.
 ```
 # We first define reversible jump over uniform and non-uniform stationary frequencies
-# construct the stationary frequency mixture
+# to construct the stationary frequency mixture
 pi ~ dnReversibleJumpMixture(simplex(v(1,1,1,1)), dnDirichlet(v(1,1,1,1)), 0.5)
 ```
 
-Now, we use an MCMC proposal that move between the two models (equal and non-equal), as well as a proposal that modifies the parameter value when it is estimated:
+Now, we use an MCMC proposal that moves between the two models (equal and non-equal), as well as a proposal that modifies the parameter value when it is estimated:
 ```
 # include proposals for jumping between models, as well as for the
 # parameter when it is estimated
@@ -334,16 +334,16 @@ alpha_indicator := ifelse(alpha == 10000, 0, 1)
 
 {% subsection Averaging over invariable-sites models %}
 
-Finally, we jump over models without invariant sites (`p_inv = 0`) and models with invariant sites (`p_inv > 0`).
+Finally, we jump over models without invariable sites (`p_inv = 0`) and models with invariable sites (`p_inv > 0`).
 This works very similarly to the stationary frequency and ASRV models, so we will skip the gory details:
 ```
-# We jump between models with and without invariant sites
+# We jump between models with and without invariable sites
 p_inv ~ dnReversibleJumpMixture(0, dnBeta(1,1), 0.5)
 
 # We keep track of whether pinv is "included" in the model
 p_inv_indicator := ifelse(p_inv == 0, 0, 1)
 
-# We define a move on the proportion of invariant sites parameter
+# We define a move on the proportion of invariable sites parameter
 moves.append( mvRJSwitch(p_inv, weight=5.0) )
 moves.append( mvSlide(p_inv, tune=TRUE) )
 ```
@@ -351,7 +351,7 @@ moves.append( mvSlide(p_inv, tune=TRUE) )
 {% subsection Putting the models together %}
 
 We've set these models up in such a way that the likelihood function doesn't need to know the exact identity of the model! That is, in all cases we have _some_ value of `pi`, `er`, `site_rates`, and `p_inv`, regardless of the identify of the current model (i.e., whether or not a particular model component is "included" in the model).
-Therefore, we can simply pass these variables to the CTMC model as we did in the previous tutorials:
+Therefore, we can simply pass these variables to the CTMC model as we did in the previous tutorial:
 ```
 seq ~ dnPhyloCTMC( tree=psi, Q=Q, siteRates=sr, pInv=p_inv, type="DNA")
 ```
@@ -359,18 +359,18 @@ seq ~ dnPhyloCTMC( tree=psi, Q=Q, siteRates=sr, pInv=p_inv, type="DNA")
 {% subsection Running the MCMC %}
 
 Beyond having special prior distribution and proposals for reversible-jump models, there is nothing special we have to do to run this analysis: it is just a regular MCMC at this point!
-We create our model and monitors as before, and run a standard MCMC as we did in previous tutorials.
+We create our model and monitors as before, and run a standard MCMC as we did in the previous tutorial.
 Because we sample the substitution models in proportion to their posterior probability, our estimates of the phylogeny will naturally average over uncertainty in the substitution models.
 
 {% subsection Estimating posterior probabilities of models %}
 
 In addition to averaging our phylogenetic estimates over uncertainty in the substitution model, we can also use RJ MCMC to estimate the posterior probabilities of the models themselves!
 When using RJ MCMC, the posterior probability of a given model is the fraction of times that model is sampled during the MCMC.
-Here, we examine the posterior probability of the invariant-sites models:
+Here, we examine the posterior probability of the invariable-sites models:
 {% figure rj_pinv %}
 <img src="figures/RJ_pinv.png" width="75%"/>
 {% figcaption %}
-The posterior distribution of the `p_inv` indicator. When `p_inv_indicator` is 0, the invariant-sites model is "turned off"; when it is 1, it is "turned on". Therefore, the fraction of samples for which `p_inv_indicator = 1` is the posterior probability of the invariant-sites model.
+The posterior distribution of the `p_inv` indicator. When `p_inv_indicator` is 0, the invariable-sites model is "turned off"; when it is 1, it is "turned on". Therefore, the fraction of samples for which `p_inv_indicator = 1` is the posterior probability of the invariable-sites model.
 {% endfigcaption %}
 {% endfigure %}
 
@@ -381,13 +381,15 @@ The posterior distribution of the `p_inv` indicator. When `p_inv_indicator` is 0
 - Enter the posterior probabilities for each model/locus combination in the corresponding cell of the table below.
 
 {% figure fagus_RJ %}
+
 |       **Model**        |   **ITS**             |   **matK**                      |   **rbcL**             |
-|-----------------------:|:---------------------:|:-------------------------------:|:----------------------:|
-| Unequal stationary frequencies | | |
-| Transition-transversion model | | |
-| Unequal exchange-rates model | | |
-| Gamma-distributed rates | | |
-| Invariant sites| | |
+ -----------------------:|:---------------------:|:-------------------------------:|:----------------------:|
+| Unequal stationary frequencies | | | |
+| Transition-transversion model | | | |
+| Unequal exchange-rates model | | | |
+| Gamma-distributed rates | | | |
+| Invariable sites| | | |
+
 {% figcaption %}
 Posterior probabilities for different substitution model components by dataset.
 {% endfigcaption %}
