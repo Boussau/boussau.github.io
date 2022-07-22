@@ -286,10 +286,10 @@ We then provide a move that proposes to change `er` to one of the other values i
 moves.append( mvGibbsMixtureAllocation(er, weight=10.0) )
 ```
 
-Once again, we set up a helper variable to keep track of which model we are visiting:
+Once again, we set up helper variables to keep track of which model we are visiting:
 ```
 # We track which exchange-rate vector we are visiting
-er_model := ifelse(er == er_flat, 1, ifelse(er == er_kappa, 2, 3))
+er_model_indicator := ifelse(er == er_flat, 1, ifelse(er == er_kappa, 2, 3))
 kappa_indicator := ifelse(er == er_kappa, 1, 0)
 er_unequal_indicator := ifelse(er == er_unequal, 1, 0)
 ```
