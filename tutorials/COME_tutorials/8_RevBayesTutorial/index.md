@@ -32,7 +32,7 @@ Graphical model representation of the general-time reversible (GTR) phylogenetic
 {% endfigure %}
 
 
-We want to use a uniform prior over $\er$, so we use a Dirichlet distribution with equal weights.
+We want to use a uniform prior over $er$, so we use a Dirichlet distribution with equal weights.
 We first define a constant node specifying the vector of
 concentration-parameter values using the `v()` function:
 
