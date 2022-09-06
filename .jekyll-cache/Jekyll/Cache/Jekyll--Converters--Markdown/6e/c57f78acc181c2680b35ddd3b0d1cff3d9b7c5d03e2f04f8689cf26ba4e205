@@ -1,0 +1,289 @@
+I"p<p>This list shows some RevBayes tutorials for learning various aspects of RevBayes and Bayesian phylogenetic analysis.
+Each one explicitly walks you through model specification and analysis set-up for different phylogenetic methods.
+These tutorials have been written for M2 students in Lyon, to provide an example of how to use relative time constraints for dating in RevBayes, or for the Computational Molecular Evolution course in Cambridge.</p>
+
+<p>Please see the <a href="/tutorials/format">Tutorial Format</a> guide for details about how to read the tutorials.</p>
+
+<h3 id="tutorial_structure">General information</h3>
+
+<div class="tutorialbox">
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/RunningRevbayes/"><p>Installing and using RevBayes with conda</p>
+</a>
+
+<p class="subtitle">
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/tutorial_structure/"><p>Setting up an analysis using RevBayes</p>
+</a>
+
+<p class="subtitle"><p>Preparing your computer to work with phylogenetic data in RevBayes</p>
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/MCMC_primer/"><p>Primer on MCMC</p>
+</a>
+
+<p class="subtitle">
+</p>
+</div>
+
+
+
+</div>
+
+<h3 id="M2_Tutorials">Tutorials for M2 students in Lyon</h3>
+
+<div class="tutorialbox">
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/M2_Tutorials/TP2_JukesCantorHumanChimp/"><p>TP1 Implementing Bayesian inference with RevBayes</p>
+</a>
+
+<p class="subtitle"><p>Inferring the divergence time between Human and Chimpanzee</p>
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/M2_Tutorials/TP3_JC_PhylogenyReconstruction/"><p>TP2 Phylogenetic reconstruction on nucleotide data</p>
+</a>
+
+<p class="subtitle"><p>Phylogenetic inference with the Jukes Cantor model</p>
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/M2_Tutorials/TP4_SubstitutionModels/"><p>TP3 Nucleotide substitution models</p>
+</a>
+
+<p class="subtitle"><p>Parameter estimation and tree inference</p>
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/M2_Tutorials/TP6_CodonModels/"><p>TP4 Codon models</p>
+</a>
+
+<p class="subtitle"><p>Substitution models for protein-coding sequences</p>
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/M2_Tutorials/TP7_RelaxedClock/"><p>TP5 Molecular dating and relaxed clock models</p>
+</a>
+
+<p class="subtitle"><p>Estimating (relative) divergence times among primates</p>
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/Projects/"><p>Projects using RevBayes</p>
+</a>
+
+<p class="subtitle">
+</p>
+</div>
+
+
+
+</div>
+
+<h3 id="M1_Tutorials">Tutorials for M1 students at ENS Lyon</h3>
+
+<div class="tutorialbox">
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/M1_Tutorials/EvolMolTP1/"><p>Evol Mol TP1a - A primer on Bayesian phylogenetic models</p>
+</a>
+
+<p class="subtitle"><p>Phylogenetic inference with the Jukes Cantor model</p>
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/M1_Tutorials/EvolMolTP2/"><p>Evol Mol TP1b - Nucleotide substitution models</p>
+</a>
+
+<p class="subtitle"><p>Estimating substitution (and mutation) rates between nucleotides</p>
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/M1_Tutorials/EvolMolTP3/"><p>Evol Mol TP1c - Codon models</p>
+</a>
+
+<p class="subtitle"><p>Substitution models for protein-coding sequences</p>
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/M1_Tutorials/EvolMolProjects/"><p>Two projects using RevBayes</p>
+</a>
+
+<p class="subtitle">
+</p>
+</div>
+
+
+
+</div>
+
+<h3 id="relative_time_constraints">Tutorial on dating with relative constraints</h3>
+
+<div class="tutorialbox">
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/relative_time_constraints/"><p>Dating with relative constraints</p>
+</a>
+
+<p class="subtitle"><p>Constraining the relative order of nodes when dating a phylogeny</p>
+</p>
+</div>
+
+
+
+</div>
+
+<h3 id="COME_tutorials">Computational Molecular Evolution tutorials</h3>
+
+<div class="tutorialbox">
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/COME_tutorials/8_RevBayesTutorial/"><p>Bayesian phylogenetic inference with GTR</p>
+</a>
+
+<p class="subtitle"><p>Parameter estimation and tree inference</p>
+</p>
+</div>
+
+
+
+
+
+
+
+<div class="tutorial ">
+
+<a class="title" href="/tutorials/COME_tutorials/9_RevBayesModelSelection/"><p>Bayesian Model Comparison and Model Averaging</p>
+</a>
+
+<p class="subtitle"><p>Power-posterior analysis and reversible-jump MCMC analysis</p>
+</p>
+</div>
+
+
+
+</div>
+
+<h3> </h3>
+
+<div class="tutorialbox">
+
+
+
+
+
+
+
+</div>
+
+:ET

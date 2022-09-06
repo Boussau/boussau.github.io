@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<link rel="icon" type="image/png" href="/assets/img/favicon.png" >
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="search-domain" value="https://boussau.github.io/">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/css/syntax.css">
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap-theme.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/css/main.css" />
+    <title>Bastien Boussau's github website: Stepping stone to compute the marginal likelihood</title>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a href="/" class="pull-left">
+        
+        <img class="navbar-logo" src="/assets/img/aquabayes-desaturated.png" alt="RevBayes Home" />
+        
+      </a>
+
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar" align="right"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+      <li><a href="/tutorials/">Tutorials</a></li>
+      <li><a href="/tutorials/relative_time_constraints/">Dating with relative constraints</a></li>
+      </ul>
+      <!-- <form class="navbar-form navbar-right" role="search" id="search" onsubmit="google_search(); return false;">
+        <div class="form-group">
+          <input type="text" id="google-search" placeholder="Search..." aria-label="Google site search">
+        </div>
+      </form> -->
+    </div>
+  </div>
+</nav>
+
+      *In his notebook we are going to try and get an intuition for the stepping stone approach (Xie et al., 2011) to compute the marginal likelihood of a model.*
+
+```{r}
+library(matrixStats)
+```
+
+
+# Our question
+We are going to study the letters that Darwin wrote during a 10 year period ^[In reality, this is a made-up dataset, where I drew 520 independent values from a Poisson distribution of parameter 15.5, using "nletters <- rpois(n=520, lambda=15.5)"]. We have the number of letters he wrote per week, and we would like to estimate the rate with which he wrote those letters.
+
+# The data
+Here is the data:
+```{r}
+n_letters <- c(13,17,14,10,13,16,14,14,11,14,9,14,13,10,11,12,17,15,23,16,13,14,12,16,15,19,14,11,15,14,17,20,27,21,12,6,18,10,8,12,11,14,14,15,16,17,12,13,17,10,16,20,15,12,24,10,17,14,14,13,15,12,14,17,9,16,27,10,16,9,15,11,16,11,17,17,11,20,23,12,18,26,12,17,16,12,11,16,21,19,20,19,15,15,7,14,12,12,15,10,19,19,17,15,17,20,17,17,11,11,17,16,15,12,16,17,14,18,15,15,10,17,12,16,22,20,23,16,11,19,16,22,13,14,11,10,19,16,19,15,16,16,16,19,14,19,14,10,7,11,12,9,13,18,23,13,16,11,15,13,15,19,16,21,14,14,14,12,15,16,18,15,15,13,15,19,11,17,13,9,13,16,16,13,13,13,18,21,14,14,13,8,21,20,15,20,10,16,18,14,21,15,20,15,15,9,16,16,11,19,12,31,19,18,13,11,14,14,11,10,11,12,13,17,14,14,25,17,18,16,18,11,23,23,14,14,11,17,11,12,18,15,15,13,16,18,15,16,14,11,11,17,18,14,20,17,16,13,12,14,14,18,16,21,16,15,18,19,22,16,15,10,12,11,9,18,11,13,5,13,16,14,12,23,19,14,17,11,17,18,17,16,11,22,18,20,11,12,9,8,12,12,17,16,12,20,19,15,9,14,11,13,13,23,16,10,17,14,20,11,20,15,20,15,19,19,16,15,14,18,24,18,12,16,10,18,16,19,13,13,13,22,13,15,17,17,20,18,18,12,13,14,17,15,17,20,18,22,23,13,16,15,18,10,19,12,14,19,14,19,23,19,22,8,14,20,22,14,13,13,9,11,13,14,16,16,16,14,16,24,11,10,14,14,14,18,15,11,12,15,16,13,8,13,21,19,17,18,10,14,14,16,14,11,14,12,15,9,17,17,21,11,8,22,18,18,23,20,14,10,15,10,18,12,10,18,17,18,18,9,15,18,15,15,17,15,18,16,9,16,15,10,18,18,19,8,18,17,10,11,17,12,14,16,14,10,10,20,16,11,15,14,15,21,15,21,16,17,18,12,14,10,13,17,12,14,26,23,20,12,21,17,11,12,12,11,15,19,15,12,15,12,21,13,19,17,18,17,11,22,17,13,11,16,16,10,17,14,17,18)
+
+```
+
+
+# The model
+We are going to use a Bayesian model to estimate the rate of letter writing per week.
+We are going to assume that the letters are Poisson-distributed, and we put a uniform prior on the parameter lambda of the distribution.
+We don't know much about Darwin, so we are going to use a wide Uniform distribution: as far as we know, he may have written between 0 and 1000 letters per week, so we are going to use those numbers as boundaries for our prior uniform distribution on $\lambda$.
+
+```{r}
+log_prior <- function (lambda) {
+  return (dunif(x=lambda, min=0, max=1000, log=TRUE))
+}
+
+log_likelihood <- function (data, lambda, power=1) {
+  return (sum(dpois(x=data, lambda=lambda, log=TRUE))*power)
+}
+
+likelihood <- function (data, lambda, power=1) {
+  return (prod(dpois(x=data, lambda=lambda, log=FALSE))^power)
+}
+
+unnormalized_log_posterior <- function (data, lambda, power=1) {
+  log_prior_value <- log_prior(lambda=lambda)
+  log_likelihood_value <- log_likelihood(data=data, lambda=lambda, power=power) 
+  return(log_prior_value + log_likelihood_value)
+}
+```
+
+
+```{r}
+plotDistributions <- function (power) {
+x_axis <- seq(1:1000)#/1000
+min_max= quantile(x=c(sapply(X=x_axis, FUN=log_likelihood, data=n_letters, power=1.0), sapply(X=x_axis, FUN=log_prior), sapply(X=x_axis, FUN=unnormalized_log_posterior, data=n_letters, power=1.0)), probs=c(0,1))
+plot(x=x_axis, y=sapply(X=x_axis, FUN=log_likelihood, data=n_letters, power=power), t="l", lwd=4, col="red", ylim=c(min_max[1], min_max[2]), ylab="Value", xlab="lambda value", cex=2)
+lines(x=x_axis, y=sapply(X=x_axis, FUN=log_prior), lwd=2, col="black")
+lines(x=x_axis, y=sapply(X=x_axis, FUN=unnormalized_log_posterior, data=n_letters, power=power), lwd=2, col="orange")
+legend("bottomleft", legend=c("log-likelihood", "log-prior", "log-posterior"), col=c("red", "black", "orange"), lwd=2)
+}
+
+plotDistributions(power=1.0)
+```
+
+
+# Bayes theorem and the marginal likelihood
+A little reminder on how we compute the posterior probability:
+$$ P(\lambda|D) = \frac{P(D|\lambda)\times P(\lambda)}{P(D)} $$
+$P(D)$ is the marginal likelihood, and we want to compute it:
+$$ P(D) = \int_{0}^{1000} P(D|\lambda)\times P(\lambda)~d\lambda $$
+The problem is quite easy here, because we have a single parameter to integrate over, $\lambda$. So we can do it brute force, by trying many values for $\lambda$.
+
+```{r}
+lambda_sample <- seq(1:100000)/100
+unnormalized_marginal_likelihood <- logSumExp(sapply(X=lambda_sample, FUN=log_likelihood, data=n_letters)) - log(length(lambda_sample)) 
+print(unnormalized_marginal_likelihood)
+```
+Now we know the marginal likelihood of our model.
+
+But let's see how we could compute it using other approaches: the Harmonic mean, and stepping stone sampling.
+
+# Harmonic mean
+## MCMC implementation
+To compute the harmonic mean, we need an MCMC algorithm to sample from the posterior.
+We use the Metropolis algorithm, i.e. our move is symmetric so we don't need the Hastings correction.
+```{r}
+# Function to propose a new parameter value, randomly drawn between 0 and 1000
+propose_new_lambda_value <-function() {
+    return (runif(min=0, max=1000, n=1))
+}
+# Function to run Metropolis MCMC inference
+MetropolisMCMC <- function (data, number_iterations, burnin_proportion=0.5, thining_proportion=0.1, likelihood_power=1.0) {
+    current_parameter_value <- propose_new_lambda_value()
+    record_parameter <- c()
+    record_parameter <- c(record_parameter,current_parameter_value)
+    #print(paste("Initial parameter value for the MCMC: ", current_parameter_value, sep=""))
+    current_log_posterior <- unnormalized_log_posterior(data = data, lambda = current_parameter_value, power=likelihood_power)
+    #print(paste("Initial probability of the model: ", current_log_posterior, sep=""))
+    record_log_posterior <- c()
+    record_log_posterior <- c(record_log_posterior, current_log_posterior)
+    # We also record the likelihood:
+    current_log_likelihood <- log_likelihood(data = data, lambda = current_parameter_value, power=likelihood_power)
+    record_log_likelihood <- c()
+    record_log_likelihood <- c(record_log_likelihood, current_log_likelihood)
+    for (i in 1:number_iterations) {
+        acceptance_threshold <- runif(min=0, max=1, n=1)
+        proposed_parameter_value <- propose_new_lambda_value()
+        proposed_log_posterior = unnormalized_log_posterior(data = data, lambda = proposed_parameter_value, power=likelihood_power)
+        # print(paste0(proposed_log_posterior, " vs ", current_log_posterior))
+        if (exp(proposed_log_posterior - current_log_posterior) > acceptance_threshold) {
+            current_parameter_value <- proposed_parameter_value
+            current_log_posterior <- proposed_log_posterior
+            current_log_likelihood <- log_likelihood(data = data, lambda = current_parameter_value, power=likelihood_power)
+        }
+        record_parameter <- c(record_parameter, current_parameter_value)
+        record_log_posterior <-c(record_log_posterior, current_log_posterior)
+        record_log_likelihood <- c(record_log_likelihood, current_log_likelihood)
+    }
+    to_discard_as_burnin <- floor(burnin_proportion * number_iterations)
+    num_samples_left <- number_iterations - to_discard_as_burnin
+    between_samples <- floor(num_samples_left / (num_samples_left * thining_proportion))
+    record_parameter <- record_parameter[(to_discard_as_burnin+1):number_iterations][seq(from=1, to=num_samples_left, by=between_samples)]
+    record_log_posterior <- record_log_posterior[(to_discard_as_burnin+1):number_iterations][seq(from=1, to=num_samples_left, by=between_samples)]
+    record_log_likelihood <- record_log_likelihood[(to_discard_as_burnin+1):number_iterations][seq(from=1, to=num_samples_left, by=between_samples)]
+    return (list(record_parameter, record_log_posterior, record_log_likelihood))
+}
+```
+
+
+```{r}
+mcmc_sample <- MetropolisMCMC(data=n_letters, number_iterations=10000, likelihood_power=1.0, burnin_proportion=0.5, thining_proportion=0.01)
+```
+
+Once we have a sample from the posterior, we can compute the harmonic mean of our sample.
+```{r}
+harmonic_mean <- function(mcmc_sample) {
+  loglks <- mcmc_sample[[3]]
+  min_loglk <- min(loglks)
+  scaled_loglks <- loglks - min_loglk + 1
+  number_of_samples <- length(loglks)
+  marginal_lk <- log(number_of_samples) - log( sum(exp(-scaled_loglks))) + min_loglk - 1
+  return(marginal_lk)
+}
+```
+
+```{r}
+harmonic_mean(mcmc_sample)
+```
+The marginal likelihood as computed by the Harmonic Mean approach appears to be a bit overestimated, which makes sense: it is estimated from a sample of the posterior distribution, and so probably does not give enough weight to the far tail of the prior distribution, which it has most certainly too rarely visited.
+
+We can illustrate this point by sampling a small number of points from the posterior and seeing where they fall. We will do the same from the prior and see where they fall.
+
+```{r}
+subset_posterior <- sample(mcmc_sample[[1]], size=10)
+subset_prior <- runif(n=10, min = 0, max=1000)
+x_axis <- seq(1:1000)#/1000
+min_max= quantile(x=c(sapply(X=x_axis, FUN=log_likelihood, data=n_letters, power=1.0), sapply(X=x_axis, FUN=log_prior), sapply(X=x_axis, FUN=unnormalized_log_posterior, data=n_letters, power=1.0)), probs=c(0,1))
+plot(x=x_axis, y=sapply(X=x_axis, FUN=log_likelihood, data=n_letters, power=1.0), t="l", lwd=4, col="red", ylim=c(min_max[1], min_max[2]), ylab="Value", xlab="lambda value", cex=2)
+lines(x=x_axis, y=sapply(X=x_axis, FUN=log_prior), lwd=2, col="black")
+lines(x=x_axis, y=sapply(X=x_axis, FUN=unnormalized_log_posterior, data=n_letters, power=1.0), lwd=2, col="orange")
+legend("bottomleft", legend=c("log-likelihood", "log-prior", "log-posterior"), col=c("red", "black", "orange"), lwd=2)
+points(x=subset_posterior, y=rep(mean(min_max), length(subset_posterior)), col="orange", pch=20, cex=2)
+points(x=subset_prior, y=rep(-100, length(subset_prior)), col="black", pch=20, cex=2)
+
+```
+We see that the little sample from the prior distribution, in black, fails to sample the area of high likelihood: if we were to try to estimate the marginal likelihood based on this sample, we would not get a good estimate, it would be too low.
+Similarly, the little sample from the posterior distribution in orange is completely concentrated at the area of high probability. If we were to try to estimate the marginal likelihood based on this sample, we would not get a good estimate, it would be too high. This is what we observed with the harmonic mean approach.
+The whole point of stepping stone sampling is to find a sweet spot between sampling from the prior and missing the area of high probability, and sampling from the posterior and missing the area of low probability, to sample both areas correctly.
+
+# Stepping stone sampling
+To do stepping stone sampling, we need to run MCMC many times, with varying powers on the log-likelihood function. 
+First, let's see the effect of different powers on the log-likelihood:
+
+```{r, fig.width=10, fig.height=10}
+par(mfrow=c(5,1))
+plotDistributions(1.0)
+plotDistributions(0.5)
+plotDistributions(0.25)
+plotDistributions(0.125)
+plotDistributions(0.06275)
+```
+
+
+When the power is 1, we have the posterior probability. As the power approaches 0, the log-likelihood curve flattens. When the power is 0.0, we have the prior distribution.
+
+We can look at what small samples would look like with these different powers.
+
+```{r}
+posterior <- sample( MetropolisMCMC(data=n_letters, number_iterations=10000, likelihood_power=1.0, burnin_proportion=0.5, thining_proportion=0.01)[[1]], size=10)
+post_05 <- sample( MetropolisMCMC(data=n_letters, number_iterations=10000, likelihood_power=0.5, burnin_proportion=0.5, thining_proportion=0.01)[[1]], size=10)
+post_025 <- sample( MetropolisMCMC(data=n_letters, number_iterations=10000, likelihood_power=0.005, burnin_proportion=0.5, thining_proportion=0.01)[[1]], size=10)
+post_0125 <- sample( MetropolisMCMC(data=n_letters, number_iterations=10000, likelihood_power=0.00005, burnin_proportion=0.5, thining_proportion=0.01)[[1]], size=10)
+post_00625 <- sample( MetropolisMCMC(data=n_letters, number_iterations=10000, likelihood_power=0.0000005, burnin_proportion=0.5, thining_proportion=0.01)[[1]], size=10)
+
+
+```
+
+```{r}
+x_axis <- seq(1:1000)#/1000
+min_max= quantile(x=c(sapply(X=x_axis, FUN=log_likelihood, data=n_letters, power=1.0), sapply(X=x_axis, FUN=log_prior), sapply(X=x_axis, FUN=unnormalized_log_posterior, data=n_letters, power=1.0)), probs=c(0,1))
+plot(x=x_axis, y=sapply(X=x_axis, FUN=log_likelihood, data=n_letters, power=1.0), t="l", lwd=4, col="red", ylim=c(min_max[1], min_max[2]), ylab="Value", xlab="lambda value", cex=2)
+lines(x=x_axis, y=sapply(X=x_axis, FUN=log_prior), lwd=2, col="black")
+lines(x=x_axis, y=sapply(X=x_axis, FUN=unnormalized_log_posterior, data=n_letters, power=1.0), lwd=2, col="orange")
+legend("bottomleft", legend=c("log-likelihood", "log-prior", "log-posterior"), col=c("red", "black", "orange"), lwd=2)
+points(x=posterior, y=rep(mean(min_max), length(posterior)), col="orange", pch=20, cex=2)
+points(x=post_05, y=rep(mean(min_max)-0.2*mean(min_max), length(posterior)), col="orange", pch=20, cex=2)
+points(x=post_025, y=rep(mean(min_max)-0.4*mean(min_max), length(posterior)), col="orange", pch=20, cex=2)
+points(x=post_0125, y=rep(mean(min_max)-0.6*mean(min_max), length(posterior)), col="orange", pch=20, cex=2)
+points(x=post_00625, y=rep(mean(min_max)-0.8*mean(min_max), length(posterior)), col="orange", pch=20, cex=2)
+
+```
+
+
+
+# A function for performing stepping stone sampling
+We want to perform stepping stone sampling, which involves performing MCMC sampling of a posterior in which the likelihood has been put to a power $\beta \leq 1.0$.
+For each of these "stones", by summing over the samples of the MCMC, we get a normalizing constant $c_\beta$.
+When $\beta=1.0$, we sum the *posterior* values of the sampled parameters. When $\beta=0.0$, we sum the *prior* values of the sampled parameters.
+
+$$c_\beta = \sum samples(P(D|\lambda)^\beta \times P(\lambda))$$
+
+Then we'll compute the following product:
+$$\prod_{k=1}^{number~of~stones}\frac{c_{\beta_k}}{c_{\beta_{k-1}}}$$
+Why is that? Let's imagine we have 3 stones only: one for the prior where the likelihood has power $\beta=0$, one where the likelihood has power $\beta=0.5$, and one where the likelihood has power $\beta=1.0$. The product can be unrolled as:
+
+
+$$\prod_{k=1}^{number~of~stones}\frac{c_{\beta_k}}{c_{\beta_{k-1}}} = \frac{c_{0.5}}{c_{0}} \times \frac{c_{1.0}}{c_{0.5}} = \frac{c_{1.0}}{c_{0}}$$
+
+The beauty here is that $c_0$ is obtained under the prior, and is an estimate of the integral under the prior. Given that the prior is a probability distribution, its integral is $1.0$, so what we end up having is an estimate of $c_{1.0}$, i.e. an estimate of the integral under the posterior, i.e. the marginal likelihood.
+
+Why don't we compute directly $c_{1.0}$ once and stop there? If we do that we obtain the harmonic mean estimator, which tends to provide a biased estimate of the marginal likelihood, biased towards areas of high likelihood. By contrast, each ratio  $\frac{c_{\beta_k}}{c_{\beta_{k-1}}}$ is estimated pretty accurately, which in the end results in a better estimate of the marginal likelihood. 
+
+
+```{r}
+steppingStoneSampling <- function (vector_powers, data, number_iterations, burnin_proportion=0.5, thining_proportion=0.1) {
+  number_of_stones = length(vector_powers)
+  number_of_samples_per_stone = floor(number_iterations - floor(burnin_proportion*number_iterations)) * thining_proportion
+  sampled_values <-matrix(rep(number_of_stones*number_of_samples_per_stone), nrow=number_of_stones, ncol=number_of_samples_per_stone, byrow=TRUE)
+  for (i in 1:number_of_stones) {
+    sampled_values[i,] <- MetropolisMCMC(data, number_iterations, burnin_proportion=burnin_proportion, thining_proportion=thining_proportion, likelihood_power=vector_powers[i])[[2]]
+  }
+  return(sampled_values)
+}
+
+
+compute_marginal_lk_from_SS_samples <- function (ss_samples) {
+  number_of_stones = dim(ss_samples)[1]
+  number_of_samples = dim(ss_samples)[2]
+  c_values <- rep(0, number_of_stones)
+  for (i in 1:number_of_stones) {
+    c_values[i] <- logSumExp(ss_samples[i,])
+  }
+  logratios <- rep(0, number_of_stones-1)
+  for (i in 1:(number_of_stones-1)) {
+     logratios[i] <- c_values[i+1]-c_values[i]
+  }
+  return(sum(logratios))
+}
+
+```
+
+
+
+# Defining the powers for stepping stone estimation of the marginal likelihood.
+We use a distribution $beta(0.3, 1)$.
+```{r}
+build_vector_powers <- function (alpha=0.3, beta=1.0, number_of_stones=10) {
+  vector_powers <- rep(0.0, 10)
+  for (i in 1:number_of_stones) {
+    vector_powers[i]<-(i/number_of_stones)^(beta/alpha)
+  }
+  return(vector_powers)
+}
+```
+
+
+Now we run the analysis.
+```{r}
+vector_powers <- build_vector_powers ()
+
+SS_samples <- steppingStoneSampling(vector_powers=vector_powers, data=n_letters, number_iterations=1000, burnin_proportion=0.5, thining_proportion=0.1)
+
+```
+
+```{r}
+compute_marginal_lk_from_SS_samples(SS_samples)
+```
+If we use more iterations per MCMC, do we get better estimates?
+
+```{r}
+SS_samples <- steppingStoneSampling(vector_powers=vector_powers, data=n_letters, number_iterations=10000, burnin_proportion=0.5, thining_proportion=0.1)
+
+compute_marginal_lk_from_SS_samples(SS_samples)
+
+```
+Not clear! What if we use more stones?
+
+```{r}
+vector_powers <- build_vector_powers (number_of_stones = 100)
+
+
+SS_samples <- steppingStoneSampling(vector_powers=vector_powers, data=n_letters, number_iterations=1000, burnin_proportion=0.5, thining_proportion=0.1)
+
+compute_marginal_lk_from_SS_samples(SS_samples)
+
+```
+Not clear again!
+
+What if we use both more stones and more iterations per stone?
+
+```{r}
+vector_powers <- build_vector_powers (number_of_stones = 100)
+
+
+SS_samples <- steppingStoneSampling(vector_powers=vector_powers, data=n_letters, number_iterations=10000, burnin_proportion=0.5, thining_proportion=0.1)
+
+compute_marginal_lk_from_SS_samples(SS_samples)
+
+```
+```{r}
+vector_powers <- build_vector_powers (number_of_stones = 100)
+
+
+SS_samples <- steppingStoneSampling(vector_powers=vector_powers, data=n_letters, number_iterations=100000, burnin_proportion=0.1, thining_proportion=0.2)
+
+compute_marginal_lk_from_SS_samples(SS_samples)
+
+```
+
+
+# Conclusion
+In this very simple case, stepping stone sampling does not perform better than the Harmonic mean for computing the marginal likelihood. A more complex example, where the prior is wider, may be necessary to start seeing the benefits of the more sophisticated method. Alternatively, some refinements of the computations of the stepping stone marginal likelihood, notably to improve the numerical stability of the algorithm, have not been implemented, so it is possible that they damage the performance of the algorithm.
+
+      <br>
+<footer>
+  <div class="container">
+  <div class="row">
+    <div class="col-sm-12" align="center">
+      <a href="https://github.com/revbayes">GitHub</a>  | <a href="https://groups.google.com/forum/#!forum/revbayes-users">Users Forum</a>
+    </div>
+  </div>
+  <br>
+  </div>
+</footer>
+
+    </div>
+    <script src="/assets/js/vendor/jquery.min.js"></script>
+<script src="/assets/js/vendor/FileSaver.min.js"></script>
+<script src="/assets/js/vendor/jszip.min.js"></script>
+<script src="/assets/js/vendor/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+// Add default language
+$(":not(code).highlighter-rouge").each(function() {
+  
+  if( this.classList == "highlighter-rouge") {
+    this.classList = "default highlighter-rouge";
+  }
+  
+});
+// $("code.highlighter-rouge").each(function() {
+//   
+//   if( this.classList == "highlighter-rouge") {
+//       this.classList = "default highlighter-rouge";
+//   }
+//   
+// });
+</script>
+<script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [['$','$'], ['\\(','\\)']],
+      processEscapes: true
+    }
+    });
+    MathJax.Hub.Queue(function () {
+      $(".aside").each(function() {
+          $("div .MathJax", this).hide();
+      });
+    });
+</script>
+<script src="/assets/js/base.js"></script>
+
+  </body>
+</html>
