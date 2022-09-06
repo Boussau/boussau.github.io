@@ -3,7 +3,7 @@ title: Installing and using RevBayes with conda
 subtitle:
 authors:  Nicolas Lartillot, Bastien Boussau
 level: 0
-order: 0.2
+order: 0.1
 prerequisites:
 index: true
 title-old: RB_Install
@@ -12,9 +12,9 @@ redirect: false
 
 
 
-{% section Revbayes on Pedago-NGS %}
+{% section Revbayes on linux or Pedago-NGS %}
 
-To work on Pedago-NGS, you first need to install conda. Once this has been done, installation of RevBayes can proceed as indicated further below.
+To work on Linux or Pedago-NGS, you first need to install conda. Once this has been done, installation of RevBayes can proceed as indicated further below.
 
 To install conda:
 ```

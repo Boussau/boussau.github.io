@@ -1,9 +1,9 @@
 ---
-title: Setting Up RevBayes
+title: Setting up an analysis using RevBayes
 subtitle: Preparing your computer to work with phylogenetic data in RevBayes
 authors:  April Wright
 level: 0
-order: 0.1
+order: 0.2
 index: true
 redirect: false
 include_files:
