@@ -600,7 +600,7 @@ states for all model parameters when passed into a MCMC function.
 ```
 monitors = VectorMonitors()
 
-monitors.append( mnModel(filename="output/primates_cytb_JC.log", printgen=10) )
+monitors.append( mnModel(filename="analyses/primates_cytb_JC.log", printgen=10) )
 ```
 
 The `mnFile` monitor will record the states for only the parameters
@@ -608,7 +608,7 @@ passed in as arguments. We use this monitor to specify the output for
 our sampled phylograms.
 
 ```
-monitors.append( mnFile(filename="output/primates_cytb_JC.trees", printgen=10, psi) )
+monitors.append( mnFile(filename="analyses/primates_cytb_JC.trees", printgen=10, psi) )
 ```
 
 Finally, we create a screen monitor that will report the states of
@@ -653,7 +653,7 @@ Here we set a low number of iterations. In general it is recommended to check
 for convergence; here it is possible that 2500 iterations may not be enough.
 
 When the analysis is complete, you will have the files produced by the monitors
-in your output directory.
+in your `analyses` directory.
 
 {% aside Saving and restarting analyses %}
 
@@ -663,7 +663,7 @@ analyses are run on computer clusters with time limits, and so may be stopped by
 the cluster partway through. For all of these reasons, it is useful to save the
 state of the chain regularly through the analysis.
 ```
-mymcmc.run(generations=100000000, checkpointInterval=100, checkpointFile="output/primates_cytb_JC.state")
+mymcmc.run(generations=100000000, checkpointInterval=100, checkpointFile="analyses/primates_cytb_JC.state")
 ```
 
 The `checkpointInterval` and `checkpointFile` inputs specify respectively how
@@ -675,16 +675,16 @@ in separate files (with extensions `_run_1`, `_run_2`, etc.).
 
 Restarting the chain from a previous run is done by adding this line:
 ```
-mymcmc.initializeFromCheckpoint("output/primates_cytb_JC.state")
+mymcmc.initializeFromCheckpoint("analyses/primates_cytb_JC.state")
 ```
 before calling the function `mcmc.run()`. The file name should match what was given as `checkpointFile` when running the previous analysis. **NB:** Note that this line will create an error if the state file does not exist yet, and so should be commented out in the first run.
 
 The full MCMC block thus becomes:
 ```
 mymcmc = mcmc(mymodel, monitors, moves, nruns=1)
-mymcmc.initializeFromCheckpoint("output/primates_cytb_JC.state") #comment this out for the first run
+mymcmc.initializeFromCheckpoint("analyses/primates_cytb_JC.state") #comment this out for the first run
 
-mymcmc.run(generations=100000000, checkpointInterval=100, checkpointFile="output/primates_cytb_JC.state")
+mymcmc.run(generations=100000000, checkpointInterval=100, checkpointFile="analyses/primates_cytb_JC.state")
 ```
 
 {% endaside %}
@@ -698,7 +698,7 @@ Thus, it is important to use programs like
 [Tracer](http://tree.bio.ed.ac.uk/software/tracer/) {% cite Rambaut2011 %}
 to evaluate mixing and non-convergence.
 
-Look at the file called `output/primates_cytb_JC.log` in Tracer.
+Look at the file called `analyses/primates_cytb_JC.log` in Tracer.
 There you see the posterior distribution of the continuous parameters,
 *e.g.*, the tree length variable `TL`.
 
@@ -727,7 +727,7 @@ distribution. RevBayes can summarize the sampled trees by reading in
 the tree-trace file:
 
 ```
-treetrace = readTreeTrace("output/primates_cytb_JC.trees", treetype="non-clock")
+treetrace = readTreeTrace("analyses/primates_cytb_JC.trees", treetype="non-clock")
 ```
 
 
@@ -735,7 +735,7 @@ The `mapTree()` function will summarize the tree samples and write the
 maximum *a posteriori* tree to file:
 
 ```
-map_tree = mapTree(treetrace,"output/primates_cytb_JC_MAP.tree")
+map_tree = mapTree(treetrace,"analyses/primates_cytb_JC_MAP.tree")
 ```
 
 {% figure jc_tree %}
@@ -749,7 +749,7 @@ for the clades. We have rooted the tree at the outgroup *Galeopterus_variegatus*
 
 
 
-Look at the file called `output/primates_cytb_JC_MAP.tree` in
+Look at the file called `analyses/primates_cytb_JC_MAP.tree` in
 `FigTree`. We show it in {% ref jc_tree %}.
 
 Note, you can query the posterior probability of a particular clade being
