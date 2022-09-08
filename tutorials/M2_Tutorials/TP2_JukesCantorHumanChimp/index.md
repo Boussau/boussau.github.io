@@ -191,10 +191,10 @@ Note that 'moves' is a vector. Here, it has only one entry, but this is because 
 Next we want to monitor the MCMC. To do this, we make a vector of monitors (or monitoring streams):
 
 ```
-monitors[1] = mnModel(filename = "apes_mcmc.log", printgen=10, separator = " ")
+monitors[1] = mnModel(filename = "analyses/apes_mcmc.log", printgen=10, separator = TAB)
 monitors[2] = mnScreen(printgen = 10, T)
 ```
-The first monitor will write the sequence of values of T in a file called apes_mcmc.log. The second monitor will output a summary to the screen.
+The first monitor will write the sequence of values of T in a file called `apes_mcmc.log`, in the folder `analyses`. The second monitor will output a summary to the screen.
 
 Finally, we construct an MCMC object, which gathers all of the modules: the model, the monitors, and the MCMC moves:
 
@@ -206,7 +206,7 @@ Now, we can run the model for 30 000 generations:
 ```
 mymcmc.run(generations = 30000)
 ```
-After the MCMC has run, a file named apes_mcmc.log has been created. This file contains all of the 3000 values of T visited during the MCMC (why only 3000 and not 30000?).
+After the MCMC has run, a file named `apes_mcmc.log` has been created in the folder `analyses`. This file contains all of the 3000 values of T visited during the MCMC (why only 3000 and not 30000?).
 
 - Write this program, run it
 - Using Tracer, draw the histogram of the values of $T$ visited during the MCMC
@@ -299,7 +299,7 @@ And then we propose a scaling move on $T$, a series of monitors, and create the 
 ```
 moves[1] = mvScale(T)
 
-monitors[1] = mnModel(filename="jc.log", printgen=10, separator = TAB)
+monitors[1] = mnModel(filename="analyses/jc.log", printgen=10, separator = TAB)
 monitors[2] = mnScreen(printgen=100, T)
 
 mymcmc = mcmc(mymodel, monitors, moves)
