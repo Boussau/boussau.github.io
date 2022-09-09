@@ -91,8 +91,8 @@ monitors = VectorMonitors()
 
 # add monitors
 monitors.append( mnScreen(TL, printgen=100) )
-monitors.append( mnFile(psi, filename="output/primates_cytb_JC.trees", printgen=1) )
-monitors.append( mnModel(filename="output/primates_cytb_JC.log", printgen=1) )
+monitors.append( mnFile(psi, filename="analyses/primates_cytb_JC.trees", printgen=1) )
+monitors.append( mnModel(filename="analyses/primates_cytb_JC.log", printgen=1) )
 
 
 ################################
@@ -117,9 +117,9 @@ mymcmc.run(generations=2500, tuningInterval=100)
 
 # Now, we will analyze the tree output.
 # Let us start by reading in the tree trace
-treetrace = readTreeTrace("output/primates_cytb_JC.trees", treetype="non-clock")
+treetrace = readTreeTrace("analyses/primates_cytb_JC.trees", treetype="non-clock")
 # and then get the Maximum a Posteriori tree
-map_tree = mapTree(treetrace,"output/primates_cytb_JC_MAP.tree")
+map_tree = mapTree(treetrace,"analyses/primates_cytb_JC_MAP.tree")
 
 
 # you may want to quit RevBayes now
