@@ -110,7 +110,7 @@ where $l$ is the branch length in units of expected numbers of substitutions, wh
 
 {% subsection Simulating a DNA alignment %}
 
-The files for this example analysis are provided for you ([`mcmc_JC.Rev`](scripts/mcmc_JC.Rev)).
+The files for this example analysis are provided for you ([`simulation_JC.Rev`](scripts/simulation_JC.Rev)).
 If you download this file and place it in a directory called `scripts` inside your main tutorial directory,
 you can easily execute this analysis using the `source()` function in the RevBayes console:
 
