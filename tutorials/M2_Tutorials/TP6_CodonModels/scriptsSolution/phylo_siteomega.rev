@@ -8,7 +8,7 @@ n_branches <- 2 * n_species - 3
 taxa <- data.taxa()
 
 out_group = clade("Sorex")
-topology ~ dnUniformTopology(taxa, outgroup = out_group) 
+topology ~ dnUniformTopology(taxa, outgroup = out_group)
 
 for (i in 1:n_branches) {
  bl[i] ~ dnExponential(10.0)
@@ -20,7 +20,7 @@ kappa ~ dnExponential(1.0)
 pi ~ dnDirichlet([1.0, 1.0, 1.0, 1.0])
 
 purom ~ dnBeta(1.0,1.0)
-dposom ~ dnExponential(1.0)
+dposom ~ dnUniform(0.0,10.0)
 omega[1] := purom
 omega[2] := 1.0
 omega[3] := 1 + dposom
@@ -31,7 +31,7 @@ Q[1] := fnCodonHKY(omega=omega[1], kappa=kappa, baseFrequencies=pi)
 Q[2] := fnCodonHKY(omega=omega[2], kappa=kappa, baseFrequencies=pi)
 Q[3] := fnCodonHKY(omega=omega[3], kappa=kappa, baseFrequencies=pi)
 
-seq ~ dnPhyloCTMC(tree=psi, Q=Q, siteMatrices=w, type="Codon") 
+seq ~ dnPhyloCTMC(tree=psi, Q=Q, siteMatrices=w, type="Codon")
 seq.clamp( data_codon )
 
 my_model = model(psi)
@@ -59,4 +59,3 @@ analysis = mcmc(my_model, monitors, moves)
 analysis.run(10000)
 # Show how the moves performed
 analysis.operatorSummary()
-

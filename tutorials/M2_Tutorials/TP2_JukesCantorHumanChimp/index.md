@@ -16,7 +16,7 @@ The data
 {:.section}
 
 
-The file apes.nex contains an alignment with $N=878$ aligned nucleotide positions, between Human, Chimp and Gorilla. This alignment is a concatenation of 17 nuclear genes, for which only the 4-fold degenerate third codon positions have been kept. To visualize this alignment, you can open it with SeaView.
+The file `HC.nex` contains an alignment with $N=878$ aligned nucleotide positions, between Human and Chimp. This alignment is a concatenation of 17 nuclear genes, for which only the 4-fold degenerate third codon positions have been kept. To visualize this alignment, you can open it with SeaView.
 Out of these $N=878$ nucleotide positions, $k_{obs} =11$ are different between the human and the chimpanzee sequences.
 
 We use only the 4-fold degenerate third codon positions because all mutations at these positions are synonymous, and therefore, we can assume that they are neutral (they are not under selection). As a result, the rate at which substitutions will accumulate over time is equal to the mutation rate.
@@ -261,7 +261,7 @@ Of note, starting from now, it can be more convenient to write the series of com
 rb scriptname.Rev
 ```
 We now proceed step by step.
-First, we load the data, from the nexus file called 'HC.nex', which contains only the sequences for Humans and Chimpanzees:
+First, we load the data, from the nexus file called 'HC.nex', which contains the sequences for Humans and Chimpanzees:
 ```
 data <- readDiscreteCharacterData("HC.nex")
 taxa <- data.taxa()

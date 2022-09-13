@@ -16,8 +16,10 @@ named JC) model of
 nucleotide substitution, and then how to perform simulations and phylogenetic
 inference using this model.
 JC is the simplest model for describing nucleotide sequence evolution. It is
-a continuous time Markov chain (ctmc) model. In general ctmc models are
-fully characterized by their instantaneous-rate matrix:
+a continuous time Markov chain (ctmc) model.
+
+{% aside Continuous-time Markov Chains %}
+In general ctmc models are fully characterized by their instantaneous-rate matrix:
 
 $$Q = \begin{pmatrix}
 -\mu_A & \mu_{AC} & \mu_{AG} & \mu_{AT} \\
@@ -30,7 +32,7 @@ where $\mu_{ij}$ represents the instantaneous rate of substitution from
 state $i$ to state $j$. The diagonal elements $\mu_i$ are the rates of
 *not* changing out of state $i$, equal to the sum of the elements in the
 corresponding row. Given the instantaneous-rate matrix, $Q$, we can
-compute the corresponding transition probabilities for a branch of
+compute the corresponding transition probabilities, i.e., the probabilities to change from state $i$ to state $j$ along a branch of
 length $l$, $P(l)$, by exponentiating the rate matrix:
 
 $$P(l) = \begin{pmatrix}
@@ -42,32 +44,14 @@ p_{TA}(l) & p_{TC}(l) & p_{TG}(l) & p_{TT}(l)
 
 Each of the named substitution models (e.g., JC, TN92, HKY or GTR)
 has a uniquely defined instantaneous-rate matrix, $Q$.
+{% endaside %}
 
 In this tutorial you will perform phylogeny inference under the simplest
-model of DNA sequence evolution: JC. In the next tutorial, you will explore
-other models with names such as F81, HKY85, TN92, GTR, GTR+Gamma.
-In this tutorial, you will first simulate sequences using the JC model, and
-then perform phylogenetic inference from a sequence alignment.
-This inference will be based on the Markov chain Monte Carlo (MCMC) algorithm to
- estimate the phylogeny and other model parameters such as branch lengths. The
+model of DNA sequence evolution: JC.
+You will first simulate sequences using the JC model, and then perform phylogenetic inference from a sequence alignment.
+This inference will be based on the Markov chain Monte Carlo (MCMC) algorithm to estimate the phylogeny and other model parameters such as branch lengths. The
 estimated trees will be unrooted trees with independent branch-length
 parameters.
-
-{% table tab_subst_models %}
-{% tabcaption %}
-Specific functions for substitution models available in RevBayes.
-{% endtabcaption %}
-
- |   **Model**      |        **Reference**        |  **Function**   |      **Parameters**     |
- |:----------------:|:---------------------------:|:---------------:|:-----------------------:|
- |   Jukes-Cantor   |    {% cite Jukes1969 %}     |      fnJC       |           -             |
- | K80 (a.k.a. K2P) |    {% cite Kimura1980 %}    |      fnK80      |        $\kappa$         |
- |  Felsenstein-81  | {% cite Felsenstein1981 %}  |      fnF81      |         $\pi$           |
- |        T92       |    {% cite Tamura1992 %}    |      fnT92      | $\pi_{GC}$, $\kappa$    |
- |        HKY       |   {% cite Hasegawa1985 %}   |      fnHKY      |     $\pi$, $\kappa$     |
- |        GTR       |    {% cite Tavare1986 %}    |      fnGTR      |     $\pi$, $\epsilon$   |
-
-{% endtable %}
 
 
 
@@ -186,13 +170,13 @@ provides information about the alignment:
 data
 ```
 ```
-   DNA character matrix with 23 taxa and 1141 characters
+   DNA character matrix with 23 taxa and 1102 characters
    =====================================================
    Origination:                      primates_and_galeopterus_cytb.nex
    Number of taxa:                   23
    Number of included taxa:          23
-   Number of characters:             1141
-   Number of included characters:    1141
+   Number of characters:             1102
+   Number of included characters:    1102
    Datatype:                         DNA
 ```
 {:.Rev-output}

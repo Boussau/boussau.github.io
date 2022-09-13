@@ -15,7 +15,7 @@ redirect: false
 
 {% section Introduction %}
 
-Thus far, the substitution models that we have considered are specified at the nucleotide level. They assume each nucleotide site evolves independently. In addition, they do not make the difference between synonymous and non-synonymous substitutions. By running these models on all coding positions or only on third coding positions, we have obtained indirect evidence suggesting that the substitution process is quite different between synonymous and non-synonymous changes. This is also expected based on our prior knowledge about evolutionary processes: synonymous substitutions are mostly reflecting the mutation rates, whereas non-synonymous substitutions incorporate the effect of selection at the amino-acid level, which is usually strong (thus, implying lower substitution rates) and also quite variable between sites.
+Thus far, the substitution models that we have considered are specified at the nucleotide level. They assume each nucleotide site evolves independently. In addition, they do not make the difference between synonymous and non-synonymous substitutions. By running these models on all coding positions or only on third codon positions, we have obtained indirect evidence suggesting that the substitution process is quite different between synonymous and non-synonymous changes. This is also expected based on our prior knowledge about evolutionary processes: synonymous substitutions are mostly reflecting the mutation rates, whereas non-synonymous substitutions incorporate the effect of selection at the amino-acid level, which is usually strong (thus, implying lower substitution rates) and also quite variable between sites.
 
 In this tutorial, we will build a substitution model that is expressed directly at the level of codons. Thus, now, each position is a nucleotide triplet. There are 4x4x4 = 64 different triplets. However, stop codons are in principle excluded by very strong purifying selection in normal coding sequences, so we can exclude them. Under the universal genetic code, there are 3 stop codons. As a result, there are 61 non-stop codons. Altogether, the rate matrix $Q$ is now a 61x61 matrix, specifying the rate of substitution between each possible pair of non-stop codons.
 
@@ -60,7 +60,7 @@ Finally, we consider that double mutations are very unlikely. As a result, the r
 
 Altogether, in order to build the 61x61 rate matrix $Q$, we have to consider all possible pairs of codons (C,D). For each of them, we determine whether they differ by only one nucleotide. If this is not the case, then we set $Q_{CD} = 0$. Otherwise, we determine the single nucleotide change that would lead from C to D (say, from nucleotide X to nucleotide Y), we read out the mutation rate for this nucleotide change from the 4x4 rate matrix $R$. Next, we determine whether the change is synonymous or non-synonymous. If synonymous, we say that $Q_{CD} = R_{XY}$. If non-synonymous, then $Q_{CD} = R_{XY} \omega$.
 
-The parameter $\omega$ acts as a multiplication in front of all non-synonymous mutations. As a result, it captures the relative rate of non-synonymous changes, compared to synonymous changes, which is often called $dN/dS$. Thus, for instance, if $\omega = 0.2$, then, this means that non-synonymous substitutions are on average 5 times less likely to occur than synonymous substitutions that would have the same underlying mutational propensity.
+The parameter $\omega$ acts as a multiplicative term in front of all non-synonymous mutations. As a result, it captures the relative rate of non-synonymous changes, compared to synonymous changes, which is often called $dN/dS$. Thus, for instance, if $\omega = 0.2$, then, this means that non-synonymous substitutions are on average 5 times less likely to occur than synonymous substitutions that would have the same underlying mutational propensity.
 
 {% section Implementation %}
 
@@ -84,7 +84,7 @@ Q := fnCodonHKY(omega=omega, kappa=kappa, baseFrequencies=nucstat)
 ```
 This function, `fnCodonHKY`, directly takes the parameters of the nucleotide substitution model ($\kappa$ and $\pi$, in the mathematical notation above), as well as the $\omega$ parameter, and then automatically builds the 61x61 rate matrix $Q$.
 
-Of course, before calling this function, you need to create the model variables `kappa`, `nucstat` and `omega`. For `kappa` and `nucstat`, you can do as previously, for the HKY model (an exponential prior for `kappa` and a uniform Dirichlet prior for `nucstat`). For `omega`, we can also use an exponential prior, which we could take of mean 5 (the dN/dS at the level of a gene is rarely above 1, in fact).
+Of course, before calling this function, you need to create the model variables `kappa`, `nucstat` and `omega`. For `kappa` and `nucstat`, you can do as previously for the HKY model (an uniform prior for `kappa` and a uniform Dirichlet prior for `nucstat`). For `omega`, we can use an exponential prior, which we could take of mean 5 (the dN/dS at the level of a gene is rarely above 1, in fact).
 
 Once these three parameter components are defined, you can then create the matrix $Q$ (with the command given above), and the substitution process can then be instantiated:
 ```
@@ -95,12 +95,14 @@ Note that we have to specify that the data are codons, not nucleotides (type = "
 
 For the rest, the script is as before, except that we need to define a move on omega (a scaling move).
 
-Write the script, and run it on the ZFX gene (`placZFX20.nex`). Give a point estimate and a credible interval for omega. Do the same thing for BRCA1 (`placBRCA120.nex`). Again, estimate omega. How would you interpret the difference between ZFX and BRCA1?
+Write the script, and run it on the ZFX gene (`placZFX20.nex`). Give a point estimate and a credible interval for omega. Do the same thing for BRCA1 (`placBRCA120.nex`). Again, estimate omega.
+
+**How would you interpret the difference between ZFX and BRCA1?**
 
 
 {% subsection Increasing computational speed (optional) %}
 
-As you can probably notice, the MCMC for this model is much slower than for the nucleotide-level analyses that we have conducted previously. The algorithmic complexity of the likelihood computation (i.e. the time it takes to compute the likelihood) is proportional to the square of the number of states: here, 61x61, as opposed to 4x4. There are three times fewer sites, and thus, in the end, the relative computational complexity between codon and nucleotide models is 61x61 versus 4x4x3, i.e. 3721 versus 192, which gives a factor 77.5. Each cycle takes 77.5 more time than under a nucleotide-level analysis!
+As you can probably notice, the MCMC for this model is much slower than for the nucleotide-level analyses that we have conducted previously. The algorithmic complexity of the likelihood computation (i.e., the time it takes to compute the likelihood) is proportional to the square of the number of states: here, 61x61, as opposed to 4x4. There are three times fewer sites, and thus, in the end, the relative computational complexity between codon and nucleotide models is 61x61 versus 4x4x3, i.e., 3721 versus 192, which gives a factor 77.5. Each cycle takes 77.5 more time than under a nucleotide-level analysis!
 
 There are other MCMC approaches that circumvent this problem, but they are not easily implemented or used in RevBayes. Here, one way to increase the speed of the inference is to fix the tree topology. Suppose that you have computed the MAP tree (or the consensus tree) for the ZFX dataset using a nucleotide model (e.g. T92). This tree is stored in a file, let us say that this file is called `ZFXmap.tree`. Then, what you can do is load the tree from file:
 ```
@@ -111,11 +113,11 @@ then, after creating the tree topology:
 out_group = clade("Sorex")
 topology ~ dnUniformTopology(taxa, outgroup = out_group)
 ```
-you can constrain it (set its value) to the topology specified by the MAP tree:
+you can set its value to the topology specified by the MAP tree:
 ```
 topology.setValue(tree)
 ```
-Finally, you should deactivate the moves on the tree topology (i.e. remove or comment out the SPR and NNI moves). This will accelerate the MCMC, first, because fewer moves are done per cycle, but also, because the MCMC starts directly on a good tree.
+Finally, you should deactivate the moves on the tree topology (i.e., remove or comment out the SPR and NNI moves). This will accelerate the MCMC, first, because fewer moves are done per cycle, but also, because the MCMC starts directly on a good tree.
 
 Run the script thus modified on ZFX and on BRCA1.
 
@@ -140,12 +142,12 @@ Ideally, we should also be able to estimate the posterior probability that each 
 
 We should first define our priors. For $\omega_1$, one could use a uniform prior between 0 and 1. The second entry, $\omega_2$, is fixed anyway. For $\omega_3$, one could define it as $1.0 + \delta$, where $\delta$ is a positive real number, which could have an exponential prior.
 
-Then, we should create a vector of omega values, which we could call `omega_vector`, such that each of its entries would correspond to $\omega_i$ for $I=1, 2, 3$. However, we have to be careful: $\omega_1$ is a random variable, $\omega_2$ is a fixed constant, and $\omega_3$ is the sum between a fixed number and a random variable. In RevBayes, a vector should be entirely made of either random variables, or deterministic variables, so we can't define the entries of `omega_vector` directly. Instead, we need to first define the random variables separately, and then define `omega_vector` as a vector of deterministic model variables.
+Then, we should create a vector of omega values, which we could call `omega_vector`, such that each of its entries would correspond to $\omega_i$ for $i=1, 2, 3$. However, we have to be careful: $\omega_1$ is a random variable, $\omega_2$ is a fixed constant, and $\omega_3$ is the sum between a fixed number and a random variable. In RevBayes, a vector should be entirely made of either random variables, or deterministic variables, so we can't define the entries of `omega_vector` directly. Instead, we need to first define the random variables separately, and then define `omega_vector` as a vector of deterministic model variables.
 
 Here, we first define two random variables, called `pur_om` (purifying selection, corresponding to $\omega_1$), and `delta_pos_om` (the variables called $\delta$ above, in the expression for $\omega_3$). Using the priors suggested above:
 ```
 pur_om ~ dnBeta(1.0, 1.0)
-delta_pos_om ~ dnExponential(1.0)
+delta_pos_om ~ dnuniform(0.0,10.0)
 ```
 
 Next, we define `omega_vector` as a vector of deterministic variables:
@@ -180,4 +182,4 @@ Write the script and run it on ZFX and on BRCA1.
 
 One question of particular interest is to ask whether there are sites under positive selection in a given gene. One way to address this question is to examine the posterior estimate of `omega_weight[3]`: this weight is our estimate of the proportion of sites for which $dN/dS > 1$.
 
-Would you say that ZFX has sites under positive selection? What about BRCA1 ? Would you say that purifying selection is stronger/weaker on the remaining sites, for ZFX, compared to BRCA1 ?
+**Would you say that ZFX has sites under positive selection? What about BRCA1 ? Would you say that purifying selection is stronger/weaker on the remaining sites, for ZFX, compared to BRCA1 ?**

@@ -15,7 +15,7 @@ redirect: false
 
 Thus far, the phylogenetic analyses have been conducted in an undated context: the tree was not ultrametric (i.e. was not a dated tree). Instead, the branch lengths were measured directly in expected numbers of substitutions per site (i.e. sequence divergence, not absolute nor even relative time).
 
-In this tutorial, we will do dated analyses. However, we will not use fossil calibrations, which introduce some complications (but if you want to set up a fossil calibration see the end of the tutorial). As a result, the dates will be relative (by definition, the age of the root is equal to 1, and all other dates are thus between 0 and 1). We will explore two alternative clock models, with a third optional one:
+In this tutorial, we will do dated analyses. However, we will not use fossil calibrations, which introduce some complications (but if you want to set up a fossil calibration see the end of the tutorial). As a result, the dates will be relative (arbitrarily, the age of the root is equal to 1, and all other dates are thus between 0 and 1). We will explore two alternative clock models, with a third optional one:
 - a *strict molecular clock*
 - a *non auto-correlated clock*: each branch has an independent rate
 - an *auto-correlated clock*: the substitution rate on a branch tends to be similar to the rate of the neighbouring branches
@@ -39,7 +39,8 @@ n_species <- data.ntaxa()
 n_branches <- 2 * n_species - 2
 taxa <- data.taxa()
 ```
-Note that the number of branches is now `2 * n_species - 2` and not `2 * n_species - 3` as in the undated case (why?).
+
+**Why is the number of branches `2 * n_species - 2` and not `2 * n_species - 3` as in the undated case?**
 
 Next, we define our dated tree. We first need to create a variable standing for the age of the root:
 ```
@@ -64,7 +65,7 @@ Next, we want to fix the tree topology, setting it equal to the topology given i
 ```
 # read tree from file
 tree <- readTrees("data/prim.tree", treetype="clock")[1]
-# ajust terminal branch lengths so as to make the tree ultrametric
+# adjust terminal branch lengths so as to make the tree ultrametric
 tree.makeUltrametric()
 
 # set the value of the tree topology
@@ -76,19 +77,19 @@ The tree given in this file has an arbitrary root age. We rescale it, setting it
 # (all ages will be relative to the root)
 root_age.setValue(1.0)
 ```
-Altogether, we have specified a constrained dated tree, whose topology is fixed, and whose root is constrained to be at age 1.0. On the other hand, the ages of the nodes will still be allowed to vary. These node ages will be determined by a compromise between the birth-death (or constant speciation-extinction) process, which is used here as a prior on divergence times, and the information obtained from the nucleotide sequences.
+Altogether, we have specified a constrained dated tree, whose topology is fixed, and whose root is constrained to be at age $1.0$. On the other hand, the ages of the nodes will still be allowed to vary. These node ages will be determined by a compromise between the birth-death (or constant speciation-extinction) process, which is used here as a prior on divergence times, and the information obtained from the nucleotide sequences.
 
 Now that we have a tree, we can model the process of substitution along this tree. We first have to specify the absolute substitution rate (the speed of the molecular clock). This rate is unknown, so we will put a prior on it, which we want to be uninformative. Here, we use an exponential prior of mean 1:
 ```
 # we assume a strict molecular clock, of unknown rate
-clockrate ~ dnExponential(1.0)
+clockrate ~ dnuniform(0.0,10.0)
 ```
-Of note, a rough estimate of the age of primates is between 50 and 100 Myr, and the mutation rate per year in Humans is of the order of $10^{-9}$ per year, which gives us a rough estimate of $\sim 10^{-1}$ substitution over the total time span of the tree (100 Myr). Thus, an exponential of mean 1 will be safe (given that the true value is probably less than 1).
+Of note, a rough estimate of the age of primates is between 50 and 100 Myr, and the mutation rate per year in Humans is of the order of $10^{-9}$ per year, which gives us a rough estimate of $\sim 10^{-1}$ substitution over the total time span of the tree (100 Myr). Thus, our uniform prior on the rate of sequence evolution should be safe.
 
 Then, we specify the Tamura 92 nucleotide substitution process:
 ```
 # and a T92 process
-kappa ~ dnExponential(0.1)
+kappa ~ dnUniform(0.0,10.0)
 gamma ~ dnBeta(1.0, 1.0)
 Q := fnT92(kappa=kappa, gc=gamma)
 ```
@@ -160,10 +161,10 @@ The model considered in the previous section assumes that the rate of evolution 
 
 A first model, often used in the recent literature, is the non auto-correlated model. This model assumes that each branch has its own rate of substitution. The rates across branches are independent and identically distributed. They can be either exponential, gamma or log-normal. In the following, we will consider a gamma model: branch rates are i.i.d. gamma. The mean and the variance of this gamma distribution are unknown and should therefore be estimated -- as always, by specifying them as random variables with a prior.
 
-To implement this model, we start by specifying the mean and the variance. Here, we will parameterize the model in terms of the mean rate and the relative variance, or coefficient of variation (variance divided by the square of the mean). This parameterization is more convenient. In both cases, we use an exponential prior of mean 1:
+To implement this model, we start by specifying the mean and the variance of the rate of sequence evolution. Here, we will parameterize the model in terms of the mean rate and the relative variance, or coefficient of variation (variance divided by the square of the mean). This parameterization is more convenient. In both cases, we use a uniform prior:
 ```
-mean_clockrate ~ dnExponential(1.0)
-relvar_clockrate ~ dnExponential(1.0)
+mean_clockrate ~ dnUniform(0.0, 10.0)
+relvar_clockrate ~ dnUniform(0.0, 10.0)
 ```
 
 Next, we need to express the shape and the scale parameter of the gamma distribution as functions of the mean and the relative variance. Remember that, for a gamma distribution of shape parameter $\alpha$ and scale parameter $\beta$, the mean $m$ and the variance $v$ of the distribution are given by $m = \alpha / \beta$ and $v = \alpha / \beta^2$. Therefore, the relative variance $c$ is equal to $c = v / m^2 = 1.0 / \alpha$.
@@ -188,9 +189,14 @@ seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" )
 
 Note that clockrate is now a vector (whereas, in the case of the strict clock model considered in the last section, it was a scalar). When receiving a vector, the `dnPhyloCTMC` object automatically deduces that the rates in the vector should be mapped onto the branches of the tree.
 
-For the rest, the script is essentially the same as for the strict clock model considered above. The main difference is that moves should now be implemented for mean_clockrate, relvar_clockrate, and for each of the entries of the clockrate vector. Implementing these moves is left as an exercise.
+For the rest, the script is essentially the same as for the strict clock model considered above. The main difference is that moves should now be implemented for `mean_clockrate`, `relvar_clockrate`, and for each of the entries of the `clockrate` vector. Implementing these moves is left as an exercise.
 
-Write the complete script, using `prim_strictclock.rev` as a template and making the required changes. You may want to remove the variable `clockrate` from the screen monitor to avoid cluttering your terminal, and instead you may want to monitor `mean_clockrate`. Run the script on the primate dataset. Estimate the mean rate of substitution and its relative variance across branches. Visualize the estimated relative ages on the tree. How does this compare with the strict clock estimates? Using FigTree, identify areas of high or low rates of evolution. How does this compare to the fast- or slow-evolving lineages identified by looking at the undated tree?
+Write the complete script, using `prim_strictclock.rev` as a template and making the required changes. You may want to remove the variable `clockrate` from the screen monitor to avoid cluttering your terminal, and instead you may want to monitor `mean_clockrate`. Run the script on the primate dataset. Estimate the mean rate of substitution and its relative variance across branches. Visualize the estimated relative ages on the tree.
+**How does this compare with the strict clock estimates?**
+
+Using FigTree, identify areas of high or low rates of evolution.
+
+**How does this compare to the fast- or slow-evolving lineages identified by looking at the undated tree?**
 
 {% aside The auto-correlated relaxed clock model %}
 
@@ -265,7 +271,7 @@ Write the complete script, using `prim_strictclock.rev` as a template and making
 
 
 {% aside Setting up a node age calibration %}
-To date a phylogeny it is useful to be able to associate a date in time to one or several nodes (i.e., clades) of the phylogeny. This is called calibrating a node age. Typically, node age calibrations can be obtained from the fossil record. In this primate phylogeny, several fossils could be used to calibrate the age of several nodes. Here we will calibrate a single node in the phylogeny, but in practice it is often better to calibrate several nodes using several fossil ages.
+To date a phylogeny it is useful to be able to associate a date in time to one or several nodes (*i.e.*, clades) of the phylogeny. This is called calibrating a node age. Typically, node age calibrations can be obtained from the fossil record. In this primate phylogeny, several fossils could be used to calibrate the age of several nodes. Here we will calibrate a single node in the phylogeny, but in practice it is often better to calibrate several nodes using several fossil ages.
 
 We will calibrate the node ancestral to all Anthropoidea. To do this, we first need to define the corresponding clade:
 ```
