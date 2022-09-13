@@ -1,0 +1,26 @@
+I"#<p>In general ctmc models are fully characterized by their instantaneous-rate matrix:</p>
+
+\[Q = \begin{pmatrix}
+-\mu_A &amp; \mu_{AC} &amp; \mu_{AG} &amp; \mu_{AT} \\
+\mu_{CA} &amp; -\mu_C  &amp; \mu_{CG} &amp; \mu_{CT} \\
+\mu_{GA} &amp; \mu_{GC} &amp; -\mu_C  &amp; \mu_{GT} \\
+\mu_{TA} &amp; \mu_{TC} &amp; \mu_{TG} &amp; -\mu_T
+\end{pmatrix} \mbox{  ,}\]
+
+<p>where $\mu_{ij}$ represents the instantaneous rate of substitution from
+state $i$ to state $j$. The diagonal elements $\mu_i$ are the rates of
+<em>not</em> changing out of state $i$, equal to the sum of the elements in the
+corresponding row. Given the instantaneous-rate matrix, $Q$, we can
+compute the corresponding transition probabilities, i.e., the probabilities to change from state $i$ to state $j$ along a branch of
+length $l$, $P(l)$, by exponentiating the rate matrix:</p>
+
+\[P(l) = \begin{pmatrix}
+p_{AA}(l) &amp; p_{AC}(l) &amp; p_{AG}(l) &amp; p_{AT}(l) \\
+p_{CA}(l) &amp; p_{CC}(l) &amp; p_{CG}(l) &amp; p_{CT}(l) \\
+p_{GA}(l) &amp; p_{GC}(l) &amp; p_{GG}(l) &amp; p_{GT}(l) \\
+p_{TA}(l) &amp; p_{TC}(l) &amp; p_{TG}(l) &amp; p_{TT}(l)
+\end{pmatrix} = e^{Ql} = \sum_{j=0}^\infty\frac{(Ql)^j}{j!} \mbox{  .}\]
+
+<p>Each of the named substitution models (e.g., JC, TN92, HKY or GTR)
+has a uniquely defined instantaneous-rate matrix, $Q$.</p>
+:ET

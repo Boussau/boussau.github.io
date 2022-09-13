@@ -32,8 +32,8 @@ timetree.setValue(tree)
 root_age.setValue(1.0)
 
 # non auto-correlated clock
-meanclockrate ~ dnExponential(1.0)
-varclockrate ~ dnExponential(1.0)
+meanclockrate ~ dnUniform(0.0,10.0)
+varclockrate ~ dnUniform(0.0,10.0)
 alpharate := meanclockrate*meanclockrate/varclockrate
 betarate := alpharate / meanclockrate
 for (i in 1:n_branches) {
