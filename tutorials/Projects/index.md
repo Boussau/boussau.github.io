@@ -36,6 +36,12 @@ The models that we have considered in the tutorials are homogeneous across branc
 
 The idea is to design a model for doing multi-gene phylogenetic reconstruction, in which all genes share the same species phylogeny but differ in their rate of evolution and in their GC content. The model can be used to reconstruct the phylogeny with greater accuracy (compared to single-gene analyses) but also, to estimate the variance in substitution rates and in GC content (or in other aspects of the substitution process) across genes. Two applications can be considered: to reconstruct the phylogeny of mammals (as in Murphy et al, 2001), or the phylogeny of simian primates.
 
+
+{% section Exploring the feasibility of [importance sampling](https://en.wikipedia.org/wiki/Importance_sampling) for phylogenetic inference %}
+
+Bayesian phylogenetic inference classically relies on MCMC, a computationally intensive algorithm. This is a problem as data sets have been increasing in size, resulting in increased computational and environmental footprints. In this project, you will investigate an alternative algorithm, [importance sampling](https://en.wikipedia.org/wiki/Importance_sampling), as follows. Firstly, you will perform MCMC inference on a single gene alignment, and on a big alignment. Secondly, you will subsample a limited number of samples from the posterior distribution obtained on the small alignment. Thirdly, you will evaluate the posterior probability of these samples according to the big alignment. Fourthly, you will reweigh these samples according to the ratio of their posterior probabilities, on the large data set *vs* the small one. As a result, on the big dataset, you will then have a posterior distribution obtained through importance sampling, and one obtained using MCMC. On the big dataset, does the faster importance sampling approach produce estimates that are similar to the MCMC approach?
+
+
 {% section Molecular dating of [Holocephali using fossil calibrations](Inoue.pdf) %}
 
 Dating a phylogeny relies on interpreting divergence between sequences in the light of fossil calibrations, and in the light of priors on these calibrations and on the shape of the phylogeny. This is a difficult inferrential problem where the priors and the moves that are used can have an important impact on the result and on the convergence of the MCMC. In this project, you will reanalyze a data set built by Inoue et al. to evaluate the robustness of their results to the priors or the moves that are used.
