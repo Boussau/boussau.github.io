@@ -18,7 +18,7 @@ redirect: false
 
 {% section Coevolution between [substitution rates and life-history traits](Evolution2012Lartillot-2.pdf) %}
 
-In mammals, there is substantial variation in substitution rate between lineages. This variation may be correlated with life-history traits: small mammals, with short generation times, tend to evolve faster. Here, the aim is measure the correlation between substitution rate and body mass or other life-history traits in mammals, by building a model of the joint evolutionary process of the substitution rate and life-history traits across branches, using a variant of the Brownian model used for modelling the auto-correlated molecular clock (Lartillot and Delsuc, 2012).
+In mammals, there is substantial variation in substitution rate between lineages. This variation may be correlated with life-history traits: small mammals, with short generation times, tend to evolve faster. Here, the aim is measure the correlation between substitution rate and body mass or other life-history traits in mammals, by building a model of the joint evolutionary process of the substitution rate and life-history traits across branches, using a variant of the Brownian model used for modelling the auto-correlated molecular clock ([Lartillot and Delsuc, 2012](Evolution2012Lartillot-2.pdf)).
 
 {% section A relaxed molecular clock informed by [life-history and germ-line development in primates](PNAS2016Amster.pdf) %}
 
@@ -32,7 +32,7 @@ The substitution patterns at neutral nucleotide positions in mammalian genomes i
 The models that we have considered in the tutorials are homogeneous across branches. As a result, they predict the same nucleotide composition in all species. In practice, this is not the case. In some extreme situations, not accounting for compositional variation can result in phylogenetic reconstruction artifacts (typically, unrelated species with similar compositional biases artifactually cluster together). A simple but particularly striking example is shown in [Foster, 2004](SystBiol2004Foster-1.pdf). In this article, a model with branch specific nucleotide composition is  introduced to improve phylogenetic reconstruction in such cases. Since then, [Heaps et al.](Heaps_2014.pdf) have proposed improved models. Here, the aim is to design versions of these models with branch-specific equilibrium frequencies, and to see if they improve phylogenetic reconstruction.
 
 
-{% [Multi-gene phylogenetic reconstruction of the phylogeny of birds](Jarvis_2014.pdf). %}
+{% section [Multi-gene phylogenetic reconstruction of the phylogeny of birds](Jarvis_2014.pdf) %}
 Designing a model for doing multi-gene phylogenetic reconstruction. Genes may share the same species phylogeny but may differ in their rate of evolution and in their GC content. Can be used to reconstruct the phylogeny or to estimate the variance in substitution rates and in GC content across genes. The data is available from [the article](Jarvis_2014.pdf)
 
 {% section [Correlation between GC composition of ribosomal RNA and growth temperature in Archaea](Groussin_2011.pdf). %}
