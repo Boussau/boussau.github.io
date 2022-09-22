@@ -30,7 +30,7 @@ The substitution patterns at neutral nucleotide positions in mammalian genomes i
 
 {% section Nucleotide [compositional variation across species and its impact on phylogenetic reconstruction](SystBiol2004Foster-1.pdf) %}
 
-The models that we have considered in the tutorials are homogeneous across branches. As a result, they predict the same nucleotide composition in all species. In practice, this is not the case. In some extreme situations, not accounting for compositional variation can result in phylogenetic reconstruction artifacts (typically, unrelated species with similar compositional biases artifactually cluster together). A simple but particularly striking example is shown in Foster, 2004. In this article, a model with branch specific nucleotide composition is also introduced. Here, the aim is to design a similar version of this model with branch-specific GC content, and to see if this improves phylogenetic reconstruction.
+The models that we have considered in the tutorials are homogeneous across branches. As a result, they predict the same nucleotide composition in all species. In practice, this is not the case. In some extreme situations, not accounting for compositional variation can result in phylogenetic reconstruction artifacts (typically, unrelated species with similar compositional biases artifactually cluster together). A simple but particularly striking example is shown in [Foster, 2004](SystBiol2004Foster-1.pdf). In this article, a model with branch specific nucleotide composition is  introduced to improve phylogenetic reconstruction in such cases. Since then, [Heaps et al.](Heaps_2014.pdf) have proposed improved models. Here, the aim is to design versions of these models with branch-specific equilibrium frequencies, and to see if they improve phylogenetic reconstruction.
 
 {% section Multi-gene phylogenetic reconstruction of the [phylogeny of placental mammals](Science2001Murphy.pdf) %}
 
@@ -42,16 +42,11 @@ The idea is to design a model for doing multi-gene phylogenetic reconstruction, 
 Bayesian phylogenetic inference classically relies on MCMC, a computationally intensive algorithm. This is a problem as data sets have been increasing in size, resulting in increased computational and environmental footprints. In this project, you will investigate an alternative algorithm, [importance sampling](https://en.wikipedia.org/wiki/Importance_sampling), as follows. Firstly, you will perform MCMC inference on a single gene alignment, and on a big alignment. Secondly, you will subsample a limited number of samples from the posterior distribution obtained on the small alignment. Thirdly, you will evaluate the posterior probability of these samples according to the big alignment. Fourthly, you will reweigh these samples according to the ratio of their posterior probabilities, on the large data set *vs* the small one. As a result, on the big dataset, you will then have a posterior distribution obtained through importance sampling, and one obtained using MCMC. On the big dataset, does the faster importance sampling approach produce estimates that are similar to the MCMC approach?
 
 
-{% section Molecular dating of [Holocephali using fossil calibrations](Inoue.pdf) %}
-
-Dating a phylogeny relies on interpreting divergence between sequences in the light of fossil calibrations, and in the light of priors on these calibrations and on the shape of the phylogeny. This is a difficult inferrential problem where the priors and the moves that are used can have an important impact on the result and on the convergence of the MCMC. In this project, you will reanalyze a data set built by Inoue et al. to evaluate the robustness of their results to the priors or the moves that are used.
-
-
 {% section Analysis of the SEMG2 gene in Primates %}
 
 Here the project is to analyze an alignment of the SEMG2 gene from primate species that differ in their mating systems.
 
 
-{% section Analysis of gene alignments from Gamma Proteobacteria %}
+{% section Analysis of mitochondrial protein evolution in Daphnia %}
 
-Here the project is to analyze alignments from several genes from gamma-Proteobacteria, some of which are free-living, and others are endosymbionts.
+Here the project is to analyze a concatenated alignment of 15 DNA sequences coding for proteins from 29 strains of *Daphnia pulex*, some of which reproduce sexually (named S1 to S14), and others, asexually (named A1 to A14). Sexual reproduction is assumed to be the ancestral condition.
