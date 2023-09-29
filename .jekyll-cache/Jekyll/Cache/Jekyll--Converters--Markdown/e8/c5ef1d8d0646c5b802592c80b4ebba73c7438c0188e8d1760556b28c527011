@@ -1,0 +1,70 @@
+I"l'<h2 class="section" id="coevolution-between-substitution-rates-and-life-history-traitsevolution2012lartillot-2pdf">Coevolution between <a href="Evolution2012Lartillot-2.pdf">substitution rates and life-history traits</a></h2>
+<hr class="section" />
+
+<p>In mammals, there is substantial variation in substitution rate between lineages. This variation may be correlated with life-history traits: small mammals, with short generation times, tend to evolve faster. Here, the aim is measure the correlation between substitution rate and body mass or other life-history traits in mammals, by building a model of the joint evolutionary process of the substitution rate and life-history traits across branches, using a variant of the Brownian model used for modelling the auto-correlated molecular clock (<a href="Evolution2012Lartillot-2.pdf">Lartillot and Delsuc, 2012</a>).</p>
+
+<h2 class="section" id="a-relaxed-molecular-clock-informed-by-life-history-and-germ-line-development-in-primatespnas2016amsterpdf">A relaxed molecular clock informed by <a href="PNAS2016Amster.pdf">life-history and germ-line development in primates</a></h2>
+<hr class="section" />
+
+<p>In primates, the mutation rate per generation is mostly determined by the number of replications in the germline. The developmental process of the germline is relatively well characterized, and a model of its modulation, as a function of life-history (age of puberty, generation time, etc) has been proposed (Amster and Sella, 2016). Here, the aim is to use this model (and the empirically measured values reported in the article of Amster and Sella) to calibrate the molecular clock (and its variation) in simian primates, using information about sexual maturity and generation time in extant species.</p>
+
+<h2 class="section" id="nucleotide-compositional-variation-across-species-and-its-impact-on-phylogenetic-reconstructionsystbiol2004foster-1pdf">Nucleotide <a href="SystBiol2004Foster-1.pdf">compositional variation across species and its impact on phylogenetic reconstruction</a></h2>
+<hr class="section" />
+
+<p>The models that we have considered in the tutorials are homogeneous across branches. As a result, they predict the same nucleotide composition in all species. In practice, this is not the case. In some extreme situations, not accounting for compositional variation can result in phylogenetic reconstruction artifacts (typically, unrelated species with similar compositional biases artifactually cluster together). A simple but particularly striking example is shown in <a href="SystBiol2004Foster-1.pdf">Foster, 2004</a>. In this article, a model with branch specific nucleotide composition is  introduced to improve phylogenetic reconstruction in such cases. Since then, <a href="Heaps_2014.pdf">Heaps et al.</a> have proposed improved models. Here, the aim is to design versions of these models with branch-specific equilibrium frequencies, and to see if they improve phylogenetic reconstruction.</p>
+
+<h2 class="section" id="multi-gene-phylogenetic-reconstruction-of-the-phylogeny-of-mammalsscience2001murphypdf"><a href="Science2001Murphy.pdf">Multi-gene phylogenetic reconstruction of the phylogeny of mammals</a></h2>
+<hr class="section" />
+
+<p>Designing a model for doing multi-gene phylogenetic reconstruction. Genes may share the same species phylogeny but may differ in their rate of evolution and in their GC content. Can be used to reconstruct the phylogeny or to estimate the variance in substitution rates and in GC content across genes. The data is available from <a href="Science2001Murphy.pdf">the article</a></p>
+
+<h2 class="section" id="correlation-between-gc-composition-of-ribosomal-rna-and-growth-temperature-in-archaeagroussin_2011pdf"><a href="Groussin_2011.pdf">Correlation between GC composition of ribosomal RNA and growth temperature in Archaea</a>.</h2>
+<hr class="section" />
+
+<p>The idea is to model the correlated evolution of rRNA GC content and growth temperature across Archaea, and use this model to estimate the correlation and to infer ancestral temperatures along the phylogeny.</p>
+
+<h2 class="section" id="are-patterns-of-absencepresence-of-genes-across-genomes-informative-about-the-phylogeny">Are patterns of absence/presence of genes across genomes informative about the phylogeny?</h2>
+<hr class="section" />
+
+<p>The idea is to model the process of gain and loss of genes across a phylogeny, and to apply this model to data of absence/presence of genes across metazoans. See article of <a href="Pisani_2015.pdf">Pisani et al., (2015)</a> and <a href="Ryan_2013.pdf">Ryan et al (2013)</a> for two analyses giving different results on the same dataset.</p>
+
+<h2 class="section" id="convergent-evolution-toward-subterranean-lifestyle-in-isopods-and-its-consequences-on-the-rate-of-genome-evolutionsaclier_2018pdf"><a href="Saclier_2018.pdf">Convergent evolution toward subterranean lifestyle in isopods, and its consequences on the rate of genome evolution</a>.</h2>
+<hr class="section" />
+
+<p>Saclier et al have analysed the evolutionary patterns in a group of isopod species, in which there has been a large number of independent transitions from surface to underground lifestyle – giving an opportunity for modeling and investigating the impact of these transitions on genomic sequence evolution.</p>
+
+<h2 class="section" id="exploring-the-feasibility-of-importance-samplinghttpsenwikipediaorgwikiimportance_sampling-for-phylogenetic-inference">Exploring the feasibility of <a href="https://en.wikipedia.org/wiki/Importance_sampling">importance sampling</a> for phylogenetic inference</h2>
+<hr class="section" />
+
+<p>Bayesian phylogenetic inference classically relies on MCMC, a computationally intensive algorithm. This is a problem as data sets have been increasing in size, resulting in increased computational and environmental footprints. In this project, you will investigate an alternative algorithm, <a href="https://en.wikipedia.org/wiki/Importance_sampling">importance sampling</a>, as follows. Firstly, you will perform MCMC inference on a single gene alignment, and on a big alignment. Secondly, you will subsample a limited number of samples from the posterior distribution obtained on the small alignment. Thirdly, you will evaluate the posterior probability of these samples according to the big alignment. Fourthly, you will reweigh these samples according to the ratio of their posterior probabilities, on the large data set <em>vs</em> the small one. As a result, on the big dataset, you will then have a posterior distribution obtained through importance sampling, and one obtained using MCMC. On the big dataset, does the faster importance sampling approach produce estimates that are similar to the MCMC approach?</p>
+
+<h2 class="section" id="analysis-of-the-semg2-gene-in-primates">Analysis of the SEMG2 gene in Primates</h2>
+<hr class="section" />
+
+<p>Here the project is to analyze an alignment of the SEMG2 gene from primate species that differ in their mating systems.</p>
+
+<h2 class="section" id="analysis-of-mitochondrial-protein-evolution-in-daphnia">Analysis of mitochondrial protein evolution in Daphnia</h2>
+<hr class="section" />
+
+<p>Here the project is to analyze a concatenated alignment of 15 DNA sequences coding for proteins from 29 strains of <em>Daphnia pulex</em>, some of which reproduce sexually (named S1 to S14), and others, asexually (named A1 to A14). Sexual reproduction is assumed to be the ancestral condition.</p>
+
+<h2 class="section" id="power-analysis">Power analysis</h2>
+<hr class="section" />
+
+<p>Given a limited number of sites, it may be difficult to get high support for all the nodes in a phylogeny. The aim of this project is to investigate how one could predict how many sites should be analyzed for a particular branch to be resolved with high posterior probability.</p>
+
+<h2 class="section" id="investigate-codon-position-models-vs-codon-models-for-phylogenetic-reconstruction">Investigate codon-position models vs codon models for phylogenetic reconstruction</h2>
+<hr class="section" />
+
+<p>Coding sequences are typically modelled at the codon level, using an alphabet with 61 states (64 - 3 stop codons). These models are often use to study natural selection. Another way to model coding sequences is to partition the data into three categories: first, second, and third codon positions. The purpose of this project is to try both models and compare them, either in terms of posterior predictive simulations, or in terms of phylogenetic reconstruction.</p>
+
+<h2 class="section" id="what-did-proteins-look-like-close-to-the-origin-of-life">What did proteins look like close to the origin of life?</h2>
+<hr class="section" />
+
+<p>10 residues (ASDGLIPTEV) represent a consensus view of plausibly available amino acids through prebiotic chemistry. <a href="https://academic.oup.com/mbe/article/39/3/msac032/6524634">Giacobelli et al.</a> took the C-terminal domain of a ribosomal protein, UL11, and replaced all “recent” amino acids by one of the 10 ancient ones, to generate a vast number of proteins which might have been functional before all amino acids were available. They then selected the most viable proteins among those. In this project, the goal is to try to reverse-evolve in silico the C-terminal domain of UL11 towards the reduced set of 10 amino acids, and see how it compares to the experimental results of Giacobelli et al.</p>
+
+<h2 class="section" id="detecting-changes-in-protein-sequences-associated-to-changes-to-the-c4-metabolism-in-plants">Detecting changes in protein sequences associated to changes to the C4 metabolism in plants</h2>
+<hr class="section" />
+
+<p>The C4 metabolism is used by several groups of plants as an adaptation to photosynthesize in hot and dry conditions. In the rubisco protein, several sites seem to be associated to this metabolic change (see <a href="PartoandLartillot2018.pdf">Parto and Lartillot, 2016</a>). The aim of this project is to build a model to try and find these sites using RevBayes, using the amino acid sequences of the protein.</p>
+:ET
