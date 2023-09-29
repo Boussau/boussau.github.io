@@ -24,16 +24,12 @@ In mammals, there is substantial variation in substitution rate between lineages
 
 In primates, the mutation rate per generation is mostly determined by the number of replications in the germline. The developmental process of the germline is relatively well characterized, and a model of its modulation, as a function of life-history (age of puberty, generation time, etc) has been proposed (Amster and Sella, 2016). Here, the aim is to use this model (and the empirically measured values reported in the article of Amster and Sella) to calibrate the molecular clock (and its variation) in simian primates, using information about sexual maturity and generation time in extant species.
 
-{% section Estimating the strength of [GC-biased gene conversion](MBE2013Lartillot-1.pdf) %}
-
-The substitution patterns at neutral nucleotide positions in mammalian genomes is not just determined by the mutational process. Another force, GC biased gene conversion (gBGC) is also impacting substitution rates, by increasing the probability of fixation of G and C, compared to A and T. Using population genetics theory, it is possible to derive the nucleotide substitution rate matrix, as a function of the mutation rates and the intensity of gBGC (Lartillot, 2013). The aim is to develop this model and apply it to primate nucleotide data, so as to estimate the intensity of gBGC (and possibly, its variation between branches) using a nucleotide sequence alignment.
-
 {% section Nucleotide [compositional variation across species and its impact on phylogenetic reconstruction](SystBiol2004Foster-1.pdf) %}
 The models that we have considered in the tutorials are homogeneous across branches. As a result, they predict the same nucleotide composition in all species. In practice, this is not the case. In some extreme situations, not accounting for compositional variation can result in phylogenetic reconstruction artifacts (typically, unrelated species with similar compositional biases artifactually cluster together). A simple but particularly striking example is shown in [Foster, 2004](SystBiol2004Foster-1.pdf). In this article, a model with branch specific nucleotide composition is  introduced to improve phylogenetic reconstruction in such cases. Since then, [Heaps et al.](Heaps_2014.pdf) have proposed improved models. Here, the aim is to design versions of these models with branch-specific equilibrium frequencies, and to see if they improve phylogenetic reconstruction.
 
 
-{% section [Multi-gene phylogenetic reconstruction of the phylogeny of birds](Jarvis_2014.pdf) %}
-Designing a model for doing multi-gene phylogenetic reconstruction. Genes may share the same species phylogeny but may differ in their rate of evolution and in their GC content. Can be used to reconstruct the phylogeny or to estimate the variance in substitution rates and in GC content across genes. The data is available from [the article](Jarvis_2014.pdf)
+{% section [Multi-gene phylogenetic reconstruction of the phylogeny of mammals](Science2001Murphy.pdf) %}
+Designing a model for doing multi-gene phylogenetic reconstruction. Genes may share the same species phylogeny but may differ in their rate of evolution and in their GC content. Can be used to reconstruct the phylogeny or to estimate the variance in substitution rates and in GC content across genes. The data is available from [the article](Science2001Murphy.pdf)
 
 {% section [Correlation between GC composition of ribosomal RNA and growth temperature in Archaea](Groussin_2011.pdf). %}
 
@@ -75,3 +71,6 @@ Coding sequences are typically modelled at the codon level, using an alphabet wi
 {% section  What did proteins look like close to the origin of life? %}
 
 10 residues (ASDGLIPTEV) represent a consensus view of plausibly available amino acids through prebiotic chemistry. [Giacobelli et al.](https://academic.oup.com/mbe/article/39/3/msac032/6524634) took the C-terminal domain of a ribosomal protein, UL11, and replaced all "recent" amino acids by one of the 10 ancient ones, to generate a vast number of proteins which might have been functional before all amino acids were available. They then selected the most viable proteins among those. In this project, the goal is to try to reverse-evolve in silico the C-terminal domain of UL11 towards the reduced set of 10 amino acids, and see how it compares to the experimental results of Giacobelli et al.
+
+{% section Detecting changes in protein sequences associated to changes to the C4 metabolism in plants %}
+The C4 metabolism is used by several groups of plants as an adaptation to photosynthesize in hot and dry conditions. In the rubisco protein, several sites seem to be associated to this metabolic change (see [Parto and Lartillot, 2016](PartoandLartillot2018.pdf)). The aim of this project is to build a model to try and find these sites using RevBayes, using the amino acid sequences of the protein.
