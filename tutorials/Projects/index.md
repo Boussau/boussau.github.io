@@ -62,3 +62,16 @@ Here the project is to analyze an alignment of the SEMG2 gene from primate speci
 {% section Analysis of mitochondrial protein evolution in Daphnia %}
 
 Here the project is to analyze a concatenated alignment of 15 DNA sequences coding for proteins from 29 strains of *Daphnia pulex*, some of which reproduce sexually (named S1 to S14), and others, asexually (named A1 to A14). Sexual reproduction is assumed to be the ancestral condition.
+
+{% section  Power analysis %}
+
+Given a limited number of sites, it may be difficult to get high support for all the nodes in a phylogeny. The aim of this project is to investigate how one could predict how many sites should be analyzed for a particular branch to be resolved with high posterior probability.
+
+
+{% section  Investigate codon-position models vs codon models for phylogenetic reconstruction %}
+
+Coding sequences are typically modelled at the codon level, using an alphabet with 61 states (64 - 3 stop codons). These models are often use to study natural selection. Another way to model coding sequences is to partition the data into three categories: first, second, and third codon positions. The purpose of this project is to try both models and compare them, either in terms of posterior predictive simulations, or in terms of phylogenetic reconstruction.
+
+{% section  What did proteins look like close to the origin of life? %}
+
+10 residues (ASDGLIPTEV) represent a consensus view of plausibly available amino acids through prebiotic chemistry. [Giacobelli et al.](https://academic.oup.com/mbe/article/39/3/msac032/6524634) took the C-terminal domain of a ribosomal protein, UL11, and replaced all "recent" amino acids by one of the 10 ancient ones, to generate a vast number of proteins which might have been functional before all amino acids were available. They then selected the most viable proteins among those. In this project, the goal is to try to reverse-evolve in silico the C-terminal domain of UL11 towards the reduced set of 10 amino acids, and see how it compares to the experimental results of Giacobelli et al.
