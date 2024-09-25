@@ -51,7 +51,7 @@ Through time, genomes undergo events affecting their gene content. These include
 Paralogous genes often have similar functions, but it can also happen that one or more duplications allow forms of specialization (as in the case of hemoglobin, where a paralogous copy is expressed only in the embryo in Mammals) or the appearance of new functions.
 
 The aim of this project is to build a model describing the evolution of the size of a gene family (number of genes in the gene family) along a phylogenetic tree. The aim is to detect possible statistical associations between variation in the size of a gene family and phenotypic changes in mammals (e.g. emergence of echolocation, subterranean life). 
-2 references will be useful: [Han et al., 2013]() and [Csuros, 2022](1-s2.0-S0040580922000247-main.pdf)
+2 references will be useful: [Han et al., 2013](Han et al. - 2013 - Estimating Gene Gain and Loss Rates in the Presenc.pdf) and [Csuros, 2022](1-s2.0-S0040580922000247-main.pdf)
 
 
 {% section Analysis of the SEMG2 gene in Primates %}
