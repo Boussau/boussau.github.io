@@ -1,0 +1,20 @@
+?dnPhyloCTMC
+q()
+?dnUniformTopology
+help(list=all, filter="move")
+help()
+ls(all=true, filter="move")
+?mvNarrow
+?dnPhyloCTMCDollo
+?dnPhyloCTMC
+q()
+d<-readCharacterData("concatenate.nxs")
+d
+ls(all=True)
+ls(all=T)
+halp()
+help()
+?monitorModel
+ls(all=true, filter="monitor")
+?mnModel
+q()
