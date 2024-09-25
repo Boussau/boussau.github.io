@@ -50,12 +50,12 @@ This root age will be fixed (see below). However, we still need to specify it as
 Then, we assume that the tree is produced by a birth-death process, with unknown speciation and extinction rates equal to `lambda` and `mu`. We also assume that a fraction `rho` of all extant species are present in our dataset, and that these species have been randomly sampled among all extant species:
 ```
 # speciation rate
-lambda ~ dnExponential(1.0)
+lambda ~ dnUniform(0.0, 10)
 # extinction rate
-mu ~ dnExponential(1.0)
+mu ~ dnUniform(0.0, 10)
 # sampling fraction (in the present)
-# here, we assume that all species have been sampled
-rho <- 1.0
+# here, we assume that we have sampled 20% of the species in our clade
+rho <- 0.2
 
 # time tree produced by a birth-death process (BDP)
 timetree ~ dnBDP(lambda, mu, rho, root_age, samplingStrategy="uniform", condition="nTaxa", taxa=taxa)
@@ -82,7 +82,7 @@ Altogether, we have specified a constrained dated tree, whose topology is fixed,
 Now that we have a tree, we can model the process of substitution along this tree. We first have to specify the absolute substitution rate (the speed of the molecular clock). This rate is unknown, so we will put a prior on it, which we want to be uninformative. Here, we use an exponential prior of mean 1:
 ```
 # we assume a strict molecular clock, of unknown rate
-clockrate ~ dnuniform(0.0,10.0)
+clockrate ~ dnUniform(0.0,10.0)
 ```
 Of note, a rough estimate of the age of primates is between 50 and 100 Myr, and the mutation rate per year in Humans is of the order of $10^{-9}$ per year, which gives us a rough estimate of $\sim 10^{-1}$ substitution over the total time span of the tree (100 Myr). Thus, our uniform prior on the rate of sequence evolution should be safe.
 

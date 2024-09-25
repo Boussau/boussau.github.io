@@ -9,12 +9,12 @@ taxa <- data.taxa()
 root_age ~ dnUniform(0,100)
 # tree is produced by a birth death process
 # speciation rate
-lambda ~ dnExponential(1.0)
+lambda ~ dnUniform(0.0, 100)
 # extinction rate
-mu ~ dnExponential(1.0)
+mu ~ dnUniform(0.0, 100)
 # sampling fraction (in the present)
-# here, we assume that all species have been sampled
-rho <- 1.0
+# here, we assume that we have sampled 20% of the species in our clade
+rho <- 0.2
 
 # time tree produced by a birth-death process (BDP)
 timetree ~ dnBDP(lambda, mu, rho, root_age, samplingStrategy="uniform", condition="nTaxa", taxa=taxa)
