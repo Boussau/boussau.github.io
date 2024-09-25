@@ -45,9 +45,13 @@ The idea is to model the process of gain and loss of genes across a phylogeny, a
 Saclier et al have analysed the evolutionary patterns in a group of isopod species, in which there has been a large number of independent transitions from surface to underground lifestyle -- giving an opportunity for modeling and investigating the impact of these transitions on genomic sequence evolution.
 
 
-{% section Exploring the feasibility of [importance sampling](https://en.wikipedia.org/wiki/Importance_sampling) for phylogenetic inference %}
+{% section Gain/loss model for the evolution of gene family size in mammals %}
 
-Bayesian phylogenetic inference classically relies on MCMC, a computationally intensive algorithm. This is a problem as data sets have been increasing in size, resulting in increased computational and environmental footprints. In this project, you will investigate an alternative algorithm, [importance sampling](https://en.wikipedia.org/wiki/Importance_sampling), as follows. Firstly, you will perform MCMC inference on a single gene alignment, and on a big alignment. Secondly, you will subsample a limited number of samples from the posterior distribution obtained on the small alignment. Thirdly, you will evaluate the posterior probability of these samples according to the big alignment. Fourthly, you will reweigh these samples according to the ratio of their posterior probabilities, on the large data set *vs* the small one. As a result, on the big dataset, you will then have a posterior distribution obtained through importance sampling, and one obtained using MCMC. On the big dataset, does the faster importance sampling approach produce estimates that are similar to the MCMC approach?
+Through time, genomes undergo events affecting their gene content. These include *duplication* events, which create a copy of a given gene elsewhere in the genome; *loss* events (e.g., pseudogenization); and *transfer* events, corresponding to the insertion of a gene from another species. Within a given species, a gene and its copies are referred to as a *gene family*. Two genes in the same family are said to be paralogous if they descend from a gene duplication.
+Paralogous genes often have similar functions, but it can also happen that one or more duplications allow forms of specialization (as in the case of hemoglobin, where a paralogous copy is expressed only in the embryo in Mammals) or the appearance of new functions.
+
+The aim of this project is to build a model describing the evolution of the size of a gene family (number of genes in the gene family) along a phylogenetic tree. The aim is to detect possible statistical associations between variation in the size of a gene family and phenotypic changes in mammals (e.g. emergence of echolocation, subterranean life). 
+2 references will be useful: [Han et al., 2013](Han et al. - 2013 - Estimating Gene Gain and Loss Rates in the Presenc.pdf) and [Csuros, 2022](1-s2.0-S0040580922000247-main.pdf)
 
 
 {% section Analysis of the SEMG2 gene in Primates %}
@@ -68,9 +72,6 @@ Given a limited number of sites, it may be difficult to get high support for all
 
 Coding sequences are typically modelled at the codon level, using an alphabet with 61 states (64 - 3 stop codons). These models are often use to study natural selection. Another way to model coding sequences is to partition the data into three categories: first, second, and third codon positions. The purpose of this project is to try both models and compare them, either in terms of posterior predictive simulations, or in terms of phylogenetic reconstruction.
 
-{% section  What did proteins look like close to the origin of life? %}
-
-10 residues (ASDGLIPTEV) represent a consensus view of plausibly available amino acids through prebiotic chemistry. [Giacobelli et al.](https://academic.oup.com/mbe/article/39/3/msac032/6524634) took the C-terminal domain of a ribosomal protein, UL11, and replaced all "recent" amino acids by one of the 10 ancient ones, to generate a vast number of proteins which might have been functional before all amino acids were available. They then selected the most viable proteins among those. In this project, the goal is to try to reverse-evolve in silico the C-terminal domain of UL11 towards the reduced set of 10 amino acids, and see how it compares to the experimental results of Giacobelli et al.
 
 {% section Detecting changes in protein sequences associated to changes to the C4 metabolism in plants %}
 The C4 metabolism is used by several groups of plants as an adaptation to photosynthesize in hot and dry conditions. In the rubisco protein, several sites seem to be associated to this metabolic change (see [Parto and Lartillot, 2016](PartoandLartillot2018.pdf)). The aim of this project is to build a model to try and find these sites using RevBayes, using the amino acid sequences of the protein.
