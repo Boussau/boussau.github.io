@@ -1,4 +1,4 @@
-?map
-?mapTree
-?mccTree
+mcmc
+mcmc.run
+mcmc.run()
 q()
