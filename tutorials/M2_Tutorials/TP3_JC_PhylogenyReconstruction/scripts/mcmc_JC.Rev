@@ -121,6 +121,12 @@ treetrace = readTreeTrace("analyses/primates_cytb_JC.trees", treetype="non-clock
 # and then get the Maximum a Posteriori tree
 map_tree = mapTree(treetrace,"analyses/primates_cytb_JC_MAP.tree")
 
+# and then get the Maximum Clade Credibility tree
+map_tree = mccTree(treetrace,"analyses/primates_cytb_JC_MCC.tree")
+
+# and then get the consensus tree, with a threshold at 0.5 posterior probability.
+map_tree = conTree(treetrace,"analyses/primates_cytb_JC_CON.tree", cutoff=0.5)
+
 
 # you may want to quit RevBayes now
 q()

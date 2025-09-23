@@ -751,6 +751,18 @@ Lemuroidea <- clade("Cheirogaleus_major",
 treetrace.cladeProbability( Lemuroidea )
 ```
 
+You can also summarize tree distributions in 2 other ways in RevBayes. You can use the Maximum Clade Credibility method, or the consensus method.
+The code below lets you try both, with a threshold for the consensus method at 0.5:
+
+```
+# get the Maximum Clade Credibility tree
+map_tree = mccTree(treetrace,"analyses/primates_cytb_JC_MCC.tree")
+
+# and then get the consensus tree, with a threshold at 0.5 posterior probability.
+map_tree = conTree(treetrace,"analyses/primates_cytb_JC_CON.tree", cutoff=0.5)
+
+```
+
 
 {% section Conclusion %}
 During this tutorial, we used the simplest phylogenetic model to first simulate
