@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="search-domain" value="https://boussau.github.io/">
+    <meta name="search-domain" value="http://localhost:4000/">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/syntax.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css" />
@@ -50,7 +50,7 @@
 	<h1 class="maintitle">Installing and using RevBayes with conda</h1>
 	<h3 class="subtitle"></h3>
 	<h4 class="authors">Nicolas Lartillot, Bastien Boussau</h4>
-  <h5>Last modified on September  6, 2022</h5>
+  <h5>Last modified on </h5>
 </div>
 
 
@@ -82,7 +82,7 @@
 <p>To work on Linux or Pedago-NGS, you first need to install conda. Once this has been done, installation of RevBayes can proceed as indicated further below.</p>
 
 <p>To install conda:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
 bash miniconda.sh
 conda init
 
@@ -91,9 +91,9 @@ conda init
 <h2 class="section" id="installing-revbayes">Installing Revbayes</h2>
 <hr class="section" />
 
-<p>We suggest that you install RevBayes in an <em>environment</em>. Environments are a nice way to encapsulate programs and settings without changing the parameters of your entire system. The environment we will create is called <code class="highlighter-rouge">revbayesenv</code>, and we will install all the software we need within this environment.</p>
+<p>We suggest that you install RevBayes in an <em>environment</em>. Environments are a nice way to encapsulate programs and settings without changing the parameters of your entire system. The environment we will create is called <code class="language-plaintext highlighter-rouge">revbayesenv</code>, and we will install all the software we need within this environment.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create --name revbayesenv
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda create --name revbayesenv
 conda activate revbayesenv
 conda config --add channels bioconda
 conda config --add channels conda-forge
@@ -106,9 +106,9 @@ conda deactivate
 <h2 class="section" id="using-revbayes">Using Revbayes</h2>
 <hr class="section" />
 
-<p>Assuming we have installed our programs in the environment <code class="highlighter-rouge">revbayesenv</code>, to use them we just need to activate it.</p>
+<p>Assuming we have installed our programs in the environment <code class="language-plaintext highlighter-rouge">revbayesenv</code>, to use them we just need to activate it.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate revbayesenv
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>conda activate revbayesenv
 rb
 conda deactivate
 </code></pre></div></div>
@@ -116,9 +116,9 @@ conda deactivate
 <h2 class="section" id="suggested-folder-organization">Suggested folder organization</h2>
 <hr class="section" />
 
-<p>We like to create 3 folders: one for scripts (<code class="highlighter-rouge">scripts</code>), one for the data (<code class="highlighter-rouge">data</code>), and one for the output from the analyses (<code class="highlighter-rouge">analyses</code>).</p>
+<p>We like to create 3 folders: one for scripts (<code class="language-plaintext highlighter-rouge">scripts</code>), one for the data (<code class="language-plaintext highlighter-rouge">data</code>), and one for the output from the analyses (<code class="language-plaintext highlighter-rouge">analyses</code>).</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir scripts
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir scripts
 mkdir data
 mkdir analyses
 
@@ -126,7 +126,7 @@ mkdir analyses
 
 <p>To work on a script, one can use a text editor like nano:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd scripts
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd scripts
 nano myScript.Rev
 
 </code></pre></div></div>

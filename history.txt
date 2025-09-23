@@ -1,4 +1,1 @@
-mcmc
-mcmc.run
-mcmc.run()
 q()

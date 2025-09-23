@@ -1,0 +1,16 @@
+current directory: /home/boussau/Work/boussau.github.io/vendor/bundle/ruby/2.7.0/gems/http_parser.rb-0.8.0/ext/ruby_http_parser
+/home/boussau/.rbenv/versions/2.7.7/bin/ruby -I /home/boussau/.rbenv/versions/2.7.7/lib/ruby/site_ruby/2.7.0 extconf.rb
+creating Makefile
+
+current directory: /home/boussau/Work/boussau.github.io/vendor/bundle/ruby/2.7.0/gems/http_parser.rb-0.8.0/ext/ruby_http_parser
+make DESTDIR\= sitearchdir\=./.gem.20250923-46776-jkktw7 sitelibdir\=./.gem.20250923-46776-jkktw7 clean
+
+current directory: /home/boussau/Work/boussau.github.io/vendor/bundle/ruby/2.7.0/gems/http_parser.rb-0.8.0/ext/ruby_http_parser
+make DESTDIR\= sitearchdir\=./.gem.20250923-46776-jkktw7 sitelibdir\=./.gem.20250923-46776-jkktw7
+compiling ruby_http_parser.c
+compiling ryah_http_parser.c
+linking shared-object ruby_http_parser.so
+
+current directory: /home/boussau/Work/boussau.github.io/vendor/bundle/ruby/2.7.0/gems/http_parser.rb-0.8.0/ext/ruby_http_parser
+make DESTDIR\= sitearchdir\=./.gem.20250923-46776-jkktw7 sitelibdir\=./.gem.20250923-46776-jkktw7 install
+/usr/bin/install -c -m 0755 ruby_http_parser.so ./.gem.20250923-46776-jkktw7

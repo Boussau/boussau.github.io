@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="search-domain" value="https://boussau.github.io/">
+    <meta name="search-domain" value="http://localhost:4000/">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/syntax.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css" />
@@ -50,7 +50,7 @@
 	<h1 class="maintitle">TP5 Molecular dating and relaxed clock models</h1>
 	<h3 class="subtitle">Estimating (relative) divergence times among primates</h3>
 	<h4 class="authors">Nicolas Lartillot and Bastien Boussau</h4>
-  <h5>Last modified on September 25, 2024</h5>
+  <h5>Last modified on </h5>
 </div>
 
 
@@ -125,33 +125,33 @@
 <p>All analyses will be done under a fixed tree topology. This topology has been estimated by using an undated model, such as seen during the previous tutorials.</p>
 
 <ul>
-  <li>Take a look at the tree <code class="highlighter-rouge">data/prim.tree</code> using software like FigTree. Is this tree <em>ultrametric</em>? Which lineages seem to have been associated with a high rate of molecular evolution?</li>
+  <li>Take a look at the tree <code class="language-plaintext highlighter-rouge">data/prim.tree</code> using software like FigTree. Is this tree <em>ultrametric</em>? Which lineages seem to have been associated with a high rate of molecular evolution?</li>
 </ul>
 
-<p>We will work on a dataset (file name <code class="highlighter-rouge">prim4fold.nex</code>) with 58 primates species, plus 2 Dermopterans and a Scandentia (Tupaia), which will be our outgroup. The dataset is adapted from Perelman et al (2011, PLoS Genetics, 7:e1001342, A Molecular Phylogeny of Primates). Here, we use only the 4-fold degenerate third coding positions (1730 aligned nucleotide positions).</p>
+<p>We will work on a dataset (file name <code class="language-plaintext highlighter-rouge">prim4fold.nex</code>) with 58 primates species, plus 2 Dermopterans and a Scandentia (Tupaia), which will be our outgroup. The dataset is adapted from Perelman et al (2011, PLoS Genetics, 7:e1001342, A Molecular Phylogeny of Primates). Here, we use only the 4-fold degenerate third coding positions (1730 aligned nucleotide positions).</p>
 
 <h2 class="section" id="strict-clock-model">Strict clock model</h2>
 <hr class="section" />
 
-<p>To start the tutorial, we give a script (<code class="highlighter-rouge">prim_strictclock.rev</code>), which implements the strict clock model.
+<p>To start the tutorial, we give a script (<code class="language-plaintext highlighter-rouge">prim_strictclock.rev</code>), which implements the strict clock model.
 The script is set up as follows.</p>
 
 <p>We first read the nucleotide sequence alignment and get the taxon set and the number of species and the number of branches.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>data &lt;- readDiscreteCharacterData("data/prim4fold.nex")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>data &lt;- readDiscreteCharacterData("data/prim4fold.nex")
 
 n_species &lt;- data.ntaxa()
 n_branches &lt;- 2 * n_species - 2
 taxa &lt;- data.taxa()
 </code></pre></div></div>
 
-<p><strong>Why is the number of branches <code class="highlighter-rouge">2 * n_species - 2</code> and not <code class="highlighter-rouge">2 * n_species - 3</code> as in the undated case?</strong></p>
+<p><strong>Why is the number of branches <code class="language-plaintext highlighter-rouge">2 * n_species - 2</code> and not <code class="language-plaintext highlighter-rouge">2 * n_species - 3</code> as in the undated case?</strong></p>
 
 <p>Next, we define our dated tree. We first need to create a variable standing for the age of the root:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root_age ~ dnUniform(0,100)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root_age ~ dnUniform(0,100)
 </code></pre></div></div>
 <p>This root age will be fixed (see below). However, we still need to specify it as a random variable.
-Then, we assume that the tree is produced by a birth-death process, with unknown speciation and extinction rates equal to <code class="highlighter-rouge">lambda</code> and <code class="highlighter-rouge">mu</code>. We also assume that a fraction <code class="highlighter-rouge">rho</code> of all extant species are present in our dataset, and that these species have been randomly sampled among all extant species:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># speciation rate
+Then, we assume that the tree is produced by a birth-death process, with unknown speciation and extinction rates equal to <code class="language-plaintext highlighter-rouge">lambda</code> and <code class="language-plaintext highlighter-rouge">mu</code>. We also assume that a fraction <code class="language-plaintext highlighter-rouge">rho</code> of all extant species are present in our dataset, and that these species have been randomly sampled among all extant species:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># speciation rate
 lambda ~ dnUniform(0.0, 10)
 # extinction rate
 mu ~ dnUniform(0.0, 10)
@@ -163,8 +163,8 @@ rho &lt;- 0.2
 timetree ~ dnBDP(lambda, mu, rho, root_age, samplingStrategy="uniform", condition="nTaxa", taxa=taxa)
 </code></pre></div></div>
 
-<p>Next, we want to fix the tree topology, setting it equal to the topology given in the file named <code class="highlighter-rouge">prim.tree</code>:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># read tree from file
+<p>Next, we want to fix the tree topology, setting it equal to the topology given in the file named <code class="language-plaintext highlighter-rouge">prim.tree</code>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># read tree from file
 tree &lt;- readTrees("data/prim.tree", treetype="clock")[1]
 # adjust terminal branch lengths so as to make the tree ultrametric
 tree.makeUltrametric()
@@ -173,72 +173,72 @@ tree.makeUltrametric()
 timetree.setValue(tree)
 </code></pre></div></div>
 <p>The tree given in this file has an arbitrary root age. We rescale it, setting it equal to 1.0:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># rescale root age to 1.0
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># rescale root age to 1.0
 # (all ages will be relative to the root)
 root_age.setValue(1.0)
 </code></pre></div></div>
 <p>Altogether, we have specified a constrained dated tree, whose topology is fixed, and whose root is constrained to be at age $1.0$. On the other hand, the ages of the nodes will still be allowed to vary. These node ages will be determined by a compromise between the birth-death (or constant speciation-extinction) process, which is used here as a prior on divergence times, and the information obtained from the nucleotide sequences.</p>
 
 <p>Now that we have a tree, we can model the process of substitution along this tree. We first have to specify the absolute substitution rate (the speed of the molecular clock). This rate is unknown, so we will put a prior on it, which we want to be uninformative. Here, we use an exponential prior of mean 1:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># we assume a strict molecular clock, of unknown rate
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># we assume a strict molecular clock, of unknown rate
 clockrate ~ dnUniform(0.0,10.0)
 </code></pre></div></div>
 <p>Of note, a rough estimate of the age of primates is between 50 and 100 Myr, and the mutation rate per year in Humans is of the order of $10^{-9}$ per year, which gives us a rough estimate of $\sim 10^{-1}$ substitution over the total time span of the tree (100 Myr). Thus, our uniform prior on the rate of sequence evolution should be safe.</p>
 
 <p>Then, we specify the Tamura 92 nucleotide substitution process:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># and a T92 process
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># and a T92 process
 kappa ~ dnUniform(0.0,10.0)
 gamma ~ dnBeta(1.0, 1.0)
 Q := fnT92(kappa=kappa, gc=gamma)
 </code></pre></div></div>
 <p>and the sequence evolutionary process:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" )
 </code></pre></div></div>
 <p>which we condition on (or clamp to) the observed nucleotide data:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq.clamp( data )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq.clamp( data )
 </code></pre></div></div>
-<p>Note that we have given the molecular clock rate parameter <code class="highlighter-rouge">clockrate</code> as an argument to the <code class="highlighter-rouge">phyloCTMC</code>.</p>
+<p>Note that we have given the molecular clock rate parameter <code class="language-plaintext highlighter-rouge">clockrate</code> as an argument to the <code class="language-plaintext highlighter-rouge">phyloCTMC</code>.</p>
 
 <p>Finally, we create the model:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>my_model = model(timetree)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>my_model = model(timetree)
 </code></pre></div></div>
 
 <p>We still have to specify the moves, the monitors and the mcmc.
 We move the speciation and extinction rates:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves = VectorMoves()
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves = VectorMoves()
 moves.append(mvScale(lambda, weight=1.0))
 moves.append(mvScale(mu, weight=1.0))
 </code></pre></div></div>
 <p>the clock rate:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append(mvScale(clockrate, weight=1.0, lambda=0.1))
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append(mvScale(clockrate, weight=1.0, lambda=0.1))
 </code></pre></div></div>
 <p>the transition/transversion ratio and equilibrium GC content:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append(mvSlide(gamma, weight=1.0, delta=0.1))
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append(mvSlide(gamma, weight=1.0, delta=0.1))
 moves.append(mvScale(kappa, weight=1.0))
 </code></pre></div></div>
 <p>and the relative ages of the internal nodes of the tree:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append(mvNodeTimeSlideUniform(timetree, weight=20))
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append(mvNodeTimeSlideUniform(timetree, weight=20))
 moves.append(mvSubtreeScale(timetree, weight=4))
 </code></pre></div></div>
 <p>Note that we have no move on the tree topology (since we want to fix the topology).</p>
 
 <p>For the monitoring streams, we can record the parameters and the trees, while printing the clock rate, the transition-transversion ratio and the equilibrium GC content onto screen:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>monitors[1] = mnModel(filename="analyses/prim_strictclock.log", printgen=10, separator = TAB)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>monitors[1] = mnModel(filename="analyses/prim_strictclock.log", printgen=10, separator = TAB)
 monitors[2] = mnFile(timetree ,filename="analyses/prim_strictclock.trees", printgen=10, separator = TAB)
 monitors[3] = mnScreen(printgen=100, clockrate, kappa, gamma)
 </code></pre></div></div>
 
 <p>We can now run the analysis:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>analysis = mcmc(my_model, monitors, moves)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>analysis = mcmc(my_model, monitors, moves)
 analysis.run(10000)
 </code></pre></div></div>
 <p>Once the analysis has run, first, we can estimate the burn-in and obtain a point estimate and a credible interval for the clock rate, using Tracer.
 Next, we can read the tree trace and make the MAP tree:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>treetrace = readTreeTrace("analyses/prim_strictclock.trees", treetype="clock", burnin=0.1)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>treetrace = readTreeTrace("analyses/prim_strictclock.trees", treetype="clock", burnin=0.1)
 map_tree = mccTree(treetrace, "analyses/prim_strictclock.tree")
 </code></pre></div></div>
 <p>Of note, this MAP tree will, by construction, have the same topology as the one given at the beginning of the script. The point of doing this map tree is just to have credible intervals on the node ages.
-The resulting tree, saved into the file named <code class="highlighter-rouge">prim_strictclock.tree</code>, can be visualized using FigTree. The credible intervals on node ages can be visualized as blue bars attached to the corresponding nodes.</p>
+The resulting tree, saved into the file named <code class="language-plaintext highlighter-rouge">prim_strictclock.tree</code>, can be visualized using FigTree. The credible intervals on node ages can be visualized as blue bars attached to the corresponding nodes.</p>
 
 <p>Run the script on the primate dataset. Estimate the clock rate (median and credible interval) and visualize the estimated relative ages.</p>
 
@@ -250,32 +250,32 @@ The resulting tree, saved into the file named <code class="highlighter-rouge">pr
 <p>A first model, often used in the recent literature, is the non auto-correlated model. This model assumes that each branch has its own rate of substitution. The rates across branches are independent and identically distributed. They can be either exponential, gamma or log-normal. In the following, we will consider a gamma model: branch rates are i.i.d. gamma. The mean and the variance of this gamma distribution are unknown and should therefore be estimated – as always, by specifying them as random variables with a prior.</p>
 
 <p>To implement this model, we start by specifying the mean and the variance of the rate of sequence evolution. Here, we will parameterize the model in terms of the mean rate and the relative variance, or coefficient of variation (variance divided by the square of the mean). This parameterization is more convenient. In both cases, we use a uniform prior:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mean_clockrate ~ dnUniform(0.0, 10.0)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mean_clockrate ~ dnUniform(0.0, 10.0)
 relvar_clockrate ~ dnUniform(0.0, 10.0)
 </code></pre></div></div>
 
 <p>Next, we need to express the shape and the scale parameter of the gamma distribution as functions of the mean and the relative variance. Remember that, for a gamma distribution of shape parameter $\alpha$ and scale parameter $\beta$, the mean $m$ and the variance $v$ of the distribution are given by $m = \alpha / \beta$ and $v = \alpha / \beta^2$. Therefore, the relative variance $c$ is equal to $c = v / m^2 = 1.0 / \alpha$.</p>
 
 <p>Inverting these relations allows us to express $\alpha$ and $\beta$ as a function of $m$ and $c$ as follows: $\alpha = 1 / c$ and $\beta = \alpha / m$. In the context of our script, this gives:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alpha := 1.0 / relvar_clockrate
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alpha := 1.0 / relvar_clockrate
 beta := alpha / mean_clockrate
 </code></pre></div></div>
 
 <p>Now, we can specify the rates across branches as iid gamma variates:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (i in 1:n_branches) {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (i in 1:n_branches) {
     clockrate[i] ~ dnGamma(alpha, beta)
 }
 </code></pre></div></div>
 
 <p>Finally, we give these rates across branches to the sequence evolutionary process:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" )
 </code></pre></div></div>
 
-<p>Note that clockrate is now a vector (whereas, in the case of the strict clock model considered in the last section, it was a scalar). When receiving a vector, the <code class="highlighter-rouge">dnPhyloCTMC</code> object automatically deduces that the rates in the vector should be mapped onto the branches of the tree.</p>
+<p>Note that clockrate is now a vector (whereas, in the case of the strict clock model considered in the last section, it was a scalar). When receiving a vector, the <code class="language-plaintext highlighter-rouge">dnPhyloCTMC</code> object automatically deduces that the rates in the vector should be mapped onto the branches of the tree.</p>
 
-<p>For the rest, the script is essentially the same as for the strict clock model considered above. The main difference is that moves should now be implemented for <code class="highlighter-rouge">mean_clockrate</code>, <code class="highlighter-rouge">relvar_clockrate</code>, and for each of the entries of the <code class="highlighter-rouge">clockrate</code> vector. Implementing these moves is left as an exercise.</p>
+<p>For the rest, the script is essentially the same as for the strict clock model considered above. The main difference is that moves should now be implemented for <code class="language-plaintext highlighter-rouge">mean_clockrate</code>, <code class="language-plaintext highlighter-rouge">relvar_clockrate</code>, and for each of the entries of the <code class="language-plaintext highlighter-rouge">clockrate</code> vector. Implementing these moves is left as an exercise.</p>
 
-<p>Write the complete script, using <code class="highlighter-rouge">prim_strictclock.rev</code> as a template and making the required changes. You may want to remove the variable <code class="highlighter-rouge">clockrate</code> from the screen monitor to avoid cluttering your terminal, and instead you may want to monitor <code class="highlighter-rouge">mean_clockrate</code>. Run the script on the primate dataset. Estimate the mean rate of substitution and its relative variance across branches. Visualize the estimated relative ages on the tree.
+<p>Write the complete script, using <code class="language-plaintext highlighter-rouge">prim_strictclock.rev</code> as a template and making the required changes. You may want to remove the variable <code class="language-plaintext highlighter-rouge">clockrate</code> from the screen monitor to avoid cluttering your terminal, and instead you may want to monitor <code class="language-plaintext highlighter-rouge">mean_clockrate</code>. Run the script on the primate dataset. Estimate the mean rate of substitution and its relative variance across branches. Visualize the estimated relative ages on the tree.
 <strong>How does this compare with the strict clock estimates?</strong></p>
 
 <p>Using FigTree, identify areas of high or low rates of evolution.</p>
@@ -300,85 +300,85 @@ Note that $t-u$ is just the length of the branch starting at node $m$ and ending
 <p>In practice, we need to proceed in the other direction: first specifying the log-rate at the root, then, going from the root to the tips of the tree, and specifying the distribution of the log-rate at each node, conditional on its parent. In RevBayes, the nodes are indexed starting from the tips, and ending at the root. Therefore, we should specify them by visiting the indices in a decreasing order.</p>
 
 <p>First, we define the number of nodes:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>n_nodes &lt;- 2 * n_species - 1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>n_nodes &lt;- 2 * n_species - 1
 </code></pre></div></div>
 <p>Then we should define the sigma parameter (the variance per unit of time of the Brownian motion):</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sigma ~ dnExponential(1.0)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sigma ~ dnExponential(1.0)
 </code></pre></div></div>
 <p>Next, we should specify the log-rate at the root, which has index n_nodes. Here, we use a vaguely informative prior, with a rate of mean around $0.1$, but with a large variance:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nodelograte[n_nodes] ~ dnNormal(mean=-2, sd=20)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nodelograte[n_nodes] ~ dnNormal(mean=-2, sd=20)
 </code></pre></div></div>
 <p>Then, we visit the nodes in decreasing order (from root to tips):</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (i in (n_nodes-1):1)    {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (i in (n_nodes-1):1)    {
     nodelograte[i] ~ dnNormal(mean=nodelograte[tree.parent(i)], sd=sigma * sqrt(tree.branchLength(i)))
 }
 </code></pre></div></div>
 
 <p>Once this is done, we still need to specify (or, in fact, to approximate), the mean substitution rate over each branch. We will use the following approximation: the rate on a given branch is the average of the rates at both ends. The rates at both ends are themselves obtained by taking the exponential of the log-rates at both ends. Altogether, we have to loop over all branches as follows:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (i in 1:n_branches) {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (i in 1:n_branches) {
     clockrate[i] := 0.5 * (exp(nodelograte[tree.parent(i)]) + exp(nodelograte[i]))
 }
 </code></pre></div></div>
 
 <p>Finally, we can use these rates across branches in our sequence evolutionary process:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq ~ dnPhyloCTMC( tree=timetree, Q=Q, branchRates=clockrate, type="DNA" )
 </code></pre></div></div>
 
 <p>Again, we should move all of the additional free parameters of the model: here, a scaling move for sigma:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append(mvScale(sigma, weight=1.0))
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append(mvScale(sigma, weight=1.0))
 </code></pre></div></div>
 <p>but also a sliding move for each of the log-rates across nodes.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (i in 1:n_nodes) {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>for (i in 1:n_nodes) {
     moves.append(mvSlide(nodelograte[i], weight=1.0))
 }
 </code></pre></div></div>
 
 <p>For the rest, the script unfolds as usual.</p>
 
-<p>Write the complete script, using <code class="highlighter-rouge">prim_strictclock.rev</code> as a template and making the required changes. Run the script on the primate dataset, and compare your estimation with the other clock models considered above.</p>
+<p>Write the complete script, using <code class="language-plaintext highlighter-rouge">prim_strictclock.rev</code> as a template and making the required changes. Run the script on the primate dataset, and compare your estimation with the other clock models considered above.</p>
 </blockquote>
 
 <blockquote class="aside"><h2>Setting up a node age calibration</h2><p>To date a phylogeny it is useful to be able to associate a date in time to one or several nodes (<em>i.e.</em>, clades) of the phylogeny. This is called calibrating a node age. Typically, node age calibrations can be obtained from the fossil record. In this primate phylogeny, several fossils could be used to calibrate the age of several nodes. Here we will calibrate a single node in the phylogeny, but in practice it is often better to calibrate several nodes using several fossil ages.</p>
 
 <p>We will calibrate the node ancestral to all Anthropoidea. To do this, we first need to define the corresponding clade:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>clade_Anthropoidea &lt;- clade("Cebus_apella","Homo_sapiens")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>clade_Anthropoidea &lt;- clade("Cebus_apella","Homo_sapiens")
 </code></pre></div></div>
 
 <p>From the <a href="https://www.sciencedirect.com/science/article/pii/S1055790314000827">literature</a> we find that it can be calibrated with a minimum age at 31.5 Mya. We will implement this calibration as a minimum bound, which means that we assume that the clade was formed before that time.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>minimum_bound_Anthropoidea &lt;- 31.5
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>minimum_bound_Anthropoidea &lt;- 31.5
 </code></pre></div></div>
 
 <p>Then, we compute the clade age (<em>i.e.</em>, the time at which the clade was born) as found in the timetree in the current iteration of the MCMC:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>speciation_clade_Anthropoidea := tmrca(timetree, clade_Anthropoidea)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>speciation_clade_Anthropoidea := tmrca(timetree, clade_Anthropoidea)
 </code></pre></div></div>
 
-<p>Finally we calibrate the node age with the fossil age. Because we are using a minimal bound, we know that the node age has to be older than the fossil age. The delay between the node age and the fossil age is considered to be distributed according to an exponential distribution. However the writing of this simple assumption is a bit tricky: we are going to write that the variable that is clamped is generated according to an exponential waiting time that started at time <code class="highlighter-rouge">-speciation_clade_Anthropoidea</code>. Here is how we specify this:</p>
+<p>Finally we calibrate the node age with the fossil age. Because we are using a minimal bound, we know that the node age has to be older than the fossil age. The delay between the node age and the fossil age is considered to be distributed according to an exponential distribution. However the writing of this simple assumption is a bit tricky: we are going to write that the variable that is clamped is generated according to an exponential waiting time that started at time <code class="language-plaintext highlighter-rouge">-speciation_clade_Anthropoidea</code>. Here is how we specify this:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>obs_age_clade_Anthropoidea~ dnExponential(0.2, offset = - speciation_clade_Anthropoidea)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>obs_age_clade_Anthropoidea~ dnExponential(0.2, offset = - speciation_clade_Anthropoidea)
 </code></pre></div></div>
 
 <p>Then we clamp the stochastic variable to minus our fossil age:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>obs_age_clade_Anthropoidea.clamp(-minimum_bound_Anthropoidea)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>obs_age_clade_Anthropoidea.clamp(-minimum_bound_Anthropoidea)
 </code></pre></div></div>
 
-<p>The figure below shows how a common exponential distribution (in black) shifts when it is offset by a value of -40 (i.e., here <code class="highlighter-rouge">speciation_clade_Anthropoidea</code>=40). According to this shifted distribution, the likelihood of observing the fossil at age -31.5 is about 0.037.</p>
+<p>The figure below shows how a common exponential distribution (in black) shifts when it is offset by a value of -40 (i.e., here <code class="language-plaintext highlighter-rouge">speciation_clade_Anthropoidea</code>=40). According to this shifted distribution, the likelihood of observing the fossil at age -31.5 is about 0.037.</p>
 
 <figure id="node age calibration"><p><img src="figures/calibration_density.png" /></p>
 <figcaption>Density of an exponential distribution without and with offset, and the likelihood of observing fossil age -31.5 given clade age -40.</figcaption>
 </figure>
 
-<p>One way to interpret this calibration is to represent the likelihood for different values of the clade age <code class="highlighter-rouge">speciation_clade_Anthropoidea</code>. This is shown in the figure below.</p>
+<p>One way to interpret this calibration is to represent the likelihood for different values of the clade age <code class="language-plaintext highlighter-rouge">speciation_clade_Anthropoidea</code>. This is shown in the figure below.</p>
 
 <figure id="node age calibration"><p><img src="figures/likelihood_density.png" /></p>
-<figcaption>Likelihood curve for clade age <code class="highlighter-rouge">speciation_clade_Anthropoidea</code> given fossil age -31.5 and rate for the exponential distribution 0.2.</figcaption>
+<figcaption>Likelihood curve for clade age <code class="language-plaintext highlighter-rouge">speciation_clade_Anthropoidea</code> given fossil age -31.5 and rate for the exponential distribution 0.2.</figcaption>
 </figure>
 
 <p>We observe that the most likely clade ages are right before the fossil age, and that the likelihood of clade age decreases as the clade becomes much older than the fossil age.</p>
 
-<p>Finally, implementing this node age calibration into the relaxed clock scripts involves copying the code lines given above, but also changing how we handle the root age, which we had fixed to be 1.0 (we were using <code class="highlighter-rouge">root_age.setValue(1.0)</code>, we need to remove this line). Instead, we need to sample root age values by specifying moves on the root age, as follows:</p>
+<p>Finally, implementing this node age calibration into the relaxed clock scripts involves copying the code lines given above, but also changing how we handle the root age, which we had fixed to be 1.0 (we were using <code class="language-plaintext highlighter-rouge">root_age.setValue(1.0)</code>, we need to remove this line). Instead, we need to sample root age values by specifying moves on the root age, as follows:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append(mvScale(root_age, weight=1.0, lambda=0.1))
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append(mvScale(root_age, weight=1.0, lambda=0.1))
 </code></pre></div></div>
 </blockquote>
 

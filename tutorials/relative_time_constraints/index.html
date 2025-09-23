@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="search-domain" value="https://boussau.github.io/">
+    <meta name="search-domain" value="http://localhost:4000/">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/syntax.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css" />
@@ -50,7 +50,7 @@
 	<h1 class="maintitle">Dating with relative constraints</h1>
 	<h3 class="subtitle">Constraining the relative order of nodes when dating a phylogeny</h3>
 	<h4 class="authors">Dominik Schrempf, Gergely Szöllősi, and Bastien Boussau</h4>
-  <h5>Last modified on November 15, 2021</h5>
+  <h5>Last modified on </h5>
 </div>
 
 
@@ -164,14 +164,14 @@ order in time of two nodes of a tree (e.g. node A is older than node B).</p>
 available at <a href="https://github.com/revbayes/revbayes/commit/06c1cac4b9e62185cd8db45f638f152e30045ab8">commit 06c1cac</a>.
 Similar to other RevBayes tutorials, we suggest using the following
 directory structure:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>.
 ├── data
 ├── scripts
 └── output
 </code></pre></div></div>
 
 <p>The following data files are available:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>data/
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>data/
 ├── alignment.fasta    -- Alignment file simulated with the Jukes-Cantor (JC) model.
 ├── constraints.txt    -- File containing constraints.
 ├── substitution.tree  -- Tree with branch length in expected number of substitutions used to simulate the alignment.
@@ -179,18 +179,18 @@ directory structure:</p>
 </code></pre></div></div>
 
 <p>The following RevBayes script files are available:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scripts/
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>scripts/
 ├── 1_mcmc_jc.rev                   -- Infer branch-length trees using the JC model.
 ├── 2_summarize_branch_lengths.rev  -- Extract posterior means and variances of branch lengths.
 └── 3_mcmc_dating.rev               -- Date with calibrations and constraints.
 </code></pre></div></div>
 
 <p>Simulated data will be used, so that the inferred timetrees can be tested for
-accuracy against the correct timetree stored in the file <code class="highlighter-rouge">time.tree</code>. Inference
+accuracy against the correct timetree stored in the file <code class="language-plaintext highlighter-rouge">time.tree</code>. Inference
 will be done twice: (1) using calibrations only, and (2) using calibrations and
 constraints. We will not perform inference of the topology of the tree, only of
 the age of its nodes. We will therefore work with the correct, fixed tree
-topology obtained from the file <code class="highlighter-rouge">substitution.tree</code>. On empirical data, one
+topology obtained from the file <code class="language-plaintext highlighter-rouge">substitution.tree</code>. On empirical data, one
 could use the maximum-likelihood (ML) or the maximum a posteriori (MAP) topology
 obtained from a phylogenetic reconstruction based on the alignment as in e.g.
 tutorial <a href="../ctmc/">Phylogenetic inference of nucleotide data using RevBayes</a>.</p>
@@ -219,11 +219,11 @@ along this tree using the JC model.</em></figcaption>
 
 <p>For reasons of computational efficiency, the inference of the timetree is
 done in three steps. First, the posterior distributions of the branch lengths of
-the branch-length tree are inferred using the JC model (<code class="highlighter-rouge">1_mcmc_jc.rev</code>).
+the branch-length tree are inferred using the JC model (<code class="language-plaintext highlighter-rouge">1_mcmc_jc.rev</code>).
 Second, the inferred posterior distributions of the branch lengths are
 summarized into the posterior means and variances of the branch lengths
-(<code class="highlighter-rouge">2_summarize_branch_lengths.rev</code>). Third, calibrations and constraints are used
-to improve the accuracy of dating the phylogeny (<code class="highlighter-rouge">3_mcmc_dating.rev</code>). The
+(<code class="language-plaintext highlighter-rouge">2_summarize_branch_lengths.rev</code>). Third, calibrations and constraints are used
+to improve the accuracy of dating the phylogeny (<code class="language-plaintext highlighter-rouge">3_mcmc_dating.rev</code>). The
 posterior means and variances of the branch lengths obtained in the second step
 are used to approximate the phylogenetic likelihood using normal distributions.</p>
 
@@ -233,8 +233,8 @@ are used to approximate the phylogenetic likelihood using normal distributions.<
 posterior distributions of branch-length trees using a Jukes-Cantor substitution
 model on a single alignment with a fixed tree topology. The Markov chain Monte
 Carlo (MCMC) algorithm runs for 30000 iterations. It uses the alignment
-<code class="highlighter-rouge">data/alignment.fasta</code>, and the branch-length tree <code class="highlighter-rouge">data/substitution.tree</code>.
-The output is a file <code class="highlighter-rouge">output/alignment.fasta.trees</code> containing the 30000 branch-length trees
+<code class="language-plaintext highlighter-rouge">data/alignment.fasta</code>, and the branch-length tree <code class="language-plaintext highlighter-rouge">data/substitution.tree</code>.
+The output is a file <code class="language-plaintext highlighter-rouge">output/alignment.fasta.trees</code> containing the 30000 branch-length trees
 from the MCMC chain.</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> rb ./scripts/1_mcmc_jc.rev
@@ -247,12 +247,12 @@ from the MCMC chain.</p>
 
 <p>In this step, we compute the means and variances of the posterior distributions of branch lengths
 using the 30000 trees obtained in the previous step. Please have a look at the
-script file <code class="highlighter-rouge">scripts/2_summarize_branch_lengths.rev</code>.</p>
+script file <code class="language-plaintext highlighter-rouge">scripts/2_summarize_branch_lengths.rev</code>.</p>
 
 <p>First, we specify the name of the file containing the trees, and the amount of
 thinning we apply:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># File including trees obtained in step 1.
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># File including trees obtained in step 1.
 tree_file="alignment.fasta.trees"
 # Only use every nth tree to calculate the posterior means and variances.
 thinning = 5
@@ -260,7 +260,7 @@ thinning = 5
 
 <p>Then, the trees are loaded and thinned:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tre = readBranchLengthTrees(outdir+file_trees_only)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>tre = readBranchLengthTrees(outdir+file_trees_only)
 
 print("Number of trees before thinning: ")
 print(tre.size())
@@ -278,7 +278,7 @@ for (i in 1:tre.size()) {
 <p>The posterior means and squared means (which will be used to calculate
 variances) are then computed:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>print("Compute the posterior means and squared means of the branch lengths.")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>print("Compute the posterior means and squared means of the branch lengths.")
 num_branches = trees[1].nnodes()-1
 bl_means &lt;- rep(0.0,num_branches)
 bl_squaredmeans &lt;- rep(0.0,num_branches)
@@ -307,7 +307,7 @@ way.</p>
 <p>The posterior variances are calculated using the standard formula \(Var(X) =
 E(X^2) - E(X)^2.\)</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>################################################################################
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>################################################################################
 # Save the posterior means in a separate tree.
 
 print("Compute the tree with posterior means as branch lengths.")
@@ -366,13 +366,13 @@ without.</p>
 <h2 class="section" id="step-3-dating-using-calibrations-and-constraints">Step 3: Dating using calibrations and constraints</h2>
 
 <p>Finally, we date the phylogeny using a relaxed clock model. Please have a look
-at the script <code class="highlighter-rouge">3_mcmc_dating.rev</code>. Important parts will be explained in the
+at the script <code class="language-plaintext highlighter-rouge">3_mcmc_dating.rev</code>. Important parts will be explained in the
 following.</p>
 
 <p>After defining file names and options with respect to the MCMC sampler, the root
 age is calibrated using an interval around the true root age:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root_age &lt;- tree.rootAge()
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>root_age &lt;- tree.rootAge()
 root_age_delta &lt;- root_age / 5
 root_age_min &lt;- root_age - root_age_delta
 root_age_max &lt;- root_age + root_age_delta
@@ -381,7 +381,7 @@ root_time_real.setValue(tree.rootAge())
 root_time := abs( root_time_real )
 </code></pre></div></div>
 
-<p>The correct root age is obtained from the variable <code class="highlighter-rouge">tree</code> which was initialized
+<p>The correct root age is obtained from the variable <code class="language-plaintext highlighter-rouge">tree</code> which was initialized
 to store the correct timetree. By doing this, we are benefiting from the fact
 that we know the true timetree.
 When analyzing an empirical data set for which the timetree is not known, one
@@ -389,33 +389,33 @@ needs to find other ways to come up
 with a reasonable prior distribution for the root age. We set a
 uniform prior on the age of the root.</p>
 
-<p>If specified, we also load the constraints from the given file <code class="highlighter-rouge">contraints.txt</code>:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (constrain) {
+<p>If specified, we also load the constraints from the given file <code class="language-plaintext highlighter-rouge">contraints.txt</code>:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>if (constrain) {
   out_bn = out_bn + "_cons"
   constraints &lt;- readRelativeNodeAgeConstraints(file=constraints_file)
 }
 </code></pre></div></div>
 
-<p>The file <code class="highlighter-rouge">constraints.txt</code> stores the constraints obtained from 3 hypothetical
+<p>The file <code class="language-plaintext highlighter-rouge">constraints.txt</code> stores the constraints obtained from 3 hypothetical
 gene transfer events.</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-- Contents of file `data/constraints.txt`
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>-- Contents of file `data/constraints.txt`
 T0	T1	T14	T15
 T7	T8	T19	T20
 T3	T4	T8	T9
 </code></pre></div></div>
 
-<p>The first line <code class="highlighter-rouge">T0\tT1\tT14\tT15</code> tells RevBayes that the most recent common
-ancestor (MRCA) of <code class="highlighter-rouge">T0</code> and <code class="highlighter-rouge">T1</code> has to be older than the MRCA of <code class="highlighter-rouge">T14</code> and
-<code class="highlighter-rouge">T15</code>, and so on for the following lines. You can look for the respective nodes
+<p>The first line <code class="language-plaintext highlighter-rouge">T0\tT1\tT14\tT15</code> tells RevBayes that the most recent common
+ancestor (MRCA) of <code class="language-plaintext highlighter-rouge">T0</code> and <code class="language-plaintext highlighter-rouge">T1</code> has to be older than the MRCA of <code class="language-plaintext highlighter-rouge">T14</code> and
+<code class="language-plaintext highlighter-rouge">T15</code>, and so on for the following lines. You can look for the respective nodes
 on the timetree given above, and check that the constraints are actually valid.
 In fact, the constraints may be helpful in that they resolve the order of
 nodes having similar ages.</p>
 
 <p>Next, we use a birth process with an unknown birth rate as a prior for the
-timetree <code class="highlighter-rouge">psi</code>, and define some proposals for the MCMC sampler. The
-proposals change the root age, scale the branches of <code class="highlighter-rouge">psi</code>, and slide the nodes.</p>
+timetree <code class="language-plaintext highlighter-rouge">psi</code>, and define some proposals for the MCMC sampler. The
+proposals change the root age, scale the branches of <code class="language-plaintext highlighter-rouge">psi</code>, and slide the nodes.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>################################################################################
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>################################################################################
 # Tree model.
 
 birth_rate ~ dnExp(1)
@@ -438,14 +438,14 @@ moves.append(mvNodeTimeSlideUniform(psi, weight=1.0*n_branches))
 moves.append(mvLayeredScaleProposal(tree=psi, lambda=0.1, tune=true, weight=1.0*n_branches))
 </code></pre></div></div>
 
-<p>Now, two calibrations are added. The MRCAs of <code class="highlighter-rouge">T1</code> and <code class="highlighter-rouge">T2</code>, as well as <code class="highlighter-rouge">T14</code>
-and <code class="highlighter-rouge">T15</code> are fixed to be within intervals centered around their true ages
-(initially, <code class="highlighter-rouge">psi</code> stores the true tree). The distribution
-<code class="highlighter-rouge">dnSoftBoundUniformNormal</code> is uniform between the specified boundaries and
+<p>Now, two calibrations are added. The MRCAs of <code class="language-plaintext highlighter-rouge">T1</code> and <code class="language-plaintext highlighter-rouge">T2</code>, as well as <code class="language-plaintext highlighter-rouge">T14</code>
+and <code class="language-plaintext highlighter-rouge">T15</code> are fixed to be within intervals centered around their true ages
+(initially, <code class="language-plaintext highlighter-rouge">psi</code> stores the true tree). The distribution
+<code class="language-plaintext highlighter-rouge">dnSoftBoundUniformNormal</code> is uniform between the specified boundaries and
 decreases normally out of the boundaries with the given standard deviation
-(<code class="highlighter-rouge">sd</code>).</p>
+(<code class="language-plaintext highlighter-rouge">sd</code>).</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>################################################################################
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>################################################################################
 # Node calibrations provide information about the ages of the MRCA.
 
 # The MRCAs of the following clades are calibrated.
@@ -470,7 +470,7 @@ age_clade_1_prior.clamp(age_clade_1_mean)
 <p>Finally, we read in the posterior means and variances of the branch lengths
 prepared in the previous steps.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mean_tree &lt;- readTrees(mean_tree_file)[1]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mean_tree &lt;- readTrees(mean_tree_file)[1]
 var_tree &lt;- readTrees(var_tree_file)[1]
 </code></pre></div></div>
 
@@ -478,7 +478,7 @@ var_tree &lt;- readTrees(var_tree_file)[1]
 necessary to get the correct mapping between branches, and their posterior means
 and variances. Internally, it is ensured that the indices are shared correctly.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Reroot and make bifurcating.
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Reroot and make bifurcating.
 rootId &lt;- tree.getRootIndex()
 outgroup &lt;- tree.getDescendantTaxa(rootId)
 mean_tree.reroot(clade=clade(outgroup), make_bifurcating=TRUE)
@@ -496,7 +496,7 @@ rooted time tree. It follows that the two branches leading to the root of the
 timetree correspond to a single branch of the unrooted tree from the first step.
 We have to take this into account when approximating the phylogenetic likelihood.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Get indices of left child and right child of root.
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Get indices of left child and right child of root.
 i_left &lt;- tree.child(tree.nnodes(),1)
 i_right &lt;- tree.child(tree.nnodes(),2)
 
@@ -526,13 +526,13 @@ too low to be used for calculating the approximate phylogenetic likelihood.</p>
 
 <p>In the next step, we define the relaxed molecular clock model. Several of them
 are available in RevBayes. Here, we decided to use an uncorrelated model. We
-separate between a global rate (<code class="highlighter-rouge">global_rate_mean</code>) and the relative branch-wise
-rates (<code class="highlighter-rouge">rel_branch_rates</code>). We use an uncorrelated gamma model
+separate between a global rate (<code class="language-plaintext highlighter-rouge">global_rate_mean</code>) and the relative branch-wise
+rates (<code class="language-plaintext highlighter-rouge">rel_branch_rates</code>). We use an uncorrelated gamma model
 (UGAM). In the UGAM model, the relative branch rates are distributed according
-to a gamma distribution. We use a hyper parameter <code class="highlighter-rouge">sigma</code> on the shape and scale
+to a gamma distribution. We use a hyper parameter <code class="language-plaintext highlighter-rouge">sigma</code> on the shape and scale
 parameters of the gamma distribution:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mean_tree_root_age := mean_tree.rootAge()
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mean_tree_root_age := mean_tree.rootAge()
 global_rate_mean ~ dnExp(1)
 global_rate_mean.setValue(mean_tree_root_age/tree.rootAge());
 sigma ~ dnExp(10.0)
@@ -566,19 +566,19 @@ for (i in n_branches:1) {
 each branch, the length measured in substitutions is the product of the length
 measured in time, and the evolutionary rate at that branch:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mean_bl[i] := times[i]*branch_rates[i]
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mean_bl[i] := times[i]*branch_rates[i]
 </code></pre></div></div>
 
 <p>The branch lengths are then distributed according to normal distributions with
 the posterior means and variances obtained in the previous steps:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bls[i] ~ dnNormal(mean_bl[i] ,sqrt(posterior_var_bl[i]))
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bls[i] ~ dnNormal(mean_bl[i] ,sqrt(posterior_var_bl[i]))
 </code></pre></div></div>
 
 <p>Again, the two branches leading to the root are handled in a special way. In
 total, the approximate phylogenetic likelihood is calculated like so:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>times[i_left] := psi.branchLength(i_left)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>times[i_left] := psi.branchLength(i_left)
 times[i_right] := psi.branchLength(i_right)
 
 for(i in 1:n_branches) {
@@ -598,14 +598,14 @@ bls[i_root].clamp(posterior_mean_bl_root)
 
 <p>The last part of the script defines the monitors, executes the MCMC chain, and
 saves the results. To perform the dating analysis, please execute twice (once
-with <code class="highlighter-rouge">constrain = true</code>, and once with <code class="highlighter-rouge">constrain = false</code>):</p>
+with <code class="language-plaintext highlighter-rouge">constrain = true</code>, and once with <code class="language-plaintext highlighter-rouge">constrain = false</code>):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rb ./scripts/3_mcmc_dating.rev
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rb ./scripts/3_mcmc_dating.rev
 </code></pre></div></div>
 
 <p>The MAP trees for the analysis with calibrations only, and with calibrations and
-constraints are stored in the files <code class="highlighter-rouge">output/alignment.fasta.approx.dating.tree</code>,
-and <code class="highlighter-rouge">output/alignment.fasta.approx.dating_cons.tree</code>, respectively.</p>
+constraints are stored in the files <code class="language-plaintext highlighter-rouge">output/alignment.fasta.approx.dating.tree</code>,
+and <code class="language-plaintext highlighter-rouge">output/alignment.fasta.approx.dating_cons.tree</code>, respectively.</p>
 
 <h2 class="section" id="analysis-of-results">Analysis of results</h2>
 
@@ -634,7 +634,7 @@ software package. Here, we used <a href="https://github.com/dschrempf/elynx">ELy
 branch score distances between the original timetree, and the inferred timetrees
 are:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tlynx distance -d branch-score -f RevBayes -m data/time.tree output/alignment.fasta.approx.dating.tree output/alignment.fasta.approx.dating_cons.tree
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ tlynx distance -d branch-score -f RevBayes -m data/time.tree output/alignment.fasta.approx.dating.tree output/alignment.fasta.approx.dating_cons.tree
 === tlynx
 Compare, examine, and simulate phylogenetic trees.
 ELynx Suite version 0.4.0.
@@ -671,7 +671,7 @@ Also, when the tree topology is unknown, it has to be inferred. This has to be d
 beforehand. Finally, calibrations and constraints have to be obtained manually
 either based on the literature or based on original research.</p>
 
-<p>The simulations were done using a custom simulator called <code class="highlighter-rouge">ELynx</code>. If you are
+<p>The simulations were done using a custom simulator called <code class="language-plaintext highlighter-rouge">ELynx</code>. If you are
 interested, please have a look at the <a href="https://github.com/dschrempf/elynx">source code of
 ELynx</a> and the <a href="https://github.com/revbayes/revbayes.github.io/tree/source/tutorials/relative_time_constraints/internal/simulate">simulation scripts for this
 tutorial</a>.</p>

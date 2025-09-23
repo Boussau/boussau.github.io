@@ -1,0 +1,167 @@
+current directory: /home/boussau/Work/boussau.github.io/vendor/bundle/ruby/2.7.0/gems/sassc-2.2.1/ext
+/home/boussau/.rbenv/versions/2.7.7/bin/ruby -I /home/boussau/.rbenv/versions/2.7.7/lib/ruby/2.7.0 -r ./siteconf20250923-45996-lies9g.rb extconf.rb
+creating Makefile
+
+current directory: /home/boussau/Work/boussau.github.io/vendor/bundle/ruby/2.7.0/gems/sassc-2.2.1/ext
+make "DESTDIR=" clean
+
+current directory: /home/boussau/Work/boussau.github.io/vendor/bundle/ruby/2.7.0/gems/sassc-2.2.1/ext
+make "DESTDIR="
+compiling ./libsass/src/fn_miscs.cpp
+compiling ./libsass/src/sass_context.cpp
+compiling ./libsass/src/ast_sel_unify.cpp
+compiling ./libsass/src/memory/SharedPtr.cpp
+compiling ./libsass/src/color_maps.cpp
+compiling ./libsass/src/subset_map.cpp
+compiling ./libsass/src/plugins.cpp
+compiling ./libsass/src/extend.cpp
+compiling ./libsass/src/sass_util.cpp
+compiling ./libsass/src/json.cpp
+compiling ./libsass/src/sass_values.cpp
+compiling ./libsass/src/prelexer.cpp
+compiling ./libsass/src/inspect.cpp
+compiling ./libsass/src/source_map.cpp
+compiling ./libsass/src/context.cpp
+compiling ./libsass/src/ast2c.cpp
+compiling ./libsass/src/fn_numbers.cpp
+compiling ./libsass/src/fn_utils.cpp
+compiling ./libsass/src/remove_placeholders.cpp
+compiling ./libsass/src/base64vlq.cpp
+compiling ./libsass/src/util_string.cpp
+compiling ./libsass/src/cssize.cpp
+compiling ./libsass/src/eval.cpp
+compiling ./libsass/src/ast.cpp
+compiling ./libsass/src/emitter.cpp
+compiling ./libsass/src/fn_maps.cpp
+compiling ./libsass/src/cencode.c
+compiling ./libsass/src/sass_functions.cpp
+compiling ./libsass/src/utf8_string.cpp
+compiling ./libsass/src/sass.cpp
+compiling ./libsass/src/fn_strings.cpp
+compiling ./libsass/src/parser.cpp
+compiling ./libsass/src/util.cpp
+compiling ./libsass/src/ast_supports.cpp
+compiling ./libsass/src/listize.cpp
+compiling ./libsass/src/to_value.cpp
+compiling ./libsass/src/ast_values.cpp
+compiling ./libsass/src/expand.cpp
+compiling ./libsass/src/sass2scss.cpp
+compiling ./libsass/src/operators.cpp
+compiling ./libsass/src/c99func.c
+compiling ./libsass/src/output.cpp
+compiling ./libsass/src/bind.cpp
+compiling ./libsass/src/units.cpp
+compiling ./libsass/src/file.cpp
+compiling ./libsass/src/environment.cpp
+compiling ./libsass/src/ast_sel_cmp.cpp
+compiling ./libsass/src/values.cpp
+compiling ./libsass/src/c2ast.cpp
+compiling ./libsass/src/ast_fwd_decl.cpp
+compiling ./libsass/src/constants.cpp
+compiling ./libsass/src/check_nesting.cpp
+compiling ./libsass/src/ast_selectors.cpp
+In file included from /usr/include/c++/14/bits/hashtable.h:35,
+                 from /usr/include/c++/14/bits/unordered_map.h:33,
+                 from /usr/include/c++/14/unordered_map:41,
+                 from ./libsass/src/ast_fwd_decl.hpp:11,
+                 from ./libsass/src/ast.hpp:17,
+                 from ./libsass/src/ast_selectors.cpp:2:
+/usr/include/c++/14/bits/hashtable_policy.h: In instantiation of ‘bool std::__detail::_Hashtable_base<_Key, _Value, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _Traits>::_M_key_equals_tr(const _Kt&, const std::__detail::_Hash_node_value<_Value, typename _Traits::__hash_cached::value>&) const [with _Kt = Sass::SharedImpl<Sass::Simple_Selector>; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _Traits = std::__detail::_Hashtable_traits<true, true, true>; typename _Traits::__hash_cached = std::__detail::_Hashtable_traits<true, true, true>::__hash_cached]’:
+/usr/include/c++/14/bits/hashtable.h:2326:32:   required from ‘std::pair<typename std::__detail::_Insert<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::iterator, bool> std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_M_insert_unique(_Kt&&, _Arg&&, const _NodeGenerator&) [with _Kt = const Sass::SharedImpl<Sass::Simple_Selector>&; _Arg = const Sass::SharedImpl<Sass::Simple_Selector>&; _NodeGenerator = std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<const Sass::Simple_Selector*, true> > >; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _Alloc = std::allocator<const Sass::Simple_Selector*>; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, true, true>; typename std::__detail::_Insert<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::iterator = std::__detail::_Insert_base<const Sass::Simple_Selector*, const Sass::Simple_Selector*, std::allocator<const Sass::Simple_Selector*>, std::__detail::_Identity, Sass::ComparePtrs, Sass::HashPtr, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::iterator; typename _Traits::__constant_iterators = std::__detail::_Hashtable_traits<true, true, true>::__constant_iterators]’
+ 2326 |             if (this->_M_key_equals_tr(__k, *__it))
+      |                 ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~
+/usr/include/c++/14/bits/hashtable.h:947:27:   required from ‘std::pair<typename std::__detail::_Insert<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::iterator, bool> std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_M_insert_unique_aux(_Arg&&, const _NodeGenerator&) [with _Arg = const Sass::SharedImpl<Sass::Simple_Selector>&; _NodeGenerator = std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<const Sass::Simple_Selector*, true> > >; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _Alloc = std::allocator<const Sass::Simple_Selector*>; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, true, true>; typename std::__detail::_Insert<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::iterator = std::__detail::_Insert_base<const Sass::Simple_Selector*, const Sass::Simple_Selector*, std::allocator<const Sass::Simple_Selector*>, std::__detail::_Identity, Sass::ComparePtrs, Sass::HashPtr, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::iterator; typename _Traits::__constant_iterators = std::__detail::_Hashtable_traits<true, true, true>::__constant_iterators]’
+  947 |           return _M_insert_unique(
+      |                  ~~~~~~~~~~~~~~~~^
+  948 |             _S_forward_key(_ExtractKey{}(std::forward<_Arg>(__arg))),
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  949 |             std::forward<_Arg>(__arg), __node_gen);
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/14/bits/hashtable.h:959:31:   required from ‘std::pair<typename std::__detail::_Insert<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::iterator, bool> std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_M_insert(_Arg&&, const _NodeGenerator&, std::true_type) [with _Arg = const Sass::SharedImpl<Sass::Simple_Selector>&; _NodeGenerator = std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<const Sass::Simple_Selector*, true> > >; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _Alloc = std::allocator<const Sass::Simple_Selector*>; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, true, true>; typename std::__detail::_Insert<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::iterator = std::__detail::_Insert_base<const Sass::Simple_Selector*, const Sass::Simple_Selector*, std::allocator<const Sass::Simple_Selector*>, std::__detail::_Identity, Sass::ComparePtrs, Sass::HashPtr, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::iterator; typename _Traits::__constant_iterators = std::__detail::_Hashtable_traits<true, true, true>::__constant_iterators; std::true_type = std::true_type]’
+  959 |           return _M_insert_unique_aux(
+      |                  ~~~~~~~~~~~~~~~~~~~~^
+  960 |             __to_value{}(std::forward<_Arg>(__arg)), __node_gen);
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/14/bits/hashtable_policy.h:1097:17:   required from ‘void std::__detail::_Insert_base<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_M_insert_range(_InputIterator, _InputIterator, const _NodeGetter&, std::true_type) [with _InputIterator = __gnu_cxx::__normal_iterator<const Sass::SharedImpl<Sass::Simple_Selector>*, std::vector<Sass::SharedImpl<Sass::Simple_Selector>, std::allocator<Sass::SharedImpl<Sass::Simple_Selector> > > >; _NodeGetter = std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<const Sass::Simple_Selector*, true> > >; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _Alloc = std::allocator<const Sass::Simple_Selector*>; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, true, true>; std::true_type = std::true_type]’
+ 1097 |           __h._M_insert(*__first, __node_gen, __uks);
+      |           ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/14/bits/hashtable_policy.h:1079:26:   required from ‘void std::__detail::_Insert_base<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::insert(_InputIterator, _InputIterator) [with _InputIterator = __gnu_cxx::__normal_iterator<const Sass::SharedImpl<Sass::Simple_Selector>*, std::vector<Sass::SharedImpl<Sass::Simple_Selector>, std::allocator<Sass::SharedImpl<Sass::Simple_Selector> > > >; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _Alloc = std::allocator<const Sass::Simple_Selector*>; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, true, true>]’
+ 1079 |           return _M_insert_range(__first, __last, __node_gen, __unique_keys{});
+      |                  ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/14/bits/hashtable.h:1278:21:   required from ‘std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_Hashtable(_InputIterator, _InputIterator, size_type, const _Hash&, const _Equal&, const allocator_type&, std::true_type) [with _InputIterator = __gnu_cxx::__normal_iterator<const Sass::SharedImpl<Sass::Simple_Selector>*, std::vector<Sass::SharedImpl<Sass::Simple_Selector>, std::allocator<Sass::SharedImpl<Sass::Simple_Selector> > > >; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _Alloc = std::allocator<const Sass::Simple_Selector*>; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, true, true>; size_type = long unsigned int; allocator_type = std::allocator<const Sass::Simple_Selector*>; std::true_type = std::true_type]’
+ 1278 |       { this->insert(__f, __l); }
+      |         ~~~~~~~~~~~~^~~~~~~~~~
+/usr/include/c++/14/bits/hashtable.h:577:23:   required from ‘std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_Hashtable(_InputIterator, _InputIterator, size_type, const _Hash&, const key_equal&, const allocator_type&) [with _InputIterator = __gnu_cxx::__normal_iterator<const Sass::SharedImpl<Sass::Simple_Selector>*, std::vector<Sass::SharedImpl<Sass::Simple_Selector>, std::allocator<Sass::SharedImpl<Sass::Simple_Selector> > > >; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _Alloc = std::allocator<const Sass::Simple_Selector*>; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, true, true>; size_type = long unsigned int; key_equal = Sass::ComparePtrs; allocator_type = std::allocator<const Sass::Simple_Selector*>]’
+  577 |                      __unique_keys{})
+      |                                     ^
+/usr/include/c++/14/bits/unordered_set.h:178:4:   required from ‘std::unordered_set<_Value, _Hash, _Pred, _Alloc>::unordered_set(_InputIterator, _InputIterator, size_type, const hasher&, const key_equal&, const allocator_type&) [with _InputIterator = __gnu_cxx::__normal_iterator<const Sass::SharedImpl<Sass::Simple_Selector>*, std::vector<Sass::SharedImpl<Sass::Simple_Selector>, std::allocator<Sass::SharedImpl<Sass::Simple_Selector> > > >; _Value = const Sass::Simple_Selector*; _Hash = Sass::HashPtr; _Pred = Sass::ComparePtrs; _Alloc = std::allocator<const Sass::Simple_Selector*>; size_type = long unsigned int; hasher = Sass::HashPtr; key_equal = Sass::ComparePtrs; allocator_type = std::allocator<const Sass::Simple_Selector*>]’
+  178 |         : _M_h(__first, __last, __n, __hf, __eql, __a)
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+./libsass/src/ast_selectors.cpp:525:118:   required from here
+  525 |                contains_all(std::unordered_set<const Simple_Selector*, HashPtr, ComparePtrs>(rhs->begin(), rhs->end()),
+      |                                                                                                                      ^
+/usr/include/c++/14/bits/hashtable_policy.h:1831:13: error: static assertion failed: key equality predicate must be invocable with two arguments of key type
+ 1831 |             __is_invocable<const _Equal&, const _Kt&, const _Key&>{},
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/14/bits/hashtable_policy.h:1831:13: note: ‘std::__is_invocable<const Sass::ComparePtrs&, const Sass::SharedImpl<Sass::Simple_Selector>&, const Sass::Simple_Selector* const&>()’ evaluates to false
+/usr/include/c++/14/bits/hashtable_policy.h:1834:25: error: no match for call to ‘(const Sass::ComparePtrs) (const Sass::SharedImpl<Sass::Simple_Selector>&, const Sass::Simple_Selector* const&)’
+ 1834 |           return _M_eq()(__k, _ExtractKey{}(__n._M_v()));
+      |                  ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+./libsass/src/ast_fwd_decl.hpp:254:10: note: candidate: ‘template<class T> bool Sass::ComparePtrs::operator()(const T*, const T*) const’
+  254 |     bool operator() (const T *lhs, const T *rhs) const {
+      |          ^~~~~~~~
+./libsass/src/ast_fwd_decl.hpp:254:10: note:   template argument deduction/substitution failed:
+/usr/include/c++/14/bits/hashtable_policy.h:1834:25: note:   mismatched types ‘const T*’ and ‘Sass::SharedImpl<Sass::Simple_Selector>’
+ 1834 |           return _M_eq()(__k, _ExtractKey{}(__n._M_v()));
+      |                  ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/14/bits/hashtable_policy.h: In instantiation of ‘std::__detail::_Hash_code_base<_Key, _Value, _ExtractKey, _Hash, _RangeHash, _Unused, __cache_hash_code>::__hash_code std::__detail::_Hash_code_base<_Key, _Value, _ExtractKey, _Hash, _RangeHash, _Unused, __cache_hash_code>::_M_hash_code_tr(const _Kt&) const [with _Kt = Sass::SharedImpl<Sass::Simple_Selector>; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _ExtractKey = std::__detail::_Identity; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; bool __cache_hash_code = true; __hash_code = long unsigned int]’:
+/usr/include/c++/14/bits/hashtable.h:2329:44:   required from ‘std::pair<typename std::__detail::_Insert<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::iterator, bool> std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_M_insert_unique(_Kt&&, _Arg&&, const _NodeGenerator&) [with _Kt = const Sass::SharedImpl<Sass::Simple_Selector>&; _Arg = const Sass::SharedImpl<Sass::Simple_Selector>&; _NodeGenerator = std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<const Sass::Simple_Selector*, true> > >; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _Alloc = std::allocator<const Sass::Simple_Selector*>; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, true, true>; typename std::__detail::_Insert<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::iterator = std::__detail::_Insert_base<const Sass::Simple_Selector*, const Sass::Simple_Selector*, std::allocator<const Sass::Simple_Selector*>, std::__detail::_Identity, Sass::ComparePtrs, Sass::HashPtr, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::iterator; typename _Traits::__constant_iterators = std::__detail::_Hashtable_traits<true, true, true>::__constant_iterators]’
+ 2329 |         __hash_code __code = this->_M_hash_code_tr(__k);
+      |                              ~~~~~~~~~~~~~~~~~~~~~^~~~~
+/usr/include/c++/14/bits/hashtable.h:947:27:   required from ‘std::pair<typename std::__detail::_Insert<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::iterator, bool> std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_M_insert_unique_aux(_Arg&&, const _NodeGenerator&) [with _Arg = const Sass::SharedImpl<Sass::Simple_Selector>&; _NodeGenerator = std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<const Sass::Simple_Selector*, true> > >; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _Alloc = std::allocator<const Sass::Simple_Selector*>; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, true, true>; typename std::__detail::_Insert<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::iterator = std::__detail::_Insert_base<const Sass::Simple_Selector*, const Sass::Simple_Selector*, std::allocator<const Sass::Simple_Selector*>, std::__detail::_Identity, Sass::ComparePtrs, Sass::HashPtr, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::iterator; typename _Traits::__constant_iterators = std::__detail::_Hashtable_traits<true, true, true>::__constant_iterators]’
+  947 |           return _M_insert_unique(
+      |                  ~~~~~~~~~~~~~~~~^
+  948 |             _S_forward_key(_ExtractKey{}(std::forward<_Arg>(__arg))),
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  949 |             std::forward<_Arg>(__arg), __node_gen);
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/14/bits/hashtable.h:959:31:   required from ‘std::pair<typename std::__detail::_Insert<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::iterator, bool> std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_M_insert(_Arg&&, const _NodeGenerator&, std::true_type) [with _Arg = const Sass::SharedImpl<Sass::Simple_Selector>&; _NodeGenerator = std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<const Sass::Simple_Selector*, true> > >; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _Alloc = std::allocator<const Sass::Simple_Selector*>; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, true, true>; typename std::__detail::_Insert<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::iterator = std::__detail::_Insert_base<const Sass::Simple_Selector*, const Sass::Simple_Selector*, std::allocator<const Sass::Simple_Selector*>, std::__detail::_Identity, Sass::ComparePtrs, Sass::HashPtr, std::__detail::_Mod_range_hashing, std::__detail::_Default_ranged_hash, std::__detail::_Prime_rehash_policy, std::__detail::_Hashtable_traits<true, true, true> >::iterator; typename _Traits::__constant_iterators = std::__detail::_Hashtable_traits<true, true, true>::__constant_iterators; std::true_type = std::true_type]’
+  959 |           return _M_insert_unique_aux(
+      |                  ~~~~~~~~~~~~~~~~~~~~^
+  960 |             __to_value{}(std::forward<_Arg>(__arg)), __node_gen);
+      |             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/14/bits/hashtable_policy.h:1097:17:   required from ‘void std::__detail::_Insert_base<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_M_insert_range(_InputIterator, _InputIterator, const _NodeGetter&, std::true_type) [with _InputIterator = __gnu_cxx::__normal_iterator<const Sass::SharedImpl<Sass::Simple_Selector>*, std::vector<Sass::SharedImpl<Sass::Simple_Selector>, std::allocator<Sass::SharedImpl<Sass::Simple_Selector> > > >; _NodeGetter = std::__detail::_AllocNode<std::allocator<std::__detail::_Hash_node<const Sass::Simple_Selector*, true> > >; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _Alloc = std::allocator<const Sass::Simple_Selector*>; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, true, true>; std::true_type = std::true_type]’
+ 1097 |           __h._M_insert(*__first, __node_gen, __uks);
+      |           ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/14/bits/hashtable_policy.h:1079:26:   required from ‘void std::__detail::_Insert_base<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::insert(_InputIterator, _InputIterator) [with _InputIterator = __gnu_cxx::__normal_iterator<const Sass::SharedImpl<Sass::Simple_Selector>*, std::vector<Sass::SharedImpl<Sass::Simple_Selector>, std::allocator<Sass::SharedImpl<Sass::Simple_Selector> > > >; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _Alloc = std::allocator<const Sass::Simple_Selector*>; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, true, true>]’
+ 1079 |           return _M_insert_range(__first, __last, __node_gen, __unique_keys{});
+      |                  ~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/14/bits/hashtable.h:1278:21:   required from ‘std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_Hashtable(_InputIterator, _InputIterator, size_type, const _Hash&, const _Equal&, const allocator_type&, std::true_type) [with _InputIterator = __gnu_cxx::__normal_iterator<const Sass::SharedImpl<Sass::Simple_Selector>*, std::vector<Sass::SharedImpl<Sass::Simple_Selector>, std::allocator<Sass::SharedImpl<Sass::Simple_Selector> > > >; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _Alloc = std::allocator<const Sass::Simple_Selector*>; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, true, true>; size_type = long unsigned int; allocator_type = std::allocator<const Sass::Simple_Selector*>; std::true_type = std::true_type]’
+ 1278 |       { this->insert(__f, __l); }
+      |         ~~~~~~~~~~~~^~~~~~~~~~
+/usr/include/c++/14/bits/hashtable.h:577:23:   required from ‘std::_Hashtable<_Key, _Value, _Alloc, _ExtractKey, _Equal, _Hash, _RangeHash, _Unused, _RehashPolicy, _Traits>::_Hashtable(_InputIterator, _InputIterator, size_type, const _Hash&, const key_equal&, const allocator_type&) [with _InputIterator = __gnu_cxx::__normal_iterator<const Sass::SharedImpl<Sass::Simple_Selector>*, std::vector<Sass::SharedImpl<Sass::Simple_Selector>, std::allocator<Sass::SharedImpl<Sass::Simple_Selector> > > >; _Key = const Sass::Simple_Selector*; _Value = const Sass::Simple_Selector*; _Alloc = std::allocator<const Sass::Simple_Selector*>; _ExtractKey = std::__detail::_Identity; _Equal = Sass::ComparePtrs; _Hash = Sass::HashPtr; _RangeHash = std::__detail::_Mod_range_hashing; _Unused = std::__detail::_Default_ranged_hash; _RehashPolicy = std::__detail::_Prime_rehash_policy; _Traits = std::__detail::_Hashtable_traits<true, true, true>; size_type = long unsigned int; key_equal = Sass::ComparePtrs; allocator_type = std::allocator<const Sass::Simple_Selector*>]’
+  577 |                      __unique_keys{})
+      |                                     ^
+/usr/include/c++/14/bits/unordered_set.h:178:4:   required from ‘std::unordered_set<_Value, _Hash, _Pred, _Alloc>::unordered_set(_InputIterator, _InputIterator, size_type, const hasher&, const key_equal&, const allocator_type&) [with _InputIterator = __gnu_cxx::__normal_iterator<const Sass::SharedImpl<Sass::Simple_Selector>*, std::vector<Sass::SharedImpl<Sass::Simple_Selector>, std::allocator<Sass::SharedImpl<Sass::Simple_Selector> > > >; _Value = const Sass::Simple_Selector*; _Hash = Sass::HashPtr; _Pred = Sass::ComparePtrs; _Alloc = std::allocator<const Sass::Simple_Selector*>; size_type = long unsigned int; hasher = Sass::HashPtr; key_equal = Sass::ComparePtrs; allocator_type = std::allocator<const Sass::Simple_Selector*>]’
+  178 |         : _M_h(__first, __last, __n, __hf, __eql, __a)
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+./libsass/src/ast_selectors.cpp:525:118:   required from here
+  525 |                contains_all(std::unordered_set<const Simple_Selector*, HashPtr, ComparePtrs>(rhs->begin(), rhs->end()),
+      |                                                                                                                      ^
+/usr/include/c++/14/bits/hashtable_policy.h:1420:25: error: static assertion failed: hash function must be invocable with an argument of key type
+ 1420 |           static_assert(__is_invocable<const _Hash&, const _Kt&>{},
+      |                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/include/c++/14/bits/hashtable_policy.h:1420:25: note: ‘std::__is_invocable<const Sass::HashPtr&, const Sass::SharedImpl<Sass::Simple_Selector>&>()’ evaluates to false
+/usr/include/c++/14/bits/hashtable_policy.h:1422:27: error: no match for call to ‘(const Sass::HashPtr) (const Sass::SharedImpl<Sass::Simple_Selector>&)’
+ 1422 |           return _M_hash()(__k);
+      |                  ~~~~~~~~~^~~~~
+./libsass/src/ast_fwd_decl.hpp:248:12: note: candidate: ‘template<class T> size_t Sass::HashPtr::operator()(const T*) const’
+  248 |     size_t operator() (const T *ref) const {
+      |            ^~~~~~~~
+./libsass/src/ast_fwd_decl.hpp:248:12: note:   template argument deduction/substitution failed:
+/usr/include/c++/14/bits/hashtable_policy.h:1422:27: note:   mismatched types ‘const T*’ and ‘Sass::SharedImpl<Sass::Simple_Selector>’
+ 1422 |           return _M_hash()(__k);
+      |                  ~~~~~~~~~^~~~~
+make: *** [Makefile:238: ast_selectors.o] Error 1
+
+make failed, exit code 2

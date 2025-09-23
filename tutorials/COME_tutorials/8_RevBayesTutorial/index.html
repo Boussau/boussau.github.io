@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="search-domain" value="https://boussau.github.io/">
+    <meta name="search-domain" value="http://localhost:4000/">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/syntax.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css" />
@@ -50,7 +50,7 @@
 	<h1 class="maintitle">Bayesian phylogenetic inference with GTR</h1>
 	<h3 class="subtitle">Parameter estimation and tree inference</h3>
 	<h4 class="authors">Bastien Boussau and Mike May</h4>
-  <h5>Last modified on July 22, 2022</h5>
+  <h5>Last modified on </h5>
 </div>
 
 
@@ -128,28 +128,28 @@ with the constraint that $\rho_{XY} = \rho_{YX}$ for all nucleotide pairs $(X,Y)
 
 <p>We want to use a uniform prior over $er$, so we use a Dirichlet distribution with equal weights.
 We first define a constant node specifying the vector of
-concentration-parameter values using the <code class="highlighter-rouge">v()</code> function:</p>
+concentration-parameter values using the <code class="language-plaintext highlighter-rouge">v()</code> function:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>er_prior &lt;- v(1,1,1,1,1,1)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>er_prior &lt;- v(1,1,1,1,1,1)
 </code></pre></div></div>
 
 <p>This node defines the concentration-parameter values of the Dirichlet
 prior distribution on the exchangeability rates. Now, we can create a
-stochastic node for the exchangeability rates themselves using the <code class="highlighter-rouge">dnDirichlet()</code>
+stochastic node for the exchangeability rates themselves using the <code class="language-plaintext highlighter-rouge">dnDirichlet()</code>
 function, which takes the vector of concentration-parameter values as an
-argument and the <code class="highlighter-rouge">~</code> operator. Together, these create a stochastic node
-named <code class="highlighter-rouge">er</code> ($\theta$ in <a href="#gtr_graphical_model"></a>):</p>
+argument and the <code class="language-plaintext highlighter-rouge">~</code> operator. Together, these create a stochastic node
+named <code class="language-plaintext highlighter-rouge">er</code> ($\theta$ in <a href="#gtr_graphical_model"></a>):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>er ~ dnDirichlet(er_prior)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>er ~ dnDirichlet(er_prior)
 </code></pre></div></div>
 
 <p>The Dirichlet distribution assigns probability densities to a <a href="http://en.wikipedia.org/wiki/Simplex"><em>simplex</em></a>, a vector of values between 0 and 1.0 that must sum to 1. Simplices thus describe vectors of proportions. Here, we have specified a six-parameter Dirichlet prior, where each value describes one of the six relative rates of the GTR model: (1) $A\leftrightarrows C$; (2) $A\leftrightarrows G$; (3) $A\leftrightarrows T$; (4) $C\leftrightarrows G$; (5) $C\leftrightarrows T$; (6) $G\leftrightarrows T$. The input parameters of a Dirichlet distribution are called shape (or concentration) parameters. The expectation and variance for each variable are related to the sum of the shape parameters. The prior we specified above is a ‘flat’ or symmetric Dirichlet distribution; all of the shape parameters are equal (1,1,1,1,1,1). This describes a model that allows for equal rates of change between nucleotides, such that the expected rate for each is equal to $\frac{1}{6}$ (<a href="#dirichletFig"></a>a).</p>
 
-<p>We might also parameterize the Dirichlet distribution such that all of the shape parameters were equal to 100, which would also specify a prior with an expectation of equal exchangeability rates (<a href="#dirichletFig"></a>b). However, by increasing the values of the shape parameters, <code class="highlighter-rouge">er_prior &lt;- v(100,100,100,100,100,100)</code>, the Dirichlet distribution will more strongly favor equal exchangeability rates; (<em>i.e.</em>, a relatively informative prior).</p>
+<p>We might also parameterize the Dirichlet distribution such that all of the shape parameters were equal to 100, which would also specify a prior with an expectation of equal exchangeability rates (<a href="#dirichletFig"></a>b). However, by increasing the values of the shape parameters, <code class="language-plaintext highlighter-rouge">er_prior &lt;- v(100,100,100,100,100,100)</code>, the Dirichlet distribution will more strongly favor equal exchangeability rates; (<em>i.e.</em>, a relatively informative prior).</p>
 
-<p>Alternatively, we might consider an asymmetric Dirichlet parameterization that could reflect a strong prior belief that transition and transversion substitutions occur at different rates. For example, we might specify the prior density <code class="highlighter-rouge">er_prior &lt;- v(4,8,4,4,8,4)</code>. Under this model, the expected rate for transversions would be $\frac{4}{32}$ and that for transitions would be $\frac{8}{32}$, and there would be greater prior probability on sets of GTR rates that match this configuration (<a href="#dirichletFig"></a>c).</p>
+<p>Alternatively, we might consider an asymmetric Dirichlet parameterization that could reflect a strong prior belief that transition and transversion substitutions occur at different rates. For example, we might specify the prior density <code class="language-plaintext highlighter-rouge">er_prior &lt;- v(4,8,4,4,8,4)</code>. Under this model, the expected rate for transversions would be $\frac{4}{32}$ and that for transitions would be $\frac{8}{32}$, and there would be greater prior probability on sets of GTR rates that match this configuration (<a href="#dirichletFig"></a>c).</p>
 
-<p>Yet another asymmetric prior could specify that each of the six GTR rates had a different value conforming to a Dirichlet(2,4,6,8,10,12). This would lead to a different prior probability density for each rate parameter (<a href="#dirichletFig"></a>d). Without strong prior knowledge about the pattern of relative rates, however, we can better reflect our uncertainty by using a vague prior on the GTR rates. Notably, all patterns of relative rates have the same probability density under <code class="highlighter-rouge">er_prior &lt;- v(1,1,1,1,1,1)</code>.</p>
+<p>Yet another asymmetric prior could specify that each of the six GTR rates had a different value conforming to a Dirichlet(2,4,6,8,10,12). This would lead to a different prior probability density for each rate parameter (<a href="#dirichletFig"></a>d). Without strong prior knowledge about the pattern of relative rates, however, we can better reflect our uncertainty by using a vague prior on the GTR rates. Notably, all patterns of relative rates have the same probability density under <code class="language-plaintext highlighter-rouge">er_prior &lt;- v(1,1,1,1,1,1)</code>.</p>
 
 <figure id="dirichletFig"><p><img src="figures/dirichlet_rates.png" width="600" /></p>
 <figcaption>Four different examples of Dirichlet priors on exchangeability rates.</figcaption>
@@ -157,7 +157,7 @@ named <code class="highlighter-rouge">er</code> ($\theta$ in <a href="#gtr_graph
 
 <p>For each stochastic node in our model, we must also specify a proposal mechanism if we wish to sample values for that parameter.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append( mvBetaSimplex(er, weight=3) )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append( mvBetaSimplex(er, weight=3) )
 moves.append( mvDirichletSimplex(er, weight=1) )
 </code></pre></div></div>
 
@@ -166,34 +166,34 @@ frequencies ($\pi_A, \pi_C, \pi_G, \pi_T$) since these parameters also
 represent proportions. We specify a flat Dirichlet prior density on the
 base frequencies:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pi_prior &lt;- v(1,1,1,1)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pi_prior &lt;- v(1,1,1,1)
 pi ~ dnDirichlet(pi_prior)
 </code></pre></div></div>
 
-<p>The node <code class="highlighter-rouge">pi</code> represents the $\pi$ node in <a href="#gtr_graphical_model"></a>. Now we add the simplex scale move on the stationary frequencies to the moves vector:</p>
+<p>The node <code class="language-plaintext highlighter-rouge">pi</code> represents the $\pi$ node in <a href="#gtr_graphical_model"></a>. Now we add the simplex scale move on the stationary frequencies to the moves vector:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append( mvBetaSimplex(pi, weight=2) )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append( mvBetaSimplex(pi, weight=2) )
 moves.append( mvDirichletSimplex(pi, weight=1) )
 </code></pre></div></div>
 
-<p>We can finish setting up this part of the model by creating a deterministic node for the GTR instantaneous-rate matrix <code class="highlighter-rouge">Q</code>. The <code class="highlighter-rouge">fnGTR()</code> function takes a set of exchangeability rates and a set of base frequencies to compute the instantaneous-rate matrix used when calculating the likelihood of our model.</p>
+<p>We can finish setting up this part of the model by creating a deterministic node for the GTR instantaneous-rate matrix <code class="language-plaintext highlighter-rouge">Q</code>. The <code class="language-plaintext highlighter-rouge">fnGTR()</code> function takes a set of exchangeability rates and a set of base frequencies to compute the instantaneous-rate matrix used when calculating the likelihood of our model.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Q := fnGTR(er,pi)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Q := fnGTR(er,pi)
 </code></pre></div></div>
 
 <h3 class="subsection" id="checking-convergence">Checking convergence</h3>
 <hr class="subsection" />
 
 <p>Now we need to check whether our MCMC converged and mixed sufficiently to produce an adequate approximation of the joint posterior distribution of our model.
-The first thing we usually do is assess behavior for continuous model parameters using <code class="highlighter-rouge">Tracer</code>.
-To do this, we launch <code class="highlighter-rouge">Tracer</code> and load our <code class="highlighter-rouge">.log</code> file.
+The first thing we usually do is assess behavior for continuous model parameters using <code class="language-plaintext highlighter-rouge">Tracer</code>.
+To do this, we launch <code class="language-plaintext highlighter-rouge">Tracer</code> and load our <code class="language-plaintext highlighter-rouge">.log</code> file.
 The bottom-left panel lists all the parameters in the log file (as well as the (unnormalized) posterior, likelihood and prior at each step of the chain), and has columns for the posterior mean estimate and the effective sample size (ESS) for each parameter.
-<code class="highlighter-rouge">Tracer</code> will indicate when it thinks a parameter has insufficient ESS by highlighting the value in red (ESS lower than 100) or yellow (ESS lower than 200).
+<code class="language-plaintext highlighter-rouge">Tracer</code> will indicate when it thinks a parameter has insufficient ESS by highlighting the value in red (ESS lower than 100) or yellow (ESS lower than 200).
 We can inspect histograms of the marginal posterior distribution in the “Estimates” panel, a smoothed marginal posterior density in the “Marginal Density” panel, the joint posterior distribution of two or more parameters in the “Joint-Marginal” panel, and (last but not least) the trace of the parameter value over the course of the chain in the “Trace” panel.
 This chain looks like it’s (mostly) behaving adequately, especially for the substitution model parameters:</p>
 
 <figure id="firstTracerPlot"><p><img src="figures/tracer_1.png" width="600" /></p>
-<figcaption>The <code class="highlighter-rouge">Tracer</code> window for these MCMC analyses. All of the substitution model parameters appear to be working well, but some of the branch-length parameters appear to be struggling.</figcaption>
+<figcaption>The <code class="language-plaintext highlighter-rouge">Tracer</code> window for these MCMC analyses. All of the substitution model parameters appear to be working well, but some of the branch-length parameters appear to be struggling.</figcaption>
 </figure>
 
 <p>However, notice that the ESS values for some of the branch lengths are dangerously low! When we inspect the trace plot for one of these branches, we see that it rarely flips between two alternative modes:</p>
@@ -204,19 +204,19 @@ This chain looks like it’s (mostly) behaving adequately, especially for the su
 
 <p>What’s going on here? Why would branch-length parameters be multimodal, but substitution-model parameters unimodal?</p>
 
-<p><code class="highlighter-rouge">Tracer</code> only lets us inspect traces for simple numerical parameters, not the tree itself.
+<p><code class="language-plaintext highlighter-rouge">Tracer</code> only lets us inspect traces for simple numerical parameters, not the tree itself.
 Given that we know the tree topology is often the most difficult parameter in our model, we should be skeptical that nice Tracer results mean our MCMC worked!
-We’ll use the <code class="highlighter-rouge">R</code> package <code class="highlighter-rouge">convenience</code> to assess convergence for the tree topology.
-If you haven’t installed <code class="highlighter-rouge">convenience</code> yet, open <code class="highlighter-rouge">R</code> and install it with by executing the following code:</p>
+We’ll use the <code class="language-plaintext highlighter-rouge">R</code> package <code class="language-plaintext highlighter-rouge">convenience</code> to assess convergence for the tree topology.
+If you haven’t installed <code class="language-plaintext highlighter-rouge">convenience</code> yet, open <code class="language-plaintext highlighter-rouge">R</code> and install it with by executing the following code:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install.packages("devtools")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install.packages("devtools")
 library(devtools)
 install_github("lfabreti/convenience")
 </code></pre></div></div>
 
-<p>We’re going to use <code class="highlighter-rouge">convenience</code> to check whether split frequencies for each split in our two MCMC runs appear to be drawn from the same distribution (implictly the posterior distribution).
-To do this, we’ll open <code class="highlighter-rouge">R</code> and run the following code:</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># load convenience
+<p>We’re going to use <code class="language-plaintext highlighter-rouge">convenience</code> to check whether split frequencies for each split in our two MCMC runs appear to be drawn from the same distribution (implictly the posterior distribution).
+To do this, we’ll open <code class="language-plaintext highlighter-rouge">R</code> and run the following code:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># load convenience
 library(convenience)
 
 # specify paths to the log files
@@ -239,7 +239,7 @@ plotDiffSplits(cc)
 We can reject the hypothesis that the two runs are sampling from the same posterior distribution for a particular split if the corresponding dot is above the concave curve (i.e., is outside the grey region).</figcaption>
 </figure>
 
-<p>For more details about how you can assess MCMC convergence with <code class="highlighter-rouge">convenience</code>, visit the <code class="highlighter-rouge">RevBayes</code> <a href="https://revbayes.github.io/tutorials/convergence/">Convergence assessment
+<p>For more details about how you can assess MCMC convergence with <code class="language-plaintext highlighter-rouge">convenience</code>, visit the <code class="language-plaintext highlighter-rouge">RevBayes</code> <a href="https://revbayes.github.io/tutorials/convergence/">Convergence assessment
 </a> tutorial.</p>
 
 <h3 class="subsection" id="exercise-1">Exercise 1</h3>
@@ -253,7 +253,7 @@ We can reject the hypothesis that the two runs are sampling from the same poster
     <p>Explore the resulting tree. Does it look like the RaxML tree? Are there differences?</p>
   </li>
   <li>
-    <p>Using <code class="highlighter-rouge">Tracer</code> and <code class="highlighter-rouge">convenience</code>, evaluate parameter and tree convergence. Do we have enough samples to evaluate the posterior distribution of all parameters?</p>
+    <p>Using <code class="language-plaintext highlighter-rouge">Tracer</code> and <code class="language-plaintext highlighter-rouge">convenience</code>, evaluate parameter and tree convergence. Do we have enough samples to evaluate the posterior distribution of all parameters?</p>
   </li>
 </ul>
 
@@ -280,28 +280,28 @@ These rate-multipliers are drawn from a discrete, mean-one gamma distribution; t
 <h4 class="subsubsection" id="setting-up-the-gamma-model-in-revbayes">Setting up the Gamma Model in RevBayes</h4>
 <hr class="subsubsection" />
 
-<p>Then create a stochastic node called <code class="highlighter-rouge">alpha</code> with a uniform prior distribution between 0.0 and $10$
+<p>Then create a stochastic node called <code class="language-plaintext highlighter-rouge">alpha</code> with a uniform prior distribution between 0.0 and $10$
 (this represents the stochastic node for the $\alpha$-shape parameter in
 <a href="#fig_gtrg"></a>):</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alpha ~ dnUniform( 0.0, 10 )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>alpha ~ dnUniform( 0.0, 10 )
 </code></pre></div></div>
 
-<p>The way the ASRV model is implemented involves discretizing the mean-one gamma distribution into a set number of rate categories, $k$. Thus, we can analytically marginalize over the uncertainty in the rate at each site. The likelihood of each site is averaged over the $k$ rate categories, where the rate multiplier is the mean (or median) of each of the discrete $k$ categories. To specify this, we need a deterministic node that is a vector that will hold the set of $k$ rates drawn from the gamma distribution with $k$ rate categories. The <code class="highlighter-rouge">fnDiscretizeGamma()</code> function returns this deterministic node and takes three arguments: the shape and rate of the gamma distribution and the number of categories. Since we want to discretize a mean-one gamma distribution, we can pass in <code class="highlighter-rouge">alpha</code> for both the shape and rate.</p>
+<p>The way the ASRV model is implemented involves discretizing the mean-one gamma distribution into a set number of rate categories, $k$. Thus, we can analytically marginalize over the uncertainty in the rate at each site. The likelihood of each site is averaged over the $k$ rate categories, where the rate multiplier is the mean (or median) of each of the discrete $k$ categories. To specify this, we need a deterministic node that is a vector that will hold the set of $k$ rates drawn from the gamma distribution with $k$ rate categories. The <code class="language-plaintext highlighter-rouge">fnDiscretizeGamma()</code> function returns this deterministic node and takes three arguments: the shape and rate of the gamma distribution and the number of categories. Since we want to discretize a mean-one gamma distribution, we can pass in <code class="language-plaintext highlighter-rouge">alpha</code> for both the shape and rate.</p>
 
-<p>Initialize the <code class="highlighter-rouge">sr</code> deterministic node vector using the <code class="highlighter-rouge">fnDiscretizeGamma()</code> function with <code class="highlighter-rouge">4</code> bins:</p>
+<p>Initialize the <code class="language-plaintext highlighter-rouge">sr</code> deterministic node vector using the <code class="language-plaintext highlighter-rouge">fnDiscretizeGamma()</code> function with <code class="language-plaintext highlighter-rouge">4</code> bins:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sr := fnDiscretizeGamma( alpha, alpha, 4 )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sr := fnDiscretizeGamma( alpha, alpha, 4 )
 </code></pre></div></div>
 
-<p>Note that here, by convention, we set $k = 4$. The random variable that controls the rate variation is the stochastic node <code class="highlighter-rouge">alpha</code>. We will apply a simple scale move to this parameter.</p>
+<p>Note that here, by convention, we set $k = 4$. The random variable that controls the rate variation is the stochastic node <code class="language-plaintext highlighter-rouge">alpha</code>. We will apply a simple scale move to this parameter.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append( mvScale(alpha, weight=2.0) )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append( mvScale(alpha, weight=2.0) )
 </code></pre></div></div>
 
-<p>Remember that you need to call the <code class="highlighter-rouge">PhyloCTMC</code> constructor to include the new site-rate parameter:</p>
+<p>Remember that you need to call the <code class="language-plaintext highlighter-rouge">PhyloCTMC</code> constructor to include the new site-rate parameter:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq ~ dnPhyloCTMC(tree=psi, Q=Q, siteRates=sr, type="DNA")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq ~ dnPhyloCTMC(tree=psi, Q=Q, siteRates=sr, type="DNA")
 </code></pre></div></div>
 
 <h3 class="subsection" id="exercise-2">Exercise 2</h3>
@@ -320,9 +320,9 @@ an analysis.</p>
 <h2 class="section" id="modeling-invariable-sites">Modeling Invariable Sites</h2>
 <hr class="section" />
 
-<p>The substitution models described so far assume that all sites in the sequence data are potentially variable. That is, we assume that the sequence data are random variables; specifically, we assume that they are realizations of the specified <code class="highlighter-rouge">PhyloCTMC</code> distribution. However, some sites may not be free to vary—when the substitution rate of a site is zero, it is said to be <em>invariable</em>. Invariable sites are often confused with <em>invariant</em> sites—when each species exhibits the same state, it is said to be invariant. The concepts are related but distinct. If a site is truly invariable, it will necessarily give rise to an invariant site pattern, as such sites will always have a zero substitution rate. However, an invariant site pattern may be achieved via multiple substitutions that happen to end in the same state for every species.</p>
+<p>The substitution models described so far assume that all sites in the sequence data are potentially variable. That is, we assume that the sequence data are random variables; specifically, we assume that they are realizations of the specified <code class="language-plaintext highlighter-rouge">PhyloCTMC</code> distribution. However, some sites may not be free to vary—when the substitution rate of a site is zero, it is said to be <em>invariable</em>. Invariable sites are often confused with <em>invariant</em> sites—when each species exhibits the same state, it is said to be invariant. The concepts are related but distinct. If a site is truly invariable, it will necessarily give rise to an invariant site pattern, as such sites will always have a zero substitution rate. However, an invariant site pattern may be achieved via multiple substitutions that happen to end in the same state for every species.</p>
 
-<p>Here we describe an extension to our phylogenetic model to accommodate invariable sites. Under the invariable-sites model <a class="citation" href="#Hasegawa1985">(Hasegawa et al. 1985)</a>, each site is invariable with probability <code class="highlighter-rouge">p_inv</code>, and variable with probability $1-$<code class="highlighter-rouge">p_inv</code>.</p>
+<p>Here we describe an extension to our phylogenetic model to accommodate invariable sites. Under the invariable-sites model <a class="citation" href="#Hasegawa1985">(Hasegawa et al. 1985)</a>, each site is invariable with probability <code class="language-plaintext highlighter-rouge">p_inv</code>, and variable with probability $1-$<code class="language-plaintext highlighter-rouge">p_inv</code>.</p>
 
 <figure id="fig_gtrg"><p><img src="figures/GTR_GammaI_graphical_model.png" alt="" /></p>
 <figcaption>Graphical model representation of the General Time Reversible (GTR) + Gamma phylogenetic model with invariable sites.</figcaption>
@@ -330,27 +330,27 @@ an analysis.</p>
 
 <p>First, let’s have a look at the data and see how many invariant sites we have:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>data.getNumInvariantSites()
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>data.getNumInvariantSites()
 </code></pre></div></div>
 
 <p>There seems to be a substantial number of invariant sites.</p>
 
 <p>Now let’s specify the invariable-sites model in RevBayes. We need to specify the prior probability that a site is invariable. A Beta distribution is a common choice for parameters representing probabilities.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p_inv ~ dnBeta(1,1)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>p_inv ~ dnBeta(1,1)
 </code></pre></div></div>
 
-<p>The <code class="highlighter-rouge">Beta(1,1)</code> distribution is a flat prior distribution that specifies equal probability for all values between 0 and 1. It is the equivalent of the Dirichlet distribution, but for a single proportion.</p>
+<p>The <code class="language-plaintext highlighter-rouge">Beta(1,1)</code> distribution is a flat prior distribution that specifies equal probability for all values between 0 and 1. It is the equivalent of the Dirichlet distribution, but for a single proportion.</p>
 
 <p>Then, as usual, we add a move to change this stochastic variable; we’ll use a simple sliding window move.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append( mvSlide(p_inv) )
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>moves.append( mvSlide(p_inv) )
 </code></pre></div></div>
 
-<p>Finally, you need to call the <code class="highlighter-rouge">PhyloCTMC</code> constructor to include the
-new <code class="highlighter-rouge">p_inv</code> parameter:</p>
+<p>Finally, you need to call the <code class="language-plaintext highlighter-rouge">PhyloCTMC</code> constructor to include the
+new <code class="language-plaintext highlighter-rouge">p_inv</code> parameter:</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq ~ dnPhyloCTMC(tree=psi, Q=Q, siteRates=sr, pInv=p_inv, type="DNA")
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>seq ~ dnPhyloCTMC(tree=psi, Q=Q, siteRates=sr, pInv=p_inv, type="DNA")
 </code></pre></div></div>
 
 <h3 class="subsection" id="exercise-3">Exercise 3</h3>

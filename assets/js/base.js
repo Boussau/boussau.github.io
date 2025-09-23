@@ -110,7 +110,7 @@ function get_files() {
         if( j > 2 )
           save_path_name += "/" + file_path[j];
       }
-
+      save_path_name = file.replace(/^.*data\//, "");
       d.file(save_path_name, $.get(full_path_name));
     }
   }

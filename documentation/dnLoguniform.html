@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="search-domain" value="https://boussau.github.io/">
+    <meta name="search-domain" value="http://localhost:4000/">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link rel="stylesheet" href="/assets/css/syntax.css">
     <link rel="stylesheet" type="text/css" href="/assets/css/bootstrap.css" />
@@ -1076,7 +1076,7 @@ Rev Language Reference
 <div class="help col-sm-8">
     
         
-        <h2 class="help-title"><p><code class="highlighter-rouge">dnLoguniform</code> - Log-Uniform Distribution</p>
+        <h2 class="help-title"><p><code class="language-plaintext highlighter-rouge">dnLoguniform</code> - Log-Uniform Distribution</p>
 </h2>
 
         
@@ -1143,7 +1143,7 @@ The log-uniform distribution is improper when defined over the entire positive r
         
             <h3 class="help-section-header">Example</h3>
             
-            <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code># a log-uniform prior over the rate of change of a Brownian trait (or a Brownian relaxed clock)
+            <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># a log-uniform prior over the rate of change of a Brownian trait (or a Brownian relaxed clock)
 trueTree = readTrees("data/primates.tree")[1]
 sigma ~ dnLogUniform(min=0.001, max=1000)
 X ~ dnBrownian(trueTree,sigma)

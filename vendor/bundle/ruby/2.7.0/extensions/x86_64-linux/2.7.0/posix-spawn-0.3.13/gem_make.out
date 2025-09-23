@@ -1,0 +1,25 @@
+current directory: /home/boussau/Work/boussau.github.io/vendor/bundle/ruby/2.7.0/gems/posix-spawn-0.3.13/ext
+/home/boussau/.rbenv/versions/2.7.7/bin/ruby -I /home/boussau/.rbenv/versions/2.7.7/lib/ruby/site_ruby/2.7.0 extconf.rb
+creating Makefile
+
+current directory: /home/boussau/Work/boussau.github.io/vendor/bundle/ruby/2.7.0/gems/posix-spawn-0.3.13/ext
+make DESTDIR\= sitearchdir\=./.gem.20250923-46776-1os4ulp sitelibdir\=./.gem.20250923-46776-1os4ulp clean
+
+current directory: /home/boussau/Work/boussau.github.io/vendor/bundle/ruby/2.7.0/gems/posix-spawn-0.3.13/ext
+make DESTDIR\= sitearchdir\=./.gem.20250923-46776-1os4ulp sitelibdir\=./.gem.20250923-46776-1os4ulp
+compiling posix-spawn.c
+posix-spawn.c: In function ‘posixspawn_file_actions_init’:
+posix-spawn.c:226:34: error: passing argument 2 of ‘rb_hash_foreach’ from incompatible pointer type [-Wincompatible-pointer-types]
+  226 |         rb_hash_foreach(options, posixspawn_file_actions_operations_iter, (VALUE)fops);
+      |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                  |
+      |                                  int (*)(VALUE,  VALUE,  posix_spawn_file_actions_t *) {aka int (*)(long unsigned int,  long unsigned int,  posix_spawn_file_actions_t *)}
+In file included from /home/boussau/.rbenv/versions/2.7.7/include/ruby-2.7.0/ruby/ruby.h:2150,
+                 from /home/boussau/.rbenv/versions/2.7.7/include/ruby-2.7.0/ruby.h:33,
+                 from posix-spawn.c:14:
+/home/boussau/.rbenv/versions/2.7.7/include/ruby-2.7.0/ruby/intern.h:558:29: note: expected ‘int (*)(VALUE,  VALUE,  VALUE)’ {aka ‘int (*)(long unsigned int,  long unsigned int,  long unsigned int)’} but argument is of type ‘int (*)(VALUE,  VALUE,  posix_spawn_file_actions_t *)’ {aka ‘int (*)(long unsigned int,  long unsigned int,  posix_spawn_file_actions_t *)’}
+  558 | void rb_hash_foreach(VALUE, int (*)(VALUE, VALUE, VALUE), VALUE);
+      |                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Makefile:246: posix-spawn.o] Error 1
+
+make failed, exit code 2
