@@ -14,10 +14,14 @@
 
 ### About
 
-This is Bastien Boussau's website.
 
 I am a [CNRS](http://www.cnrs.fr/) researcher in Lyon, in the [Laboratoire de Biométrie et Biologie Evolutive](https://lbbe.univ-lyon1.fr/?lang=en).
 
-My research revolves around two research fields, in which I develop efficient statistical methods.
--   Evolutionary genomics: how do genomes and genes evolve?
--   Data analysis in the Anthropocene: how climate change and other anthropogenic changes affect biological systems?
+My research focuses on evolutionary genomics: how do genomes and genes evolve?
+In particular, I focus on two main areas:
+- the reconstruction of phylogenetic trees. This can involve gene tree-species tree models, or just reconstructing trees from sequence alignments
+- associations between genomes and phenotypes. In a comparative framework, across species, I'm interested in finding areas of the genome that underlie differences among species.
+
+To investigate these two questions, I develop probabilistic models and statistical inference methods. These can rely on Maximum Likelihood, Bayesian inference, or deep learning.
+
+Taxa of interest include Bacteria, Archaea, green plants, mammals or birds. I'm not very picky.
