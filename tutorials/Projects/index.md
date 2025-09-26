@@ -31,6 +31,12 @@ The models that we have considered in the tutorials are homogeneous across branc
 {% section [Multi-gene phylogenetic reconstruction of the phylogeny of mammals](Science2001Murphy.pdf) %}
 Designing a model for doing multi-gene phylogenetic reconstruction. Genes may share the same species phylogeny but may differ in their rate of evolution and in their GC content. Can be used to reconstruct the phylogeny or to estimate the variance in substitution rates and in GC content across genes. The data is available from [the article](Science2001Murphy.pdf)
 
+
+{% section [Multi-gene phylogenetic reconstruction of the phylogeny of birds](Jarvis_2014.pdf) %}
+
+Designing a model for doing multi-gene phylogenetic reconstruction. Genes may share the same species phylogeny but may differ in their rate of evolution and in their GC content. Can be used to reconstruct the phylogeny or to estimate the variance in substitution rates and in GC content across genes. The data is available from the article
+
+
 {% section [Correlation between GC composition of ribosomal RNA and growth temperature in Archaea](Groussin_2011.pdf). %}
 
 The idea is to model the correlated evolution of rRNA GC content and growth temperature across Archaea, and use this model to estimate the correlation and to infer ancestral temperatures along the phylogeny.
@@ -45,13 +51,10 @@ The idea is to model the process of gain and loss of genes across a phylogeny, a
 Saclier et al have analysed the evolutionary patterns in a group of isopod species, in which there has been a large number of independent transitions from surface to underground lifestyle -- giving an opportunity for modeling and investigating the impact of these transitions on genomic sequence evolution.
 
 
-{% section Gain/loss model for the evolution of gene family size in mammals %}
 
-Through time, genomes undergo events affecting their gene content. These include *duplication* events, which create a copy of a given gene elsewhere in the genome; *loss* events (e.g., pseudogenization); and *transfer* events, corresponding to the insertion of a gene from another species. Within a given species, a gene and its copies are referred to as a *gene family*. Two genes in the same family are said to be paralogous if they descend from a gene duplication.
-Paralogous genes often have similar functions, but it can also happen that one or more duplications allow forms of specialization (as in the case of hemoglobin, where a paralogous copy is expressed only in the embryo in Mammals) or the appearance of new functions.
+{% section [State-dependent diversification model](Goldberg2010.pdf) %}
 
-The aim of this project is to build a model describing the evolution of the size of a gene family (number of genes in the gene family) along a phylogenetic tree. The aim is to detect possible statistical associations between variation in the size of a gene family and phenotypic changes in mammals (e.g. emergence of echolocation, subterranean life).
-2 references will be useful: [Han et al., 2013](Han2013.pdf) and [Csuros, 2022](1-s2.0-S0040580922000247-main.pdf)
+The aim of diversification studies is to infer the patterns of species diversification over evolutionary times, with rates of speciation and extinction potentially influenced by other factors. One such model assumes that speciation and extinction depends on a binary character (such as the mode of reproduction). However, current diversification studies assume the phylogeny is known without error. Here, the aim would be to see if we can instead do an integrative analysis, thus using the diversification model as a prior in a dating analysis.
 
 
 {% section Analysis of the SEMG2 gene in Primates %}
@@ -63,15 +66,7 @@ Here the project is to analyze an alignment of the SEMG2 gene from primate speci
 
 Here the project is to analyze a concatenated alignment of 15 DNA sequences coding for proteins from 29 strains of *Daphnia pulex*, some of which reproduce sexually (named S1 to S14), and others, asexually (named A1 to A14). Sexual reproduction is assumed to be the ancestral condition.
 
-{% section  Power analysis %}
 
-Given a limited number of sites, it may be difficult to get high support for all the nodes in a phylogeny. The aim of this project is to investigate how one could predict how many sites should be analyzed for a particular branch to be resolved with high posterior probability.
+{% section [Modèle de conversion génique biaisée](MBE2013Lartillot-1.pdf) %}
 
-
-{% section  Investigate codon-position models vs codon models for phylogenetic reconstruction %}
-
-Coding sequences are typically modelled at the codon level, using an alphabet with 61 states (64 - 3 stop codons). These models are often use to study natural selection. Another way to model coding sequences is to partition the data into three categories: first, second, and third codon positions. The purpose of this project is to try both models and compare them, either in terms of posterior predictive simulations, or in terms of phylogenetic reconstruction.
-
-
-{% section Detecting changes in protein sequences associated to changes to the C4 metabolism in plants %}
-The C4 metabolism is used by several groups of plants as an adaptation to photosynthesize in hot and dry conditions. In the rubisco protein, several sites seem to be associated to this metabolic change (see [Parto and Lartillot, 2016](PartoandLartillot2018.pdf)). The aim of this project is to build a model to try and find these sites using RevBayes, using the amino acid sequences of the protein.
+Les génomes des mammifères (et de beaucoup d'autres espèces) sont plus riches en GC qu'attendu étant donné leur biais mutationnel (en général vers AT). Ceci est du à la conversion génique biaisée vers GC. L'objectif de ce mini-projet est de développer un petit modèle phyogénétique qui permet, sous certaines hypothèses à discuter, d'estimer la force de cette conversion génique biaisée.
