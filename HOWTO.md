@@ -1,3 +1,11 @@
+# Setting the environment
+```
+export PATH="$HOME/.rbenv/bin:$PATH"
+rbenv local 2.7.7   # creates a .ruby-version file
+
+```
+
+
 # testing the webpage locally:
 In the terminal, run:
 
