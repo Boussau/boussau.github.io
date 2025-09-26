@@ -51,12 +51,6 @@ The idea is to model the process of gain and loss of genes across a phylogeny, a
 Saclier et al have analysed the evolutionary patterns in a group of isopod species, in which there has been a large number of independent transitions from surface to underground lifestyle -- giving an opportunity for modeling and investigating the impact of these transitions on genomic sequence evolution.
 
 
-
-{% section [State-dependent diversification model](Goldberg2010.pdf) %}
-
-The aim of diversification studies is to infer the patterns of species diversification over evolutionary times, with rates of speciation and extinction potentially influenced by other factors. One such model assumes that speciation and extinction depends on a binary character (such as the mode of reproduction). However, current diversification studies assume the phylogeny is known without error. Here, the aim would be to see if we can instead do an integrative analysis, thus using the diversification model as a prior in a dating analysis.
-
-
 {% section Analysis of the SEMG2 gene in Primates %}
 
 Here the project is to analyze an alignment of the SEMG2 gene from primate species that differ in their mating systems.
@@ -69,4 +63,9 @@ Here the project is to analyze a concatenated alignment of 15 DNA sequences codi
 
 {% section [Modèle de conversion génique biaisée](MBE2013Lartillot-1.pdf) %}
 
-Les génomes des mammifères (et de beaucoup d'autres espèces) sont plus riches en GC qu'attendu étant donné leur biais mutationnel (en général vers AT). Ceci est du à la conversion génique biaisée vers GC. L'objectif de ce mini-projet est de développer un petit modèle phyogénétique qui permet, sous certaines hypothèses à discuter, d'estimer la force de cette conversion génique biaisée.
+Les génomes des mammifères (et de beaucoup d'autres espèces) sont plus riches en GC qu'attendu étant donné leur biais de mutation (en général vers AT). Ceci est du à la conversion génique biaisée vers GC. L'objectif de ce mini-projet est de développer un petit modèle phylogénétique qui permet, sous certaines hypothèses à discuter, d'estimer la force de cette conversion génique biaisée.
+
+
+{% section [State-dependent diversification model](Goldberg2010.pdf) %}
+
+The aim of diversification studies is to infer the patterns of species diversification over evolutionary times, with rates of speciation and extinction potentially influenced by other factors. One such model assumes that speciation and extinction depends on a binary character (such as the mode of reproduction). However, current diversification studies assume the phylogeny is known without error. Here, the aim would be to see if we can instead do an integrative analysis, thus using the diversification model as a prior in a dating analysis.
